@@ -3,3 +3,17 @@ spring:
     url: url to db
     username: username
     password: password
+
+upload:
+  name:
+    cartoons: cartoons name
+    movies: movies name
+    serialMovies: serialMovies name
+    music: music name
+    videos: videos name
+  location:
+    cartoons: cartoons location
+    movies: movies location
+    serialMovies: serialMovies location
+    music: music location
+    videos: videos location
