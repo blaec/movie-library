@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MovieFileObject {
+public class MovieFileTo {
     // mandatory properties
     private final String name;
     private final int year;
@@ -42,13 +42,13 @@ public class MovieFileObject {
      * @param file movie file
      * @return MovieFileObject and may return null if matches isn't found
      */
-    public static MovieFileObject from(File file) {
+    public static MovieFileTo from(File file) {
         String fileName = file.getName();
         Matcher matcher = MOVIE.matcher(fileName);
-        MovieFileObject movieFileObject = null;
+        MovieFileTo movieFileObject = null;
         if (matcher.find()) {
             int frameRate = parseInt(matcher, "frameRate");
-            movieFileObject = new MovieFileObject(
+            movieFileObject = new MovieFileTo(
                 matcher.group("name"),
                 parseInt(matcher, "year"),
                 Resolution.convertFrom(matcher.group("resolution")),

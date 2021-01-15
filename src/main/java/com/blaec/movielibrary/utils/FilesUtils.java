@@ -2,7 +2,7 @@ package com.blaec.movielibrary.utils;
 
 
 import com.blaec.movielibrary.enums.FailType;
-import com.blaec.movielibrary.to.MovieFileObject;
+import com.blaec.movielibrary.to.MovieFileTo;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,18 +40,18 @@ public class FilesUtils {
      * @param dirPath absolute path to folder with video-files
      * @return sorted list of movie objects or empty list
      */
-    public static List<MovieFileObject> getMoviesFromFolder(String dirPath) {
+    public static List<MovieFileTo> getMoviesFromFolder(String dirPath) {
         movies = new TreeSet<>();
         getFilesFromFolder(dirPath);
         return movies.stream()
                 .map(m -> {
-                    MovieFileObject movieFileObject = MovieFileObject.from(m);
-                    if (movieFileObject == null) {
+                    MovieFileTo movieFileTo = MovieFileTo.from(m);
+                    if (movieFileTo == null) {
                         String fullPath = String.format("%s%s%s", m.getParent(), File.separator, m.getName());
                         log.error("Failed to parse movie {}", fullPath);
                         FailureAccumulator.addToFailList(FailType.PARSE, fullPath);
                     }
-                    return movieFileObject;
+                    return movieFileTo;
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());

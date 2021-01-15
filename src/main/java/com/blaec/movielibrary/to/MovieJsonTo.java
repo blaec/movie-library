@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MovieJsonObject {
+public class MovieJsonTo {
     // property names should match the json names, required for mapping
     private final String Title;
     private final String Year;

@@ -9,9 +9,19 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConstructorBinding
 public class OmdbApiConfig {
     private final String endpoint;
-    private final String titleName;
-    private final String yearName;
-    private final String idName;
-    private final String apikeyName;
-    private final String apikeyValue;
+    private final Name name;
+    private final Value value;
+
+    @Data
+    public static class Name{
+        private final String title;
+        private final String year;
+        private final String id;
+        private final String apikey;
+    }
+
+    @Data
+    public static class Value{
+        private final String apikey;
+    }
 }

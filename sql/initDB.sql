@@ -21,7 +21,7 @@ CREATE TABLE movies
     -- file info
     resolution  ENUM('VGA', 'HD', 'FullHD'),
     size        DECIMAL(5,2)    			DEFAULT NULL,
-    location    VARCHAR(15) 			    DEFAULT NULL,
+    location    VARCHAR(100) 			    DEFAULT NULL,
     description VARCHAR(25) 			    DEFAULT NULL,
     frame_rate  TINYINT         UNSIGNED    DEFAULT NULL,
     PRIMARY KEY (id)

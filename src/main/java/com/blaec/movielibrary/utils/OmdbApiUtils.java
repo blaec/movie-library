@@ -1,8 +1,8 @@
 package com.blaec.movielibrary.utils;
 
 import com.blaec.movielibrary.configs.OmdbApiConfig;
-import com.blaec.movielibrary.to.MovieFileObject;
-import com.blaec.movielibrary.to.MovieJsonObject;
+import com.blaec.movielibrary.to.MovieFileTo;
+import com.blaec.movielibrary.to.MovieJsonTo;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import lombok.AccessLevel;
@@ -37,14 +37,14 @@ public class OmdbApiUtils {
      * Create request api url from movie file object (name and year)
      * sample url: http://www.omdbapi.com/?t=As+Good+as+It+Gets&y=1997&apikey=33ca5cbc
      *
-     * @param movieFileObject movie file object
+     * @param movieFileTo movie file object
      * @return url for api-request by title
      */
-    public static String getApiRequestUrl(MovieFileObject movieFileObject) {
+    public static String getApiRequestUrl(MovieFileTo movieFileTo) {
         String params = joinParams(ImmutableMap.of(
-                omdbApiConfig.getTitleName(), movieFileObject.getNameUrlStyled(),
-                omdbApiConfig.getYearName(), String.valueOf(movieFileObject.getYear()),
-                omdbApiConfig.getApikeyName(), omdbApiConfig.getApikeyValue()));
+                omdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled(),
+                omdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()),
+                omdbApiConfig.getName().getApikey(), omdbApiConfig.getValue().getApikey()));
         return String.format("%s?%s", omdbApiConfig.getEndpoint(), params);
     }
 
@@ -57,8 +57,8 @@ public class OmdbApiUtils {
      */
     public static String getApiRequestUrl(String id) {
         String params = joinParams(ImmutableMap.of(
-                omdbApiConfig.getIdName(), id,
-                omdbApiConfig.getApikeyName(), omdbApiConfig.getApikeyValue()));
+                omdbApiConfig.getName().getId() , id,
+                omdbApiConfig.getName().getApikey(), omdbApiConfig.getValue().getApikey()));
         return String.format("%s?%s", omdbApiConfig.getEndpoint(), params);
     }
 
@@ -68,13 +68,13 @@ public class OmdbApiUtils {
      * @param url url to required movie
      * @return MovieJsonObject or null if nothing's found
      */
-    public static MovieJsonObject getMovie(String url) {
-        MovieJsonObject movieJson = null;
+    public static MovieJsonTo getMovie(String url) {
+        MovieJsonTo movieJson = null;
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(url);
-            movieJson = gson.fromJson(stringHttpResponse.body(), MovieJsonObject.class);
+            movieJson = gson.fromJson(stringHttpResponse.body(), MovieJsonTo.class);
         } catch (IOException | InterruptedException e) {
-            log.error("Failed to get imdb movie data from url {}", url, e);
+            log.error("Failed to get imdb movie data from url {}", url);
         }
         return movieJson;
     }

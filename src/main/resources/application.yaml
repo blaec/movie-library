@@ -21,8 +21,10 @@ upload:
 ## http://www.omdbapi.com/
 omdbapi:
   endpoint: http://www.omdbapi.com/
-  titleName: t
-  yearName: y
-  idName: i
-  apikeyName: apikeyName
-  apikeyValue: apikeyValue
+  name:
+    title: t
+    year: y
+    id: i
+    apikey: apikeyName
+  value:
+    apikey: apikeyValue
