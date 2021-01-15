@@ -2,11 +2,13 @@ package com.blaec.movielibrary.utils;
 
 import com.blaec.movielibrary.enums.FailType;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class FailureAccumulator {
     private static List<FailedMovieFileObject> failUploadList;
 

@@ -17,3 +17,12 @@ upload:
     serialMovies: serialMovies location
     music: music location
     videos: videos location
+
+## http://www.omdbapi.com/
+omdbapi:
+  endpoint: http://www.omdbapi.com/
+  titleName: t
+  yearName: y
+  idName: i
+  apikeyName: apikeyName
+  apikeyValue: apikeyValue
