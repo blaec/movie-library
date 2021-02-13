@@ -40,7 +40,7 @@ public class MovieFileTo {
      * Creates movie file object from movie file
      *
      * @param file movie file
-     * @return MovieFileObject and may return null if matches isn't found
+     * @return MovieFileObject or null if match isn't found
      */
     public static MovieFileTo from(File file) {
         String fileName = file.getName();

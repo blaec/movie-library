@@ -1,8 +1,8 @@
 package com.blaec.movielibrary.utils;
 
-import com.blaec.movielibrary.configs.OmdbApiConfig;
+import com.blaec.movielibrary.configs.TmdbApiConfig;
 import com.blaec.movielibrary.to.MovieFileTo;
-import com.blaec.movielibrary.to.MovieJsonTo;
+import com.blaec.movielibrary.to.TmdbResult;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import lombok.AccessLevel;
@@ -22,44 +22,30 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class OmdbApiUtils {
-    private static OmdbApiConfig omdbApiConfig;
+public class TmdbApiUtils {
+    private static TmdbApiConfig tmdbApiConfig;
     private static final Gson gson = new Gson();
 
-    private final OmdbApiConfig apiConfig;
+    private final TmdbApiConfig apiConfig;
 
     @PostConstruct
     private void init() {
-        omdbApiConfig = this.apiConfig;
+        tmdbApiConfig = this.apiConfig;
     }
 
     /**
      * Create request api url from movie file object (name and year)
-     * sample url: http://www.omdbapi.com/?t=As+Good+as+It+Gets&y=1997&apikey=33ca5cbc
+     * sample url: https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019
      *
      * @param movieFileTo movie file object
      * @return url for api-request by title
      */
     public static String getApiRequestUrl(MovieFileTo movieFileTo) {
         String params = joinParams(ImmutableMap.of(
-                omdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled(),
-                omdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()),
-                omdbApiConfig.getName().getApikey(), omdbApiConfig.getValue().getApikey()));
-        return String.format("%s?%s", omdbApiConfig.getEndpoint(), params);
-    }
-
-    /**
-     * Create request api url imdb id
-     * sample url: http://www.omdbapi.com/?i=tt0378194&apikey=33ca5cbc
-     *
-     * @param id imdb id
-     * @return url for api-request by imdb id
-     */
-    public static String getApiRequestUrl(String id) {
-        String params = joinParams(ImmutableMap.of(
-                omdbApiConfig.getName().getId() , id,
-                omdbApiConfig.getName().getApikey(), omdbApiConfig.getValue().getApikey()));
-        return String.format("%s?%s", omdbApiConfig.getEndpoint(), params);
+                tmdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled(),
+                tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()),
+                tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey()));
+        return String.format("%s?%s", tmdbApiConfig.getEndpoint(), params);
     }
 
     /**
@@ -68,25 +54,16 @@ public class OmdbApiUtils {
      * @param url url to required movie
      * @return MovieJsonObject or null if nothing's found
      */
-    public static MovieJsonTo getMovie(String url) {
-        MovieJsonTo movieJson = null;
+    public static TmdbResult getMovie(String url) {
+        TmdbResult movieJson = null;
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(url);
-            movieJson = gson.fromJson(stringHttpResponse.body(), MovieJsonTo.class);
+            movieJson = gson.fromJson(stringHttpResponse.body(), TmdbResult.class);
         } catch (IOException | InterruptedException e) {
             log.error("Failed to get imdb movie data from url {}", url);
         }
         return movieJson;
     }
-
-//    /**
-//     * Get location with movie files
-//     *
-//     * @return map with key - for location description and value - for path to file location
-//     */
-//    public static Map<String, String> getFileLocations() {
-//        return INSTANCE.locations;
-//    }
 
     /**
      * Convert map with key-value parameters into string like key1=value1&key2=value2...

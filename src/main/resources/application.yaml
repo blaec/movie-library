@@ -28,3 +28,13 @@ omdbapi:
     apikey: apikeyName
   value:
     apikey: apikeyValue
+
+## https://developers.themoviedb.org/3/getting-started/introduction
+tmdbapi:
+  endpoint: https://api.themoviedb.org/3/search/movie
+  name:
+    title: query
+    year: primary_release_year
+    apikey: api_key
+  value:
+    apikey: apikeyValue

@@ -5,18 +5,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @Data
-@ConfigurationProperties(prefix = "omdbapi")
+@ConfigurationProperties(prefix = "tmdbapi")
 @ConstructorBinding
-public class OmdbApiConfig {
+public class TmdbApiConfig {
     private final String endpoint;
-    private final Name name;
-    private final Value value;
+    private final TmdbApiConfig.Name name;
+    private final TmdbApiConfig.Value value;
 
     @Data
     public static class Name{
         private final String title;
         private final String year;
-        private final String id;
         private final String apikey;
     }
 
