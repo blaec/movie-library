@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import Card from "../Card/Card";
 import "./Body.css";
-import axios from "axios";
+import axios from "../../axios-movies";
 
 const body = () => {
     const [movieList, setMovieList] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/movies')
+        axios.get('/movies')
             .then(response => {
                 setMovieList(response.data);
             })

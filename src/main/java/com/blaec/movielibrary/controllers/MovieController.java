@@ -16,7 +16,7 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @AllArgsConstructor
 @RequestMapping("/movies")
-@CrossOrigin(origins = {"http://192.168.1.11:3000", "http://localhost:3000"})
+@CrossOrigin(origins = "*")
 @RestController
 public class MovieController {
     private final MovieRepository movieRepository;
