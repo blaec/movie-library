@@ -16,11 +16,11 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @AllArgsConstructor
 @RequestMapping("/movies")
+@CrossOrigin(origins = {"http://192.168.1.11:3000", "http://localhost:3000"})
 @RestController
 public class MovieController {
     private final MovieRepository movieRepository;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public Iterable<Movie> getAll() {
         return sortByTitleAndYear(movieRepository.findAll());
