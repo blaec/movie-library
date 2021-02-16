@@ -1447,7 +1447,7 @@ yarn add react-testing-library jest-dom
 Similar to `enzyme` you can create a `src/setupTests.js` file to avoid boilerplate in your test files:
 
 ```js
-// react-testing-library renders your components to document.body,
+// react-testing-library renders your components to document.gallery,
 // this will ensure they're removed after each test.
 import 'react-testing-library/cleanup-after-each';
 

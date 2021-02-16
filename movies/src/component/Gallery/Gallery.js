@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import Card from "../Card/Card";
-import "./Body.css";
+import "./Gallery.css";
 import axios from "../../axios-movies";
 
-const body = () => {
+const gallery = () => {
     const [movieList, setMovieList] = useState([]);
 
     useEffect(() => {
@@ -17,11 +17,11 @@ const body = () => {
     }, []);
 
     return (
-        <div className="Body">
+        <div className="Gallery">
             {movieList.map(m => <Card key={m.id} {...m}/>
             )}
         </div>
     );
 };
 
-export default body;
+export default gallery;
