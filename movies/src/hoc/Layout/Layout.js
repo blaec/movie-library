@@ -2,9 +2,8 @@ import React, {useState} from 'react';
 import './Layout.css';
 import Toolbar from "../../component/Navigation/Toolbar/Toolbar";
 import SideDrawer from "../../component/Navigation/SideDrawer/SideDrawer";
-import Body from "../../component/Gallery/Gallery";
 
-const layout = () => {
+const layout = props => {
     const [sideDrawerIsVisible, setSideDrawerIsVisible] = useState(false);
 
     const sideDrawerClosedHandler = () => {
@@ -22,7 +21,9 @@ const layout = () => {
             <Toolbar drawerToggleClicked={sideDrawerToggleHandler}/>
             <SideDrawer open={sideDrawerIsVisible}
                         closed={sideDrawerClosedHandler}/>
-            <Body/>
+            <main>
+                {props.children}
+            </main>
         </React.Fragment>
     );
 };
