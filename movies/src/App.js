@@ -2,7 +2,7 @@ import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 import Layout from "./hoc/Layout/Layout";
 import Gallery from "./component/Gallery/Gallery";
-import Logo from "./component/Logo/Logo";
+import Upload from "./component/Upload/Upload";
 
 const app = () => {
     return (
@@ -10,7 +10,7 @@ const app = () => {
             <Layout>
                 <Switch>
                     <Route path="/" exact component={Gallery}/>
-                    <Route path="/update" exact component={Logo}/>
+                    <Route path="/update" exact component={Upload}/>
                     <Redirect to="/"/>
                 </Switch>
             </Layout>

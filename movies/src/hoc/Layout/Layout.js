@@ -21,7 +21,7 @@ const layout = props => {
             <Toolbar drawerToggleClicked={sideDrawerToggleHandler}/>
             <SideDrawer open={sideDrawerIsVisible}
                         closed={sideDrawerClosedHandler}/>
-            <main>
+            <main className="Children">
                 {props.children}
             </main>
         </React.Fragment>

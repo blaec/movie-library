@@ -1,6 +1,4 @@
 .Gallery {
     display: flex;
     flex-flow: row wrap;
-    background-color: black;
-    margin-top: 56px;
 }
