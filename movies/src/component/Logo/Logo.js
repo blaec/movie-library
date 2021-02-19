@@ -1,6 +1,5 @@
 import React from 'react';
 import './Logo.css';
-// import movieLogo from '../../assets/images/movie-white.png';
 import movieLogo from '../../assets/images/round-movie.png';
 
 

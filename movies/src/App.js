@@ -1,28 +1,20 @@
-import React, {useState} from 'react';
-import Body from "./component/Body/Body";
-import Toolbar from "./component/Navigation/Toolbar/Toolbar";
-import SideDrawer from "./component/Navigation/SideDrawer/SideDrawer";
+import React from 'react';
+import {Redirect, Route, Switch} from "react-router-dom";
+import Layout from "./hoc/Layout/Layout";
+import Gallery from "./component/Gallery/Gallery";
+import Upload from "./component/Upload/Upload";
 
-const app = props => {
-    const [sideDrawerIsVisible, setSideDrawerIsVisible] = useState(false);
-
-    const sideDrawerClosedHandler = () => {
-        setSideDrawerIsVisible(false);
-        console.log(`sideDrawerClosedHandler - sideDrawerIsVisible ${sideDrawerIsVisible}`)
-    };
-
-    const sideDrawerToggleHandler = () => {
-        setSideDrawerIsVisible(!sideDrawerIsVisible);
-        console.log(`sideDrawerToggleHandler - sideDrawerIsVisible ${sideDrawerIsVisible}`)
-    };
-
+const app = () => {
     return (
-        <React.Fragment>
-            <Toolbar drawerToggleClicked={sideDrawerToggleHandler}/>
-            <SideDrawer open={sideDrawerIsVisible}
-                        closed={sideDrawerClosedHandler}/>
-            <Body/>
-        </React.Fragment>
+        <div>
+            <Layout>
+                <Switch>
+                    <Route path="/" exact component={Gallery}/>
+                    <Route path="/update" exact component={Upload}/>
+                    <Redirect to="/"/>
+                </Switch>
+            </Layout>
+        </div>
     );
 }
 
