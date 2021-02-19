@@ -1,3 +1,23 @@
-.Upload{
-    margin-top: 56px;
+.Upload {
+    width: 80%;
+    margin: 100px auto 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.Upload .MuiCard-root {
+    width: 48%;
+}
+
+@media (max-width: 760px) {
+    .Upload {
+        margin: 80px auto 0;
+        flex-flow: column wrap;
+    }
+
+    .Upload .MuiCard-root {
+        margin-top: 20px;
+        width: 100%;
+    }
 }
