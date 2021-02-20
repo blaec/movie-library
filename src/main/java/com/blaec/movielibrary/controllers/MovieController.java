@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Slf4j
@@ -36,15 +35,14 @@ public class MovieController {
 
     @PostMapping("/{folder}")
     public void scanFolder(@PathVariable String folder) {
-        List<MovieFileTo> moviesFromFolder = getAllFrom(folder);
+        List<MovieFileTo> movieFiles = getAllFrom(folder);
 
-        for (MovieFileTo movieFileTo : moviesFromFolder) {
-            String url = TmdbApiUtils.getSearchUrlByNameAndYear(movieFileTo);
+        for (MovieFileTo movieFile : movieFiles) {
+            String url = TmdbApiUtils.getUrlByNameAndYear(movieFile);
             try {
                 List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getFirstMovie(url).getResults();
-                TmdbResult.TmdbMovie movieJson = results.stream()
-                        .findFirst().orElseGet(null);
-                Movie movie = Movie.of(movieJson, movieFileTo);
+                TmdbResult.TmdbMovie movieJson = results.stream().findFirst().orElseGet(null);
+                Movie movie = Movie.of(movieJson, movieFile);
                 movieRepository.save(movie);
                 log.info("{} | {} | {}", results.size(), movie.toString(), url);
             } catch (DataIntegrityViolationException e) {
@@ -56,29 +54,26 @@ public class MovieController {
     }
 
     @PostMapping("/single")
-    public void uploadSingle(@RequestBody SingleFileUpload movie) {
-        List<MovieFileTo> moviesFromFolder = getAllFrom(movie.getLocation());
-        if (getMatch(moviesFromFolder, movie.getFileName()).count() != 1) {
-            log.error("Not found movie '{}' in folder {}", movie.getFileName(), movie.getLocation());
+    public void uploadSingle(@RequestBody SingleFileUpload uploadMovie) {
+        List<MovieFileTo> filteredMovieFiles = getAllFrom(uploadMovie.getLocation()).stream()
+                .filter(m -> m.getFileName().equals(uploadMovie.getFileName()))
+                .collect(Collectors.toList());
+        if (filteredMovieFiles.size() != 1) {
+            log.error("Not found at all or more than one movie '{}' found in folder {}", uploadMovie.getFileName(), uploadMovie.getLocation());
         } else {
-            String url = TmdbApiUtils.getMovieUrlById(movie.getTmdbId());
+            String url = TmdbApiUtils.getUrlById(uploadMovie.getTmdbId());
             try {
                 TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovie(url);
-                Movie movieObject = Movie.of(movieJson, getMatch(moviesFromFolder, movie.getFileName()).findFirst().orElse(null));
-                movieRepository.save(movieObject);
-                log.info("{} | {}", movieObject.toString(), url);
+                MovieFileTo movieFile = filteredMovieFiles.get(0);
+                Movie movie = Movie.of(movieJson, movieFile);
+                movieRepository.save(movie);
+                log.info("{} | {}", movie.toString(), url);
             } catch (DataIntegrityViolationException e) {
                 log.error("already exist: {}", url);
             } catch (Exception e) {
                 log.error(url, e);
             }
-            log.debug(url);
         }
-    }
-
-    private Stream<MovieFileTo> getMatch(List<MovieFileTo> moviesFromFolder, String fileName) {
-        return moviesFromFolder.stream()
-                .filter(m -> m.getFileName().equals(fileName));
     }
 
     /**

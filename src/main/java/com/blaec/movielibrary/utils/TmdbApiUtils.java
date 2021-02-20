@@ -40,7 +40,7 @@ public class TmdbApiUtils {
      * @param movieFileTo movie file object
      * @return url for api-request by title
      */
-    public static String getSearchUrlByNameAndYear(MovieFileTo movieFileTo) {
+    public static String getUrlByNameAndYear(MovieFileTo movieFileTo) {
         String params = joinParams(ImmutableMap.of(
                 tmdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled(),
                 tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()),
@@ -48,7 +48,7 @@ public class TmdbApiUtils {
         return String.format("%s?%s", tmdbApiConfig.getEndpoint().getSearch(), params);
     }
 
-    public static String getMovieUrlById(String id){
+    public static String getUrlById(String id){
         String params = joinParams(ImmutableMap.of(
                 tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey()));
         return String.format("%s/%s?%s", tmdbApiConfig.getEndpoint().getMovie(), id, params);
