@@ -32,41 +32,83 @@ const upload = props => {
     const [scanValue, setScanValue] = useState('');
     const [wishValue, setWishValue] = useState('cartoons');
     const [loading, setLoading] = useState(false);
-    const [isSingle, setIsManual] = useState(false);
+    const [hasSingle, setHasSingle] = useState(false);
     const [canUpload, setCanUpload] = useState(false);
+    const [tmdbId, setTmdbId] = useState('');
+    const [fileName, setFileName] = useState('');
 
     const handleChange = (event) => {
         setScanValue(event.target.value);
-        setCanUpload(true);
+        if (!canUpload) {
+            setCanUpload(true);
+        }
     };
+
+    const resetForm = () => {
+        setLoading(false);
+        setCanUpload(false);
+        setScanValue('');
+        setTmdbId('');
+        setFileName('');
+    }
 
     const handleUpload = () => {
         setLoading(true);
-        axios.post(`/movies/${scanValue}`)
-            .then(response => {
-                setLoading(false);
-                setCanUpload(false);
-                setScanValue('');
-                alert(`uploading from ${scanValue} folder completed successfully.`)
-            })
-            .catch(error => {
-                setLoading(false);
-                setCanUpload(false);
-                setScanValue('');
-                console.log(error);
-            });
 
+        if (hasSingle) {
+            let data = {
+               location: scanValue,
+               tmdbId: tmdbId,
+               fileName: fileName
+            }
+            axios.post("/movies/single", data)
+                .then(response => {
+                    resetForm();
+                    alert(`uploading ${fileName} from ${scanValue} folder completed successfully.`)
+                })
+                .catch(error => {
+                    resetForm();
+                    console.log(error);
+                });
+
+        } else {
+            axios.post(`/movies/${scanValue}`)
+                .then(response => {
+                    resetForm();
+                    alert(`uploading from ${scanValue} folder completed successfully.`)
+                })
+                .catch(error => {
+                    resetForm();
+                    console.log(error);
+                });
+        }
     };
 
     const handleIsSingle = () => {
-        setIsManual(!isSingle);
+        setHasSingle(!hasSingle);
+        setTmdbId('');
+        setFileName('');
+    };
+
+    const handleTextFields = (event) => {
+        let text = event.target.value;
+        switch (event.target.id) {
+            case "imdb-id":
+                setTmdbId(text);
+                break;
+            case "file-name":
+                setFileName(text);
+                break;
+            default:
+                alert("Upload -> handleTextFields -> wrong id")
+        }
     }
 
     return (
         <div className="Upload">
             <Card variant="elevation">
                 <CardContent>
-                    <FormControl component="locations">
+                    <FormControl>
                         <FormLabel>Movie location</FormLabel>
                         <RadioGroup name="location"
                                     value={scanValue}
@@ -93,25 +135,27 @@ const upload = props => {
                         <FormLabel component="legend">Single Movie Upload</FormLabel>
                         <FormControlLabel label="Single movie upload"
                                           control={<Switch color="primary"
-                                                           checked={isSingle}
+                                                           checked={hasSingle}
                                                            onChange={handleIsSingle}
                                                            name="isSingle"/>}
                         />
                         <TextField id="tmdb-id"
-                                   disabled={!isSingle}
+                                   disabled={!hasSingle}
                                    label="tmdb id"
                                    style={{margin: 8}}
                                    helperText="Type exact tmdb id"
                                    fullWidth
                                    margin="normal"
+                                   onChange={handleTextFields}
                         />
                         <TextField id="file-name"
-                                   disabled={!isSingle}
+                                   disabled={!hasSingle}
                                    label="Exact file name"
                                    style={{margin: 8}}
                                    helperText="Enter exact file name with extension"
                                    fullWidth
                                    margin="normal"
+                                   onChange={handleTextFields}
                         />
                     </FormControl>
                 </CardContent>
