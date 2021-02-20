@@ -4,10 +4,7 @@ import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.repository.MovieRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -24,6 +21,11 @@ public class MovieController {
     @GetMapping
     public Iterable<Movie> getAll() {
         return sortByTitleAndYear(movieRepository.findAll());
+    }
+
+    @PostMapping("/{folder}")
+    public void scanFolder(@PathVariable String folder) {
+        log.info(folder);
     }
 
     /**

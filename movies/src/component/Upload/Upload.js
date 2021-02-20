@@ -25,7 +25,7 @@ const upload = props => {
 
     const handleUpload = () => {
         setLoading(true);
-        axios.post('/upload', scanValue)
+        axios.post(`/movies/${scanValue}`)
             .then(response => {
                 setLoading(false);
             })
