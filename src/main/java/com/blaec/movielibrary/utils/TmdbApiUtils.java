@@ -38,7 +38,7 @@ public class TmdbApiUtils {
      * sample url: https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019
      *
      * @param movieFileTo movie file object
-     * @return url for api-request by title
+     * @return url for api-request by title and year
      */
     public static String getUrlByNameAndYear(MovieFileTo movieFileTo) {
         String params = joinParams(ImmutableMap.of(
@@ -48,6 +48,13 @@ public class TmdbApiUtils {
         return String.format("%s?%s", tmdbApiConfig.getEndpoint().getSearch(), params);
     }
 
+    /**
+     * Create request api url from tmdb id
+     * sample url: https://api.themoviedb.org/3/movie/9487?api_key=33ca5cbc
+     *
+     * @param id tmdb id
+     * @return url for api-request by id
+     */
     public static String getUrlById(String id){
         String params = joinParams(ImmutableMap.of(
                 tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey()));
@@ -55,12 +62,12 @@ public class TmdbApiUtils {
     }
 
     /**
-     * Sends request to omdbapi, gets json object and maps it on java class
+     * Sends request to tmdb-api, gets json object and maps it on java class
      *
      * @param url url to required movie
-     * @return MovieJsonObject or null if nothing's found
+     * @return TmdbResult or null if nothing's found
      */
-    public static TmdbResult getFirstMovie(String url) {
+    public static TmdbResult getMoviesResult(String url) {
         TmdbResult movieJson = null;
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(url);
@@ -72,10 +79,10 @@ public class TmdbApiUtils {
     }
 
     /**
-     * Sends request to omdbapi, gets json object and maps it on java class
+     * Sends request to tmdb-api, gets json object and maps it on java class
      *
      * @param url url to required movie
-     * @return MovieJsonObject or null if nothing's found
+     * @return TmdbResult.TmdbMovie or null if nothing's found
      */
     public static TmdbResult.TmdbMovie getMovie(String url) {
         TmdbResult.TmdbMovie movieJson = null;
@@ -110,7 +117,6 @@ public class TmdbApiUtils {
      * @throws InterruptedException if the operation is interrupted
      */
     public static HttpResponse<String> sendRequest(String url) throws IOException, InterruptedException {
-        // TODO handle exception for example upload imdb-id ZAP%n%s%n%s%n%s%n%s%n%s%n%s%n%s%n%s
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))

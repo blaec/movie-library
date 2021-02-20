@@ -35,12 +35,12 @@ public class MovieController {
 
     @PostMapping("/{folder}")
     public void scanFolder(@PathVariable String folder) {
-        List<MovieFileTo> movieFiles = getAllFrom(folder);
-
+        String location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
+        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(location);
         for (MovieFileTo movieFile : movieFiles) {
             String url = TmdbApiUtils.getUrlByNameAndYear(movieFile);
             try {
-                List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getFirstMovie(url).getResults();
+                List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url).getResults();
                 TmdbResult.TmdbMovie movieJson = results.stream().findFirst().orElseGet(null);
                 Movie movie = Movie.of(movieJson, movieFile);
                 movieRepository.save(movie);
@@ -54,8 +54,9 @@ public class MovieController {
     }
 
     @PostMapping("/single")
-    public void uploadSingle(@RequestBody SingleFileUpload uploadMovie) {
-        List<MovieFileTo> filteredMovieFiles = getAllFrom(uploadMovie.getLocation()).stream()
+    public void uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
+        String location = ScanFolders.valueOf(uploadMovie.getLocation()).getLocation(uploadConfigs);
+        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(location).stream()
                 .filter(m -> m.getFileName().equals(uploadMovie.getFileName()))
                 .collect(Collectors.toList());
         if (filteredMovieFiles.size() != 1) {
@@ -92,18 +93,5 @@ public class MovieController {
                                 : m.getTitle())
                 .thenComparing(Movie::getReleaseDate))
                 .collect(Collectors.toList());
-    }
-
-    private List<MovieFileTo> getAllFrom(String folder) {
-        String location;
-        switch (ScanFolders.valueOf(folder)) {
-            case cartoons:      location = uploadConfigs.getCartoons();       break;
-            case movies:        location = uploadConfigs.getMovies();         break;
-            case serialMovies:  location = uploadConfigs.getSerialMovies();   break;
-            case music:         location = uploadConfigs.getMusic();          break;
-            case videos:        location = uploadConfigs.getVideos();         break;
-            default:            location = "";
-        }
-        return FilesUtils.getMoviesFromFolder(location);
     }
 }
