@@ -21,6 +21,7 @@ public class MovieFileTo {
     private final Resolution resolution;
     private final double size;
     private final String location;
+    private final String fileName;
 
     // optional properties
     private final String description;
@@ -54,6 +55,7 @@ public class MovieFileTo {
                 Resolution.convertFrom(matcher.group("resolution")),
                 FilesUtils.byteToGb(file.length()),
                 file.getParent(),
+                fileName,
                 matcher.group("description"),
                 frameRate == 0 ? 24 : frameRate
             );

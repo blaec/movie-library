@@ -93,7 +93,7 @@ const upload = props => {
     const handleTextFields = (event) => {
         let text = event.target.value;
         switch (event.target.id) {
-            case "imdb-id":
+            case "tmdb-id":
                 setTmdbId(text);
                 break;
             case "file-name":

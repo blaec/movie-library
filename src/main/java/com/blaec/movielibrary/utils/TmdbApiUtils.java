@@ -40,12 +40,18 @@ public class TmdbApiUtils {
      * @param movieFileTo movie file object
      * @return url for api-request by title
      */
-    public static String getApiRequestUrl(MovieFileTo movieFileTo) {
+    public static String getSearchUrlByNameAndYear(MovieFileTo movieFileTo) {
         String params = joinParams(ImmutableMap.of(
                 tmdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled(),
                 tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()),
                 tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey()));
-        return String.format("%s?%s", tmdbApiConfig.getEndpoint(), params);
+        return String.format("%s?%s", tmdbApiConfig.getEndpoint().getSearch(), params);
+    }
+
+    public static String getMovieUrlById(String id){
+        String params = joinParams(ImmutableMap.of(
+                tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey()));
+        return String.format("%s/%s?%s", tmdbApiConfig.getEndpoint().getMovie(), id, params);
     }
 
     /**
@@ -54,11 +60,28 @@ public class TmdbApiUtils {
      * @param url url to required movie
      * @return MovieJsonObject or null if nothing's found
      */
-    public static TmdbResult getMovie(String url) {
+    public static TmdbResult getFirstMovie(String url) {
         TmdbResult movieJson = null;
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(url);
             movieJson = gson.fromJson(stringHttpResponse.body(), TmdbResult.class);
+        } catch (IOException | InterruptedException e) {
+            log.error("Failed to get imdb movie data from url {}", url);
+        }
+        return movieJson;
+    }
+
+    /**
+     * Sends request to omdbapi, gets json object and maps it on java class
+     *
+     * @param url url to required movie
+     * @return MovieJsonObject or null if nothing's found
+     */
+    public static TmdbResult.TmdbMovie getMovie(String url) {
+        TmdbResult.TmdbMovie movieJson = null;
+        try {
+            HttpResponse<String> stringHttpResponse = sendRequest(url);
+            movieJson = gson.fromJson(stringHttpResponse.body(), TmdbResult.TmdbMovie.class);
         } catch (IOException | InterruptedException e) {
             log.error("Failed to get imdb movie data from url {}", url);
         }

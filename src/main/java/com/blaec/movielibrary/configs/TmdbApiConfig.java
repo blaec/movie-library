@@ -8,9 +8,15 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "tmdbapi")
 @ConstructorBinding
 public class TmdbApiConfig {
-    private final String endpoint;
+    private final TmdbApiConfig.Endpoint endpoint;
     private final TmdbApiConfig.Name name;
     private final TmdbApiConfig.Value value;
+
+    @Data
+    public static class Endpoint{
+        private final String search;
+        private final String movie;
+    }
 
     @Data
     public static class Name{
