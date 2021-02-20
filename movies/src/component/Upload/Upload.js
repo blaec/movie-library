@@ -12,17 +12,28 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from '@material-ui/icons/BackupTwoTone';
 import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
+import axios from '../../axios-movies';
 
 const upload = props => {
     const [scanValue, setScanValue] = useState('cartoons');
     const [wishValue, setWishValue] = useState('cartoons');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (event) => {
         setScanValue(event.target.value);
     };
 
     const handleUpload = () => {
-        alert("start upload");
+        setLoading(true);
+        axios.post('/upload', scanValue)
+            .then(response => {
+                setLoading(false);
+            })
+            .catch(error => {
+                setLoading(false);
+                console.log(error);
+            });
+
     };
 
     return (
