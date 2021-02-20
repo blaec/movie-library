@@ -8,15 +8,9 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties(prefix = "upload")
 @ConstructorBinding
 public class UploadConfigs {
-    private final Upload name;
-    private final Upload location;
-
-    @Data
-    public static class Upload {
-        private String cartoons;
-        private String movies;
-        private String serialMovies;
-        private String music;
-        private String videos;
-    }
+    private String cartoons;
+    private String movies;
+    private String serialMovies;
+    private String music;
+    private String videos;
 }

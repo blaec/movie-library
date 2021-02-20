@@ -102,11 +102,11 @@ public class MovieController {
     private List<MovieFileTo> getAllFrom(String folder) {
         String location;
         switch (ScanFolders.valueOf(folder)) {
-            case cartoons:      location = uploadConfigs.getLocation().getCartoons();       break;
-            case movies:        location = uploadConfigs.getLocation().getMovies();         break;
-            case serialMovies:  location = uploadConfigs.getLocation().getSerialMovies();   break;
-            case music:         location = uploadConfigs.getLocation().getMusic();          break;
-            case videos:        location = uploadConfigs.getLocation().getVideos();         break;
+            case cartoons:      location = uploadConfigs.getCartoons();       break;
+            case movies:        location = uploadConfigs.getMovies();         break;
+            case serialMovies:  location = uploadConfigs.getSerialMovies();   break;
+            case music:         location = uploadConfigs.getMusic();          break;
+            case videos:        location = uploadConfigs.getVideos();         break;
             default:            location = "";
         }
         return FilesUtils.getMoviesFromFolder(location);

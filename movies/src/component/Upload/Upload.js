@@ -115,24 +115,23 @@ const upload = props => {
                                     onChange={handleChange}>
                             <FormControlLabel value="cartoons"
                                               control={<Radio color="primary" />}
-                                              label="Cartoons" />
+                                              label="K | Cartoons" />
                             <FormControlLabel value="movies"
                                               control={<Radio color="primary" />}
-                                              label="Movies" />
+                                              label="L | Movies" />
                             <FormControlLabel value="serialMovies"
                                               control={<Radio color="primary" />}
-                                              label="Serial Movies" />
+                                              label="M | Serial Movies" />
                             <FormControlLabel value="music"
                                               control={<Radio color="primary" />}
-                                              label="New Movies" />
+                                              label="D | New Movies" />
                             <FormControlLabel value="videos"
                                               control={<Radio color="primary" />}
-                                              label="Videos" />
+                                              label="C | Videos" />
                         </RadioGroup>
                     </FormControl>
                     <Divider  className={classes.divider}/>
                     <FormControl component="single-upload">
-                        <FormLabel component="legend">Single Movie Upload</FormLabel>
                         <FormControlLabel label="Single movie upload"
                                           control={<Switch color="primary"
                                                            checked={hasSingle}
