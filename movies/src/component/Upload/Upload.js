@@ -28,6 +28,7 @@ const upload = props => {
         axios.post(`/movies/${scanValue}`)
             .then(response => {
                 setLoading(false);
+                alert(`uploading from ${scanValue} folder completed successfully.`)
             })
             .catch(error => {
                 setLoading(false);

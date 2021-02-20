@@ -1,5 +1,5 @@
 .Card {
-    width: calc(100% / 6);
+    width: calc(100% / 7);
 }
 
 .Card img{
@@ -7,25 +7,31 @@
     height: 100%;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1700px) {
+    .Card{
+        width: calc(100% / 6);
+    }
+}
+
+@media (max-width: 1300px) {
     .Card{
         width: calc(100% / 5);
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1000px) {
     .Card{
         width: calc(100% / 4);
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 700px) {
     .Card{
         width: calc(100% / 3);
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 400px) {
     .Card{
         width: calc(100% / 2);
     }

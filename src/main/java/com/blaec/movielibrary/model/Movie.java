@@ -94,4 +94,9 @@ public class Movie{
 
         return movie;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s) %.1fGb", title, releaseDate, size);
+    }
 }
