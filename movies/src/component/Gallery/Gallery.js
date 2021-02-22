@@ -2,9 +2,24 @@ import React, {useState, useEffect} from 'react';
 import Card from "../Card/Card";
 import "./Gallery.css";
 import axios from "../../axios-movies";
+import Details from "../Details/Details";
+import Modal from '../../UI/Modal/Modal';
+import logo from "../Logo/Logo";
 
 const gallery = () => {
     const [movieList, setMovieList] = useState([]);
+    const [selectedCard, setSelectedCard] = useState('');
+    const [selected, setSelected] = useState(false);
+
+    const handlerSelectCard = (movie) => {
+        setSelectedCard(movie);
+        setSelected(true);
+    }
+
+    const handlerClose = () => {
+        console.log("close");
+        setSelected(false);
+    }
 
     useEffect(() => {
         axios.get('/movies')
@@ -16,11 +31,21 @@ const gallery = () => {
             });
     }, []);
 
-    return (
-        <div className="Gallery">
-            {movieList.map(m => <Card key={m.id} {...m}/>
+    let myGallery = selected
+        ? (<Details closed={handlerClose}
+                    {...selectedCard}/>)
+        : (<div className="Gallery">
+            {movieList.map(m =>
+                <Card key={m.id}
+                      {...m}
+                      clicked={handlerSelectCard}/>
             )}
-        </div>
+           </div>);
+
+    return (
+        <React.Fragment>
+            {myGallery}
+        </React.Fragment>
     );
 };
 

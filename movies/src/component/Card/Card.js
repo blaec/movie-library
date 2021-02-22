@@ -6,9 +6,11 @@ const card = props => {
         <div className="Card">
             <img src={"http://image.tmdb.org/t/p/original" + props.posterPath}
                  loading="lazy"
-                 alt="Italian Trulli"/>
+                 onClick={() => props.clicked(props)}
+                 alt={`${props.title} ${props.releaseDate}`}
+            />
         </div>
     );
-};
+}
 
 export default card;
