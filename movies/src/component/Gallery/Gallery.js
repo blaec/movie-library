@@ -1,23 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState, useLayoutEffect } from 'react';
 import Card from "../Card/Card";
 import "./Gallery.css";
 import axios from "../../axios-movies";
 import Details from "../Details/Details";
-import Modal from '../../UI/Modal/Modal';
-import logo from "../Logo/Logo";
 
 const gallery = () => {
     const [movieList, setMovieList] = useState([]);
     const [selectedCard, setSelectedCard] = useState('');
     const [selected, setSelected] = useState(false);
+    const [scrollY, setScrollY] = useState();
 
     const handlerSelectCard = (movie) => {
+        setScrollY(window.scrollY);
         setSelectedCard(movie);
         setSelected(true);
     }
 
     const handlerClose = () => {
-        console.log("close");
         setSelected(false);
     }
 
@@ -30,6 +29,12 @@ const gallery = () => {
                 console.log(error);
             });
     }, []);
+
+    useLayoutEffect (() => {
+        if (!selected) {
+            window.scrollBy(0, scrollY);
+        }
+    }, [selected, scrollY]);
 
     let myGallery = selected
         ? (<Details closed={handlerClose}

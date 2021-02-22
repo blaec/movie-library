@@ -28,6 +28,9 @@ const details = (props) => {
                      loading="lazy"
                      alt={`${props.title} ${props.releaseDate}`}
                 />
+                <div>
+
+                </div>
                 <h3>{props.title}</h3>
                 <h5>{genres}</h5>
                 <Button variant="outlined"
