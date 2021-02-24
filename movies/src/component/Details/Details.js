@@ -52,9 +52,7 @@ const details = (props) => {
                     <Typography variant="subtitle2" gutterBottom>
                         {genres}
                     </Typography>
-                </div>
-                <Divider/>
-                <div className="Info">
+                    <Divider/>
                     <Typography variant="body1" gutterBottom>
                         <strong>{movieData.tagline}</strong>
                     </Typography>
