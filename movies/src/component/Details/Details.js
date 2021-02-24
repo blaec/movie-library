@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './Details.css';
 import {Button, CircularProgress, Divider, Typography} from "@material-ui/core";
 import CancelTwoToneIcon from '@material-ui/icons/CancelTwoTone';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import axios from "../../axios-movies";
 import {year, playTime} from '../../utils/Utils';
 
@@ -30,10 +31,14 @@ const details = (props) => {
     if (movieData) {
         details = (
             <React.Fragment>
-                <img src={"http://image.tmdb.org/t/p/original" + movieData.backdrop_path}
-                     loading="lazy"
-                     alt={`${movieData.title} ${movieData.releaseDate}`}
-                />
+                <div className="ImageBackdrop">
+                    <ArrowBackIcon onClick={props.closed}
+                                   className="ImageBack"/>
+                    <img src={"http://image.tmdb.org/t/p/original" + movieData.backdrop_path}
+                         loading="lazy"
+                         alt={`${movieData.title} ${movieData.releaseDate}`}
+                    />
+                </div>
                 <div className="Info">
                     <Typography variant="caption" display="block" gutterBottom color="textSecondary">
                         {props.location}
@@ -48,13 +53,6 @@ const details = (props) => {
                         {genres}
                     </Typography>
                 </div>
-                <Button variant="outlined"
-                        color="secondary"
-                        startIcon={<CancelTwoToneIcon/>}
-                        onClick={props.closed}
-                >
-                    Close
-                </Button>
                 <Divider/>
                 <div className="Info">
                     <Typography variant="body1" gutterBottom>
