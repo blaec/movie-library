@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import './Details.css';
-import {Button, CircularProgress, Divider, Typography} from "@material-ui/core";
-import CancelTwoToneIcon from '@material-ui/icons/CancelTwoTone';
+import {CircularProgress, Divider, Typography} from "@material-ui/core";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
 import axios from "../../axios-movies";
-import {year, playTime} from '../../utils/Utils';
+import {playTime, year} from '../../utils/Utils';
 
 const details = (props) => {
     const [movieData, setMovieData] = useState();
@@ -34,6 +34,8 @@ const details = (props) => {
                 <div className="ImageBackdrop">
                     <ArrowBackIcon onClick={props.closed}
                                    className="ImageBack"/>
+                    <DeleteTwoToneIcon onClick={() => props.delete(props.id)}
+                                   className="Delete"/>
                     <img src={"http://image.tmdb.org/t/p/original" + movieData.backdrop_path}
                          loading="lazy"
                          alt={`${movieData.title} ${movieData.releaseDate}`}

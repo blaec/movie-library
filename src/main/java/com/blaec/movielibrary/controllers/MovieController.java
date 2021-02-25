@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -74,6 +75,17 @@ public class MovieController {
             } catch (Exception e) {
                 log.error(url, e);
             }
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        try {
+            Optional<Movie> movie = movieRepository.findById(id);
+            movieRepository.deleteById(id);
+            log.info("movie {} with id {} deleted", movie.get().toString(), id);
+        } catch (Exception e) {
+            log.error("failed deleting movie by id: {}", id);
         }
     }
 
