@@ -4,7 +4,7 @@ import "./Card.css";
 const card = props => {
     return (
         <div className="Card">
-            <img src={"http://image.tmdb.org/t/p/original" + props.posterPath}
+            <img src={"http://image.tmdb.org/t/p/w500" + props.posterPath}
                  loading="lazy"
                  onClick={() => props.clicked(props)}
                  alt={`${props.title} ${props.releaseDate}`}

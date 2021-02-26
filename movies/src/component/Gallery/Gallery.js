@@ -66,16 +66,18 @@ const gallery = () => {
         }
     }, [selected, scrollY]);
 
+    const renderRow = (movie) => (
+        <Card key={movie.id}
+              {...movie}
+              clicked={handlerSelectCard}/>
+    );
+
     let myGallery = selected
         ? (<Details closed={handlerClose}
                     delete={handleDelete}
                     {...selectedCard}/>)
         : (<div className="Gallery">
-            {movieList.map(m =>
-                <Card key={m.id}
-                      {...m}
-                      clicked={handlerSelectCard}/>
-            )}
+            {movieList.map(renderRow)}
            </div>);
 
     return (
