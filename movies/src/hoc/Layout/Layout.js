@@ -19,8 +19,8 @@ const layout = props => {
     return (
         <React.Fragment>
             <Toolbar drawerToggleClicked={sideDrawerToggleHandler}/>
-            <SideDrawer open={sideDrawerIsVisible}
-                        closed={sideDrawerClosedHandler}/>
+            {/*<SideDrawer open={sideDrawerIsVisible}*/}
+            {/*            closed={sideDrawerClosedHandler}/>*/}
             <main className="Children">
                 {props.children}
             </main>
