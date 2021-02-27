@@ -5,6 +5,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
 import axios from "../../axios-movies";
 import {playTime, year} from '../../utils/Utils';
+import Carousel from "react-material-ui-carousel";
 
 const details = (props) => {
     const [movieData, setMovieData] = useState();
@@ -38,10 +39,17 @@ const details = (props) => {
                                    className="ImageBack"/>
                     <DeleteTwoToneIcon onClick={() => props.delete(props.id)}
                                    className="Delete"/>
-                    <img src={"http://image.tmdb.org/t/p/original" + movieData.backdrop_path}
-                         loading="lazy"
-                         alt={`${movieData.title} ${movieData.releaseDate}`}
-                    />
+                    <Carousel timeout={300}
+                              animation="slide"
+                              navButtonsAlwaysInvisible>
+                        {backdrops.map( (backdrop, i) =>
+                            <img key={i}
+                                 src={"http://image.tmdb.org/t/p/original" + backdrop}
+                                 loading="lazy"
+                                 alt={`${movieData.title} ${movieData.releaseDate}`}
+                            />
+                        )}
+                    </Carousel>
                 </div>
                 <div className="Info">
                     <Typography variant="caption" display="block" gutterBottom color="textSecondary">
