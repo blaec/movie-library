@@ -45,7 +45,6 @@ const details = (props) => {
                         {backdrops.map( (backdrop, i) =>
                             <img key={i}
                                  src={"http://image.tmdb.org/t/p/original" + backdrop}
-                                 loading="lazy"
                                  alt={`${movieData.title} ${movieData.releaseDate}`}
                             />
                         )}
