@@ -12,9 +12,42 @@ const gallery = () => {
     const [selected, setSelected] = useState(false);
     const [scrollY, setScrollY] = useState();
     const [deletePrompt, setDeletePrompt] = useState(false);
-    const [deleteId, setDeleteId] = useState(0);
-    const [currentPage, setCurrentPage] = useState(3);
-    const [moviesPerPage, setMoviesPerPage] = useState(5);
+    const [deleteId, setDeleteId] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [moviesPerPage, setMoviesPerPage] = useState(0);
+    const [movieCount, setMovieCount] = useState(0);
+
+    let innerWidth = window.innerWidth;
+    useEffect(() => {
+        console.log("width: " + moviesPerPage);
+        let rows = 3;
+        let moviesPerRow = 7;
+        switch (true) {
+            case (innerWidth < 400):
+                rows = 12;
+                moviesPerRow = 2;
+                break;
+            case (innerWidth > 400 && innerWidth <= 700):
+                rows = 7;
+                moviesPerRow = 3;
+                break;
+            case (innerWidth > 700 && innerWidth <= 1000):
+                rows = 6;
+                moviesPerRow = 4;
+                break;
+            case (innerWidth > 1000 && innerWidth <= 1300):
+                rows = 5;
+                moviesPerRow = 5;
+                break;
+            case (innerWidth > 1300 && innerWidth <= 1700):
+                rows = 4;
+                moviesPerRow = 6;
+                break;
+        }
+        setMoviesPerPage(rows * moviesPerRow);
+
+        }, []
+    );
 
     const handlerSelectCard = (movie) => {
         setScrollY(window.scrollY);
@@ -58,14 +91,16 @@ const gallery = () => {
     };
 
     useEffect(() => {
+        console.log("get: " + moviesPerPage);
         axios.get('/movies')
             .then(response => {
                 setMovieList(response.data);
+                setMovieCount(Math.ceil(response.data.length / moviesPerPage));
             })
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }, [moviesPerPage]);
 
     useLayoutEffect (() => {
         if (!selected) {
@@ -81,25 +116,27 @@ const gallery = () => {
         ? (<Details closed={handlerClose}
                     delete={handleDelete}
                     {...selectedCard}/>)
-        : (<div className="Gallery">
-            {currentMovies.map(m =>
-                <Card key={m.id}
-                      {...m}
-                      clicked={handlerSelectCard}/>
-            )}
-           </div>);
+        : ( <React.Fragment>
+                <div className="Gallery">
+                    {currentMovies.map(m =>
+                        <Card key={m.id}
+                              {...m}
+                              clicked={handlerSelectCard}/>
+                    )}
+                </div>
+                <Pagination className="Pagination"
+                            page={currentPage}
+                            count={movieCount}
+                            onChange={handlePagination}
+                            showFirstButton
+                            showLastButton
+                            variant="outlined"
+                            color="primary"/>
+            </React.Fragment>);
 
     return (
         <React.Fragment>
             {myGallery}
-            <Pagination className="Pagination"
-                        page={currentPage}
-                        count={10}
-                        onChange={handlePagination}
-                        showFirstButton
-                        showLastButton
-                        variant="outlined"
-                        color="primary" />
             <Dialog
                 open={deletePrompt}
                 onClose={handleClose}
