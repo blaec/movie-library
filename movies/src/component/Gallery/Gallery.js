@@ -14,7 +14,7 @@ const gallery = () => {
     const [deletePrompt, setDeletePrompt] = useState(false);
     const [deleteId, setDeleteId] = useState(0);
     const [currentPage, setCurrentPage] = useState(3);
-    const [moviesPerPage, setMoviesPerPage] = useState(21);
+    const [moviesPerPage, setMoviesPerPage] = useState(5);
 
     const handlerSelectCard = (movie) => {
         setScrollY(window.scrollY);
@@ -92,9 +92,12 @@ const gallery = () => {
     return (
         <React.Fragment>
             {myGallery}
-            <Pagination page={currentPage}
+            <Pagination className="Pagination"
+                        page={currentPage}
                         count={10}
                         onChange={handlePagination}
+                        showFirstButton
+                        showLastButton
                         variant="outlined"
                         color="primary" />
             <Dialog
