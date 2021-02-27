@@ -113,8 +113,6 @@ const gallery = () => {
                             page={currentPage}
                             count={movieCount}
                             onChange={handlePagination}
-                            showFirstButton
-                            showLastButton
                             variant="outlined"
                             color="primary"/>
             </React.Fragment>);
