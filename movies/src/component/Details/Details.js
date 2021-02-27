@@ -22,7 +22,7 @@ const details = (props) => {
                 console.log(props);
                 setMovieData(movies);
                 setGenres(movies.genres.map(g => g.name).join(', '));
-                setBackdrops(movies.images.backdrops.map(b => b.file_path));
+                setBackdrops(movies.images.backdrops);
             })
             .catch(error => {
                 console.log(error);
@@ -43,8 +43,8 @@ const details = (props) => {
                               navButtonsAlwaysInvisible>
                         {backdrops.map( (backdrop, i) =>
                             <img key={i}
-                                 height={window.innerWidth / 1.777777777777778}
-                                 src={"http://image.tmdb.org/t/p/original" + backdrop}
+                                 height={window.innerWidth / backdrop.aspect_ratio}
+                                 src={"http://image.tmdb.org/t/p/original" + backdrop.file_path}
                                  alt={`${movieData.title} ${movieData.releaseDate}`}
                             />
                         )}
