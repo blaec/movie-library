@@ -5,13 +5,13 @@
   "dependencies": {
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "1.1.5",
-    "react-virtualized": "^9.22.3"
+    "react-scripts": "1.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
