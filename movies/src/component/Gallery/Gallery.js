@@ -23,30 +23,16 @@ const gallery = () => {
         let rows = 3;
         let moviesPerRow = 7;
         switch (true) {
-            case (innerWidth < 400):
-                rows = 12;
-                moviesPerRow = 2;
-                break;
-            case (innerWidth > 400 && innerWidth <= 700):
-                rows = 7;
-                moviesPerRow = 3;
-                break;
-            case (innerWidth > 700 && innerWidth <= 1000):
-                rows = 6;
-                moviesPerRow = 4;
-                break;
-            case (innerWidth > 1000 && innerWidth <= 1300):
-                rows = 5;
-                moviesPerRow = 5;
-                break;
-            case (innerWidth > 1300 && innerWidth <= 1700):
-                rows = 4;
-                moviesPerRow = 6;
-                break;
+            case (innerWidth < 400):    rows = 12;  moviesPerRow = 2;   break;
+            case (innerWidth <= 700):   rows = 7;   moviesPerRow = 3;   break;
+            case (innerWidth <= 1000):  rows = 6;   moviesPerRow = 4;   break;
+            case (innerWidth <= 1300):  rows = 5;   moviesPerRow = 5;   break;
+            case (innerWidth <= 1700):  rows = 4;   moviesPerRow = 6;   break;
         }
         setMoviesPerPage(rows * moviesPerRow);
+        setMovieCount(Math.ceil(movieList.length / moviesPerPage));
 
-        }, []
+        }, [movieList]
     );
 
     const handlerSelectCard = (movie) => {
@@ -95,12 +81,11 @@ const gallery = () => {
         axios.get('/movies')
             .then(response => {
                 setMovieList(response.data);
-                setMovieCount(Math.ceil(response.data.length / moviesPerPage));
             })
             .catch(error => {
                 console.log(error);
             });
-    }, [moviesPerPage]);
+    }, []);
 
     useLayoutEffect (() => {
         if (!selected) {
