@@ -1,26 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './Toolbar.css'
-import Logo from "../../Logo/Logo";
 import NavigationItems from "../NavigationItems/NavigationItems";
-import DrawerToggle from "../SideDrawer/DrawerToggle/DrawerToggle";
-import {
-    AppBar,
-    CssBaseline,
-    Divider,
-    Drawer,
-    Hidden,
-    IconButton, List, ListItem, ListItemIcon, ListItemText,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import UpdateTwoToneIcon from '@material-ui/icons/UpdateTwoTone';
+import {AppBar, CssBaseline, Divider, Drawer, Hidden, IconButton, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import NavigationItem from "../NavigationItems/NavigationItem/NavigationItem";
-import MovieFilterTwoToneIcon from '@material-ui/icons/MovieFilterTwoTone';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 
-const drawerWidth = 240;
+const drawerWidth = 150;
 
 const useStyles = makeStyles((theme) => ({
     root: {

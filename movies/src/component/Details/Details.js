@@ -46,7 +46,7 @@ const details = (props) => {
                               navButtonsAlwaysInvisible>
                         {backdrops.map( (backdrop, i) =>
                             <img key={i}
-                                 height={(window.innerWidth - (window.innerWidth > 600 ? 240 : 0)) / backdrop.aspect_ratio}
+                                 height={(window.innerWidth - (window.innerWidth > 600 ? 150 : 0)) / backdrop.aspect_ratio}
                                  src={"http://image.tmdb.org/t/p/original" + backdrop.file_path}
                                  alt={`${movieData.title} ${movieData.releaseDate}`}
                             />
