@@ -13,17 +13,16 @@ const details = (props) => {
     const [backdrops, setBackdrops] = useState([]);
 
     useEffect(() => {
-        // images
-        // https://api.themoviedb.org/3/movie/550?api_key={api_key}&language=en-US&append_to_response=images&include_image_language=en,null
         // credits
         // https://api.themoviedb.org/3/movie/9487/credits?api_key=d6c79c6e7c9d5f56185d9318481769bc&language=en-US
         axios.get('https://api.themoviedb.org/3/movie/' + props.tmdbId + '?api_key=d6c79c6e7c9d5f56185d9318481769bc&language=ru&append_to_response=images&include_image_language=ru,null')
             .then(response => {
-                console.log(response.data);
+                let movies = response.data;
+                console.log(movies);
                 console.log(props);
-                setMovieData(response.data);
-                setGenres(response.data.genres.map(g => g.name).join(', '));
-                setBackdrops(response.data.images.backdrops.map(b => b.file_path));
+                setMovieData(movies);
+                setGenres(movies.genres.map(g => g.name).join(', '));
+                setBackdrops(movies.images.backdrops.map(b => b.file_path));
             })
             .catch(error => {
                 console.log(error);
@@ -40,10 +39,11 @@ const details = (props) => {
                     <DeleteTwoToneIcon onClick={() => props.delete(props.id)}
                                    className="Delete"/>
                     <Carousel timeout={300}
-                              animation="slide"
+                              animation="fade"
                               navButtonsAlwaysInvisible>
                         {backdrops.map( (backdrop, i) =>
                             <img key={i}
+                                 height={window.innerWidth / 1.777777777777778}
                                  src={"http://image.tmdb.org/t/p/original" + backdrop}
                                  alt={`${movieData.title} ${movieData.releaseDate}`}
                             />
