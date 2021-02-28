@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Toolbar.css'
 import NavigationItems from "../NavigationItems/NavigationItems";
 import {
@@ -102,10 +102,14 @@ const toolbar = props => {
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
+    };
+
+    const handleSearch = (value) => {
+        console.log(value);
     };
 
     const drawer = (
@@ -140,7 +144,8 @@ const toolbar = props => {
                             <SearchIcon />
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder="Search..."
+                            onChange={event => handleSearch(event.target.value)}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
