@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useDispatch} from "react-redux";
 import './Toolbar.css'
 import NavigationItems from "../NavigationItems/NavigationItems";
 import {
@@ -15,6 +16,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import * as actions from '../../../store/actions/index';
 
 
 const drawerWidth = 150;
@@ -99,10 +101,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const toolbar = props => {
+    const dispatch = useDispatch();
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
+
+    const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -145,7 +150,7 @@ const toolbar = props => {
                         </div>
                         <InputBase
                             placeholder="Search..."
-                            onChange={event => handleSearch(event.target.value)}
+                            onChange={event => onSearchChange(event.target.value)}
                             classes={{
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
