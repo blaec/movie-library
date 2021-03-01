@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useLayoutEffect } from 'react';
+import {useSelector} from "react-redux";
 import Card from "../Card/Card";
 import "./Gallery.css";
 import axios from "../../axios-movies";
@@ -8,6 +9,7 @@ import Pagination from '@material-ui/lab/Pagination';
 
 const gallery = () => {
     const [movieList, setMovieList] = useState([]);
+    const [displayMovieList, setDisplayMovieList] = useState([]);
     const [selectedCard, setSelectedCard] = useState('');
     const [selected, setSelected] = useState(false);
     const [scrollY, setScrollY] = useState();
@@ -16,6 +18,8 @@ const gallery = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
     const [movieCount, setMovieCount] = useState(0);
+
+    const search = useSelector(state => state.search);
 
     let innerWidth = window.innerWidth;
     useEffect(() => {
@@ -30,9 +34,9 @@ const gallery = () => {
             case (innerWidth <= 1700):  rows = 4;   moviesPerRow = 6;   break;
         }
         setMoviesPerPage(rows * moviesPerRow);
-        setMovieCount(Math.ceil(movieList.length / moviesPerPage));
+        setMovieCount(Math.ceil(displayMovieList.length / moviesPerPage));
 
-        }, [movieList]
+        }, [displayMovieList]
     );
 
     const handlerSelectCard = (movie) => {
@@ -87,6 +91,10 @@ const gallery = () => {
             });
     }, []);
 
+    useEffect(() => {
+        setDisplayMovieList(Object.values(movieList).filter(m => m.title.toLowerCase().includes(search)));
+    }, [search, movieList]);
+
     useLayoutEffect (() => {
         if (!selected) {
             window.scrollBy(0, scrollY);
@@ -95,7 +103,7 @@ const gallery = () => {
 
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = movieList.slice(indexOfFirstMovie, indexOfLastMovie);
+    const currentMovies = displayMovieList.slice(indexOfFirstMovie, indexOfLastMovie);
 
     let myGallery = selected
         ? (<Details closed={handlerClose}

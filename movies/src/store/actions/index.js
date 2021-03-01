@@ -1,0 +1,3 @@
+export {
+    changeSearch
+} from './global';

@@ -31,19 +31,22 @@ const details = (props) => {
 
     let details = <CircularProgress/>
     if (movieData) {
+        console.log(window.innerWidth);
         details = (
             <React.Fragment>
                 <div className="ImageBackdrop">
                     <ArrowBackIcon onClick={props.closed}
-                                   className="ImageBack"/>
+                                   className="ImageBack"
+                                   fontSize="large"/>
                     <DeleteTwoToneIcon onClick={() => props.delete(props.id)}
-                                   className="Delete"/>
+                                       className="Delete"
+                                       fontSize="large"/>
                     <Carousel timeout={300}
                               animation="fade"
                               navButtonsAlwaysInvisible>
                         {backdrops.map( (backdrop, i) =>
                             <img key={i}
-                                 height={window.innerWidth / backdrop.aspect_ratio}
+                                 height={(window.innerWidth - (window.innerWidth > 600 ? 150 : 0)) / backdrop.aspect_ratio}
                                  src={"http://image.tmdb.org/t/p/original" + backdrop.file_path}
                                  alt={`${movieData.title} ${movieData.releaseDate}`}
                             />
