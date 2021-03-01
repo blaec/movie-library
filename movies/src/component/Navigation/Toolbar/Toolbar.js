@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import './Toolbar.css'
 import NavigationItems from "../NavigationItems/NavigationItems";
 import {
@@ -8,7 +8,7 @@ import {
     Divider,
     Drawer, fade,
     Hidden,
-    IconButton,
+    IconButton, InputAdornment,
     InputBase,
     Toolbar,
     Typography
@@ -17,6 +17,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import * as actions from '../../../store/actions/index';
+import ClearIcon from "@material-ui/icons/Clear";
 
 
 const drawerWidth = 150;
@@ -107,14 +108,12 @@ const toolbar = props => {
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
 
+    const search = useSelector(state => state.search);
+
     const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
-    };
-
-    const handleSearch = (value) => {
-        console.log(value);
     };
 
     const drawer = (
@@ -126,6 +125,20 @@ const toolbar = props => {
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
+
+    const endAdornment = () => {
+        if (search) {
+            return (
+                <InputAdornment position="end">
+                    <IconButton onClick={() => onSearchChange('')}>
+                        <ClearIcon fontSize="small"/>
+                    </IconButton>
+                </InputAdornment>
+            );
+        }
+
+        return "";
+    };
 
     return (
         <div className={classes.root}>
@@ -156,6 +169,8 @@ const toolbar = props => {
                                 input: classes.inputInput,
                             }}
                             inputProps={{ 'aria-label': 'search' }}
+                            value={search}
+                            endAdornment={endAdornment()}
                         />
                     </div>
                 </Toolbar>
