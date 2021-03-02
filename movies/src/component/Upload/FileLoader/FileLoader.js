@@ -1,4 +1,6 @@
 import React from 'react';
+import MyTextField from "../../../UI/MyTextField";
+
 import {
     Button,
     Card,
@@ -11,8 +13,7 @@ import {
     makeStyles,
     Radio,
     RadioGroup,
-    Switch,
-    TextField
+    Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 
@@ -59,23 +60,17 @@ const fileLoader = props => {
                                                        onChange={props.onChangeSwitch}
                                                        name="isSingle"/>}
                     />
-                    <TextField id="tmdb-id"
-                               disabled={!props.switchIsOn}
-                               label="tmdb id"
-                               style={{margin: 8}}
-                               helperText="Type exact tmdb id"
-                               fullWidth
-                               margin="normal"
-                               onChange={props.onChangeTextField}
+                    <MyTextField id="tmdb-id"
+                                 disabled={!props.switchIsOn}
+                                 label="tmdb id"
+                                 helperText="Type exact tmdb id"
+                                 onChangeTextField={props.onChangeTextField}
                     />
-                    <TextField id="file-name"
-                               disabled={!props.switchIsOn}
-                               label="Exact file name"
-                               style={{margin: 8}}
-                               helperText="Enter exact file name with extension"
-                               fullWidth
-                               margin="normal"
-                               onChange={props.onChangeTextField}
+                    <MyTextField id="file-name"
+                                 disabled={!props.switchIsOn}
+                                 label="Exact file name"
+                                 helperText="Enter exact file name with extension"
+                                 onChangeTextField={props.onChangeTextField}
                     />
                 </FormControl>
             </CardContent>

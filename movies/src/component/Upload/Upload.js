@@ -8,6 +8,7 @@ const upload = () => {
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileLocation, setFileLocation] = useState('');
+    const [wishMovie, setWishMovie] = useState('');
     const [switchStatus, setSwitchStatus] = useState(false);
 
     const resetForm = () => {
@@ -31,6 +32,7 @@ const upload = () => {
         switch (event.target.id) {
             case "tmdb-id":     setTmdbId(text);    break;
             case "file-name":   setFileName(text);  break;
+            case "wish-movie":  setWishMovie(text); break;
             default:            alert("Upload -> handleTextFields -> wrong id")
         }
     }
@@ -42,7 +44,7 @@ const upload = () => {
                tmdbId: tmdbId,
                fileName: fileName
             }
-            axios.post("/movies/single", data)
+            axios.post("/movies/file", data)
                 .then(response => {
                     resetForm();
                     alert(`uploading ${fileName} from ${fileLocation} folder completed successfully.`)
@@ -51,7 +53,6 @@ const upload = () => {
                     resetForm();
                     console.log(error);
                 });
-
         } else {
             axios.post(`/movies/${fileLocation}`)
                 .then(response => {
