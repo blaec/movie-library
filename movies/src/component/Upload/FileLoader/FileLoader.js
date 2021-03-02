@@ -2,7 +2,6 @@ import React from 'react';
 import MyTextField from "../../../UI/MyTextField";
 
 import {
-    Button,
     Card,
     CardActions,
     CardContent,
@@ -16,6 +15,7 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import MySubmitButton from "../../../UI/MySubmitButton";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -75,14 +75,11 @@ const fileLoader = props => {
                 </FormControl>
             </CardContent>
             <CardActions>
-                <Button className="Button"
-                        disabled={props.location === ''}
-                        variant="outlined"
-                        color="primary"
-                        startIcon={<BackupTwoToneIcon />}
-                        onClick={props.submit}>
-                    Scan
-                </Button>
+                <MySubmitButton icon={<BackupTwoToneIcon />}
+                                submit={props.submit}
+                                caption="Scan"
+                                disabled={props.location === ''}
+                />
             </CardActions>
         </Card>
     );

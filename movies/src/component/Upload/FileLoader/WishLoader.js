@@ -1,7 +1,8 @@
 import React from 'react';
 import MyTextField from "../../../UI/MyTextField";
+import MySubmitButton from "../../../UI/MySubmitButton";
 
-import {Button, Card, CardActions, CardContent, FormControl, FormLabel} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, FormLabel} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 
 const wishLoader = props => {
@@ -18,12 +19,10 @@ const wishLoader = props => {
                 </FormControl>
             </CardContent>
             <CardActions >
-                <Button variant="outlined"
-                        color="primary"
-                        startIcon={<AddCircleTwoToneIcon />}
-                        onClick={props.submit}>
-                    Add
-                </Button>
+                <MySubmitButton icon={<AddCircleTwoToneIcon />}
+                                submit={props.submit}
+                                caption="Add"
+                />
             </CardActions>
         </Card>
     );
