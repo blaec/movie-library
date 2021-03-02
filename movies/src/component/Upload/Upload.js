@@ -1,70 +1,51 @@
 import React, {useState} from 'react';
 import './Upload.css';
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Divider,
-    FormControl,
-    FormControlLabel,
-    FormLabel, makeStyles,
-    Radio,
-    RadioGroup,
-    Switch,
-    TextField
-} from "@material-ui/core";
-import BackupTwoToneIcon from '@material-ui/icons/BackupTwoTone';
-import AddCircleTwoToneIcon from '@material-ui/icons/AddCircleTwoTone';
 import axios from '../../axios-movies';
+import FileLoader from "./FileLoader/FileLoader";
+import WishLoader from "./FileLoader/WishLoader";
 
-const useStyles = makeStyles((theme) => ({
-    divider: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(2),
-    }
-}));
-
-
-const upload = props => {
-    const classes = useStyles();
-
-    const [scanValue, setScanValue] = useState('');
-    const [wishValue, setWishValue] = useState('cartoons');
-    const [loading, setLoading] = useState(false);
-    const [hasSingle, setHasSingle] = useState(false);
-    const [canUpload, setCanUpload] = useState(false);
+const upload = () => {
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
-
-    const handleChange = (event) => {
-        setScanValue(event.target.value);
-        if (!canUpload) {
-            setCanUpload(true);
-        }
-    };
+    const [fileLocation, setFileLocation] = useState('');
+    const [switchStatus, setSwitchStatus] = useState(false);
 
     const resetForm = () => {
-        setLoading(false);
-        setCanUpload(false);
-        setScanValue('');
+        setFileLocation('');
         setTmdbId('');
         setFileName('');
     }
 
-    const handleUpload = () => {
-        setLoading(true);
+    const handleChooseLocation = (event) => {
+        setFileLocation(event.target.value);
+    };
 
-        if (hasSingle) {
+    const handleSwitchChange = () => {
+        setSwitchStatus(!switchStatus);
+        setTmdbId('');
+        setFileName('');
+    };
+
+    const handleTextFieldChange = (event) => {
+        let text = event.target.value;
+        switch (event.target.id) {
+            case "tmdb-id":     setTmdbId(text);    break;
+            case "file-name":   setFileName(text);  break;
+            default:            alert("Upload -> handleTextFields -> wrong id")
+        }
+    }
+
+    const handleUpload = () => {
+        if (switchStatus) {
             let data = {
-               location: scanValue,
+               location: fileLocation,
                tmdbId: tmdbId,
                fileName: fileName
             }
             axios.post("/movies/single", data)
                 .then(response => {
                     resetForm();
-                    alert(`uploading ${fileName} from ${scanValue} folder completed successfully.`)
+                    alert(`uploading ${fileName} from ${fileLocation} folder completed successfully.`)
                 })
                 .catch(error => {
                     resetForm();
@@ -72,10 +53,10 @@ const upload = props => {
                 });
 
         } else {
-            axios.post(`/movies/${scanValue}`)
+            axios.post(`/movies/${fileLocation}`)
                 .then(response => {
                     resetForm();
-                    alert(`uploading from ${scanValue} folder completed successfully.`)
+                    alert(`uploading from ${fileLocation} folder completed successfully.`)
                 })
                 .catch(error => {
                     resetForm();
@@ -84,120 +65,16 @@ const upload = props => {
         }
     };
 
-    const handleIsSingle = () => {
-        setHasSingle(!hasSingle);
-        setTmdbId('');
-        setFileName('');
-    };
-
-    const handleTextFields = (event) => {
-        let text = event.target.value;
-        switch (event.target.id) {
-            case "tmdb-id":
-                setTmdbId(text);
-                break;
-            case "file-name":
-                setFileName(text);
-                break;
-            default:
-                alert("Upload -> handleTextFields -> wrong id")
-        }
-    }
-
     return (
         <div className="Upload">
-            <Card variant="elevation">
-                <CardContent>
-                    <FormControl>
-                        <FormLabel>Movie location</FormLabel>
-                        <RadioGroup name="location"
-                                    value={scanValue}
-                                    onChange={handleChange}>
-                            <FormControlLabel value="cartoons"
-                                              control={<Radio color="primary" />}
-                                              label="K | Cartoons" />
-                            <FormControlLabel value="movies"
-                                              control={<Radio color="primary" />}
-                                              label="L | Movies" />
-                            <FormControlLabel value="serialMovies"
-                                              control={<Radio color="primary" />}
-                                              label="M | Serial Movies" />
-                            <FormControlLabel value="music"
-                                              control={<Radio color="primary" />}
-                                              label="D | New Movies" />
-                            <FormControlLabel value="videos"
-                                              control={<Radio color="primary" />}
-                                              label="C | Videos" />
-                        </RadioGroup>
-                    </FormControl>
-                    <Divider  className={classes.divider}/>
-                    <FormControl component="single-upload">
-                        <FormControlLabel label="Single movie upload"
-                                          control={<Switch color="primary"
-                                                           checked={hasSingle}
-                                                           onChange={handleIsSingle}
-                                                           name="isSingle"/>}
-                        />
-                        <TextField id="tmdb-id"
-                                   disabled={!hasSingle}
-                                   label="tmdb id"
-                                   style={{margin: 8}}
-                                   helperText="Type exact tmdb id"
-                                   fullWidth
-                                   margin="normal"
-                                   onChange={handleTextFields}
-                        />
-                        <TextField id="file-name"
-                                   disabled={!hasSingle}
-                                   label="Exact file name"
-                                   style={{margin: 8}}
-                                   helperText="Enter exact file name with extension"
-                                   fullWidth
-                                   margin="normal"
-                                   onChange={handleTextFields}
-                        />
-                    </FormControl>
-                </CardContent>
-                <CardActions>
-                    <Button className="Button"
-                            disabled={!canUpload}
-                            variant="outlined"
-                            color="primary"
-                            startIcon={<BackupTwoToneIcon />}
-                            onClick={handleUpload}>
-                        Scan
-                    </Button>
-                </CardActions>
-            </Card>
-
-            <Card variant="elevation">
-                <CardContent>
-                    <FormControl>
-                        <FormLabel >Add to Wish List</FormLabel>
-                        <TextField
-                            id="standard-full-width"
-                            color="primary"
-                            label="Label"
-                            style={{ margin: 8 }}
-                            placeholder="Placeholder"
-                            helperText="Full width!"
-                            fullWidth
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                    </FormControl>
-                </CardContent>
-                <CardActions >
-                    <Button variant="outlined"
-                            color="primary"
-                            startIcon={<AddCircleTwoToneIcon />}
-                            onClick={handleUpload}>
-                        Add
-                    </Button>
-                </CardActions>
-            </Card>
+            <FileLoader submit={handleUpload}
+                        location={fileLocation}
+                        onChangeRadio={handleChooseLocation}
+                        onChangeTextField={handleTextFieldChange}
+                        onChangeSwitch={handleSwitchChange}
+                        switchIsOn={switchStatus}
+            />
+            <WishLoader submit={handleUpload}/>
         </div>
     );
 };
