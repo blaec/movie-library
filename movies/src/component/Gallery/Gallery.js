@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useLayoutEffect } from 'react';
 import {useSelector} from "react-redux";
-import Card from "../Card/Card";
+import Movie from "../Movie/Movie";
 import "./Gallery.css";
 import axios from "../../axios-movies";
 import Details from "../Details/Details";
@@ -112,7 +112,7 @@ const gallery = () => {
         : ( <React.Fragment>
                 <div className="Gallery">
                     {currentMovies.map(m =>
-                        <Card key={m.id}
+                        <Movie key={m.id}
                               {...m}
                               clicked={handlerSelectCard}/>
                     )}
