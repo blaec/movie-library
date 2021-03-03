@@ -24,8 +24,43 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const movieLocations = {
+    cartoons: "K | Cartoons",
+    movies: "L | Movies",
+    serialMovies: "M | Serial Movies",
+    music: "D | New Movies",
+    videos: "C | Videos"
+};
+
+const inputs = {
+    "tmdb-id": {
+        label: "tmdb id",
+        helperText: "Type exact tmdb id"
+    },
+    "file-name": {
+        label: "Exact file name",
+        helperText: "Enter exact file name with extension"
+    }
+};
+
+const locationRadios = Object.keys(movieLocations).map(locKey => (
+    <FormControlLabel key={locKey}
+                      value={locKey}
+                      control={<Radio color="primary"/>}
+                      label={movieLocations[locKey]}/>
+));
+
 const fileLoader = props => {
     const classes = useStyles();
+    const movieInputs = Object.keys(inputs).map(inputKey => (
+        <MyTextField key={inputKey}
+                     id={inputKey}
+                     disabled={!props.switchIsOn}
+                     label={inputs[inputKey].label}
+                     helperText={inputs[inputKey].helperText}
+                     onChangeTextField={props.onChangeTextField}
+        />
+    ));
 
     return (
         <Card variant="elevation">
@@ -35,21 +70,7 @@ const fileLoader = props => {
                     <RadioGroup name="location"
                                 value={props.location}
                                 onChange={props.onChangeRadio}>
-                        <FormControlLabel value="cartoons"
-                                          control={<Radio color="primary" />}
-                                          label="K | Cartoons" />
-                        <FormControlLabel value="movies"
-                                          control={<Radio color="primary" />}
-                                          label="L | Movies" />
-                        <FormControlLabel value="serialMovies"
-                                          control={<Radio color="primary" />}
-                                          label="M | Serial Movies" />
-                        <FormControlLabel value="music"
-                                          control={<Radio color="primary" />}
-                                          label="D | New Movies" />
-                        <FormControlLabel value="videos"
-                                          control={<Radio color="primary" />}
-                                          label="C | Videos" />
+                        {locationRadios}
                     </RadioGroup>
                 </FormControl>
                 <Divider  className={classes.divider}/>
@@ -58,20 +79,9 @@ const fileLoader = props => {
                                       control={<Switch color="primary"
                                                        checked={props.switchIsOn}
                                                        onChange={props.onChangeSwitch}
-                                                       name="isSingle"/>}
+                                                       name="singleUpload"/>}
                     />
-                    <MyTextField id="tmdb-id"
-                                 disabled={!props.switchIsOn}
-                                 label="tmdb id"
-                                 helperText="Type exact tmdb id"
-                                 onChangeTextField={props.onChangeTextField}
-                    />
-                    <MyTextField id="file-name"
-                                 disabled={!props.switchIsOn}
-                                 label="Exact file name"
-                                 helperText="Enter exact file name with extension"
-                                 onChangeTextField={props.onChangeTextField}
-                    />
+                    {movieInputs}
                 </FormControl>
             </CardContent>
             <CardActions>
@@ -83,6 +93,6 @@ const fileLoader = props => {
             </CardActions>
         </Card>
     );
-};
+}
 
 export default fileLoader;
