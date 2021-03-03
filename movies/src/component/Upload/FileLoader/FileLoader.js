@@ -15,7 +15,7 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
-import MySubmitButton from "../../../UI/MySubmitButton";
+import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
 
 const useStyles = makeStyles((theme) => ({
     divider: {

@@ -1,10 +1,11 @@
-import React, {useEffect, useState, useLayoutEffect } from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import Movie from "../Movie/Movie";
-import "./Gallery.css";
 import axios from "../../axios-movies";
+
+import Movie from "../Movie/Movie";
 import Details from "../Details/Details";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import DeleteDialog from "./DeleteDialog";
+import "./Gallery.css";
 import Pagination from '@material-ui/lab/Pagination';
 
 const gallery = () => {
@@ -13,7 +14,7 @@ const gallery = () => {
     const [selectedCard, setSelectedCard] = useState('');
     const [selected, setSelected] = useState(false);
     const [scrollY, setScrollY] = useState();
-    const [deletePrompt, setDeletePrompt] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [deleteId, setDeleteId] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -21,19 +22,17 @@ const gallery = () => {
 
     const search = useSelector(state => state.search);
 
-    let innerWidth = window.innerWidth;
+    const innerWidth = window.innerWidth;
     useEffect(() => {
-        console.log("width: " + moviesPerPage);
-        let rows = 3;
-        let moviesPerRow = 7;
+        let structure = {rows: 3, moviesPerRow: 7};
         switch (true) {
-            case (innerWidth < 400):    rows = 12;  moviesPerRow = 2;   break;
-            case (innerWidth <= 700):   rows = 7;   moviesPerRow = 3;   break;
-            case (innerWidth <= 1000):  rows = 6;   moviesPerRow = 4;   break;
-            case (innerWidth <= 1300):  rows = 5;   moviesPerRow = 5;   break;
-            case (innerWidth <= 1700):  rows = 4;   moviesPerRow = 6;   break;
+            case (innerWidth < 450):    structure = {rows: 12, moviesPerRow: 2};   break;
+            case (innerWidth <= 700):   structure = {rows: 7, moviesPerRow: 3};    break;
+            case (innerWidth <= 1000):  structure = {rows: 6, moviesPerRow: 4};    break;
+            case (innerWidth <= 1300):  structure = {rows: 5, moviesPerRow: 5};    break;
+            case (innerWidth <= 1700):  structure = {rows: 4, moviesPerRow: 6};    break;
         }
-        setMoviesPerPage(rows * moviesPerRow);
+        setMoviesPerPage(structure.rows * structure.moviesPerRow);
         setMovieCount(Math.ceil(displayMovieList.length / moviesPerPage));
 
         }, [displayMovieList]
@@ -51,12 +50,12 @@ const gallery = () => {
 
     const handleDelete = (id) => {
         setDeleteId(id);
-        setDeletePrompt(true);
+        setIsDeleting(true);
     };
 
-    const handleClose = () => {
+    const handleCloseDeleteDialog = () => {
         setDeleteId(0);
-        setDeletePrompt(false);
+        setIsDeleting(false);
     };
 
     const handleDeleteMovie = () => {
@@ -64,12 +63,12 @@ const gallery = () => {
             .then(response => {
                 let updatedMovieList = movieList.filter(m => m.id !== deleteId);
                 setMovieList(updatedMovieList);
-                handleClose();
+                handleCloseDeleteDialog();
                 handlerClose();
                 setDeleteId(0);
             })
             .catch(error => {
-                handleClose();
+                handleCloseDeleteDialog();
                 handlerClose();
                 setDeleteId(0);
                 console.log(error);
@@ -128,27 +127,10 @@ const gallery = () => {
     return (
         <React.Fragment>
             {myGallery}
-            <Dialog
-                open={deletePrompt}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">{"Delete movie"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Do you really want to delete this movie?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary" autoFocus>
-                        No
-                    </Button>
-                    <Button onClick={handleDeleteMovie} color="secondary">
-                        Yes
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <DeleteDialog open={isDeleting}
+                          exit={handleCloseDeleteDialog}
+                          delete={handleDeleteMovie}
+            />
         </React.Fragment>
     );
 };
