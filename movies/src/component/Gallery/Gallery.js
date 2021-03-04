@@ -18,10 +18,10 @@ const resolutions = {
 };
 
 const gallery = () => {
+    const [loadedMovieList, setLoadedMovieList] = useState([]);
+    const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
     const [movieCount, setMovieCount] = useState(0);
-    const [movieList, setMovieList] = useState([]);
-    const [displayMovieList, setDisplayMovieList] = useState([]);
     const [selectedCard, setSelectedCard] = useState('');
     const [selected, setSelected] = useState(false);
     const [scrollY, setScrollY] = useState();
@@ -54,8 +54,8 @@ const gallery = () => {
     const handleDeleteMovie = () => {
         axios.delete('/movies/' + deleteId)
             .then(response => {
-                let updatedMovieList = movieList.filter(m => m.id !== deleteId);
-                setMovieList(updatedMovieList);
+                let updatedMovieList = loadedMovieList.filter(m => m.id !== deleteId);
+                setLoadedMovieList(updatedMovieList);
                 handleCloseDeleteDialog();
                 handlerClose();
                 setDeleteId(0);
@@ -75,9 +75,7 @@ const gallery = () => {
     useEffect(() => {
         axios.get('/movies')
             .then(response => {
-                console.log("set movies: " + (new Date()).getTime());
-                setMovieList(response.data);
-                setDisplayMovieList(response.data);
+                setLoadedMovieList(response.data);
             })
             .catch(error => {
                 console.log(error);
@@ -94,18 +92,18 @@ const gallery = () => {
     useEffect(() => {
 
         // filter movies using Search...
-        const filteredMovies = Object.values(movieList).filter(m => m.title.toLowerCase().includes(search));
-        setDisplayMovieList(filteredMovies);
+        const filteredMovies = Object.values(loadedMovieList).filter(m => m.title.toLowerCase().includes(search));
+        setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
         const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
         setMoviesPerPage(structure.rows * structure.moviesPerRow);
         setMovieCount(Math.ceil(filteredMovies.length / moviesPerPage));
-    }, [search, windowWidth]);
+    }, [search, windowWidth, loadedMovieList]);
 
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = displayMovieList.slice(indexOfFirstMovie, indexOfLastMovie);
+    const currentMovies = displayedMovieList.slice(indexOfFirstMovie, indexOfLastMovie);
 
     let myGallery = selected
         ? (<Details closed={handlerClose}
