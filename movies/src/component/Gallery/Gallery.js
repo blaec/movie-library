@@ -22,21 +22,20 @@ const gallery = () => {
 
     const search = useSelector(state => state.search);
 
+    const resolutions = {
+       450: {rows: 12, moviesPerRow: 2},
+       700: {rows: 7, moviesPerRow: 3},
+       1000: {rows: 6, moviesPerRow: 4},
+       1300: {rows: 5, moviesPerRow: 5},
+       1700: {rows: 4, moviesPerRow: 6}
+    }
+
     const innerWidth = window.innerWidth;
     useEffect(() => {
-        let structure = {rows: 3, moviesPerRow: 7};
-        switch (true) {
-            case (innerWidth < 450):    structure = {rows: 12, moviesPerRow: 2};   break;
-            case (innerWidth <= 700):   structure = {rows: 7, moviesPerRow: 3};    break;
-            case (innerWidth <= 1000):  structure = {rows: 6, moviesPerRow: 4};    break;
-            case (innerWidth <= 1300):  structure = {rows: 5, moviesPerRow: 5};    break;
-            case (innerWidth <= 1700):  structure = {rows: 4, moviesPerRow: 6};    break;
-        }
+        const structure = resolutions[Object.keys(resolutions).filter(r => innerWidth <= r)[0]];
         setMoviesPerPage(structure.rows * structure.moviesPerRow);
         setMovieCount(Math.ceil(displayMovieList.length / moviesPerPage));
-
-        }, [displayMovieList]
-    );
+    }, [displayMovieList]);
 
     const handlerSelectCard = (movie) => {
         setScrollY(window.scrollY);

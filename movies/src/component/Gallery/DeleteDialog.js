@@ -5,15 +5,14 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} fr
 const deleteDialog = (props) => {
 
     return (
-        <Dialog
-            open={props.open}
-            onClose={props.exit}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+        <Dialog open={props.open}
+                onClose={props.exit}
         >
-            <DialogTitle id="alert-dialog-title">{"Delete movie"}</DialogTitle>
+            <DialogTitle>
+                Delete Movie
+            </DialogTitle>
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
+                <DialogContentText>
                     Do you really want to delete this movie?
                 </DialogContentText>
             </DialogContent>
