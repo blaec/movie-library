@@ -6,11 +6,21 @@ import DeleteTwoToneIcon from '@material-ui/icons/DeleteTwoTone';
 import axios from "../../axios-movies";
 import {playTime, year} from '../../utils/Utils';
 import Carousel from "react-material-ui-carousel";
+import DeleteDialog from "./DeleteDialog";
 
 const details = (props) => {
     const [movieData, setMovieData] = useState();
     const [genres, setGenres] = useState('');
     const [backdrops, setBackdrops] = useState([]);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDeletedMovie = (id) => {
+        setIsDeleting(true);
+    };
+
+    const handleCloseDeleteDialog = () => {
+        setIsDeleting(false);
+    };
 
     useEffect(() => {
         // credits
@@ -38,7 +48,7 @@ const details = (props) => {
                     <ArrowBackIcon onClick={props.closed}
                                    className="ImageBack"
                                    fontSize="large"/>
-                    <DeleteTwoToneIcon onClick={() => props.delete(props.id)}
+                    <DeleteTwoToneIcon onClick={handleDeletedMovie}
                                        className="Delete"
                                        fontSize="large"/>
                     <Carousel timeout={300}
@@ -81,6 +91,10 @@ const details = (props) => {
     return (
         <div className="Details">
             {details}
+            <DeleteDialog open={isDeleting}
+                          exit={handleCloseDeleteDialog}
+                          delete={() => props.delete(props.id)}
+            />
         </div>
     );
 };

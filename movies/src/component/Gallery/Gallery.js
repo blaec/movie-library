@@ -2,12 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import axios from "../../axios-movies";
 
-import Movie from "../Movie/Movie";
-import Details from "../Details/Details";
-import DeleteDialog from "./DeleteDialog";
-import "./Gallery.css";
 import Pagination from '@material-ui/lab/Pagination';
 import {CircularProgress} from "@material-ui/core";
+
+import Movie from "../Movie/Movie";
+import Details from "../Details/Details";
+import "./Gallery.css";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -19,6 +19,8 @@ const resolutions = {
 };
 
 const gallery = () => {
+    const search = useSelector(state => state.search);
+
     const [loadedMovieList, setLoadedMovieList] = useState([]);
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -27,11 +29,7 @@ const gallery = () => {
     const [selectedMovie, setSelectedMovie] = useState('');
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [deleteId, setDeleteId] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
-    const search = useSelector(state => state.search);
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -43,33 +41,19 @@ const gallery = () => {
         setIsViewingDetails(false);
     };
 
-    const handleDeletedMovie = (id) => {
-        setDeleteId(id);
-        setIsDeleting(true);
-    };
-
-    const handleCloseDeleteDialog = () => {
-        setDeleteId(0);
-        setIsDeleting(false);
-    };
-
-    const handleDeleteMovie = () => {
+    const handleDeleteMovie = (id) => {
         setIsLoading(true);
-        axios.delete('/movies/' + deleteId)
+        axios.delete('/movies/' + id)
             .then(response => {
-                let updatedMovieList = loadedMovieList.filter(m => m.id !== deleteId);
+                let updatedMovieList = loadedMovieList.filter(m => m.id !== id);
                 setLoadedMovieList(updatedMovieList);
-                handleCloseDeleteDialog();
                 handleDetailsClose();
-                setDeleteId(0);
                 setIsLoading(false);
             })
             .catch(error => {
-                handleCloseDeleteDialog();
                 handleDetailsClose();
-                setDeleteId(0);
-                console.log(error);
                 setIsLoading(false);
+                console.log(error);
             });
     };
 
@@ -113,7 +97,7 @@ const gallery = () => {
     if (!isLoading) {
         if (isViewingDetails) {
             myGallery = <Details closed={handleDetailsClose}
-                                 delete={handleDeletedMovie}
+                                 delete={handleDeleteMovie}
                                  {...selectedMovie}/>;
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
@@ -141,10 +125,6 @@ const gallery = () => {
     return (
         <React.Fragment>
             {myGallery}
-            <DeleteDialog open={isDeleting}
-                          exit={handleCloseDeleteDialog}
-                          delete={handleDeleteMovie}
-            />
         </React.Fragment>
     );
 };
