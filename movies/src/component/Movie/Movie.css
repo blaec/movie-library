@@ -7,6 +7,7 @@
     height: 100%;
 }
 
+/* Duplicate to resolutions in Gallery.js */
 @media (max-width: 1700px) {
     .Movie{
         width: calc(100% / 6);

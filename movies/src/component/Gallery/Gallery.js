@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import axios from "../../axios-movies";
 
@@ -8,7 +8,18 @@ import DeleteDialog from "./DeleteDialog";
 import "./Gallery.css";
 import Pagination from '@material-ui/lab/Pagination';
 
+// Duplicate to @media in Movie.css
+const resolutions = {
+    450: {rows: 12, moviesPerRow: 2},
+    700: {rows: 7, moviesPerRow: 3},
+    1000: {rows: 6, moviesPerRow: 4},
+    1300: {rows: 5, moviesPerRow: 5},
+    1700: {rows: 4, moviesPerRow: 6}
+};
+
 const gallery = () => {
+    const [moviesPerPage, setMoviesPerPage] = useState(0);
+    const [movieCount, setMovieCount] = useState(0);
     const [movieList, setMovieList] = useState([]);
     const [displayMovieList, setDisplayMovieList] = useState([]);
     const [selectedCard, setSelectedCard] = useState('');
@@ -17,25 +28,8 @@ const gallery = () => {
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteId, setDeleteId] = useState();
     const [currentPage, setCurrentPage] = useState(1);
-    const [moviesPerPage, setMoviesPerPage] = useState(0);
-    const [movieCount, setMovieCount] = useState(0);
 
     const search = useSelector(state => state.search);
-
-    const resolutions = {
-       450: {rows: 12, moviesPerRow: 2},
-       700: {rows: 7, moviesPerRow: 3},
-       1000: {rows: 6, moviesPerRow: 4},
-       1300: {rows: 5, moviesPerRow: 5},
-       1700: {rows: 4, moviesPerRow: 6}
-    }
-
-    const innerWidth = window.innerWidth;
-    useEffect(() => {
-        const structure = resolutions[Object.keys(resolutions).filter(r => innerWidth <= r)[0]];
-        setMoviesPerPage(structure.rows * structure.moviesPerRow);
-        setMovieCount(Math.ceil(displayMovieList.length / moviesPerPage));
-    }, [displayMovieList]);
 
     const handlerSelectCard = (movie) => {
         setScrollY(window.scrollY);
@@ -79,25 +73,35 @@ const gallery = () => {
     };
 
     useEffect(() => {
-        console.log("get: " + moviesPerPage);
         axios.get('/movies')
             .then(response => {
+                console.log("set movies: " + (new Date()).getTime());
                 setMovieList(response.data);
+                setDisplayMovieList(response.data);
             })
             .catch(error => {
                 console.log(error);
             });
     }, []);
 
-    useEffect(() => {
-        setDisplayMovieList(Object.values(movieList).filter(m => m.title.toLowerCase().includes(search)));
-    }, [search, movieList]);
-
-    useLayoutEffect (() => {
+    useEffect (() => {
         if (!selected) {
             window.scrollBy(0, scrollY);
         }
     }, [selected, scrollY]);
+
+    const windowWidth = window.innerWidth;
+    useEffect(() => {
+
+        // filter movies using Search...
+        const filteredMovies = Object.values(movieList).filter(m => m.title.toLowerCase().includes(search));
+        setDisplayMovieList(filteredMovies);
+
+        // set gallery pagination structure
+        const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
+        setMoviesPerPage(structure.rows * structure.moviesPerRow);
+        setMovieCount(Math.ceil(filteredMovies.length / moviesPerPage));
+    }, [search, windowWidth]);
 
     const indexOfLastMovie = currentPage * moviesPerPage;
     const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
