@@ -7,6 +7,7 @@ import Details from "../Details/Details";
 import DeleteDialog from "./DeleteDialog";
 import "./Gallery.css";
 import Pagination from '@material-ui/lab/Pagination';
+import {CircularProgress} from "@material-ui/core";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -21,27 +22,28 @@ const gallery = () => {
     const [loadedMovieList, setLoadedMovieList] = useState([]);
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
-    const [movieCount, setMovieCount] = useState(0);
-    const [selectedCard, setSelectedCard] = useState('');
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [selectedMovie, setSelectedMovie] = useState('');
     const [selected, setSelected] = useState(false);
     const [scrollY, setScrollY] = useState();
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteId, setDeleteId] = useState();
-    const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     const search = useSelector(state => state.search);
 
     const handlerSelectCard = (movie) => {
         setScrollY(window.scrollY);
-        setSelectedCard(movie);
+        setSelectedMovie(movie);
         setSelected(true);
     };
 
-    const handlerClose = () => {
+    const handleDetailsClose = () => {
         setSelected(false);
     };
 
-    const handleDelete = (id) => {
+    const handleDeletedMovie = (id) => {
         setDeleteId(id);
         setIsDeleting(true);
     };
@@ -52,37 +54,43 @@ const gallery = () => {
     };
 
     const handleDeleteMovie = () => {
+        setLoading(true);
         axios.delete('/movies/' + deleteId)
             .then(response => {
                 let updatedMovieList = loadedMovieList.filter(m => m.id !== deleteId);
                 setLoadedMovieList(updatedMovieList);
                 handleCloseDeleteDialog();
-                handlerClose();
+                handleDetailsClose();
                 setDeleteId(0);
+                setLoading(false);
             })
             .catch(error => {
                 handleCloseDeleteDialog();
-                handlerClose();
+                handleDetailsClose();
                 setDeleteId(0);
                 console.log(error);
+                setLoading(false);
             });
     };
 
-    const handlePagination = (event, page) => {
+    const handlePageChange = (event, page) => {
         setCurrentPage(page);
     };
 
     useEffect(() => {
+        setLoading(true);
         axios.get('/movies')
             .then(response => {
                 setLoadedMovieList(response.data);
+                setLoading(false);
             })
             .catch(error => {
                 console.log(error);
+                setLoading(false);
             });
     }, []);
 
-    useEffect (() => {
+    useEffect(() => {
         if (!selected) {
             window.scrollBy(0, scrollY);
         }
@@ -98,32 +106,37 @@ const gallery = () => {
         // set gallery pagination structure
         const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
         setMoviesPerPage(structure.rows * structure.moviesPerRow);
-        setMovieCount(Math.ceil(filteredMovies.length / moviesPerPage));
+        setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
     }, [search, windowWidth, loadedMovieList]);
 
-    const indexOfLastMovie = currentPage * moviesPerPage;
-    const indexOfFirstMovie = indexOfLastMovie - moviesPerPage;
-    const currentMovies = displayedMovieList.slice(indexOfFirstMovie, indexOfLastMovie);
-
-    let myGallery = selected
-        ? (<Details closed={handlerClose}
-                    delete={handleDelete}
-                    {...selectedCard}/>)
-        : ( <React.Fragment>
-                <div className="Gallery">
-                    {currentMovies.map(m =>
-                        <Movie key={m.id}
-                              {...m}
-                              clicked={handlerSelectCard}/>
-                    )}
-                </div>
-                <Pagination className="Pagination"
-                            page={currentPage}
-                            count={movieCount}
-                            onChange={handlePagination}
-                            variant="outlined"
-                            color="primary"/>
-            </React.Fragment>);
+    let myGallery = <CircularProgress/>;
+    if (!loading) {
+        if (selected) {
+            myGallery = <Details closed={handleDetailsClose}
+                                 delete={handleDeletedMovie}
+                                 {...selectedMovie}/>;
+        } else {
+            const lastMovieOnCurrentPage = currentPage * moviesPerPage;
+            const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
+            myGallery = (
+                <React.Fragment>
+                    <div className="Gallery">
+                        {moviesOnCurrentPage.map(m =>
+                            <Movie key={m.id}
+                                   {...m}
+                                   clicked={handlerSelectCard}/>
+                        )}
+                    </div>
+                    <Pagination className="Pagination"
+                                page={currentPage}
+                                count={totalPages}
+                                onChange={handlePageChange}
+                                variant="outlined"
+                                color="primary"/>
+                </React.Fragment>
+            );
+        }
+    }
 
     return (
         <React.Fragment>
