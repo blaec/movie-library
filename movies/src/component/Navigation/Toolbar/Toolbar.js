@@ -18,9 +18,8 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import * as actions from '../../../store/actions/index';
 import ClearIcon from "@material-ui/icons/Clear";
+import {DRAWER_WIDTH} from "../../../utils/constants";
 
-
-const drawerWidth = 150;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
+            width: DRAWER_WIDTH,
             flexShrink: 0,
         },
     },
     appBar: {
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
+            width: `calc(100% - ${DRAWER_WIDTH}px)`,
+            marginLeft: DRAWER_WIDTH,
         },
     },
     menuButton: {
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-        width: drawerWidth,
+        width: DRAWER_WIDTH,
     },
     content: {
         flexGrow: 1,

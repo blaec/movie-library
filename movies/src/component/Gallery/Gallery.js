@@ -29,7 +29,7 @@ const gallery = () => {
     const [selectedMovie, setSelectedMovie] = useState('');
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
