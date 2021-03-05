@@ -9,4 +9,4 @@ export const playTime = (totalMinutes) => {
     return hour > 0
         ? `${hour} ${hour === 1 ? 'hr' : 'hrs'} ${minute} mins`
         : `${minute} mins`;
-}
+};

@@ -54,7 +54,7 @@ public class MovieController {
         }
     }
 
-    @PostMapping("/single")
+    @PostMapping("/file")
     public void uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
         String location = ScanFolders.valueOf(uploadMovie.getLocation()).getLocation(uploadConfigs);
         List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(location).stream()
