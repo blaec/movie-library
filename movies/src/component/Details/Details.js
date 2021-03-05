@@ -23,8 +23,6 @@ const details = (props) => {
             .then(response => {
                 console.log("extract data: " + (new Date()).getTime());
                 let movies = response.data;
-                console.log(movies);
-                console.log(props);
                 setMovieDetails(movies);
                 setGenres(movies.genres.map(genre => genre.name).join(', '));
                 setBackdrops(movies.images.backdrops);
@@ -40,13 +38,16 @@ const details = (props) => {
     if (!isLoading) {
         details = (
             <React.Fragment>
-                <BackdropImage {...props}
+                <BackdropImage closed={props.closed}
+                               delete={props.delete}
+                               movieId={props.id}
                                backdrops={backdrops}
                                alt={`${movieDetails.title} ${movieDetails.releaseDate}`}
                 />
                 <Info details={movieDetails}
                       file={props}
-                      genres={genres}/>
+                      genres={genres}
+                />
             </React.Fragment>
         );
     }

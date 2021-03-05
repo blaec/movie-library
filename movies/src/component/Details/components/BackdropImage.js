@@ -51,7 +51,7 @@ const backdropImage = props => {
             </div>
             <DeleteDialog open={isDeleting}
                           exit={handleCloseDeleteDialog}
-                          delete={() => props.delete(props.id)}
+                          delete={() => props.delete(props.movieId)}
             />
         </React.Fragment>
     );
