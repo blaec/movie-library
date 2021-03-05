@@ -1,31 +1,53 @@
 import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
 
-import * as actions from "../../../store/actions";
 import Search from "./Search";
 
-import {AppBar, IconButton, InputAdornment, InputBase, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, IconButton, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import ClearIcon from "@material-ui/icons/Clear";
+import {makeStyles} from "@material-ui/core/styles";
+import {DRAWER_WIDTH} from "../../../utils/Constants";
+
+const useStyles = makeStyles((theme) => ({
+    appBar: {
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${DRAWER_WIDTH}px)`,
+            marginLeft: DRAWER_WIDTH,
+        },
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
+    title: {
+        flexGrow: 1,
+        display: 'none',
+        [theme.breakpoints.up('sm')]: {
+            display: 'block',
+        },
+    }
+}));
 
 const myAppBar = (props) => {
+    const classes = useStyles();
+
     return (
-        <AppBar position="fixed" className={props.classes.appBar}>
+        <AppBar position="fixed" className={classes.appBar}>
             <Toolbar>
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
                     onClick={props.toggle}
-                    className={props.classes.menuButton}
+                    className={classes.menuButton}
                 >
                     <MenuIcon/>
                 </IconButton>
-                <Typography className={props.classes.title} variant="h6" noWrap>
+                <Typography className={classes.title} variant="h6" noWrap>
                     MOVIE-LIBRARY
                 </Typography>
-                <Search classes={props.classes}/>
+                <Search/>
             </Toolbar>
         </AppBar>
     );
