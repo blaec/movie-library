@@ -3,7 +3,6 @@ import axios from "../../axios-movies";
 
 import {CircularProgress, Divider, Typography} from "@material-ui/core";
 
-import DeleteDialog from "./DeleteDialog";
 import BackdropImage from "./BackdropImage";
 import './Details.css';
 import {playTime, year} from '../../utils/Utils';
@@ -13,16 +12,7 @@ const details = (props) => {
     const [movieDetails, setMovieDetails] = useState();
     const [genres, setGenres] = useState('');
     const [backdrops, setBackdrops] = useState([]);
-    const [isDeleting, setIsDeleting] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-
-    const handleDeletedMovie = (id) => {
-        setIsDeleting(true);
-    };
-
-    const handleCloseDeleteDialog = () => {
-        setIsDeleting(false);
-    };
 
     useEffect(() => {
         console.log("get data: " + (new Date()).getTime());
@@ -50,8 +40,7 @@ const details = (props) => {
     if (!isLoading) {
         details = (
             <React.Fragment>
-                <BackdropImage closed={props.closed}
-                               delete={handleDeletedMovie}
+                <BackdropImage {...props}
                                backdrops={backdrops}
                                alt={`${movieDetails.title} ${movieDetails.releaseDate}`}
                 />
@@ -76,10 +65,6 @@ const details = (props) => {
                         {movieDetails.overview}
                     </Typography>
                 </div>
-                <DeleteDialog open={isDeleting}
-                              exit={handleCloseDeleteDialog}
-                              delete={() => props.delete(props.id)}
-                />
             </React.Fragment>
         );
     }
