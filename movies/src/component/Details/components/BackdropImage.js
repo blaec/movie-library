@@ -4,8 +4,8 @@ import Carousel from "react-material-ui-carousel";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 
-import './Details.css';
-import {DRAWER_WIDTH, url_endpoints} from "../../utils/constants";
+import '../Details.css';
+import {DRAWER_WIDTH, url_endpoints} from "../../../utils/constants";
 import DeleteDialog from "./DeleteDialog";
 
 const TIMEOUT = 300;

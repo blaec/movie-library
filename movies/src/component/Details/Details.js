@@ -3,9 +3,9 @@ import axios from "../../axios-movies";
 
 import {CircularProgress, Divider, Typography} from "@material-ui/core";
 
-import BackdropImage from "./BackdropImage";
+import BackdropImage from "./components/BackdropImage";
+import Info from "./components/Info";
 import './Details.css';
-import {playTime, year} from '../../utils/Utils';
 import {url_endpoints} from "../../utils/constants";
 
 const details = (props) => {
@@ -44,27 +44,9 @@ const details = (props) => {
                                backdrops={backdrops}
                                alt={`${movieDetails.title} ${movieDetails.releaseDate}`}
                 />
-                <div className="Info">
-                    <Typography variant="caption" display="block" gutterBottom color="textSecondary">
-                        {props.location}
-                    </Typography>
-                    <Typography variant="subtitle2" gutterBottom>
-                        {year(movieDetails.release_date)} {'\u2B24'} {playTime(movieDetails.runtime)} {'\u2B24'} {props.resolution} {'\u2B24'} {props.size}Gb
-                    </Typography>
-                    <Typography variant="h5" gutterBottom>
-                        <strong>{movieDetails.title}</strong>
-                    </Typography>
-                    <Typography variant="subtitle2" gutterBottom>
-                        {genres}
-                    </Typography>
-                    <Divider/>
-                    <Typography variant="body1" gutterBottom>
-                        <strong>{movieDetails.tagline}</strong>
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
-                        {movieDetails.overview}
-                    </Typography>
-                </div>
+                <Info details={movieDetails}
+                      file={props}
+                      genres={genres}/>
             </React.Fragment>
         );
     }
