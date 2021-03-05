@@ -5,8 +5,9 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 
 import '../Details.css';
-import {DRAWER_WIDTH, url_endpoints} from "../../../utils/constants";
+import {getImageUrl} from "../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
+import {DRAWER_WIDTH} from "../../../utils/Constants";
 
 const TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
@@ -42,7 +43,7 @@ const backdropImage = props => {
                     {props.backdrops.map( (backdrop, idx) => {
                         return <img key={idx}
                                     height={windowWidth / backdrop.aspect_ratio}
-                                    src={url_endpoints.image + backdrop.file_path}
+                                    src={getImageUrl(backdrop.file_path)}
                                     alt={props.alt}
                             />;
                         }

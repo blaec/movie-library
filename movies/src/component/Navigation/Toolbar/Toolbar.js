@@ -18,7 +18,7 @@ import {makeStyles, useTheme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import * as actions from '../../../store/actions/index';
 import ClearIcon from "@material-ui/icons/Clear";
-import {DRAWER_WIDTH} from "../../../utils/constants";
+import {DRAWER_WIDTH} from "../../../utils/Constants";
 
 
 const useStyles = makeStyles((theme) => ({

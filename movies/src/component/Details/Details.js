@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../axios-movies";
 
-import {CircularProgress, Divider, Typography} from "@material-ui/core";
+import {CircularProgress} from "@material-ui/core";
 
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import './Details.css';
-import {url_endpoints} from "../../utils/constants";
+import {getMovieDetailsUrl} from "../../utils/UrlUtils";
 
 const details = (props) => {
     const [movieDetails, setMovieDetails] = useState();
@@ -17,9 +17,7 @@ const details = (props) => {
     useEffect(() => {
         console.log("get data: " + (new Date()).getTime());
         setIsLoading(true);
-        // credits
-        // https://api.themoviedb.org/3/movie/9487/credits?api_key=d6c79c6e7c9d5f56185d9318481769bc&language=en-US
-        axios.get(url_endpoints.movie + props.tmdbId + '?api_key=d6c79c6e7c9d5f56185d9318481769bc&language=ru&append_to_response=images&include_image_language=ru,null')
+        axios.get(getMovieDetailsUrl(props.tmdbId))
             .then(response => {
                 console.log("extract data: " + (new Date()).getTime());
                 let movies = response.data;
