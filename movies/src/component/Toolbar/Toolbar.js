@@ -117,11 +117,17 @@ const toolbar = props => {
         setMobileOpen(!mobileOpen);
     };
 
+    const handleMobileMenuClose = () => {
+        if (mobileOpen) {
+            setMobileOpen(false);
+        }
+    }
+
     const drawer = (
         <div>
             <div className={classes.toolbar}/>
             <Divider/>
-            <MovieMenu/>
+            <MovieMenu clicked={handleMobileMenuClose}/>
         </div>
     );
 
@@ -180,14 +186,14 @@ const toolbar = props => {
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
                     <Drawer
-                        container={container}
-                        variant="temporary"
-                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                        open={mobileOpen}
-                        onClose={handleDrawerToggle}
                         classes={{
                             paper: classes.drawerPaper,
                         }}
+                        variant="temporary"
+                        open={mobileOpen}
+                        container={container}
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        onClose={handleDrawerToggle}
                         ModalProps={{
                             keepMounted: true, // Better open performance on mobile.
                         }}
