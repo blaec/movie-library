@@ -1,25 +1,11 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
 
 import MovieMenu from "./components/MovieMenu";
+import MyAppBar from "./components/MyAppBar";
 import './Toolbar.css'
 
-import {
-    AppBar,
-    CssBaseline,
-    Divider,
-    Drawer, fade,
-    Hidden,
-    IconButton, InputAdornment,
-    InputBase,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
+import {CssBaseline, Divider, Drawer, fade, Hidden} from "@material-ui/core";
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import SearchIcon from '@material-ui/icons/Search';
-import * as actions from '../../store/actions';
-import ClearIcon from "@material-ui/icons/Clear";
 import {DRAWER_WIDTH} from "../../utils/Constants";
 
 
@@ -103,15 +89,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const toolbar = props => {
-    const dispatch = useDispatch();
     const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
-
-    const search = useSelector(state => state.search);
-
-    const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -135,53 +116,12 @@ const toolbar = props => {
         ? () => window().document.body
         : undefined;
 
-    const endAdornment = () => {
-        return !search
-            ? ""
-            : (
-                <InputAdornment position="end">
-                    <IconButton onClick={() => onSearchChange('')}>
-                        <ClearIcon fontSize="small"/>
-                    </IconButton>
-                </InputAdornment>
-            );
-    };
-
     return (
         <div className={classes.root}>
             <CssBaseline/>
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        className={classes.menuButton}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        MOVIE-LIBRARY
-                    </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon/>
-                        </div>
-                        <InputBase
-                            placeholder="Search..."
-                            onChange={event => onSearchChange(event.target.value)}
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{'aria-label': 'search'}}
-                            value={search}
-                            endAdornment={endAdornment()}
-                        />
-                    </div>
-                </Toolbar>
-            </AppBar>
+            <MyAppBar classes={classes}
+                      toggle={handleDrawerToggle}
+            />
             <nav className={classes.drawer} aria-label="mailbox folders">
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
