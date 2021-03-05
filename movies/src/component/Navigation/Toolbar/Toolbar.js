@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+
+import MovieMenu from "./components/MovieMenu";
 import './Toolbar.css'
-import NavigationItems from "../NavigationItems/NavigationItems";
+
 import {
     AppBar,
     CssBaseline,
@@ -102,7 +104,7 @@ const useStyles = makeStyles((theme) => ({
 
 const toolbar = props => {
     const dispatch = useDispatch();
-    const { window } = props;
+    const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -117,31 +119,31 @@ const toolbar = props => {
 
     const drawer = (
         <div>
-            <div className={classes.toolbar} />
-            <Divider />
-            <NavigationItems/>
+            <div className={classes.toolbar}/>
+            <Divider/>
+            <MovieMenu/>
         </div>
     );
 
-    const container = window !== undefined ? () => window().document.body : undefined;
+    const container = window !== undefined
+        ? () => window().document.body
+        : undefined;
 
     const endAdornment = () => {
-        if (search) {
-            return (
+        return !search
+            ? ""
+            : (
                 <InputAdornment position="end">
                     <IconButton onClick={() => onSearchChange('')}>
                         <ClearIcon fontSize="small"/>
                     </IconButton>
                 </InputAdornment>
             );
-        }
-
-        return "";
     };
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
+            <CssBaseline/>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <IconButton
@@ -151,14 +153,14 @@ const toolbar = props => {
                         onClick={handleDrawerToggle}
                         className={classes.menuButton}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
                         MOVIE-LIBRARY
                     </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
-                            <SearchIcon />
+                            <SearchIcon/>
                         </div>
                         <InputBase
                             placeholder="Search..."
@@ -167,7 +169,7 @@ const toolbar = props => {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
-                            inputProps={{ 'aria-label': 'search' }}
+                            inputProps={{'aria-label': 'search'}}
                             value={search}
                             endAdornment={endAdornment()}
                         />

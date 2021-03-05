@@ -19,7 +19,7 @@ const info = props => {
                 {props.file.location}
             </Typography>
             <Typography variant="subtitle2" gutterBottom>
-                {Object.values(metadata).join(` '\u2B24' `)}
+                {Object.values(metadata).join(` \u2B24 `)}
             </Typography>
             <Typography variant="h5" gutterBottom>
                 <strong>{props.details.title}</strong>
