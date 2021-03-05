@@ -1,6 +1,6 @@
 import React from 'react';
-import MyTextField from "../../../UI/MyTextField";
-import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
+import MyTextField from "../../../../UI/MyTextField";
+import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 import {Card, CardActions, CardContent, FormControl, FormLabel} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";

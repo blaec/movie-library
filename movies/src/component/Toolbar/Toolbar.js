@@ -18,9 +18,9 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import * as actions from '../../../store/actions/index';
+import * as actions from '../../store/actions';
 import ClearIcon from "@material-ui/icons/Clear";
-import {DRAWER_WIDTH} from "../../../utils/Constants";
+import {DRAWER_WIDTH} from "../../utils/Constants";
 
 
 const useStyles = makeStyles((theme) => ({

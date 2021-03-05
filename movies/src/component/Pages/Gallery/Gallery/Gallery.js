@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import axios from "../../axios-movies";
+import axios from "../../../../axios-movies";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {CircularProgress} from "@material-ui/core";
 
-import Movie from "../Movie/Movie";
+import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import "./Gallery.css";
 

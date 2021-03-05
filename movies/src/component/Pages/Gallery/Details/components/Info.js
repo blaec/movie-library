@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Divider, Typography} from "@material-ui/core";
 
-import {playTime, year} from "../../../utils/Utils";
+import {playTime, year} from "../../../../../utils/Utils";
 import '../Details.css';
 
 const info = props => {

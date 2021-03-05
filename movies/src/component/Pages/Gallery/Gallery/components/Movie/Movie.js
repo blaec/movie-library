@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Movie.css";
-import {getImageUrl} from "../../utils/UrlUtils";
+import {getImageUrl} from "../../../../../../utils/UrlUtils";
 
 const movie = props => {
     return (

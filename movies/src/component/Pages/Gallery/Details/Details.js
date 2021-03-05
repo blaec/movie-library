@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../axios-movies";
+import axios from "../../../../axios-movies";
 
 import {CircularProgress} from "@material-ui/core";
 
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import './Details.css';
-import {getMovieDetailsUrl} from "../../utils/UrlUtils";
+import {getMovieDetailsUrl} from "../../../../utils/UrlUtils";
 
 const details = (props) => {
     const [movieDetails, setMovieDetails] = useState();

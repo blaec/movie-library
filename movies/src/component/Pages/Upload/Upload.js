@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import './Upload.css';
-import axios from '../../axios-movies';
-import FileLoader from "./FileLoader/FileLoader";
-import WishLoader from "./FileLoader/WishLoader";
+import axios from '../../../axios-movies';
+import FileLoader from "./components/FileLoader";
+import WishLoader from "./components/WishLoader";
 
 const upload = () => {
     const [tmdbId, setTmdbId] = useState('');

@@ -1,5 +1,5 @@
 import React from 'react';
-import MyTextField from "../../../UI/MyTextField";
+import MyTextField from "../../../../UI/MyTextField";
 
 import {
     Card,
@@ -15,7 +15,7 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
-import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
+import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
