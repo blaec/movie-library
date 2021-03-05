@@ -15,7 +15,8 @@ const resolutions = {
     700: {rows: 7, moviesPerRow: 3},
     1000: {rows: 6, moviesPerRow: 4},
     1300: {rows: 5, moviesPerRow: 5},
-    1700: {rows: 4, moviesPerRow: 6}
+    1700: {rows: 4, moviesPerRow: 6},
+    9999: {rows: 3, moviesPerRow: 7}
 };
 
 const gallery = () => {
