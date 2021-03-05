@@ -21,12 +21,6 @@ const toolbar = props => {
         setMobileOpen(!mobileOpen);
     };
 
-    const handleMobileMenuClose = () => {
-        if (mobileOpen) {
-            setMobileOpen(false);
-        }
-    };
-
     return (
         <div className={classes.root}>
             <CssBaseline/>
@@ -34,7 +28,6 @@ const toolbar = props => {
                       toggle={handleDrawerToggle}
             />
             <MyDrawer {...props}
-                      mobileClose={handleMobileMenuClose}
                       drawerToggle={handleDrawerToggle}
                       open={mobileOpen}
             />

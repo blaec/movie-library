@@ -5,7 +5,7 @@ import {List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 
-const movieMenu = (props) => {
+const movieMenu = () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const handleListItemClick = (event, index) => {
@@ -13,7 +13,7 @@ const movieMenu = (props) => {
     };
 
     return (
-        <List onClick={props.clicked}>
+        <List>
             <ListItem button
                       selected={selectedIndex === 0}
                       onClick={(event) => handleListItemClick(event, 0)}

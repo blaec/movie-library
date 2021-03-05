@@ -30,7 +30,7 @@ const myDrawer = (props) => {
         <div>
             <div className={classes.toolbar}/>
             <Divider/>
-            <MovieMenu clicked={props.mobileClose}/>
+            <MovieMenu/>
         </div>
     );
 
@@ -50,6 +50,7 @@ const myDrawer = (props) => {
                     open={props.open}
                     container={container}
                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                    onClick={props.drawerToggle}
                     onClose={props.drawerToggle}
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.
