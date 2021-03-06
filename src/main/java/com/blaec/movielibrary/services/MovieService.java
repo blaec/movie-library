@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Slf4j
 @AllArgsConstructor
 @Service
@@ -48,17 +46,19 @@ public class MovieService {
         }
     }
 
-    public Movie delete(Integer id) {
-        Movie movie = null;
+    public void delete(Integer id) {
         try {
-            movie = movieRepository.findById(id).get();
-            Objects.requireNonNull(movie, "Movie to delete not exists");
-            movieRepository.deleteById(id);
-            log.info("movie {} with id {} deleted", movie.toString(), id);
+            Movie movie = movieRepository.findById(id).orElse(null);
+            if (movie == null) {
+                log.warn("No movie with id {} exists", id);
+            } else {
+                movieRepository.deleteById(id);
+                log.info("movie {} with id {} deleted", movie.toString(), id);
+            }
+        } catch (IllegalArgumentException e) {
+            log.error("can't delete movie, wrong id: {}", id);
         } catch (Exception e) {
             log.error("failed deleting movie by id: {}", id);
         }
-
-        return movie;
     }
 }

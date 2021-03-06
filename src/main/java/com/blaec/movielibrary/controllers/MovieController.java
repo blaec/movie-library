@@ -76,7 +76,8 @@ public class MovieController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        Movie movie = movieService.delete(id);
+        movieService.delete(id);
+        // TODO return stats stats
     }
 
     /**
