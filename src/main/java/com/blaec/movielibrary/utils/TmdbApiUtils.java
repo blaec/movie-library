@@ -39,26 +39,31 @@ public class TmdbApiUtils {
     }
 
     /**
-     * Get TmdbMovie from MovieFileTo by sending url to api created from name and year
+     * Get TmdbMovie from MovieFileTo by sending url, created from name and year, to api
      *
      * @param movieFileTo movie file object
      * @return TmdbMovie or null if not exist
      */
     public static TmdbResult.TmdbMovie getMovieByNameAndYear(MovieFileTo movieFileTo) {
-        String url = getUrlByNameAndYear(movieFileTo);
-        List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url).getResults();
-        return results.stream().findFirst().orElse(null);
+        TmdbResult.TmdbMovie foundMovie = null;
+        URL url = getUrlByNameAndYear(movieFileTo);
+        if (url != null) {
+            log.debug("{} | {}", movieFileTo.toString(), url);
+            List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url.toString()).getResults();
+            foundMovie = results.stream().findFirst().orElse(null);
+        }
+
+        return foundMovie;
     }
 
     /**
      * Create request api url from movie file object (name and year)
      * sample url: https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019
      *
-     *
      * @param movieFileTo movie file object
-     * @return url for api-request by title and year
+     * @return URL object or null
      */
-    private static String getUrlByNameAndYear(MovieFileTo movieFileTo) {
+    private static URL getUrlByNameAndYear(MovieFileTo movieFileTo) {
 
         // Get url
         URL url = null;
@@ -69,14 +74,14 @@ public class TmdbApiUtils {
             b.addParameter(tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey());
             url = b.build().toURL();
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error("wrong uri syntax {}", tmdbApiConfig.getEndpoint().getSearch(), e);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            log.error("malformed url {}", movieFileTo.toString(), e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("error creating url for {}", movieFileTo.toString(), e);
         }
 
-        return url.toString();
+        return url;
     }
 
     /**
