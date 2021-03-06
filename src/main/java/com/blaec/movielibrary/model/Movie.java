@@ -36,6 +36,8 @@ public class Movie{
     @Enumerated(EnumType.STRING)
     private Resolution resolution;
 
+    @Column(name="file_name")
+    @NonNull private String fileName;
     private Double size;
     private String location;
     private String description;
@@ -69,6 +71,7 @@ public class Movie{
 
         // add movie file object
         movie.setResolution(movieFileTo.getResolution());
+        movie.setFileName(movieFileTo.getFileName());
         movie.setSize(movieFileTo.getSize());
         movie.setLocation(movieFileTo.getLocation());
         movie.setDescription(movieFileTo.getDescription());

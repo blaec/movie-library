@@ -11,6 +11,7 @@ CREATE TABLE movies
 
     -- file info
     resolution      ENUM('VGA', 'HD', 'FullHD'),
+    file_name       VARCHAR(100) 			    NOT NULL,
     size            DECIMAL(5,2)    			DEFAULT NULL,
     location        VARCHAR(100) 			    DEFAULT NULL,
     description     VARCHAR(25) 			    DEFAULT NULL,

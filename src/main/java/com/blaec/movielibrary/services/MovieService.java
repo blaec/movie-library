@@ -23,7 +23,7 @@ public class MovieService {
     public void save(Movie movie, MovieFileTo movieFile) {
         try {
             Objects.requireNonNull(movie, String.format("sent null value with movie: %s", movieFile.toString()));
-            if (movieFile.getName().equalsIgnoreCase(movie.getTitle())) {
+            if (!movieFile.getName().equalsIgnoreCase(movie.getTitle())) {
                 throw new IllegalArgumentException(String.format("trying to save wrong movie %s -> %s", movieFile.getFileName(), movie.toString()));
             }
             movieRepository.save(movie);
