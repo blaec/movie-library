@@ -1,0 +1,28 @@
+package com.blaec.movielibrary.utils;
+
+import com.blaec.movielibrary.model.Movie;
+
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+public class MovieUtils {
+
+    /**
+     * Sort movie list by title and than by release date, skip 'the' and 'a' in title
+     *
+     * @param movies list of movies to sort
+     * @return sorted list
+     */
+    public static Iterable<Movie> sortByTitleAndYear(Iterable<Movie> movies) {
+        return StreamSupport.stream(movies.spliterator(), false).sorted(Comparator
+                .comparing((Movie m) ->
+                        m.getTitle().startsWith("The ")
+                                ? m.getTitle().replace("The ", "")
+                                : m.getTitle().startsWith("A ")
+                                ? m.getTitle().replace("A ", "")
+                                : m.getTitle())
+                .thenComparing(Movie::getReleaseDate))
+                .collect(Collectors.toList());
+    }
+}
