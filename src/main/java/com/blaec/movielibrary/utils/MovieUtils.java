@@ -1,11 +1,14 @@
 package com.blaec.movielibrary.utils;
 
 import com.blaec.movielibrary.model.Movie;
+import com.blaec.movielibrary.to.TmdbResult;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 public class MovieUtils {
 
     /**
@@ -36,5 +39,14 @@ public class MovieUtils {
     public static boolean isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
         return StreamSupport.stream(dbMovies.spliterator(), false)
                 .anyMatch(dbMovie -> dbMovie.getFileName().equals(fileName));
+    }
+
+    public static boolean isNullSave(TmdbResult.TmdbMovie movieJson, String logDetails) {
+        boolean result = true;
+        if (movieJson == null) {
+            log.warn("no movie found in tmdb | {}", logDetails);
+            result = false;
+        }
+        return result;
     }
 }

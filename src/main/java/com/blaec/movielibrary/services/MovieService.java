@@ -3,6 +3,8 @@ package com.blaec.movielibrary.services;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.to.MovieFileTo;
+import com.blaec.movielibrary.to.TmdbResult;
+import com.blaec.movielibrary.utils.MovieUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,20 +22,30 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public Movie save(Movie movie, MovieFileTo movieFile) {
+    /**
+     * Save movie to database by combining data from json and file movie objects
+     *
+     * @param movieJson json movie
+     * @param movieFile file movie
+     * @return Movie object or null
+     */
+    public Movie save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
         Movie savedMovie = null;
-        try {
-            Objects.requireNonNull(movie, String.format("sent null value with movie: %s", movieFile.toString()));
-            if (!movieFile.getName().equalsIgnoreCase(movie.getTitle())) {
-                throw new IllegalArgumentException(String.format("trying to save wrong movie %s -> %s", movieFile.getFileName(), movie.toString()));
+        if (MovieUtils.isNullSave(movieJson, movieFile.toString())) {
+            Movie movie = Movie.of(movieJson, movieFile);
+            try {
+                Objects.requireNonNull(movie, String.format("sent null value with movie: %s", movieFile.toString()));
+                if (!movieFile.getName().equalsIgnoreCase(movie.getTitle())) {
+                    throw new IllegalArgumentException(String.format("trying to save wrong movie %s -> %s", movieFile.getFileName(), movie.toString()));
+                }
+                savedMovie = movieRepository.save(movie);
+            } catch (IllegalArgumentException e) {
+                log.error(e.getMessage());
+            } catch (DataIntegrityViolationException e) {
+                log.error("this movie [{}] already exist", movie.toString());
+            } catch (Exception e) {
+                log.error(movieFile.toString(), e);
             }
-            savedMovie = movieRepository.save(movie);
-        } catch (IllegalArgumentException e) {
-            log.error(e.getMessage());
-        } catch (DataIntegrityViolationException e) {
-            log.error("this movie [{}] already exist", movie.toString());
-        } catch (Exception e) {
-            log.error(movieFile.toString(), e);
         }
         return savedMovie;
     }

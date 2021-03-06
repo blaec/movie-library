@@ -43,13 +43,12 @@ public class MovieController {
             log.warn("Folder {} holds no movie files", folder);
         }
 
-        // Save new movies to database
+        // Save only new movies to database
         for (MovieFileTo movieFile : movieFiles) {
             if (MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies)) {
                 log.debug("already exist | {}", movieFile.toString());
             } else {
-                Movie movie = Movie.of(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
-                Movie savedMovie = movieService.save(movie, movieFile);
+                Movie savedMovie = movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
                 if (savedMovie != null) {
                     log.info("saved | {}", savedMovie.toString());
                 }
@@ -69,9 +68,8 @@ public class MovieController {
             String url = TmdbApiUtils.getUrlById(uploadMovie.getTmdbId());
             TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovie(url);
             MovieFileTo movieFile = filteredMovieFiles.get(0);
-            Movie movie = Movie.of(movieJson, movieFile);
-            movieService.save(movie, movieFile);
-            log.info("{} | {}", movie.toString(), url);
+            Movie savedMovie = movieService.save(movieJson, movieFile);
+            log.info("{} | {}", savedMovie.toString(), url);
         }
     }
 
