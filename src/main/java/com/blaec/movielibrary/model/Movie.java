@@ -100,6 +100,6 @@ public class Movie{
 
     @Override
     public String toString() {
-        return String.format("%s (%s) %.1fGb", title, releaseDate, size);
+        return String.format("#%s %s (%s) %.1fGb", tmdbId, title, releaseDate, size);
     }
 }
