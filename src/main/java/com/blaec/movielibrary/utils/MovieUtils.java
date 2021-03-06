@@ -25,4 +25,16 @@ public class MovieUtils {
                 .thenComparing(Movie::getReleaseDate))
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Check by fileName if movie already saved to database
+     *
+     * @param fileName movie file name
+     * @param dbMovies database movies
+     * @return true if movie exists in database
+     */
+    public static boolean isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
+        return StreamSupport.stream(dbMovies.spliterator(), false)
+                .anyMatch(dbMovie -> dbMovie.getFileName().equals(fileName));
+    }
 }

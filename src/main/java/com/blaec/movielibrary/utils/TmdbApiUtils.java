@@ -8,14 +8,19 @@ import com.google.gson.Gson;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -34,18 +39,44 @@ public class TmdbApiUtils {
     }
 
     /**
+     * Get TmdbMovie from MovieFileTo by sending url to api created from name and year
+     *
+     * @param movieFileTo movie file object
+     * @return TmdbMovie or null if not exist
+     */
+    public static TmdbResult.TmdbMovie getMovieByNameAndYear(MovieFileTo movieFileTo) {
+        String url = getUrlByNameAndYear(movieFileTo);
+        List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url).getResults();
+        return results.stream().findFirst().orElse(null);
+    }
+
+    /**
      * Create request api url from movie file object (name and year)
      * sample url: https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019
+     *
      *
      * @param movieFileTo movie file object
      * @return url for api-request by title and year
      */
-    public static String getUrlByNameAndYear(MovieFileTo movieFileTo) {
-        String params = joinParams(ImmutableMap.of(
-                tmdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled(),
-                tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()),
-                tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey()));
-        return String.format("%s?%s", tmdbApiConfig.getEndpoint().getSearch(), params);
+    private static String getUrlByNameAndYear(MovieFileTo movieFileTo) {
+
+        // Get url
+        URL url = null;
+        try {
+            URIBuilder b = new URIBuilder(tmdbApiConfig.getEndpoint().getSearch());
+            b.addParameter(tmdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled());
+            b.addParameter(tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()));
+            b.addParameter(tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey());
+            url = b.build().toURL();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return url.toString();
     }
 
     /**

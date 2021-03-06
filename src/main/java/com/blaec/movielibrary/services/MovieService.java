@@ -20,13 +20,14 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
-    public void save(Movie movie, MovieFileTo movieFile) {
+    public Movie save(Movie movie, MovieFileTo movieFile) {
+        Movie savedMovie = null;
         try {
             Objects.requireNonNull(movie, String.format("sent null value with movie: %s", movieFile.toString()));
             if (!movieFile.getName().equalsIgnoreCase(movie.getTitle())) {
                 throw new IllegalArgumentException(String.format("trying to save wrong movie %s -> %s", movieFile.getFileName(), movie.toString()));
             }
-            movieRepository.save(movie);
+            savedMovie = movieRepository.save(movie);
         } catch (IllegalArgumentException e) {
             log.error(e.getMessage());
         } catch (DataIntegrityViolationException e) {
@@ -34,6 +35,7 @@ public class MovieService {
         } catch (Exception e) {
             log.error(movieFile.toString(), e);
         }
+        return savedMovie;
     }
 
     public Movie delete(Integer id){

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @AllArgsConstructor
@@ -34,21 +33,26 @@ public class MovieController {
 
     @PostMapping("/{folder}")
     public void scanFolder(@PathVariable String folder) {
-        String location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
-        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(location);
+
+        // Get all from database
         Iterable<Movie> dbMovies = movieService.getAll();
+
+        // get all movie files from folder
+        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(getLocation(folder));
+        if (movieFiles.size() == 0) {
+            log.warn("Folder {} holds no movie files", folder);
+        }
+
+        // Save new movies to database
         for (MovieFileTo movieFile : movieFiles) {
-            boolean isExist = StreamSupport.stream(dbMovies.spliterator(), false)
-                    .anyMatch(movie -> movie.getFileName().equals(movieFile.getFileName()));
-            if (isExist) {
-                log.debug("already exist {}", movieFile.toString());
-            }else {
-                String url = TmdbApiUtils.getUrlByNameAndYear(movieFile);
-                List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url).getResults();
-                TmdbResult.TmdbMovie movieJson = results.stream().findFirst().orElseGet(null);
-                Movie movie = Movie.of(movieJson, movieFile);
-                movieService.save(movie, movieFile);
-                log.info("{} | {} | {}", results.size(), movie.toString(), url);
+            if (MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies)) {
+                log.debug("already exist | {}", movieFile.toString());
+            } else {
+                Movie movie = Movie.of(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
+                Movie savedMovie = movieService.save(movie, movieFile);
+                if (savedMovie != null) {
+                    log.info("saved | {}", savedMovie.toString());
+                }
             }
         }
     }
@@ -75,5 +79,21 @@ public class MovieController {
     public void delete(@PathVariable Integer id) {
         Movie movie = movieService.delete(id);
         log.info("movie {} with id {} deleted", movie.toString(), id);
+    }
+
+    /**
+     * Get movies location
+     *
+     * @param folder folder name
+     * @return location or empty string if folder argument is incorrect
+     */
+    private String getLocation(String folder) {
+        String location = "";
+        try {
+            location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
+        } catch (IllegalArgumentException e) {
+            log.error("No location found by folder {}", folder, e);
+        }
+        return location;
     }
 }
