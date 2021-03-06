@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @AllArgsConstructor
@@ -35,13 +36,20 @@ public class MovieController {
     public void scanFolder(@PathVariable String folder) {
         String location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
         List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(location);
+        Iterable<Movie> dbMovies = movieService.getAll();
         for (MovieFileTo movieFile : movieFiles) {
-            String url = TmdbApiUtils.getUrlByNameAndYear(movieFile);
-            List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url).getResults();
-            TmdbResult.TmdbMovie movieJson = results.stream().findFirst().orElseGet(null);
-            Movie movie = Movie.of(movieJson, movieFile);
-            movieService.save(movie, movieFile);
-            log.info("{} | {} | {}", results.size(), movie.toString(), url);
+            boolean isExist = StreamSupport.stream(dbMovies.spliterator(), false)
+                    .anyMatch(movie -> movie.getFileName().equals(movieFile.getFileName()));
+            if (isExist) {
+                log.debug("already exist {}", movieFile.toString());
+            }else {
+                String url = TmdbApiUtils.getUrlByNameAndYear(movieFile);
+                List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url).getResults();
+                TmdbResult.TmdbMovie movieJson = results.stream().findFirst().orElseGet(null);
+                Movie movie = Movie.of(movieJson, movieFile);
+                movieService.save(movie, movieFile);
+                log.info("{} | {} | {}", results.size(), movie.toString(), url);
+            }
         }
     }
 
