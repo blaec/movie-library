@@ -27,10 +27,8 @@ public class MovieService {
      *
      * @param movieJson json movie
      * @param movieFile file movie
-     * @return Movie object or null
      */
-    public Movie save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
-        Movie savedMovie = null;
+    public void save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
         if (MovieUtils.isNullSave(movieJson, movieFile.toString())) {
             Movie newMovie = Movie.of(movieJson, movieFile);
             try {
@@ -38,7 +36,8 @@ public class MovieService {
                     String msg = String.format("tmdb-api returned wrong movie | %s -x-> %s", movieFile.getFileName(), newMovie.toString());
                     throw new IllegalArgumentException(msg);
                 }
-                savedMovie = movieRepository.save(newMovie);
+                Movie savedMovie = movieRepository.save(newMovie);
+                log.info("saved | {}", savedMovie.toString());
             } catch (IllegalArgumentException e) {
                 log.error(e.getMessage());
             } catch (DataIntegrityViolationException e) {
@@ -47,7 +46,6 @@ public class MovieService {
                 log.error(movieFile.toString(), e);
             }
         }
-        return savedMovie;
     }
 
     public Movie delete(Integer id) {
@@ -56,9 +54,11 @@ public class MovieService {
             movie = movieRepository.findById(id).get();
             Objects.requireNonNull(movie, "Movie to delete not exists");
             movieRepository.deleteById(id);
+            log.info("movie {} with id {} deleted", movie.toString(), id);
         } catch (Exception e) {
             log.error("failed deleting movie by id: {}", id);
         }
+
         return movie;
     }
 }

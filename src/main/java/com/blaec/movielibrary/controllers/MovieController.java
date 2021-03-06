@@ -48,10 +48,7 @@ public class MovieController {
             if (MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies)) {
                 log.debug("already exist | {}", movieFile.toString());
             } else {
-                Movie savedMovie = movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
-                if (savedMovie != null) {
-                    log.info("saved | {}", savedMovie.toString());
-                }
+                movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
             }
         }
         // TODO return list of fails and stats
@@ -59,25 +56,27 @@ public class MovieController {
 
     @PostMapping("/file")
     public void uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
-        String location = ScanFolders.valueOf(uploadMovie.getLocation()).getLocation(uploadConfigs);
-        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(location).stream()
-                .filter(m -> m.getFileName().equals(uploadMovie.getFileName()))
+
+        // Get all files from folder, where upload movie is searched, that match upload movie file name
+        // Could be more than one (files with the same name from different sub-folders)
+        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(getLocation(uploadMovie.getLocation())).stream()
+                .filter(movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName()))
                 .collect(Collectors.toList());
+
+        // Save if file found and there are no duplicates
         if (filteredMovieFiles.size() != 1) {
-            log.error("Not found at all or more than one movie '{}' found in folder {}", uploadMovie.getFileName(), uploadMovie.getLocation());
+            log.warn("Not found at all or more than one movie '{}'", uploadMovie.toString());
         } else {
-            String url = TmdbApiUtils.getUrlById(uploadMovie.getTmdbId());
-            TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovie(url);
             MovieFileTo movieFile = filteredMovieFiles.get(0);
-            Movie savedMovie = movieService.save(movieJson, movieFile);
-            log.info("{} | {}", savedMovie.toString(), url);
+            TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId());
+            movieService.save(movieJson, movieFile);
         }
+        // TODO failure and stats
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         Movie movie = movieService.delete(id);
-        log.info("movie {} with id {} deleted", movie.toString(), id);
     }
 
     /**
