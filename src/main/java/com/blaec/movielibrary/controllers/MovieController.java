@@ -54,6 +54,7 @@ public class MovieController {
                 }
             }
         }
+        // TODO return list of fails and stats
     }
 
     @PostMapping("/file")

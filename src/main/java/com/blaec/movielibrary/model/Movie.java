@@ -59,11 +59,11 @@ public class Movie{
     }
 
     /**
-     * Creates Movie object from Movie Json Object and Movie File object
+     * Creates Movie object from Movie Json object and Movie File object
      *
      * @param movieJsonTo movie json object
      * @param movieFileTo movie file object
-     * @return Movie object with time <b>movie</b>
+     * @return Movie object
      */
     public static Movie of(TmdbResult.TmdbMovie movieJsonTo, MovieFileTo movieFileTo) {
         Movie movie = fromJson(movieJsonTo);

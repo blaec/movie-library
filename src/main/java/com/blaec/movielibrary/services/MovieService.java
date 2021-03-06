@@ -32,17 +32,17 @@ public class MovieService {
     public Movie save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
         Movie savedMovie = null;
         if (MovieUtils.isNullSave(movieJson, movieFile.toString())) {
-            Movie movie = Movie.of(movieJson, movieFile);
+            Movie newMovie = Movie.of(movieJson, movieFile);
             try {
-                Objects.requireNonNull(movie, String.format("sent null value with movie: %s", movieFile.toString()));
-                if (!movieFile.getName().equalsIgnoreCase(movie.getTitle())) {
-                    throw new IllegalArgumentException(String.format("trying to save wrong movie %s -> %s", movieFile.getFileName(), movie.toString()));
+                if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
+                    String msg = String.format("tmdb-api returned wrong movie | %s -x-> %s", movieFile.getFileName(), newMovie.toString());
+                    throw new IllegalArgumentException(msg);
                 }
-                savedMovie = movieRepository.save(movie);
+                savedMovie = movieRepository.save(newMovie);
             } catch (IllegalArgumentException e) {
                 log.error(e.getMessage());
             } catch (DataIntegrityViolationException e) {
-                log.error("this movie [{}] already exist", movie.toString());
+                log.error("this movie [{}] already exist", newMovie.toString());
             } catch (Exception e) {
                 log.error(movieFile.toString(), e);
             }
@@ -50,7 +50,7 @@ public class MovieService {
         return savedMovie;
     }
 
-    public Movie delete(Integer id){
+    public Movie delete(Integer id) {
         Movie movie = null;
         try {
             movie = movieRepository.findById(id).get();
