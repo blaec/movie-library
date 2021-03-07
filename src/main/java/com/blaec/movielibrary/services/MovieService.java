@@ -30,14 +30,12 @@ public class MovieService {
         if (MovieUtils.isNullSave(movieJson, movieFile.toString())) {
             Movie newMovie = Movie.of(movieJson, movieFile);
             try {
+                // FIXME not correct check
                 if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
-                    String msg = String.format("tmdb-api returned wrong movie | %s -x-> %s", movieFile.getFileName(), newMovie.toString());
-                    throw new IllegalArgumentException(msg);
+                    log.warn("check if it's correct | {} -x-> {}}", newMovie.toString(), movieFile.getFileName());
                 }
                 Movie savedMovie = movieRepository.save(newMovie);
                 log.info("saved | {}", savedMovie.toString());
-            } catch (IllegalArgumentException e) {
-                log.error(e.getMessage());
             } catch (DataIntegrityViolationException e) {
                 log.error("this movie [{}] already exist", newMovie.toString());
             } catch (Exception e) {

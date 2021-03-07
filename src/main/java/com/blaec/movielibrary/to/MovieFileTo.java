@@ -83,15 +83,15 @@ public class MovieFileTo {
      *
      * @return file movie name converted to url file name
      */
+    // FIXME probably should be removed
     public String getNameUrlStyled() {
-        return name.replace(" ", "+")
-                   .replace("..", "%3A")
-                   .replace(",.", "%3F")
-                   .replace("'", "%27")
-                   .replace("é", "%C3%A9")
-                   .replace("&", "%26")
-                   .replace("·", "%C2%B7")
-                   .replace("³", "%C2%B3");
+        return name;
+//        return name.replace("..", "%3A")
+//                   .replace(",.", "%3F")
+//                   .replace("é", "%C3%A9")
+//                   .replace("&", "%26")
+//                   .replace("·", "%C2%B7")
+//                   .replace("³", "%C2%B3");
     }
 
     @Override

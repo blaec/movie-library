@@ -81,7 +81,7 @@ public class TmdbApiUtils {
         URL url = null;
         try {
             URIBuilder uri = new URIBuilder(tmdbApiConfig.getEndpoint().getSearch());
-            uri.addParameter(tmdbApiConfig.getName().getTitle(), movieFileTo.getNameUrlStyled());
+            uri.addParameter(tmdbApiConfig.getName().getTitle(), movieFileTo.getNameDbStyled());
             uri.addParameter(tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()));
             uri.addParameter(tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey());
             url = uri.build().toURL();
