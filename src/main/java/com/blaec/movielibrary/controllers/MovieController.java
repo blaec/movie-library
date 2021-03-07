@@ -3,22 +3,19 @@ package com.blaec.movielibrary.controllers;
 import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.model.Movie;
-import com.blaec.movielibrary.repository.MovieRepository;
+import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.to.MovieFileTo;
 import com.blaec.movielibrary.to.SingleFileUpload;
 import com.blaec.movielibrary.to.TmdbResult;
 import com.blaec.movielibrary.utils.FilesUtils;
+import com.blaec.movielibrary.utils.MovieUtils;
 import com.blaec.movielibrary.utils.TmdbApiUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Slf4j
 @AllArgsConstructor
@@ -27,83 +24,75 @@ import java.util.stream.StreamSupport;
 @RestController
 public class MovieController {
     private final UploadConfigs uploadConfigs;
-    private final MovieRepository movieRepository;
+    private final MovieService movieService;
 
     @GetMapping
     public Iterable<Movie> getAll() {
-        return sortByTitleAndYear(movieRepository.findAll());
+        return MovieUtils.sortByTitleAndYear(movieService.getAll());
     }
 
     @PostMapping("/{folder}")
     public void scanFolder(@PathVariable String folder) {
-        String location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
-        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(location);
+
+        // Get all from database
+        Iterable<Movie> dbMovies = movieService.getAll();
+
+        // get all movie files from folder
+        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(getLocation(folder));
+        if (movieFiles.size() == 0) {
+            log.warn("Folder {} holds no movie files", folder);
+        }
+
+        // Save only new movies to database
         for (MovieFileTo movieFile : movieFiles) {
-            String url = TmdbApiUtils.getUrlByNameAndYear(movieFile);
-            try {
-                List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url).getResults();
-                TmdbResult.TmdbMovie movieJson = results.stream().findFirst().orElseGet(null);
-                Movie movie = Movie.of(movieJson, movieFile);
-                movieRepository.save(movie);
-                log.info("{} | {} | {}", results.size(), movie.toString(), url);
-            } catch (DataIntegrityViolationException e) {
-                log.error("already exist: {}", url);
-            } catch (Exception e) {
-                log.error(url, e);
+            if (MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies)) {
+                log.debug("already exist | {}", movieFile.toString());
+            } else {
+                movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
             }
         }
+        // TODO return list of fails and stats
     }
 
     @PostMapping("/file")
     public void uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
-        String location = ScanFolders.valueOf(uploadMovie.getLocation()).getLocation(uploadConfigs);
-        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(location).stream()
-                .filter(m -> m.getFileName().equals(uploadMovie.getFileName()))
+
+        // Get all files from folder, where upload movie is searched, that match upload movie file name
+        // Could be more than one (files with the same name from different sub-folders)
+        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(getLocation(uploadMovie.getLocation())).stream()
+                .filter(movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName()))
                 .collect(Collectors.toList());
+
+        // Save if file found and there are no duplicates
         if (filteredMovieFiles.size() != 1) {
-            log.error("Not found at all or more than one movie '{}' found in folder {}", uploadMovie.getFileName(), uploadMovie.getLocation());
+            log.warn("Not found at all or more than one movie '{}'", uploadMovie.toString());
         } else {
-            String url = TmdbApiUtils.getUrlById(uploadMovie.getTmdbId());
-            try {
-                TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovie(url);
-                MovieFileTo movieFile = filteredMovieFiles.get(0);
-                Movie movie = Movie.of(movieJson, movieFile);
-                movieRepository.save(movie);
-                log.info("{} | {}", movie.toString(), url);
-            } catch (DataIntegrityViolationException e) {
-                log.error("already exist: {}", url);
-            } catch (Exception e) {
-                log.error(url, e);
-            }
+            MovieFileTo movieFile = filteredMovieFiles.get(0);
+            TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId());
+            movieService.save(movieJson, movieFile);
         }
+        // TODO failure and stats
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        try {
-            Optional<Movie> movie = movieRepository.findById(id);
-            movieRepository.deleteById(id);
-            log.info("movie {} with id {} deleted", movie.get().toString(), id);
-        } catch (Exception e) {
-            log.error("failed deleting movie by id: {}", id);
-        }
+        movieService.delete(id);
+        // TODO return stats stats
     }
 
     /**
-     * Sort movie list by title and than by release date, skip 'the' and 'a' in title
+     * Get movies location
      *
-     * @param movies list of movies to sort
-     * @return sorted list
+     * @param folder folder name
+     * @return location or empty string if folder argument is incorrect
      */
-    private Iterable<Movie> sortByTitleAndYear(Iterable<Movie> movies) {
-        return StreamSupport.stream(movies.spliterator(), false).sorted(Comparator
-                .comparing((Movie m) ->
-                        m.getTitle().startsWith("The ")
-                            ? m.getTitle().replace("The ", "")
-                            : m.getTitle().startsWith("A ")
-                                ? m.getTitle().replace("A ", "")
-                                : m.getTitle())
-                .thenComparing(Movie::getReleaseDate))
-                .collect(Collectors.toList());
+    private String getLocation(String folder) {
+        String location = "";
+        try {
+            location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
+        } catch (IllegalArgumentException e) {
+            log.error("No location found by folder {}", folder, e);
+        }
+        return location;
     }
 }

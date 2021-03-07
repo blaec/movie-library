@@ -36,6 +36,8 @@ public class Movie{
     @Enumerated(EnumType.STRING)
     private Resolution resolution;
 
+    @Column(name="file_name")
+    @NonNull private String fileName;
     private Double size;
     private String location;
     private String description;
@@ -57,11 +59,11 @@ public class Movie{
     }
 
     /**
-     * Creates Movie object from Movie Json Object and Movie File object
+     * Creates Movie object from Movie Json object and Movie File object
      *
      * @param movieJsonTo movie json object
      * @param movieFileTo movie file object
-     * @return Movie object with time <b>movie</b>
+     * @return Movie object
      */
     public static Movie of(TmdbResult.TmdbMovie movieJsonTo, MovieFileTo movieFileTo) {
         Movie movie = fromJson(movieJsonTo);
@@ -69,6 +71,7 @@ public class Movie{
 
         // add movie file object
         movie.setResolution(movieFileTo.getResolution());
+        movie.setFileName(movieFileTo.getFileName());
         movie.setSize(movieFileTo.getSize());
         movie.setLocation(movieFileTo.getLocation());
         movie.setDescription(movieFileTo.getDescription());
@@ -97,6 +100,6 @@ public class Movie{
 
     @Override
     public String toString() {
-        return String.format("%s (%s) %.1fGb", title, releaseDate, size);
+        return String.format("#%s %s (%s) %.1fGb", tmdbId, title, releaseDate, size);
     }
 }
