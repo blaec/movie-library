@@ -3,10 +3,10 @@ import {useSelector} from "react-redux";
 import axios from "../../../../axios-movies";
 
 import Pagination from '@material-ui/lab/Pagination';
-import {CircularProgress} from "@material-ui/core";
 
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
 import "./Gallery.css";
 
 // Duplicate to @media in Movie.css
@@ -94,7 +94,7 @@ const gallery = () => {
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
     }, [search, windowWidth, loadedMovieList]);
 
-    let myGallery = <CircularProgress/>;
+    let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
             myGallery = <Details closed={handleDetailsClose}

@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../../../axios-movies";
 
-import {CircularProgress} from "@material-ui/core";
-
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
 import './Details.css';
 import {getMovieDetailsUrl} from "../../../../utils/UrlUtils";
 
@@ -32,7 +31,7 @@ const details = (props) => {
             });
     }, []);
 
-    let details = <CircularProgress/>
+    let details = <MyLoader/>
     if (!isLoading) {
         details = (
             <React.Fragment>

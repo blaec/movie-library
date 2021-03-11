@@ -10,6 +10,7 @@ const upload = () => {
     const [fileLocation, setFileLocation] = useState('');
     const [wishMovie, setWishMovie] = useState('');
     const [switchStatus, setSwitchStatus] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const resetForm = () => {
         setFileLocation('');
@@ -38,6 +39,7 @@ const upload = () => {
     }
 
     const handleUpload = () => {
+        setIsLoading(true);
         if (switchStatus) {
             let data = {
                location: fileLocation,
@@ -47,20 +49,24 @@ const upload = () => {
             axios.post("/movies/file", data)
                 .then(response => {
                     resetForm();
+                    setIsLoading(false);
                     alert(`uploading ${fileName} from ${fileLocation} folder completed successfully.`)
                 })
                 .catch(error => {
                     resetForm();
+                    setIsLoading(false);
                     console.log(error);
                 });
         } else {
             axios.post(`/movies/${fileLocation}`)
                 .then(response => {
                     resetForm();
+                    setIsLoading(false);
                     alert(`uploading from ${fileLocation} folder completed successfully.`)
                 })
                 .catch(error => {
                     resetForm();
+                    setIsLoading(false);
                     console.log(error);
                 });
         }
@@ -70,6 +76,7 @@ const upload = () => {
         <div className="Upload">
             <FileLoader submit={handleUpload}
                         location={fileLocation}
+                        loading={isLoading}
                         onChangeRadio={handleChooseLocation}
                         onChangeTextField={handleTextFieldChange}
                         onChangeSwitch={handleSwitchChange}

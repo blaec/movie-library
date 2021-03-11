@@ -8,7 +8,7 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    FormLabel,
+    FormLabel, LinearProgress,
     makeStyles,
     Radio,
     RadioGroup,
@@ -73,7 +73,7 @@ const fileLoader = props => {
                         {locationRadios}
                     </RadioGroup>
                 </FormControl>
-                <Divider  className={classes.divider}/>
+                <Divider className={classes.divider}/>
                 <FormControl component="single-upload">
                     <FormControlLabel label="Single movie upload"
                                       control={<Switch color="primary"
@@ -83,12 +83,13 @@ const fileLoader = props => {
                     />
                     {movieInputs}
                 </FormControl>
+                <LinearProgress hidden={!props.loading}/>
             </CardContent>
             <CardActions>
-                <MySubmitButton icon={<BackupTwoToneIcon />}
+                <MySubmitButton icon={<BackupTwoToneIcon/>}
                                 submit={props.submit}
                                 caption="Scan"
-                                disabled={props.location === ''}
+                                disabled={props.location === '' || props.loading}
                 />
             </CardActions>
         </Card>
