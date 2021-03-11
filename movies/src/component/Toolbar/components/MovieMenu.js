@@ -1,44 +1,39 @@
 import React, {useState} from 'react';
-import {NavLink} from "react-router-dom";
 
-import {List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import MyListItem from "../../../UI/MyListItem";
+
+import {List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
 import CardGiftcardTwoToneIcon from '@material-ui/icons/CardGiftcardTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 
 const movieMenu = () => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedCaption, setSelectedCaption] = useState("Gallery");
 
-    const handleListItemClick = (event, index) => {
-        setSelectedIndex(index);
+    const handleListItemClick = (index) => {
+        setSelectedCaption(index);
     };
 
     return (
         <List>
-            <ListItem button
-                      selected={selectedIndex === 0}
-                      onClick={(event) => handleListItemClick(event, 0)}
-                      component={NavLink} to="/"
-            >
-                <ListItemIcon><MovieFilterTwoToneIcon/></ListItemIcon>
-                <ListItemText primary="Gallery"/>
-            </ListItem>
-            <ListItem button
-                      selected={selectedIndex === 1}
-                      onClick={(event) => handleListItemClick(event, 1)}
-                      component={NavLink} to="/wishlist"
-            >
-                <ListItemIcon><CardGiftcardTwoToneIcon/></ListItemIcon>
-                <ListItemText primary="Wishlist"/>
-            </ListItem>
-            <ListItem button
-                      selected={selectedIndex === 2}
-                      onClick={(event) => handleListItemClick(event, 1)}
-                      component={NavLink} to="/update"
-            >
-                <ListItemIcon><UpdateTwoToneIcon/></ListItemIcon>
-                <ListItemText primary="Update"/>
-            </ListItem>
+            <MyListItem selected={selectedCaption}
+                        clicked={handleListItemClick}
+                        link="/"
+                        caption="Gallery"
+                        icon={<MovieFilterTwoToneIcon/>}
+            />
+            <MyListItem selected={selectedCaption}
+                        clicked={handleListItemClick}
+                        link="/wishlist"
+                        caption="Wishlist"
+                        icon={<CardGiftcardTwoToneIcon/>}
+            />
+            <MyListItem selected={selectedCaption}
+                        clicked={handleListItemClick}
+                        link="/update"
+                        caption="Update"
+                        icon={<UpdateTwoToneIcon/>}
+            />
         </List>
     )
 };
