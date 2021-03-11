@@ -1,5 +1,6 @@
 package com.blaec.movielibrary.services;
 
+import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.to.MovieFileTo;
@@ -18,6 +19,10 @@ public class MovieService {
 
     public Iterable<Movie> getAll() {
         return movieRepository.findAll();
+    }
+
+    public Iterable<Movie> getAllMovies() {
+        return movieRepository.findAllByType(Type.movie);
     }
 
     /**

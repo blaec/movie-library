@@ -64,7 +64,7 @@ const gallery = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get('/movies')
+        axios.get('/movies/gallery')
             .then(response => {
                 setLoadedMovieList(response.data);
                 setIsLoading(false);

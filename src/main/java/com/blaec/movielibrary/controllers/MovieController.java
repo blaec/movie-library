@@ -26,9 +26,9 @@ public class MovieController {
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
 
-    @GetMapping
+    @GetMapping("/gallery")
     public Iterable<Movie> getAll() {
-        return MovieUtils.sortByTitleAndYear(movieService.getAll());
+        return MovieUtils.sortByTitleAndYear(movieService.getAllMovies());
     }
 
     @PostMapping("/{folder}")
