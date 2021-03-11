@@ -1,3 +1,10 @@
+export const reactLinks = {
+    home: "/",
+    gallery: "/",
+    wishlist: "/wishlist",
+    upload: "/upload"
+};
+
 export const getParamsFrom = (obj) => {
     return Object.entries(obj).map(([key, val]) => `${key}=${val}`).join('&');
 };

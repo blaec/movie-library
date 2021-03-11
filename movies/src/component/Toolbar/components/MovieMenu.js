@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import MyListItem from "../../../UI/MyListItem";
+import {reactLinks} from "../../../utils/UrlUtils";
 
 import {List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
@@ -18,20 +19,20 @@ const movieMenu = () => {
         <List>
             <MyListItem selected={selectedCaption}
                         clicked={handleListItemClick}
-                        link="/"
+                        link={reactLinks.gallery}
                         caption="Gallery"
                         icon={<MovieFilterTwoToneIcon/>}
             />
             <MyListItem selected={selectedCaption}
                         clicked={handleListItemClick}
-                        link="/wishlist"
+                        link={reactLinks.wishlist}
                         caption="Wishlist"
                         icon={<CardGiftcardTwoToneIcon/>}
             />
             <MyListItem selected={selectedCaption}
                         clicked={handleListItemClick}
-                        link="/update"
-                        caption="Update"
+                        link={reactLinks.upload}
+                        caption="Upload"
                         icon={<UpdateTwoToneIcon/>}
             />
         </List>
