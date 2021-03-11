@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 
 import {List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
+import CardGiftcardTwoToneIcon from '@material-ui/icons/CardGiftcardTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 
 const movieMenu = () => {
@@ -24,6 +25,14 @@ const movieMenu = () => {
             </ListItem>
             <ListItem button
                       selected={selectedIndex === 1}
+                      onClick={(event) => handleListItemClick(event, 1)}
+                      component={NavLink} to="/wishlist"
+            >
+                <ListItemIcon><CardGiftcardTwoToneIcon/></ListItemIcon>
+                <ListItemText primary="Wishlist"/>
+            </ListItem>
+            <ListItem button
+                      selected={selectedIndex === 2}
                       onClick={(event) => handleListItemClick(event, 1)}
                       component={NavLink} to="/update"
             >
