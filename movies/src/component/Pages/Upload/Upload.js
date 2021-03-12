@@ -10,9 +10,10 @@ const upload = () => {
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileLocation, setFileLocation] = useState('');
-    const [wishMovie, setWishMovie] = useState('');
+    const [wishTitle, setWishTitle] = useState('');
     const [wishYear, setWishYear] = useState('');
     const [switchStatus, setSwitchStatus] = useState(false);
+    const [wishMovies, setWishMovies] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const resetForm = () => {
@@ -36,7 +37,7 @@ const upload = () => {
         switch (event.target.id) {
             case "tmdb-id":     setTmdbId(text);    break;
             case "file-name":   setFileName(text);  break;
-            case "wish-movie":  setWishMovie(text); break;
+            case "wish-title":  setWishTitle(text); break;
             case "wish-year":   setWishYear(text);  break;
             default:            alert("Upload -> handleTextFields -> wrong id")
         }
@@ -78,9 +79,9 @@ const upload = () => {
 
     const handleSearchWishMovie = () => {
         setIsLoading(true);
-        axios.get(getSearchMovieUrl({query: wishMovie, year: wishYear}))
+        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear}))
             .then(response => {
-                console.log(response.data);
+                setWishMovies(response.data.results);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -101,6 +102,7 @@ const upload = () => {
             />
             <WishLoader submit={handleSearchWishMovie}
                         loading={isLoading}
+                        wishResults={wishMovies}
                         onChangeTextField={handleTextFieldChange}
             />
         </div>
