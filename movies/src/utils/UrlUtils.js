@@ -5,17 +5,22 @@ export const reactLinks = {
     upload: "/upload"
 };
 
-export const getParamsFrom = (obj) => {
-    return Object.entries(obj).map(([key, val]) => `${key}=${val}`).join('&');
-};
-
 export const getMovieDetailsUrl = (id) => {
     return `${url_endpoints.movie}${id}?${getParamsFrom(backdrop_params)}`
 };
 
 export const getImageUrl = (path) => {
     return url_endpoints.image + path
-}
+};
+
+export const getSearchMovieUrl = (props) => {
+    const params = {...caption_year_params, ...props};
+    return `${url_endpoints.searchByNameAndYear}?${getParamsFrom(params)}`
+};
+
+const getParamsFrom = (obj) => {
+    return Object.entries(obj).map(([key, val]) => `${key}=${val}`).join('&');
+};
 
 const settings = {
     api_key: 'd6c79c6e7c9d5f56185d9318481769bc',
@@ -37,7 +42,8 @@ const settings = {
 // ]
 const url_endpoints = {
     image: 'http://image.tmdb.org/t/p/original',
-    movie: 'https://api.themoviedb.org/3/movie/'
+    movie: 'https://api.themoviedb.org/3/movie/',
+    searchByNameAndYear: 'https://api.themoviedb.org/3/search/movie'
 };
 
 const backdrop_params = {
@@ -49,6 +55,11 @@ const backdrop_params = {
 
 // https://api.themoviedb.org/3/movie/9487/credits?api_key=<<key>>&language=en-US
 const credits_params = {
+    api_key: settings.api_key,
+    language: settings.language
+};
+
+const caption_year_params = {
     api_key: settings.api_key,
     language: settings.language
 };

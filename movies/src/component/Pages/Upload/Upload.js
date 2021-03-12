@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
-import './Upload.css';
 import axios from '../../../axios-movies';
+
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
+import {getSearchMovieUrl} from "../../../utils/UrlUtils";
+import './Upload.css';
 
 const upload = () => {
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileLocation, setFileLocation] = useState('');
     const [wishMovie, setWishMovie] = useState('');
+    const [wishYear, setWishYear] = useState('');
     const [switchStatus, setSwitchStatus] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -34,6 +37,7 @@ const upload = () => {
             case "tmdb-id":     setTmdbId(text);    break;
             case "file-name":   setFileName(text);  break;
             case "wish-movie":  setWishMovie(text); break;
+            case "wish-year":   setWishYear(text);  break;
             default:            alert("Upload -> handleTextFields -> wrong id")
         }
     }
@@ -72,6 +76,19 @@ const upload = () => {
         }
     };
 
+    const handleSearchWishMovie = () => {
+        setIsLoading(true);
+        axios.get(getSearchMovieUrl({query: wishMovie, year: wishYear}))
+            .then(response => {
+                console.log(response.data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setIsLoading(false);
+            });
+    }
+
     return (
         <div className="Upload">
             <FileLoader submit={handleUpload}
@@ -82,7 +99,10 @@ const upload = () => {
                         onChangeSwitch={handleSwitchChange}
                         switchIsOn={switchStatus}
             />
-            <WishLoader submit={handleUpload}/>
+            <WishLoader submit={handleSearchWishMovie}
+                        loading={isLoading}
+                        onChangeTextField={handleTextFieldChange}
+            />
         </div>
     );
 };
