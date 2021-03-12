@@ -88,7 +88,11 @@ const upload = () => {
                 console.log(error);
                 setIsLoading(false);
             });
-    }
+    };
+
+    const handleSaveWishMovie = (id) => {
+        console.log(`saving movie #${id}`)
+    };
 
     return (
         <div className="Upload">
@@ -101,6 +105,7 @@ const upload = () => {
                         switchIsOn={switchStatus}
             />
             <WishLoader submit={handleSearchWishMovie}
+                        add={handleSaveWishMovie}
                         loading={isLoading}
                         wishResults={wishMovies}
                         onChangeTextField={handleTextFieldChange}

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
+
+import '../Upload.css';
 
 import {Card, CardActions, CardContent, FormControl, FormLabel, LinearProgress} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
@@ -9,25 +11,33 @@ import Carousel from "react-material-ui-carousel";
 import {getImageUrl} from "../../../../utils/UrlUtils";
 
 const wishLoader = props => {
+    const [selectedWishMovie, setSelectedWishMovie] = useState();
+    useEffect(() => {
+        if (props.wishResults) {
+            setSelectedWishMovie(props.wishResults[0].id);
+        }
+    }, [props.wishResults]);
+
     let movie = null;
     if (props.wishResults) {
         movie = <Carousel animation="slide"
                           autoPlay={false}
+                          onChange={(active) => {setSelectedWishMovie(props.wishResults[active].id);}}
                           navButtonsAlwaysVisible>
                     {props.wishResults.map((poster, idx) => {
-                            return <div>
-                                        <p>{poster.title}</p>
-                                        <img key={idx}
-                                             height={200}
-                                             onError={(e)=>{e.target.onerror = null; e.target.src="https://via.placeholder.com/200x300.png?text=NOT FOUND"}}
-                                             src={getImageUrl(poster.poster_path)}
-                                             alt={props.alt}
-                                        />
-                                    </div>;
+                        let errImage = `https://via.placeholder.com/200x300.png?text=${poster.title}`
+                        return <div key={idx} className="WishBlock">
+                                    <img height={200}
+                                         onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
+                                         src={getImageUrl(poster.poster_path)}
+                                         alt={props.alt}
+                                    />
+                                </div>;
                         }
                     )}
                 </Carousel>
     }
+
     return (
         <Card variant="elevation">
             <CardContent>
@@ -52,7 +62,7 @@ const wishLoader = props => {
                                 caption="Search"
                 />
                 <MySubmitButton icon={<AddCircleTwoToneIcon/>}
-                                submit={props.submit}
+                                submit={() => props.add(selectedWishMovie)}
                                 caption="Add"
                 />
             </CardActions>
