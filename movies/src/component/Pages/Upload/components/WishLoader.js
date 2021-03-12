@@ -63,6 +63,7 @@ const wishLoader = props => {
                 />
                 <MySubmitButton icon={<AddCircleTwoToneIcon/>}
                                 submit={() => props.add(selectedWishMovie)}
+                                disabled={!props.wishResults}
                                 caption="Add"
                 />
             </CardActions>
