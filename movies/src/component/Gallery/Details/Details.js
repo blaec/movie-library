@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../../../axios-movies";
+import axios from "../../../axios-movies";
 
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
-import MyLoader from "../../../../UI/Spinners/MyLoader";
+import MyLoader from "../../../UI/Spinners/MyLoader";
 import './Details.css';
-import {getMovieDetailsUrl} from "../../../../utils/UrlUtils";
+import {getMovieDetailsUrl} from "../../../utils/UrlUtils";
 
 const details = (props) => {
     const [movieDetails, setMovieDetails] = useState();

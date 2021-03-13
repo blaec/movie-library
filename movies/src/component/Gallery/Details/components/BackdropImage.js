@@ -5,9 +5,9 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
 
 import '../Details.css';
-import {getImageUrl} from "../../../../../utils/UrlUtils";
+import {getImageUrl} from "../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
-import {DRAWER_WIDTH} from "../../../../../utils/Constants";
+import {DRAWER_WIDTH} from "../../../../utils/Constants";
 
 const TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;

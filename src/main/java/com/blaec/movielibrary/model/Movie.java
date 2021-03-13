@@ -86,7 +86,7 @@ public class Movie{
      * @param movieJsonTo movie json object
      * @return partial Movie object
      */
-    private static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo) {
+    public static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo) {
         Movie movie = new Movie();
 
         // add movie json object

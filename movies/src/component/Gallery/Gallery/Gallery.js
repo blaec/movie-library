@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import axios from "../../../../axios-movies";
+import axios from "../../../axios-movies";
 
 import Pagination from '@material-ui/lab/Pagination';
 
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
-import MyLoader from "../../../../UI/Spinners/MyLoader";
+import MyLoader from "../../../UI/Spinners/MyLoader";
 import "./Gallery.css";
 
 // Duplicate to @media in Movie.css
@@ -19,7 +19,7 @@ const resolutions = {
     9999: {rows: 3, moviesPerRow: 7}
 };
 
-const gallery = () => {
+const gallery = (props) => {
     const search = useSelector(state => state.search);
 
     const [loadedMovieList, setLoadedMovieList] = useState([]);
@@ -64,7 +64,7 @@ const gallery = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get('/movies')
+        axios.get(props.url)
             .then(response => {
                 setLoadedMovieList(response.data);
                 setIsLoading(false);

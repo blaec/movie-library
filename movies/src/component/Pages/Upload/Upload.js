@@ -1,15 +1,19 @@
 import React, {useState} from 'react';
-import './Upload.css';
 import axios from '../../../axios-movies';
+
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
+import {getSearchMovieUrl} from "../../../utils/UrlUtils";
+import './Upload.css';
 
 const upload = () => {
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileLocation, setFileLocation] = useState('');
-    const [wishMovie, setWishMovie] = useState('');
+    const [wishTitle, setWishTitle] = useState('');
+    const [wishYear, setWishYear] = useState('');
     const [switchStatus, setSwitchStatus] = useState(false);
+    const [wishMovies, setWishMovies] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const resetForm = () => {
@@ -33,7 +37,8 @@ const upload = () => {
         switch (event.target.id) {
             case "tmdb-id":     setTmdbId(text);    break;
             case "file-name":   setFileName(text);  break;
-            case "wish-movie":  setWishMovie(text); break;
+            case "wish-title":  setWishTitle(text); break;
+            case "wish-year":   setWishYear(text);  break;
             default:            alert("Upload -> handleTextFields -> wrong id")
         }
     }
@@ -72,8 +77,44 @@ const upload = () => {
         }
     };
 
+    const handleSearchWishMovie = () => {
+        setIsLoading(true);
+        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear}))
+            .then(response => {
+                setWishMovies(response.data.results);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setIsLoading(false);
+            });
+    };
+
+    const handleSaveWishMovie = (wishMovie) => {
+        setIsLoading(true);
+        axios.post('/movies/wish', wishMovie)
+            .then(response => {
+                // let updatedMovieList = loadedMovieList.filter(m => m.id !== id);
+                // setLoadedMovieList(updatedMovieList);
+                // handleDetailsClose();
+                console.log(`saving movie #${wishMovie.id}`)
+                setIsLoading(false);
+            })
+            .catch(error => {
+                // handleDetailsClose();
+                setIsLoading(false);
+                console.log(error);
+            });
+    };
+
     return (
         <div className="Upload">
+            <WishLoader submit={handleSearchWishMovie}
+                        add={handleSaveWishMovie}
+                        loading={isLoading}
+                        wishResults={wishMovies}
+                        onChangeTextField={handleTextFieldChange}
+            />
             <FileLoader submit={handleUpload}
                         location={fileLocation}
                         loading={isLoading}
@@ -82,7 +123,6 @@ const upload = () => {
                         onChangeSwitch={handleSwitchChange}
                         switchIsOn={switchStatus}
             />
-            <WishLoader submit={handleUpload}/>
         </div>
     );
 };

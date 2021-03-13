@@ -1,35 +1,40 @@
 import React, {useState} from 'react';
-import {NavLink} from "react-router-dom";
 
-import {List, ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import MyListItem from "../../../UI/MyListItem";
+import {reactLinks} from "../../../utils/UrlUtils";
+
+import {List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 
 const movieMenu = () => {
-    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedCaption, setSelectedCaption] = useState("Gallery");
 
-    const handleListItemClick = (event, index) => {
-        setSelectedIndex(index);
+    const handleListItemClick = (index) => {
+        setSelectedCaption(index);
     };
 
     return (
         <List>
-            <ListItem button
-                      selected={selectedIndex === 0}
-                      onClick={(event) => handleListItemClick(event, 0)}
-                      component={NavLink} to="/"
-            >
-                <ListItemIcon><MovieFilterTwoToneIcon/></ListItemIcon>
-                <ListItemText primary="Gallery"/>
-            </ListItem>
-            <ListItem button
-                      selected={selectedIndex === 1}
-                      onClick={(event) => handleListItemClick(event, 1)}
-                      component={NavLink} to="/update"
-            >
-                <ListItemIcon><UpdateTwoToneIcon/></ListItemIcon>
-                <ListItemText primary="Update"/>
-            </ListItem>
+            <MyListItem selected={selectedCaption}
+                        clicked={handleListItemClick}
+                        link={reactLinks.home}
+                        caption="Collection"
+                        icon={<MovieFilterTwoToneIcon/>}
+            />
+            <MyListItem selected={selectedCaption}
+                        clicked={handleListItemClick}
+                        link={reactLinks.wishlist}
+                        caption="Wishlist"
+                        icon={<FavoriteTwoToneIcon/>}
+            />
+            <MyListItem selected={selectedCaption}
+                        clicked={handleListItemClick}
+                        link={reactLinks.upload}
+                        caption="Upload"
+                        icon={<UpdateTwoToneIcon/>}
+            />
         </List>
     )
 };

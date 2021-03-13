@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
 
-import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
+import MyDialogButton from "../../../../UI/Buttons/MyDialogButton";
 
 const deleteDialog = (props) => {
 

@@ -1,5 +1,6 @@
 package com.blaec.movielibrary.services;
 
+import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.to.MovieFileTo;
@@ -18,6 +19,24 @@ public class MovieService {
 
     public Iterable<Movie> getAll() {
         return movieRepository.findAll();
+    }
+
+    /**
+     * Get all movies with type 'movie'
+     *
+     * @return Iterable<Movie> list
+     */
+    public Iterable<Movie> getAllMovies() {
+        return movieRepository.findAllByType(Type.movie);
+    }
+
+    /**
+     * Get all movies with type 'wish_list'
+     *
+     * @return Iterable<Movie> list
+     */
+    public Iterable<Movie> getAllWishMovies() {
+        return movieRepository.findAllByType(Type.wish_list);
     }
 
     /**
@@ -44,6 +63,29 @@ public class MovieService {
         }
     }
 
+    /**
+     * Save wish-movie to db
+     *
+     * @param wishMovie wish movie object
+     */
+    public void save(TmdbResult.TmdbMovie wishMovie) {
+        Movie newMovie = Movie.fromJson(wishMovie);
+        newMovie.setType(Type.wish_list);
+        try {
+            Movie savedMovie = movieRepository.save(newMovie);
+            log.info("saved | {}", savedMovie.toString());
+        } catch (DataIntegrityViolationException e) {
+            log.error("this movie [{}] already exist", newMovie.toString());
+        } catch (Exception e) {
+            log.error(wishMovie.toString(), e);
+        }
+    }
+
+    /**
+     * Delete movie from db
+     *
+     * @param id id for deleted movie
+     */
     public void delete(Integer id) {
         try {
             Movie movie = movieRepository.findById(id).orElse(null);

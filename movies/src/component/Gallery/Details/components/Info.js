@@ -2,15 +2,19 @@ import React from 'react';
 
 import {Divider, Typography} from "@material-ui/core";
 
-import {playTime, year} from "../../../../../utils/Utils";
+import {playTime, year} from "../../../../utils/Utils";
 import '../Details.css';
 
 const info = props => {
     const metadata = {
         release_date: year(props.details.release_date),
-        runtime: playTime(props.details.runtime),
+        runtime: props.details.runtime !== 0
+            ? playTime(props.details.runtime)
+            : null,
         resolution: props.file.resolution,
-        fileSize: `${props.file.size}Gb`
+        fileSize: props.file.size
+            ? `${props.file.size}Gb`
+            : null
     };
 
     return (
@@ -19,7 +23,9 @@ const info = props => {
                 {props.file.location}
             </Typography>
             <Typography variant="subtitle2" gutterBottom>
-                {Object.values(metadata).join(` \u2B24 `)}
+                {Object.values(metadata)
+                    .filter(val => val !== null)
+                    .join(` \u2B24 `)}
             </Typography>
             <Typography variant="h5" gutterBottom>
                 <strong>{props.details.title}</strong>

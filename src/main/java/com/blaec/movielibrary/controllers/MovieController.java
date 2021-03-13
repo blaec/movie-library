@@ -26,9 +26,14 @@ public class MovieController {
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
 
-    @GetMapping
-    public Iterable<Movie> getAll() {
-        return MovieUtils.sortByTitleAndYear(movieService.getAll());
+    @GetMapping("/gallery")
+    public Iterable<Movie> getAllMovies() {
+        return MovieUtils.sortByTitleAndYear(movieService.getAllMovies());
+    }
+
+    @GetMapping("/wishlist")
+    public Iterable<Movie> getAllWishMovies() {
+        return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
     }
 
     @PostMapping("/{folder}")
@@ -72,6 +77,12 @@ public class MovieController {
             movieService.save(movieJson, movieFile);
         }
         // TODO failure and stats
+    }
+
+    @PostMapping("/wish")
+    public void saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
+        movieService.save(wishMovie);
+        log.info("{}", wishMovie.toString());
     }
 
     @DeleteMapping("/{id}")
