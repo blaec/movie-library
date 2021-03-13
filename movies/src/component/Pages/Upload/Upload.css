@@ -1,6 +1,6 @@
 .Upload {
     width: 80%;
-    margin: 100px auto 0;
+    margin: 1em auto 0;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -12,12 +12,12 @@
 
 @media (max-width: 760px) {
     .Upload {
-        margin: 80px auto 0;
+        margin: 1em auto 0;
         flex-flow: column wrap;
     }
 
     .Upload .MuiCard-root {
-        margin-top: 20px;
+        margin-top: 1em;
         width: 100%;
     }
 }

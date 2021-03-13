@@ -1,5 +1,6 @@
 .Children{
     margin-top: 56px;
+    margin-bottom: 1em;
 }
 
 @media (min-width: 600px) {

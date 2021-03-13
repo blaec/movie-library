@@ -109,6 +109,12 @@ const upload = () => {
 
     return (
         <div className="Upload">
+            <WishLoader submit={handleSearchWishMovie}
+                        add={handleSaveWishMovie}
+                        loading={isLoading}
+                        wishResults={wishMovies}
+                        onChangeTextField={handleTextFieldChange}
+            />
             <FileLoader submit={handleUpload}
                         location={fileLocation}
                         loading={isLoading}
@@ -116,12 +122,6 @@ const upload = () => {
                         onChangeTextField={handleTextFieldChange}
                         onChangeSwitch={handleSwitchChange}
                         switchIsOn={switchStatus}
-            />
-            <WishLoader submit={handleSearchWishMovie}
-                        add={handleSaveWishMovie}
-                        loading={isLoading}
-                        wishResults={wishMovies}
-                        onChangeTextField={handleTextFieldChange}
             />
         </div>
     );
