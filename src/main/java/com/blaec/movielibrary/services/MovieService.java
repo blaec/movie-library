@@ -49,6 +49,29 @@ public class MovieService {
         }
     }
 
+    /**
+     * Save wish-movie to db
+     *
+     * @param wishMovie wish movie object
+     */
+    public void save(TmdbResult.TmdbMovie wishMovie) {
+        Movie newMovie = Movie.fromJson(wishMovie);
+        newMovie.setType(Type.wish_list);
+        try {
+            Movie savedMovie = movieRepository.save(newMovie);
+            log.info("saved | {}", savedMovie.toString());
+        } catch (DataIntegrityViolationException e) {
+            log.error("this movie [{}] already exist", newMovie.toString());
+        } catch (Exception e) {
+            log.error(wishMovie.toString(), e);
+        }
+    }
+
+    /**
+     * Delete movie from db
+     *
+     * @param id id for deleted movie
+     */
     public void delete(Integer id) {
         try {
             Movie movie = movieRepository.findById(id).orElse(null);
