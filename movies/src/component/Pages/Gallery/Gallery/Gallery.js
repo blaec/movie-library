@@ -19,7 +19,7 @@ const resolutions = {
     9999: {rows: 3, moviesPerRow: 7}
 };
 
-const gallery = () => {
+const gallery = (props) => {
     const search = useSelector(state => state.search);
 
     const [loadedMovieList, setLoadedMovieList] = useState([]);
@@ -64,7 +64,7 @@ const gallery = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get('/movies/gallery')
+        axios.get(props.url)
             .then(response => {
                 setLoadedMovieList(response.data);
                 setIsLoading(false);
