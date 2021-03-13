@@ -21,8 +21,22 @@ public class MovieService {
         return movieRepository.findAll();
     }
 
+    /**
+     * Get all movies with type 'movie'
+     *
+     * @return Iterable<Movie> list
+     */
     public Iterable<Movie> getAllMovies() {
         return movieRepository.findAllByType(Type.movie);
+    }
+
+    /**
+     * Get all movies with type 'wish_list'
+     *
+     * @return Iterable<Movie> list
+     */
+    public Iterable<Movie> getAllWishMovies() {
+        return movieRepository.findAllByType(Type.wish_list);
     }
 
     /**

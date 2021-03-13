@@ -27,8 +27,13 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping("/gallery")
-    public Iterable<Movie> getAll() {
+    public Iterable<Movie> getAllMovies() {
         return MovieUtils.sortByTitleAndYear(movieService.getAllMovies());
+    }
+
+    @GetMapping("/wishlist")
+    public Iterable<Movie> getAllWishMovies() {
+        return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
     }
 
     @PostMapping("/{folder}")
