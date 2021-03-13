@@ -27,8 +27,7 @@ const wishLoader = props => {
                     {props.wishResults.map((poster, idx) => {
                         let errImage = `https://via.placeholder.com/200x300.png?text=${poster.title}`
                         return <div key={idx} className="WishBlock">
-                                    <img height={200}
-                                         onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
+                                    <img onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
                                          src={getImageUrl(poster.poster_path)}
                                          alt={props.alt}
                                     />
