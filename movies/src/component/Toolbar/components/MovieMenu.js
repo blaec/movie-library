@@ -5,7 +5,7 @@ import {reactLinks} from "../../../utils/UrlUtils";
 
 import {List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
-import CardGiftcardTwoToneIcon from '@material-ui/icons/CardGiftcardTwoTone';
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 
 const movieMenu = () => {
@@ -19,15 +19,15 @@ const movieMenu = () => {
         <List>
             <MyListItem selected={selectedCaption}
                         clicked={handleListItemClick}
-                        link={reactLinks.gallery}
-                        caption="Gallery"
+                        link={reactLinks.home}
+                        caption="Collection"
                         icon={<MovieFilterTwoToneIcon/>}
             />
             <MyListItem selected={selectedCaption}
                         clicked={handleListItemClick}
                         link={reactLinks.wishlist}
                         caption="Wishlist"
-                        icon={<CardGiftcardTwoToneIcon/>}
+                        icon={<FavoriteTwoToneIcon/>}
             />
             <MyListItem selected={selectedCaption}
                         clicked={handleListItemClick}

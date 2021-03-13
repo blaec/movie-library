@@ -1,6 +1,5 @@
 export const reactLinks = {
     home: "/",
-    gallery: "/",
     wishlist: "/wishlist",
     upload: "/upload"
 };
