@@ -2,7 +2,7 @@ import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 
 import Layout from "./hoc/Layout/Layout";
-import Collection from "./component/Pages/Wishlist/Collection";
+import Collection from "./component/Pages/Collection/Collection";
 import Upload from "./component/Pages/Upload/Upload";
 import Wishlist from "./component/Pages/Wishlist/Wishlist";
 import {reactLinks} from "./utils/UrlUtils";

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import axios from "../../../../axios-movies";
+import axios from "../../../axios-movies";
 
 import Pagination from '@material-ui/lab/Pagination';
 
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
-import MyLoader from "../../../../UI/Spinners/MyLoader";
+import MyLoader from "../../../UI/Spinners/MyLoader";
 import "./Gallery.css";
 
 // Duplicate to @media in Movie.css

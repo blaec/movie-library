@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import Gallery from "../Gallery/Gallery/Gallery";
+import Gallery from "../../Gallery/Gallery/Gallery";
 
 const wishlist = () => {
     return (
