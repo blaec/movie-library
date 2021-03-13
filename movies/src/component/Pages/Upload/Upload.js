@@ -90,8 +90,21 @@ const upload = () => {
             });
     };
 
-    const handleSaveWishMovie = (id) => {
-        console.log(`saving movie #${id}`)
+    const handleSaveWishMovie = (wishMovie) => {
+        setIsLoading(true);
+        axios.post('/movies/wish', wishMovie)
+            .then(response => {
+                // let updatedMovieList = loadedMovieList.filter(m => m.id !== id);
+                // setLoadedMovieList(updatedMovieList);
+                // handleDetailsClose();
+                console.log(`saving movie #${wishMovie.id}`)
+                setIsLoading(false);
+            })
+            .catch(error => {
+                // handleDetailsClose();
+                setIsLoading(false);
+                console.log(error);
+            });
     };
 
     return (

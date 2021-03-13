@@ -7,6 +7,7 @@ import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.to.MovieFileTo;
 import com.blaec.movielibrary.to.SingleFileUpload;
 import com.blaec.movielibrary.to.TmdbResult;
+import com.blaec.movielibrary.to.WishMovie;
 import com.blaec.movielibrary.utils.FilesUtils;
 import com.blaec.movielibrary.utils.MovieUtils;
 import com.blaec.movielibrary.utils.TmdbApiUtils;
@@ -72,6 +73,11 @@ public class MovieController {
             movieService.save(movieJson, movieFile);
         }
         // TODO failure and stats
+    }
+
+    @PostMapping("/wish")
+    public void saveWishMovie(@RequestBody WishMovie wishMovie) {
+        log.info("{}", wishMovie.toString());
     }
 
     @DeleteMapping("/{id}")

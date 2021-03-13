@@ -61,7 +61,7 @@ const credits_params = {
 
 const caption_year_params = {
     api_key: settings.api_key,
-    language: settings.language
+    language: 'en-EN'
 };
 
 

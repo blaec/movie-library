@@ -14,7 +14,7 @@ const wishLoader = props => {
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (props.wishResults) {
-            setSelectedWishMovie(props.wishResults[0].id);
+            setSelectedWishMovie(props.wishResults[0]);
         }
     }, [props.wishResults]);
 
@@ -22,7 +22,7 @@ const wishLoader = props => {
     if (props.wishResults) {
         movie = <Carousel animation="slide"
                           autoPlay={false}
-                          onChange={(active) => {setSelectedWishMovie(props.wishResults[active].id);}}
+                          onChange={(active) => {setSelectedWishMovie(props.wishResults[active]);}}
                           navButtonsAlwaysVisible>
                     {props.wishResults.map((poster, idx) => {
                         let errImage = `https://via.placeholder.com/200x300.png?text=${poster.title}`
