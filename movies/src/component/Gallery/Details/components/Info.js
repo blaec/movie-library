@@ -44,21 +44,21 @@ const info = props => {
     return (
         <React.Fragment>
             <div className="Info">
-                <Typography variant="caption" display="block" gutterBottom color="textSecondary">
-                    {props.file.location}
-                </Typography>
-                <Typography variant="subtitle2" gutterBottom>
-                    {Object.values(metadata)
-                        .filter(val => val !== null)
-                        .join(` \u2B24 `)}
-                </Typography>
-                <Typography variant="h5" gutterBottom>
-                    <Box fontWeight="fontWeightBold" textAlign="center">
+                <Typography component="div">
+                    <Box fontSize="caption.fontSize" fontWeight="fontWeightLight">
+                        {props.file.location}
+                    </Box>
+                    <Box fontSize="subtitle2.fontSize" fontWeight="fontWeightRegular" textAlign="center">
+                        {Object.values(metadata)
+                            .filter(val => val !== null)
+                            .join(` | `)}
+                    </Box>
+                    <Box fontSize="h5.fontSize" fontWeight="fontWeightBold" textAlign="center">
                         {props.details.title}
                     </Box>
-                </Typography>
-                <Typography variant="subtitle2" gutterBottom>
-                    {props.genres}
+                    <Box fontSize="subtitle2.fontSize"  fontWeight="fontWeightMedium" textAlign="center">
+                        {props.genres}
+                    </Box>
                 </Typography>
             </div>
             <div className={classes.root}>
