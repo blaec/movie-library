@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {AppBar, Box, Divider, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
-import InfoTwoToneIcon from '@material-ui/icons/InfoTwoTone';
-import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
+import {Box, Divider, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
 
 import {a11yProps, playTime, year} from "../../../../utils/Utils";
 import '../Details.css';
@@ -45,15 +43,21 @@ const info = props => {
         <React.Fragment>
             <div className="Info">
                 <Typography component="div">
-                    <Box fontSize="caption.fontSize" fontWeight="fontWeightLight">
+                    <Box fontSize="caption.fontSize"
+                         fontWeight="fontWeightLight">
                         {props.file.location}
                     </Box>
-                    <Box fontSize="subtitle2.fontSize" fontWeight="fontWeightRegular" textAlign="center">
+                    <Divider/>
+                    <Box fontSize="subtitle2.fontSize"
+                         fontWeight="fontWeightRegular"
+                         textAlign="center"
+                         paddingTop={1}
+                    >
                         {Object.values(metadata)
                             .filter(val => val !== null)
                             .join(` | `)}
                     </Box>
-                    <Box fontSize="h5.fontSize" fontWeight="fontWeightBold" textAlign="center">
+                    <Box fontSize="h4.fontSize" fontWeight="fontWeightBold" textAlign="center">
                         {props.details.title}
                     </Box>
                     <Box fontSize="subtitle2.fontSize"  fontWeight="fontWeightMedium" textAlign="center">
@@ -74,12 +78,16 @@ const info = props => {
                     </Tabs>
                 </Paper>
                 <TabPanel value={value} index={0}>
-                    <Typography variant="body1" gutterBottom>
-                        <strong>{props.details.tagline}</strong>
-                    </Typography>
-                    <Typography variant="body1" gutterBottom>
+                    <Box fontSize="subtitle2.fontSize"
+                         fontWeight="fontWeightBold"
+                         textAlign="right"
+                         paddingBottom={1}
+                         paddingLeft={20}>
+                        {props.details.tagline}
+                    </Box>
+                    <Box fontSize="body1.fontSize">
                         {props.details.overview}
-                    </Typography>
+                    </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     Item Two
