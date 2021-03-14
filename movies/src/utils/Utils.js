@@ -10,3 +10,10 @@ export const playTime = (totalMinutes) => {
         ? `${hour} ${hour === 1 ? 'hr' : 'hrs'} ${minute} mins`
         : `${minute} mins`;
 };
+
+export const a11yProps = (index) => {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+};
