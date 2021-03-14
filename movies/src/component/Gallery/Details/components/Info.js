@@ -1,6 +1,8 @@
 import React from 'react';
 
-import {AppBar, Divider, makeStyles, Tab, Tabs, Typography} from "@material-ui/core";
+import {AppBar, Box, Divider, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
+import InfoTwoToneIcon from '@material-ui/icons/InfoTwoTone';
+import AccountCircleTwoToneIcon from '@material-ui/icons/AccountCircleTwoTone';
 
 import {a11yProps, playTime, year} from "../../../../utils/Utils";
 import '../Details.css';
@@ -40,43 +42,50 @@ const info = props => {
     };
 
     return (
-        <div className={classes.root}>
-            <Typography variant="caption" display="block" gutterBottom color="textSecondary">
-                {props.file.location}
-            </Typography>
-            <Typography variant="subtitle2" gutterBottom>
-                {Object.values(metadata)
-                    .filter(val => val !== null)
-                    .join(` \u2B24 `)}
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-                <strong>{props.details.title}</strong>
-            </Typography>
-            <Typography variant="subtitle2" gutterBottom>
-                {props.genres}
-            </Typography>
-            <AppBar position="static">
-                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
-                </Tabs>
-            </AppBar>
-            <TabPanel value={value} index={0}>
-                <Typography variant="body1" gutterBottom>
-                    <strong>{props.details.tagline}</strong>
+        <React.Fragment>
+            <div className="Info">
+                <Typography variant="caption" display="block" gutterBottom color="textSecondary">
+                    {props.file.location}
                 </Typography>
-                <Typography variant="body1" gutterBottom>
-                    {props.details.overview}
+                <Typography variant="subtitle2" gutterBottom>
+                    {Object.values(metadata)
+                        .filter(val => val !== null)
+                        .join(` \u2B24 `)}
                 </Typography>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                Item Two
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-            </TabPanel>
-        </div>
+                <Typography variant="h5" gutterBottom>
+                    <Box fontWeight="fontWeightBold" textAlign="center">
+                        {props.details.title}
+                    </Box>
+                </Typography>
+                <Typography variant="subtitle2" gutterBottom>
+                    {props.genres}
+                </Typography>
+            </div>
+            <div className={classes.root}>
+                <Paper square>
+                    <Tabs value={value}
+                          onChange={handleChange}
+                          indicatorColor="primary"
+                          textColor="primary"
+                          aria-label="simple tabs example"
+                          variant="fullWidth">
+                        <Tab label="Info" {...a11yProps(0)} />
+                        <Tab label="Cast" {...a11yProps(1)} />
+                    </Tabs>
+                </Paper>
+                <TabPanel value={value} index={0}>
+                    <Typography variant="body1" gutterBottom>
+                        <strong>{props.details.tagline}</strong>
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                        {props.details.overview}
+                    </Typography>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    Item Two
+                </TabPanel>
+            </div>
+        </React.Fragment>
     );
 };
 
