@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Box, Divider, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
+import {Box, Divider, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
 
 import {a11yProps, playTime, year} from "../../../../utils/Utils";
 import Actor from "./Actor";
@@ -92,7 +92,9 @@ const info = props => {
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    {props.cast.map(actor => <Actor key={actor.cast_id} {...actor}/>)}
+                    <List>
+                        {props.cast.map(actor => <Actor key={actor.cast_id} {...actor}/>)}
+                    </List>
                 </TabPanel>
             </div>
         </React.Fragment>
