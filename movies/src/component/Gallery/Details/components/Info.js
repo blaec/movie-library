@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const info = props => {
+    console.log(props.cast);
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 

@@ -8,6 +8,10 @@ export const getMovieDetailsUrl = (id) => {
     return `${url_endpoints.movie}${id}?${getParamsFrom(backdrop_params)}`
 };
 
+export const getMovieCreditsUrl = (id) => {
+    return `${url_endpoints.movie}${id}/credits?${getParamsFrom(credits_params)}`
+};
+
 export const getImageUrl = (path) => {
     return url_endpoints.image + path
 };
