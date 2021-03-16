@@ -77,7 +77,6 @@ const info = props => {
                           onChange={handleChange}
                           indicatorColor="primary"
                           textColor="primary"
-                          aria-label="simple tabs example"
                           variant="fullWidth">
                         <Tab label="Info" {...a11yProps(0)} />
                         <Tab label="Cast" {...a11yProps(1)} />
