@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const info = props => {
+    console.log(props);
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -97,7 +98,8 @@ const info = props => {
                 <TabPanel value={value} index={1}>
                     <List>
                         {props.cast.map(actor => <Actor key={actor.cast_id} {...actor}/>)
-                                   .reduce((prev, curr) => [prev, <Divider/>, curr])}
+                                   .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
+                        }
                     </List>
                 </TabPanel>
             </div>
