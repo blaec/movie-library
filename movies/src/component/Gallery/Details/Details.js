@@ -17,11 +17,11 @@ const details = (props) => {
     const [isLoadingCast, setIsLoadingCast] = useState(true);
 
     useEffect(() => {
-        console.log("get data: " + (new Date()).getTime());
+        // console.log("get data: " + (new Date()).getTime());
         setIsLoadingMovies(true);
         axios.get(getMovieDetailsUrl(props.tmdbId))
             .then(response => {
-                console.log("extract data: " + (new Date()).getTime());
+                // console.log("extract data: " + (new Date()).getTime());
                 let movies = response.data;
                 setMovieDetails(movies);
                 setGenres(movies.genres.map(genre => genre.name).join(', '));
@@ -35,11 +35,11 @@ const details = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log("get cast: " + (new Date()).getTime());
+        // console.log("get cast: " + (new Date()).getTime());
         setIsLoadingCast(true);
         axios.get(getMovieCreditsUrl(props.tmdbId))
             .then(response => {
-                console.log("extract cast: " + (new Date()).getTime());
+                // console.log("extract cast: " + (new Date()).getTime());
                 setCast(response.data.cast);
                 setIsLoadingCast(false);
             })

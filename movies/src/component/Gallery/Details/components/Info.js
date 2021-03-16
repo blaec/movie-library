@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const info = props => {
-    console.log(props.cast);
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -43,6 +42,8 @@ const info = props => {
 
     return (
         <React.Fragment>
+
+            {/* Main movie info */}
             <div className="Info">
                 <Typography component="div">
                     <Box fontSize="caption.fontSize"
@@ -67,6 +68,8 @@ const info = props => {
                     </Box>
                 </Typography>
             </div>
+
+            {/* Additional movie info: tabs: Info and Cast */}
             <div className={classes.root}>
                 <Paper square>
                     <Tabs value={value}
