@@ -93,7 +93,8 @@ const info = props => {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <List>
-                        {props.cast.map(actor => <Actor key={actor.cast_id} {...actor}/>)}
+                        {props.cast.map(actor => <Actor key={actor.cast_id} {...actor}/>)
+                                   .reduce((prev, curr) => [prev, <Divider/>, curr])}
                     </List>
                 </TabPanel>
             </div>
