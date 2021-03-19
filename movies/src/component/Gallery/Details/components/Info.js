@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Box, Divider, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
 
-import {a11yProps, playTime, year} from "../../../../utils/Utils";
+import {a11yProps, NA_Safe, playTime, year} from "../../../../utils/Utils";
 import Actor from "./Actor";
 import '../Details.css';
 import TabPanel from "../../../Tabs/TabPanel";
@@ -31,10 +31,12 @@ const info = props => {
     };
 
     const metadata = {
+        rated: NA_Safe(props.omdbDetails.Rated),
         release_date: year(props.details.release_date),
         runtime: props.details.runtime !== 0
             ? playTime(props.details.runtime)
             : null,
+        rating: NA_Safe(props.omdbDetails.imdbRating, `${props.omdbDetails.imdbRating} [${props.omdbDetails.imdbVotes}]`),
         resolution: props.file.resolution,
         fileSize: props.file.size
             ? `${props.file.size}Gb`
