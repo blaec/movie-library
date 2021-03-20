@@ -2,8 +2,9 @@ import React from 'react';
 
 import {Box, Divider, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
 
-import {a11yProps, playTime, year} from "../../../../utils/Utils";
+import {a11yProps, NA_Safe, playTime, year} from "../../../../utils/Utils";
 import Actor from "./Actor";
+import Facts from "./Facts/Facts";
 import '../Details.css';
 import TabPanel from "../../../Tabs/TabPanel";
 import * as PropTypes from "prop-types";
@@ -31,10 +32,12 @@ const info = props => {
     };
 
     const metadata = {
+        rated: NA_Safe(props.omdbDetails.Rated),
         release_date: year(props.details.release_date),
         runtime: props.details.runtime !== 0
             ? playTime(props.details.runtime)
             : null,
+        rating: NA_Safe(props.omdbDetails.imdbRating, `${props.omdbDetails.imdbRating} [${props.omdbDetails.imdbVotes}]`),
         resolution: props.file.resolution,
         fileSize: props.file.size
             ? `${props.file.size}Gb`
@@ -80,6 +83,7 @@ const info = props => {
                           variant="fullWidth">
                         <Tab label="Info" {...a11yProps(0)} />
                         <Tab label="Cast" {...a11yProps(1)} />
+                        <Tab label="Facts" {...a11yProps(2)} />
                     </Tabs>
                 </Paper>
                 <TabPanel value={value} index={0}>
@@ -99,6 +103,12 @@ const info = props => {
                         {props.cast.map(actor => <Actor key={actor.cast_id} {...actor}/>)
                                    .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
                         }
+                    </List>
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <List>
+                        <Facts omdbDetails={props.omdbDetails}
+                               tmdbDetails={props.details}/>
                     </List>
                 </TabPanel>
             </div>
