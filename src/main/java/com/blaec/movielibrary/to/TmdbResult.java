@@ -17,5 +17,6 @@ public class TmdbResult {
         private final String title;
         private final String release_date;
         private final String poster_path;
+        private final List<Integer> genre_ids;
     }
 }

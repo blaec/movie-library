@@ -1,2 +1,5 @@
 -- 2021-03-13
 ALTER TABLE movies MODIFY file_name VARCHAR(100) DEFAULT NULL;
+
+-- 2021-03-20
+ALTER TABLE movies ADD genres VARCHAR(100) NOT NULL AFTER poster_path;

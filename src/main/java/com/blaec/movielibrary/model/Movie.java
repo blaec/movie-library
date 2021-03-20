@@ -8,6 +8,8 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Entity
@@ -29,6 +31,7 @@ public class Movie{
 
     @Column(name="poster_path")
     @NonNull private String posterPath;
+    @NonNull private String genres;
 
     @Enumerated(EnumType.STRING)
     @NonNull private Type type;
@@ -76,6 +79,7 @@ public class Movie{
         movie.setLocation(movieFileTo.getLocation());
         movie.setDescription(movieFileTo.getDescription());
         movie.setFrameRate(movieFileTo.getFrameRate());
+        movie.setGenres(convertGenres(movieJsonTo.getGenre_ids()));
 
         return movie;
     }
@@ -94,8 +98,15 @@ public class Movie{
         movie.setTitle(movieJsonTo.getTitle());
         movie.setReleaseDate(movieJsonTo.getRelease_date());
         movie.setPosterPath(movieJsonTo.getPoster_path());
+        movie.setGenres(convertGenres(movieJsonTo.getGenre_ids()));
 
         return movie;
+    }
+
+    private static String convertGenres(List<Integer> genres) {
+        return genres.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(","));
     }
 
     @Override

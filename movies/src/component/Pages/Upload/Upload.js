@@ -82,6 +82,7 @@ const upload = () => {
         axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear}))
             .then(response => {
                 setWishMovies(response.data.results);
+                console.log(response.data.results);
                 setIsLoading(false);
             })
             .catch(error => {
