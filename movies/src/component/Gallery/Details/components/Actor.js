@@ -4,8 +4,8 @@ import {getImageUrl} from "../../../../utils/UrlUtils";
 
 const useStyles = makeStyles((theme) => ({
     large: {
-        width: theme.spacing(7),
-        height: theme.spacing(7),
+        width: theme.spacing(9),
+        height: theme.spacing(9),
     },
     actor: {
         paddingLeft: theme.spacing(2),
@@ -18,7 +18,7 @@ const actor = (props) => {
     return (
         <ListItem>
             <ListItemAvatar>
-                <Avatar variant="rounded"
+                <Avatar variant="circle"
                         alt={props.name}
                         src={getImageUrl(props.profile_path)}
                         className={classes.large}
