@@ -1,6 +1,7 @@
 import React from 'react';
 import Fact from "./Fact";
 import {Typography} from "@material-ui/core";
+import {joinNames} from "../../../../../utils/Utils";
 
 const facts = (props) => {
     const {omdbDetails, tmdbDetails} = props;
@@ -32,9 +33,9 @@ const facts = (props) => {
                 <Fact header="DVD:"
                       text={omdbDetails.DVD}/>
                 <Fact header="Production Companies:"
-                      text={tmdbDetails.production_companies.map(company => company.name).join(', ')}/>
+                      text={joinNames(tmdbDetails.production_companies)}/>
                 <Fact header="Production Countries:"
-                      text={tmdbDetails.production_countries.map(country => country.name).join(', ')}/>
+                      text={joinNames(tmdbDetails.production_countries)}/>
             </Typography>
         </div>
     );

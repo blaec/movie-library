@@ -6,6 +6,7 @@ import Info from "./components/Info";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import './Details.css';
 import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
+import {joinNames} from "../../../utils/Utils";
 
 // TODO refactor multiple axios get requests
 const details = (props) => {
@@ -26,7 +27,7 @@ const details = (props) => {
                 // console.log("extract data: " + (new Date()).getTime());
                 let details = response.data;
                 setMovieDetails(details);
-                setGenres(details.genres.map(genre => genre.name).join(', '));
+                setGenres(joinNames(details.genres));
                 setBackdrops(details.images.backdrops);
 
                 // Get movie additional details from omdb

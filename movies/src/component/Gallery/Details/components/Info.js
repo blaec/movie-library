@@ -4,7 +4,7 @@ import {Box, Divider, List, makeStyles, Paper, Tab, Tabs, Typography} from "@mat
 
 import {a11yProps, NA_Safe, playTime, year} from "../../../../utils/Utils";
 import Actor from "./Actor";
-import Facts from "./Facts";
+import Facts from "./Facts/Facts";
 import '../Details.css';
 import TabPanel from "../../../Tabs/TabPanel";
 import * as PropTypes from "prop-types";

@@ -30,3 +30,7 @@ export const NA_Safe = (condition, returnVal) => {
         ? null
         : returnVal || condition;
 };
+
+export const joinNames = (array) => {
+    return array.map(val => val.name).join(', ');
+}
