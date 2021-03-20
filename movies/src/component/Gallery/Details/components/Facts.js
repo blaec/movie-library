@@ -1,5 +1,6 @@
 import React from 'react';
-import {Box, Typography} from "@material-ui/core";
+import Fact from "./Fact";
+import {Typography} from "@material-ui/core";
 
 const facts = (props) => {
     const {omdbDetails, tmdbDetails} = props;
@@ -16,78 +17,24 @@ const facts = (props) => {
     return (
         <div>
             <Typography component="div">
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Original title:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {tmdbDetails.original_title}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Original Language:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {tmdbDetails.original_language}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Directed By:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {omdbDetails.Director}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Budget:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {formatter.format(tmdbDetails.budget)}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Revenue:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {formatter.format(tmdbDetails.revenue)}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Released:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {omdbDetails.Released}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    DVD:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {omdbDetails.DVD}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Production Companies:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {tmdbDetails.production_companies.map(company => company.name).join(', ')}
-                </Box>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightBold">
-                    Production Countries:
-                </Box>
-                    <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightLight">
-                    {tmdbDetails.production_countries.map(country=>country.name).join(', ')}
-                </Box>
+                <Fact header="Original title:"
+                      text={tmdbDetails.original_title}/>
+                <Fact header="Original Language:"
+                      text={tmdbDetails.original_language}/>
+                <Fact header="Directed By:"
+                      text={omdbDetails.Director}/>
+                <Fact header="Budget:"
+                      text={formatter.format(tmdbDetails.budget)}/>
+                <Fact header="Revenue:"
+                      text={formatter.format(tmdbDetails.revenue)}/>
+                <Fact header="Released:"
+                      text={omdbDetails.Released}/>
+                <Fact header="DVD:"
+                      text={omdbDetails.DVD}/>
+                <Fact header="Production Companies:"
+                      text={tmdbDetails.production_companies.map(company => company.name).join(', ')}/>
+                <Fact header="Production Countries:"
+                      text={tmdbDetails.production_countries.map(country => country.name).join(', ')}/>
             </Typography>
         </div>
     );
