@@ -79,7 +79,7 @@ public class Movie{
         movie.setLocation(movieFileTo.getLocation());
         movie.setDescription(movieFileTo.getDescription());
         movie.setFrameRate(movieFileTo.getFrameRate());
-        movie.setGenres(convertGenres(movieJsonTo.getGenre_ids()));
+        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;
     }
@@ -98,14 +98,28 @@ public class Movie{
         movie.setTitle(movieJsonTo.getTitle());
         movie.setReleaseDate(movieJsonTo.getRelease_date());
         movie.setPosterPath(movieJsonTo.getPoster_path());
-        movie.setGenres(convertGenres(movieJsonTo.getGenre_ids()));
+        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;
     }
 
-    private static String convertGenres(List<Integer> genres) {
+    public void setConvertedGenreIds(List<Integer> genres) {
+        this.genres = convertGenreIds(genres);
+    }
+
+    public void setConvertedGenres(List<TmdbResult.Genre> genres) {
+        this.genres = convertGenres(genres);
+    }
+
+    private static String convertGenreIds(List<Integer> genres) {
         return genres.stream()
                 .map(Object::toString)
+                .collect(Collectors.joining(","));
+    }
+
+    private static String convertGenres(List<TmdbResult.Genre> genres) {
+        return genres.stream()
+                .map(TmdbResult.Genre::getId)
                 .collect(Collectors.joining(","));
     }
 

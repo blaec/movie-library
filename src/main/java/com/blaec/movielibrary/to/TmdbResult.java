@@ -18,5 +18,13 @@ public class TmdbResult {
         private final String release_date;
         private final String poster_path;
         private final List<Integer> genre_ids;
+        private final List<Genre> genres;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Genre{
+        private final String id;
+        private final String name;
     }
 }

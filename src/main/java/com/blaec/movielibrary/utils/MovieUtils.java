@@ -36,9 +36,10 @@ public class MovieUtils {
      * @param dbMovies database movies
      * @return true if movie exists in database
      */
-    public static boolean isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
+    public static Movie isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
         return StreamSupport.stream(dbMovies.spliterator(), false)
-                .anyMatch(dbMovie -> dbMovie.getFileName().equals(fileName));
+                .filter(dbMovie -> dbMovie.getFileName().equals(fileName))
+                .findFirst().orElse(null);
     }
 
     public static boolean isNullSave(TmdbResult.TmdbMovie movieJson, String logDetails) {

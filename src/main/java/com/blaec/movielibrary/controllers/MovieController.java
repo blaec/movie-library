@@ -50,9 +50,11 @@ public class MovieController {
 
         // Save only new movies to database
         for (MovieFileTo movieFile : movieFiles) {
-            if (!MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies)) {
-//                log.debug("already exist | {}", movieFile.toString());
-//            } else {
+            Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
+            if (dbMovie != null) {
+                // TODO temporarily commented
+//                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
+            } else {
                 movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
             }
         }

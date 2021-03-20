@@ -81,6 +81,16 @@ public class MovieService {
         }
     }
 
+    public void update(TmdbResult.TmdbMovie movieJson, Movie movie) {
+        try {
+            movie.setConvertedGenres(movieJson.getGenres());
+            Movie updatedMovie = movieRepository.save(movie);
+            log.info("updated | {}", updatedMovie.toString());
+        } catch (Exception e) {
+            log.error(movie.toString(), e);
+        }
+    }
+
     /**
      * Delete movie from db
      *
