@@ -106,9 +106,9 @@ public class MovieService {
                 log.info("movie {} with id {} deleted", movie.toString(), id);
             }
         } catch (IllegalArgumentException e) {
-            log.error("can't delete movie, wrong id: {}", id);
+            log.error("can't delete movie, wrong id: {}", id, e);
         } catch (Exception e) {
-            log.error("failed deleting movie by id: {}", id);
+            log.error("failed deleting movie by id: {}", id, e);
         }
     }
 }

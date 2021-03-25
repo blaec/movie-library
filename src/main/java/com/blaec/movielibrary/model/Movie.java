@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,6 +33,10 @@ public class Movie{
     @Column(name="poster_path")
     @NonNull private String posterPath;
     @NonNull private String genres;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="genre_id")
+    @NonNull private Set<Genre> movieGenres;
 
     @Enumerated(EnumType.STRING)
     @NonNull private Type type;
@@ -99,6 +104,7 @@ public class Movie{
         movie.setReleaseDate(movieJsonTo.getRelease_date());
         movie.setPosterPath(movieJsonTo.getPoster_path());
         movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
+        movie.setMovieGenres(extractGenres(movieJsonTo.getGenre_ids(), movieJsonTo.getId()));
 
         return movie;
     }
@@ -115,6 +121,12 @@ public class Movie{
         return genres.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(","));
+    }
+
+    private static Set<Genre> extractGenres(List<Integer> genres, String tmdbId) {
+        return genres.stream()
+                .map(genreId -> new Genre(null, tmdbId, genreId))
+                .collect(Collectors.toSet());
     }
 
     private static String convertGenres(List<TmdbResult.Genre> genres) {
