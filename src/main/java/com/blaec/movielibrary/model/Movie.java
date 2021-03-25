@@ -34,7 +34,7 @@ public class Movie{
     @NonNull private String posterPath;
     @NonNull private String genres;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name="genre_id")
     @NonNull private Set<Genre> movieGenres;
 

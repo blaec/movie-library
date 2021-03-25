@@ -12,6 +12,6 @@ CREATE TABLE movie_genres
     tmdb_id     VARCHAR(15)         NOT NULL,
     genre_id    TINYINT UNSIGNED    NOT NULL,
     PRIMARY KEY     (id),
-    CONSTRAINT  movie_genres_idx    UNIQUE (tmdb_id, genre_id),
+#     CONSTRAINT  movie_genres_idx    UNIQUE (tmdb_id, genre_id),
     FOREIGN KEY (tmdb_id) REFERENCES movies (tmdb_id) ON DELETE CASCADE
 );
