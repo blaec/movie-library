@@ -32,11 +32,12 @@ public class Movie{
 
     @Column(name="poster_path")
     @NonNull private String posterPath;
-    @NonNull private String genres;
 
-    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JoinColumn(name="genre_id")
-    @NonNull private Set<Genre> movieGenres;
+    @Column(name="genres")
+    @NonNull private String myGenres;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NonNull private Set<Genre> genres;
 
     @Enumerated(EnumType.STRING)
     @NonNull private Type type;
@@ -84,7 +85,7 @@ public class Movie{
         movie.setLocation(movieFileTo.getLocation());
         movie.setDescription(movieFileTo.getDescription());
         movie.setFrameRate(movieFileTo.getFrameRate());
-        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
+        movie.setMyGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;
     }
@@ -103,18 +104,18 @@ public class Movie{
         movie.setTitle(movieJsonTo.getTitle());
         movie.setReleaseDate(movieJsonTo.getRelease_date());
         movie.setPosterPath(movieJsonTo.getPoster_path());
-        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
-        movie.setMovieGenres(extractGenres(movieJsonTo.getGenre_ids(), movieJsonTo.getId()));
+        movie.setMyGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
+        movie.setGenres(extractGenres(movieJsonTo.getGenre_ids(), movieJsonTo.getId()));
 
         return movie;
     }
 
     public void setConvertedGenreIds(List<Integer> genres) {
-        this.genres = convertGenreIds(genres);
+        this.myGenres = convertGenreIds(genres);
     }
 
     public void setConvertedGenres(List<TmdbResult.Genre> genres) {
-        this.genres = convertGenres(genres);
+        this.myGenres = convertGenres(genres);
     }
 
     private static String convertGenreIds(List<Integer> genres) {
@@ -125,7 +126,7 @@ public class Movie{
 
     private static Set<Genre> extractGenres(List<Integer> genres, String tmdbId) {
         return genres.stream()
-                .map(genreId -> new Genre(null, tmdbId, genreId))
+                .map(genreId -> new Genre(null, genreId))
                 .collect(Collectors.toSet());
     }
 
