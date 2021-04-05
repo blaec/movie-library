@@ -20,3 +20,4 @@ CREATE TABLE movies_genres
     FOREIGN KEY (movie_id) REFERENCES movies (id),
     FOREIGN KEY (genres_id) REFERENCES genres (id)
 );
+ALTER TABLE movies DROP COLUMN genres;

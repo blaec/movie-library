@@ -18,7 +18,7 @@ const actor = (props) => {
     return (
         <ListItem>
             <ListItemAvatar>
-                <Avatar variant="circle"
+                <Avatar variant="circular"
                         alt={props.name}
                         src={getImageUrl(props.profile_path)}
                         className={classes.large}

@@ -2,6 +2,7 @@ package com.blaec.movielibrary.to;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -17,7 +18,8 @@ public class TmdbResult {
         private final String title;
         private final String release_date;
         private final String poster_path;
-        private final List<Integer> genre_ids;
+        @Setter
+        private List<Integer> genre_ids;
         private final List<Genre> genres;
     }
 

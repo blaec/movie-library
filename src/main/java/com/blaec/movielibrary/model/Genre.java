@@ -16,6 +16,5 @@ public class Genre {
     @Id private Integer id;
 
     @Column(name="genre_id")
-    @NonNull
-    private Integer genreId;
+    @NonNull private Integer genreId;
 }

@@ -1,5 +1,6 @@
 package com.blaec.movielibrary.utils;
 
+import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.to.TmdbResult;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class MovieUtils {
      */
     public static Movie isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
         return StreamSupport.stream(dbMovies.spliterator(), false)
+                .filter(dbMovie -> dbMovie.getType() == Type.movie)
                 .filter(dbMovie -> dbMovie.getFileName().equals(fileName))
                 .findFirst().orElse(null);
     }
