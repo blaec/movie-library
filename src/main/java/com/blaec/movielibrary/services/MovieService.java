@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Slf4j
 @AllArgsConstructor
 @Service
@@ -37,6 +39,16 @@ public class MovieService {
      */
     public Iterable<Movie> getAllWishMovies() {
         return movieRepository.findAllByType(Type.wish_list);
+    }
+
+    /**
+     * Get all movies with at least one genre
+     *
+     * @param genres set of genre ids
+     * @return Iterable<Movie> list
+     */
+    public Iterable<Movie> getAllByGenres(Set<Integer> genres) {
+        return movieRepository.findAllByGenreId(genres);
     }
 
     /**
@@ -84,6 +96,7 @@ public class MovieService {
     public void update(TmdbResult.TmdbMovie movieJson, Movie movie) {
         try {
             movie.setConvertedGenres(movieJson.getGenres());
+            // need to delete children before saving a-new to prevent error
             movieRepository.delete(movie);
             Movie updatedMovie = movieRepository.save(movie);
             log.info("updated | {}", updatedMovie.toString());
