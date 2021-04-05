@@ -59,7 +59,7 @@ public class MovieController {
             Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
             if (dbMovie != null) {
                 // TODO temporarily commented
-                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
+//                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
             } else {
                 movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
             }
