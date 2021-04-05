@@ -12,6 +12,6 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
     Iterable<Movie> findAllByType(Type type);
 
-    @Query("SELECT DISTINCT m FROM Movie m JOIN m.genres g WHERE g.genreId IN (:genres)")
+    @Query("SELECT DISTINCT m FROM Movie m JOIN m.genres g WHERE g.genreId IN (:genres) AND m.type='movie'")
     Iterable<Movie> findAllByGenreId(Set<Integer> genres);
 }

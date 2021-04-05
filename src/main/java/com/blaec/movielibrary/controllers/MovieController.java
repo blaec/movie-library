@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,6 +35,11 @@ public class MovieController {
     @GetMapping("/wishlist")
     public Iterable<Movie> getAllWishMovies() {
         return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
+    }
+
+    @GetMapping("/filter/{genreIds}")
+    public Iterable<Movie> getAllByGenres(@PathVariable Set<Integer> genreIds) {
+        return movieService.getAllByGenres(genreIds);
     }
 
     @PostMapping("/{folder}")
