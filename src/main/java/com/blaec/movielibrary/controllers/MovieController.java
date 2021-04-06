@@ -37,8 +37,8 @@ public class MovieController {
         return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
     }
 
-    @GetMapping("/filter/{genreIds}")
-    public Iterable<Movie> getAllByGenres(@PathVariable Set<Integer> genreIds) {
+    @PostMapping("/filter")
+    public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
         return movieService.getAllByGenres(genreIds);
     }
 

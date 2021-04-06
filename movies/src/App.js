@@ -5,7 +5,7 @@ import Layout from "./hoc/Layout/Layout";
 import Collection from "./component/Pages/Collection/Collection";
 import Upload from "./component/Pages/Upload/Upload";
 import Wishlist from "./component/Pages/Wishlist/Wishlist";
-import Filter from "./component/Pages/Filter";
+import Filter from "./component/Pages/Filter/Filter";
 import {reactLinks} from "./utils/UrlUtils";
 import './utils/Constants.css';
 
