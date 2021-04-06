@@ -7,6 +7,7 @@ import {List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
+import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 
 const movieMenu = () => {
     const [selectedCaption, setSelectedCaption] = useState("Gallery");
@@ -28,6 +29,12 @@ const movieMenu = () => {
                         link={reactLinks.wishlist}
                         caption="Wishlist"
                         icon={<FavoriteTwoToneIcon/>}
+            />
+            <MyListItem selected={selectedCaption}
+                        clicked={handleListItemClick}
+                        link={reactLinks.filter}
+                        caption="Filter"
+                        icon={<SearchTwoToneIcon/>}
             />
             <MyListItem selected={selectedCaption}
                         clicked={handleListItemClick}

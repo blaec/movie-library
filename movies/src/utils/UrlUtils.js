@@ -1,6 +1,7 @@
 export const reactLinks = {
     home: "/",
     wishlist: "/wishlist",
+    filter: "/filter",
     upload: "/upload"
 };
 
@@ -13,7 +14,7 @@ export const getOmdbMovieDetails = (imdbId) => {
 };
 
 export const getMovieCreditsUrl = (id) => {
-    return `${url_endpoints.movie}${id}/credits?${getParamsFrom(credits_params)}`
+    return `${url_endpoints.movie}${id}/credits?${getParamsFrom(api_lang_params)}`
 };
 
 export const getImageUrl = (path) => {
@@ -24,6 +25,10 @@ export const getSearchMovieUrl = (props) => {
     const params = {...caption_year_params, ...props};
     return `${url_endpoints.searchByNameAndYear}?${getParamsFrom(params)}`
 };
+
+export const getAllGenresUrl = () => {
+    return `${url_endpoints.genres}?${getParamsFrom(api_lang_params)}`
+}
 
 const getParamsFrom = (obj) => {
     return Object.entries(obj).map(([key, val]) => `${key}=${val}`).join('&');
@@ -55,7 +60,8 @@ const url_endpoints = {
     image: 'http://image.tmdb.org/t/p/original',
     movie: 'https://api.themoviedb.org/3/movie/',
     searchByNameAndYear: 'https://api.themoviedb.org/3/search/movie',
-    omdb_movie: 'http://www.omdbapi.com/?i='
+    omdb_movie: 'http://www.omdbapi.com/?i=',
+    genres: 'https://api.themoviedb.org/3/genre/movie/list'
 };
 
 const backdrop_params = {
@@ -66,7 +72,7 @@ const backdrop_params = {
 };
 
 // https://api.themoviedb.org/3/movie/9487/credits?api_key=<<key>>&language=en-US
-const credits_params = {
+const api_lang_params = {
     api_key: settings.tmdb.api_key,
     language: settings.tmdb.language
 };
