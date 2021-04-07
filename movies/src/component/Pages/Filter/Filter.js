@@ -21,6 +21,7 @@ const filter = (props) => {
     const [genres, setGenres] = useState([]);
     const [genreIds, setGenreIds] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [filteredMovies, setFilteredMovies] = useState();
 
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
@@ -55,8 +56,9 @@ const filter = (props) => {
         console.log(genreIds);
         axios.post("/movies/filter", genreIds)
             .then(response => {
-                console.log(response.data);
+                setFilteredMovies(response.data);
                 setIsLoading(false);
+                console.log(response.data);
             })
             .catch(error => {
                 setIsLoading(false);
