@@ -17,6 +17,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 movies: action.movies
             };
+        case actionTypes.DELETE_MOVIE:
+            return {
+                ...state,
+                movies: action.movies
+            };
         default:
             return state;
     }

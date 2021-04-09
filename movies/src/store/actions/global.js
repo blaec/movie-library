@@ -13,3 +13,10 @@ export const setMovies = (movies) => {
         movies: movies
     }
 };
+
+export const deleteMovies = (movies) => {
+    return {
+        type: actionTypes.DELETE_MOVIE,
+        movies: movies
+    }
+};

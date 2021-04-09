@@ -1,4 +1,5 @@
 export {
     changeSearch,
-    setMovies
+    setMovies,
+    deleteMovies
 } from './global';

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../axios-movies";
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -8,6 +8,7 @@ import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import "./Gallery.css";
+import * as actions from "../../../store/actions";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -21,6 +22,8 @@ const resolutions = {
 
 const gallery = (props) => {
     console.log("-- render gallery");
+    const dispatch = useDispatch();
+    let {movies} = props;
     const search = useSelector(state => state.search);
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
@@ -31,6 +34,7 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -46,8 +50,8 @@ const gallery = (props) => {
         setIsLoading(true);
         axios.delete('/movies/' + id)
             .then(response => {
-                let updatedMovieList = props.movies.filter(m => m.id !== id);
-                // setLoadedMovieList(updatedMovieList);
+                let updatedMovieList = movies.filter(m => m.id !== id);
+                onDeleteMovieChange(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
             })
@@ -74,14 +78,14 @@ const gallery = (props) => {
         console.log("check search");
 
         // filter movies using Search...
-        const filteredMovies = Object.values(props.movies).filter(m => m.title.toLowerCase().includes(search));
+        const filteredMovies = Object.values(movies).filter(m => m.title.toLowerCase().includes(search));
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
         const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
         setMoviesPerPage(structure.rows * structure.moviesPerRow);
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
-    }, [search, windowWidth, props.movies]);
+    }, [search, windowWidth, movies]);
 
     let myGallery = <MyLoader/>;
     if (!isLoading) {
