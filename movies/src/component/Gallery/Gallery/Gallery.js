@@ -19,10 +19,11 @@ const resolutions = {
     9999: {rows: 3, moviesPerRow: 7}
 };
 
-const gallery = (props) => {
+const gallery = () => {
+    console.log("-- render gallery");
     const search = useSelector(state => state.search);
+    const movies = useSelector(state => state.movies);
 
-    const [loadedMovieList, setLoadedMovieList] = useState([]);
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -30,7 +31,7 @@ const gallery = (props) => {
     const [selectedMovie, setSelectedMovie] = useState('');
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -46,8 +47,8 @@ const gallery = (props) => {
         setIsLoading(true);
         axios.delete('/movies/' + id)
             .then(response => {
-                let updatedMovieList = loadedMovieList.filter(m => m.id !== id);
-                setLoadedMovieList(updatedMovieList);
+                let updatedMovieList = movies.filter(m => m.id !== id);
+                // setLoadedMovieList(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
             })
@@ -63,19 +64,7 @@ const gallery = (props) => {
     };
 
     useEffect(() => {
-        setIsLoading(true);
-        axios.get(props.url)
-            .then(response => {
-                setLoadedMovieList(response.data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
-    }, []);
-
-    useEffect(() => {
+        console.log("check scroller");
         if (!isViewingDetails) {
             window.scrollBy(0, scrollPosition);
         }
@@ -83,19 +72,21 @@ const gallery = (props) => {
 
     const windowWidth = window.innerWidth;
     useEffect(() => {
+        console.log("check search");
 
         // filter movies using Search...
-        const filteredMovies = Object.values(loadedMovieList).filter(m => m.title.toLowerCase().includes(search));
+        const filteredMovies = Object.values(movies).filter(m => m.title.toLowerCase().includes(search));
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
         const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
         setMoviesPerPage(structure.rows * structure.moviesPerRow);
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
-    }, [search, windowWidth, loadedMovieList]);
+    }, [search, windowWidth, movies]);
 
     let myGallery = <MyLoader/>;
     if (!isLoading) {
+        console.log("loading stopped");
         if (isViewingDetails) {
             myGallery = <Details closed={handleDetailsClose}
                                  delete={handleDeleteMovie}

@@ -1,1 +1,3 @@
 export const CHANGE_FILTER = 'CHANGE_FILTER';
+export const SET_MOVIES = 'SET_MOVIES';
+export const DELETE_MOVIE = 'DELETE_MOVIE';

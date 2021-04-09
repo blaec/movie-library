@@ -1,7 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    search: ''
+    search: '',
+    movies: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 search: action.newSearch.toLowerCase()
+            };
+        case actionTypes.SET_MOVIES:
+            return {
+                ...state,
+                movies: action.movies
             };
         default:
             return state;

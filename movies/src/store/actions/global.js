@@ -6,3 +6,10 @@ export const changeSearch = (string) => {
         newSearch: string
     }
 };
+
+export const setMovies = (movies) => {
+    return {
+        type: actionTypes.SET_MOVIES,
+        movies: movies
+    }
+};
