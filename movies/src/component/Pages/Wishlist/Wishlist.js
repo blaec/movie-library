@@ -1,21 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import Gallery from "../../Gallery/Gallery/Gallery";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import * as actions from "../../../store/actions";
 import axios from "../../../axios-movies";
 import MyLoader from "../../../UI/Spinners/MyLoader";
+import {javaApi} from "../../../utils/UrlUtils";
 
 const wishlist = () => {
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const movies = useSelector(state => state.movies);
     const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
 
     useEffect(() => {
         console.log("load movies from wishlist");
         setIsLoading(true);
-        axios.get("/movies/wishlist")
+        axios.get(javaApi.getAllWishMovies)
             .then(response => {
                 console.log("loaded movies from wishlist");
                 onMoviesChange(response.data)
@@ -29,7 +31,7 @@ const wishlist = () => {
 
     let wishList = <MyLoader/>;
     if (!isLoading) {
-        wishList = <Gallery/>
+        wishList = <Gallery movies={movies}/>
     }
 
     return (

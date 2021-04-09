@@ -19,10 +19,9 @@ const resolutions = {
     9999: {rows: 3, moviesPerRow: 7}
 };
 
-const gallery = () => {
+const gallery = (props) => {
     console.log("-- render gallery");
     const search = useSelector(state => state.search);
-    const movies = useSelector(state => state.movies);
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -47,7 +46,7 @@ const gallery = () => {
         setIsLoading(true);
         axios.delete('/movies/' + id)
             .then(response => {
-                let updatedMovieList = movies.filter(m => m.id !== id);
+                let updatedMovieList = props.movies.filter(m => m.id !== id);
                 // setLoadedMovieList(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
@@ -75,14 +74,14 @@ const gallery = () => {
         console.log("check search");
 
         // filter movies using Search...
-        const filteredMovies = Object.values(movies).filter(m => m.title.toLowerCase().includes(search));
+        const filteredMovies = Object.values(props.movies).filter(m => m.title.toLowerCase().includes(search));
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
         const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
         setMoviesPerPage(structure.rows * structure.moviesPerRow);
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
-    }, [search, windowWidth, movies]);
+    }, [search, windowWidth, props.movies]);
 
     let myGallery = <MyLoader/>;
     if (!isLoading) {

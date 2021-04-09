@@ -5,6 +5,11 @@ export const reactLinks = {
     upload: "/upload"
 };
 
+export const javaApi = {
+    getAllMovies: "/movies/gallery",
+    getAllWishMovies: "/movies/wishlist"
+};
+
 export const getMovieDetailsUrl = (id) => {
     return `${url_endpoints.movie}${id}?${getParamsFrom(backdrop_params)}`
 };

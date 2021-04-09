@@ -3,19 +3,21 @@ import Gallery from "../../Gallery/Gallery/Gallery";
 import axios from "../../../axios-movies";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import * as actions from "../../../store/actions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {javaApi} from "../../../utils/UrlUtils";
 
 const collection = () => {
     const dispatch = useDispatch();
 
     const [isLoading, setIsLoading] = useState(true);
 
+    const movies = useSelector(state => state.movies);
     const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
 
     useEffect(() => {
         console.log("load movies");
         setIsLoading(true);
-        axios.get("/movies/gallery")
+        axios.get(javaApi.getAllMovies)
             .then(response => {
                 console.log("loaded movies");
                 onMoviesChange(response.data)
@@ -29,7 +31,7 @@ const collection = () => {
 
     let gallery = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery/>
+        gallery = <Gallery movies={movies}/>
     }
 
     return (
