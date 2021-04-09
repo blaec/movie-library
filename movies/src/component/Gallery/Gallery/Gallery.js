@@ -21,7 +21,6 @@ const resolutions = {
 };
 
 const gallery = (props) => {
-    console.log("-- render gallery");
     const dispatch = useDispatch();
     let {movies} = props;
     const search = useSelector(state => state.search);
@@ -67,7 +66,6 @@ const gallery = (props) => {
     };
 
     useEffect(() => {
-        console.log("check scroller");
         if (!isViewingDetails) {
             window.scrollBy(0, scrollPosition);
         }
@@ -75,7 +73,6 @@ const gallery = (props) => {
 
     const windowWidth = window.innerWidth;
     useEffect(() => {
-        console.log("check search");
 
         // filter movies using Search...
         const filteredMovies = Object.values(movies).filter(m => m.title.toLowerCase().includes(search));
@@ -83,13 +80,13 @@ const gallery = (props) => {
 
         // set gallery pagination structure
         const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
-        setMoviesPerPage(structure.rows * structure.moviesPerRow);
+        let moviesPerPage = structure.rows * structure.moviesPerRow;
+        setMoviesPerPage(moviesPerPage);
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
     }, [search, windowWidth, movies]);
 
     let myGallery = <MyLoader/>;
     if (!isLoading) {
-        console.log("loading stopped");
         if (isViewingDetails) {
             myGallery = <Details closed={handleDetailsClose}
                                  delete={handleDeleteMovie}
