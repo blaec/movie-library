@@ -5,8 +5,8 @@ import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
+import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 import './Filter.css';
-import Gallery from "../../Gallery/Gallery/Gallery";
 import * as actions from "../../../store/actions";
 import {useDispatch} from "react-redux";
 
@@ -57,6 +57,11 @@ const filter = (props) => {
         onGenreIdsChange(ids);
     };
 
+    const handleClear = () => {
+        setGenreSelection([]);
+        onGenreIdsChange([]);
+    }
+
     const handleGetMovies = () => {
         setIsLoading(true);
         props.history.push(reactLinks.filtered);
@@ -93,6 +98,10 @@ const filter = (props) => {
                     <MySubmitButton icon={<SearchTwoToneIcon/>}
                                     submit={handleGetMovies}
                                     caption="Filter"
+                    />
+                    <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
+                                    submit={handleClear}
+                                    caption="Clear"
                     />
                 </CardActions>
             </Card>;
