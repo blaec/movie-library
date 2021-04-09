@@ -2,7 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     search: '',
-    movies: {}
+    movies: {},
+    genreIds: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +22,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 movies: action.movies
+            };
+        case actionTypes.SET_GENRE_IDS:
+            return {
+                ...state,
+                genreIds: action.genreIds
             };
         default:
             return state;

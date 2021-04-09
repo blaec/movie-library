@@ -20,3 +20,10 @@ export const deleteMovies = (movies) => {
         movies: movies
     }
 };
+
+export const setGenreIds = (ids) => {
+    return {
+        type: actionTypes.SET_GENRE_IDS,
+        genreIds: ids
+    }
+};

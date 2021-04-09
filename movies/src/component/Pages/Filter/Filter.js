@@ -1,11 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {Card, CardActions, CardContent, FormControl, InputLabel, makeStyles, Select} from "@material-ui/core";
 import axios from "../../../axios-movies";
-import {getAllGenresUrl} from "../../../utils/UrlUtils";
+import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import './Filter.css';
+import Gallery from "../../Gallery/Gallery/Gallery";
+import * as actions from "../../../store/actions";
+import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -16,12 +19,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const filter = (props) => {
+    const dispatch = useDispatch();
+
     const classes = useStyles();
     const [genreSelection, setGenreSelection] = useState([]);
     const [genres, setGenres] = useState([]);
-    const [genreIds, setGenreIds] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [filteredMovies, setFilteredMovies] = useState();
+
+    const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
 
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
@@ -29,7 +34,7 @@ const filter = (props) => {
         axios.get(getAllGenresUrl())
             .then(response => {
                 setGenres(response.data.genres);
-                console.log(genres);
+                // console.log(genres);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -49,21 +54,12 @@ const filter = (props) => {
             }
         }
         setGenreSelection(value);
-        setGenreIds(ids);
+        onGenreIdsChange(ids);
     };
 
     const handleGetMovies = () => {
-        console.log(genreIds);
-        axios.post("/movies/filter", genreIds)
-            .then(response => {
-                setFilteredMovies(response.data);
-                setIsLoading(false);
-                console.log(response.data);
-            })
-            .catch(error => {
-                setIsLoading(false);
-                console.log(error);
-            });
+        setIsLoading(true);
+        props.history.push(reactLinks.filtered);
     };
 
     let genreFilter = <MyLoader/>;
@@ -99,7 +95,7 @@ const filter = (props) => {
                                     caption="Filter"
                     />
                 </CardActions>
-            </Card>
+            </Card>;
     }
 
     return (

@@ -1,5 +1,6 @@
 export const reactLinks = {
     home: "/",
+    filtered: "/filtered",
     wishlist: "/wishlist",
     filter: "/filter",
     upload: "/upload"
