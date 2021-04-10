@@ -11,10 +11,18 @@ import * as actions from "../../../store/actions";
 import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+    card: {
+        marginTop: theme.spacing(9)
+    },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
         maxWidth: 300,
+        paddingTop: theme.spacing(1)
+    },
+    label: {
+        fontWeight: 1000,
+        fontSize: 20
     }
 }));
 
@@ -71,11 +79,11 @@ const filter = (props) => {
     if (!isLoading) {
         const names = genres.flatMap(g => g.name);
         genreFilter =
-            <Card variant="elevation">
+            <Card variant="elevation" className={classes.card}>
                 <CardContent>
                     <FormControl className={classes.formControl}>
-                        <InputLabel shrink htmlFor="select-multiple-native">
-                            Genres
+                        <InputLabel className={classes.label} shrink htmlFor="select-multiple-native">
+                            GENRES
                         </InputLabel>
                         <Select
                             multiple
