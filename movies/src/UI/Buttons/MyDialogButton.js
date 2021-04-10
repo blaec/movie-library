@@ -2,7 +2,8 @@ import React from 'react';
 import {Button} from "@material-ui/core";
 
 const myDialogButton = (props) => {
-    const type = {
+    let {clicked, type, caption} = props;
+    const style = {
         success: {
             color: "primary",
             autoFocus: true
@@ -14,11 +15,11 @@ const myDialogButton = (props) => {
     };
 
     return (
-        <Button onClick={props.clicked}
-                color={type[props.type].color}
-                autoFocus={type[props.type].autoFocus}
+        <Button onClick={clicked}
+                color={style[type].color}
+                autoFocus={style[type].autoFocus}
         >
-            {props.caption}
+            {caption}
         </Button>
     );
 };
