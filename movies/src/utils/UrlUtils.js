@@ -3,12 +3,13 @@ export const reactLinks = {
     filtered: "/filtered",
     wishlist: "/wishlist",
     filter: "/filter",
-    upload: "/upload"
+    upload: "/upload",
 };
 
 export const javaApi = {
     getAllMovies: "/movies/gallery",
-    getAllWishMovies: "/movies/wishlist"
+    getAllWishMovies: "/movies/wishlist",
+    getAllByGenres: "/movies/filter",
 };
 
 export const getMovieDetailsUrl = (id) => {

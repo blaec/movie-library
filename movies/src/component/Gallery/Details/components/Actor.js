@@ -1,6 +1,8 @@
 import React from 'react';
-import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
+
 import {getImageUrl} from "../../../../utils/UrlUtils";
+
+import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     large: {

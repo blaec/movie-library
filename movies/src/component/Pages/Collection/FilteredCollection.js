@@ -1,18 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
-import Gallery from "../../Gallery/Gallery/Gallery";
 import {useSelector} from "react-redux";
+
+import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
+import {javaApi} from "../../../utils/UrlUtils";
 
 const filteredCollection = () => {
+    const genreIds = useSelector(state => state.genreIds);
+
     const [filteredMovies, setFilteredMovies] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
-    const genreIds = useSelector(state => state.genreIds);
-
     useEffect(() => {
         setIsLoading(true);
-        axios.post("/movies/filter", genreIds)
+        axios.post(javaApi.getAllByGenres, genreIds)
             .then(response => {
                 setFilteredMovies(response.data);
                 setIsLoading(false);

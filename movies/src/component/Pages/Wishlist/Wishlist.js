@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import Gallery from "../../Gallery/Gallery/Gallery";
 import {useDispatch, useSelector} from "react-redux";
-import * as actions from "../../../store/actions";
 import axios from "../../../axios-movies";
+
+import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {javaApi} from "../../../utils/UrlUtils";
+import * as actions from "../../../store/actions";
 
 const wishlist = () => {
+    const movies = useSelector(state => state.movies);
     const dispatch = useDispatch();
+    const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
 
     const [isLoading, setIsLoading] = useState(true);
-
-    const movies = useSelector(state => state.movies);
-    const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
 
     useEffect(() => {
         console.log("load movies from wishlist");

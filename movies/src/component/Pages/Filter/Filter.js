@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Card, CardActions, CardContent, FormControl, InputLabel, makeStyles, Select} from "@material-ui/core";
 import axios from "../../../axios-movies";
-import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
+import {useDispatch} from "react-redux";
+
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
+import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
+import * as actions from "../../../store/actions";
+import './Filter.css';
+
+import {Card, CardActions, CardContent, FormControl, InputLabel, makeStyles, Select} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
-import './Filter.css';
-import * as actions from "../../../store/actions";
-import {useDispatch} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -27,14 +29,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const filter = (props) => {
-    const dispatch = useDispatch();
-
     const classes = useStyles();
+
+    const dispatch = useDispatch();
+    const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
+
     const [genreSelection, setGenreSelection] = useState([]);
     const [genres, setGenres] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
 
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
@@ -42,7 +44,6 @@ const filter = (props) => {
         axios.get(getAllGenresUrl())
             .then(response => {
                 setGenres(response.data.genres);
-                // console.log(genres);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -52,7 +53,7 @@ const filter = (props) => {
     }, []);
 
     const handleChangeMultiple = (event) => {
-        const { options } = event.target;
+        const {options} = event.target;
         const value = [];
         const ids = [];
         for (let i = 0, l = options.length; i < l; i += 1) {
@@ -68,7 +69,7 @@ const filter = (props) => {
     const handleClear = () => {
         setGenreSelection([]);
         onGenreIdsChange([]);
-    }
+    };
 
     const handleGetMovies = () => {
         setIsLoading(true);

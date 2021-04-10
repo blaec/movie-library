@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../axios-movies";
 
-import Pagination from '@material-ui/lab/Pagination';
-
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import "./Gallery.css";
 import * as actions from "../../../store/actions";
+import "./Gallery.css";
+
+import Pagination from '@material-ui/lab/Pagination';
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -21,9 +21,11 @@ const resolutions = {
 };
 
 const gallery = (props) => {
-    const dispatch = useDispatch();
     let {movies} = props;
+
     const search = useSelector(state => state.search);
+    const dispatch = useDispatch();
+    const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -33,7 +35,6 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);

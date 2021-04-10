@@ -20,7 +20,7 @@ const upload = () => {
         setFileLocation('');
         setTmdbId('');
         setFileName('');
-    }
+    };
 
     const handleChooseLocation = (event) => {
         setFileLocation(event.target.value);
@@ -41,7 +41,7 @@ const upload = () => {
             case "wish-year":   setWishYear(text);  break;
             default:            alert("Upload -> handleTextFields -> wrong id")
         }
-    }
+    };
 
     const handleUpload = () => {
         setIsLoading(true);
