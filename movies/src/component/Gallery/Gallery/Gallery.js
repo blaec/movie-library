@@ -5,14 +5,12 @@ import axios from "../../../axios-movies";
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import MySnackbar from "../../../UI/MySnackbar";
+import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import * as actions from "../../../store/actions";
 import "./Gallery.css";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {getDeleteUrl} from "../../../utils/UrlUtils";
-import {Snackbar} from "@material-ui/core";
-import {Alert} from "@material-ui/lab";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -39,8 +37,6 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
-    let initialSnackBarState = {open: false, message: '', type: ''};
     const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
 
     const handleSnackbarClose = (event, reason) => {
@@ -73,6 +69,7 @@ const gallery = (props) => {
                 setSnackbarProps({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
             })
             .catch(error => {
+                console.log(error);
                 handleDetailsClose();
                 setIsLoading(false);
                 setSnackbarProps({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});

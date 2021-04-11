@@ -3,6 +3,7 @@ import axios from '../../../axios-movies';
 
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
+import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import {getSearchMovieUrl} from "../../../utils/UrlUtils";
 import './Upload.css';
 
@@ -15,6 +16,15 @@ const upload = () => {
     const [switchStatus, setSwitchStatus] = useState(false);
     const [wishMovies, setWishMovies] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackbarProps(initialSnackBarState);
+    };
 
     const resetForm = () => {
         setFileLocation('');
@@ -95,18 +105,21 @@ const upload = () => {
         setIsLoading(true);
         axios.post('/movies/wish', wishMovie)
             .then(response => {
-                // let updatedMovieList = loadedMovieList.filter(m => m.id !== id);
-                // setLoadedMovieList(updatedMovieList);
-                // handleDetailsClose();
                 console.log(`saving movie #${wishMovie.id}`)
                 setIsLoading(false);
+                setSnackbarProps({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
             })
             .catch(error => {
-                // handleDetailsClose();
                 setIsLoading(false);
                 console.log(error);
+                setSnackbarProps({open: true, message: `Failed to movie '${wishMovie.title}' to wishlist`, type: 'error'});
             });
     };
+    let snackbar = null;
+    if (snackbarProps.open) {
+        snackbar = <MySnackbar {...snackbarProps}
+                               close={handleSnackbarClose}/>;
+    }
 
     return (
         <div className="Upload">
@@ -124,6 +137,7 @@ const upload = () => {
                         onChangeSwitch={handleSwitchChange}
                         switchIsOn={switchStatus}
             />
+            {snackbar}
         </div>
     );
 };
