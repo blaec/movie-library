@@ -39,14 +39,16 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const [open, setOpen] = useState(false);
 
-    const handleClose = (event, reason) => {
+    let initialSnackBarState = {open: false, message: '', type: ''};
+    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
+
+    const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
 
-        setOpen(false);
+        setSnackbarProps(initialSnackBarState);
     };
 
     const handleViewMovieDetails = (movie) => {
@@ -63,16 +65,17 @@ const gallery = (props) => {
         setIsLoading(true);
         axios.delete(getDeleteUrl(id))
             .then(response => {
+                let deleted = movies.find(m => m.id === id);
                 let updatedMovieList = movies.filter(m => m.id !== id);
                 onDeleteMovieChange(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
-                setOpen(true);
+                setSnackbarProps({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
             })
             .catch(error => {
                 handleDetailsClose();
                 setIsLoading(false);
-                console.log(error);
+                setSnackbarProps({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
             });
     };
 
@@ -128,15 +131,16 @@ const gallery = (props) => {
             );
         }
     }
+    let snackbar = null;
+    if (snackbarProps.open) {
+        snackbar = <MySnackbar {...snackbarProps}
+                               close={handleSnackbarClose}/>;
+    }
 
     return (
         <React.Fragment>
             {myGallery}
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success">
-                    This is a success message!
-                </Alert>
-            </Snackbar>
+            {snackbar}
         </React.Fragment>
     );
 };

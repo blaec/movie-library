@@ -3,21 +3,19 @@ import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 
 const mySnackbar = (props) => {
-    const [open, setOpen] = useState(false);
-    setOpen(props.open);
-
-    const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpen(false);
-    };
+    const {open, close, message, type} = props;
 
     return (
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success">
-                This is a success message!
+        <Snackbar open={open}
+                  anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                  }}
+                  autoHideDuration={3000}
+                  onClose={close}>
+            <Alert onClose={close}
+                   severity={type}>
+                {message}
             </Alert>
         </Snackbar>
     );
