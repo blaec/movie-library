@@ -20,6 +20,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -64,10 +65,18 @@ public class TmdbApiUtils {
         URL url = getUrlById(id);
         if (url != null) {
             log.debug("{} | {}", id, url);
-            foundMovie = TmdbApiUtils.getMovie(url.toString());
+            foundMovie = convertGenres(TmdbApiUtils.getMovie(url.toString()));
         }
 
         return foundMovie;
+    }
+
+    private static TmdbResult.TmdbMovie convertGenres(TmdbResult.TmdbMovie movie) {
+        movie.setGenre_ids(movie.getGenres().stream()
+                .map(genre -> Integer.valueOf(genre.getId()))
+                .collect(Collectors.toList())
+        );
+        return movie;
     }
 
     /**

@@ -1,6 +1,8 @@
 import React from 'react';
-import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
+
 import {getImageUrl} from "../../../../utils/UrlUtils";
+
+import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -18,7 +20,7 @@ const actor = (props) => {
     return (
         <ListItem>
             <ListItemAvatar>
-                <Avatar variant="circle"
+                <Avatar variant="circular"
                         alt={props.name}
                         src={getImageUrl(props.profile_path)}
                         className={classes.large}

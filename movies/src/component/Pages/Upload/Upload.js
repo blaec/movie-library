@@ -20,7 +20,7 @@ const upload = () => {
         setFileLocation('');
         setTmdbId('');
         setFileName('');
-    }
+    };
 
     const handleChooseLocation = (event) => {
         setFileLocation(event.target.value);
@@ -41,7 +41,7 @@ const upload = () => {
             case "wish-year":   setWishYear(text);  break;
             default:            alert("Upload -> handleTextFields -> wrong id")
         }
-    }
+    };
 
     const handleUpload = () => {
         setIsLoading(true);
@@ -82,6 +82,7 @@ const upload = () => {
         axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear}))
             .then(response => {
                 setWishMovies(response.data.results);
+                console.log(response.data.results);
                 setIsLoading(false);
             })
             .catch(error => {

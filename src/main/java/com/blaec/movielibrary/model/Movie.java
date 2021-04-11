@@ -8,6 +8,9 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Entity
@@ -30,6 +33,9 @@ public class Movie{
     @Column(name="poster_path")
     @NonNull private String posterPath;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @NonNull private Set<Genre> genres;
+
     @Enumerated(EnumType.STRING)
     @NonNull private Type type;
 
@@ -46,7 +52,7 @@ public class Movie{
     private Integer frameRate;
 
     /**
-     * Creates Movie object from Movie Json Object
+     * Creates Wish-Movie object from Movie Json Object
      *
      * @param movieJsonTo movie json object
      * @return Movie object with type <b>wish_list</b>
@@ -76,6 +82,7 @@ public class Movie{
         movie.setLocation(movieFileTo.getLocation());
         movie.setDescription(movieFileTo.getDescription());
         movie.setFrameRate(movieFileTo.getFrameRate());
+        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;
     }
@@ -94,8 +101,25 @@ public class Movie{
         movie.setTitle(movieJsonTo.getTitle());
         movie.setReleaseDate(movieJsonTo.getRelease_date());
         movie.setPosterPath(movieJsonTo.getPoster_path());
+        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;
+    }
+
+    public void setConvertedGenres(List<TmdbResult.Genre> genres) {
+        this.genres = extractGenres(genres);
+    }
+
+    private static Set<Genre> convertGenreIds(List<Integer> genres) {
+        return genres.stream()
+                .map(genreId -> new Genre(null, genreId))
+                .collect(Collectors.toSet());
+    }
+
+    private static Set<Genre> extractGenres(List<TmdbResult.Genre> genres) {
+        return genres.stream()
+                .map(genre -> new Genre(null, Integer.valueOf(genre.getId())))
+                .collect(Collectors.toSet());
     }
 
     @Override

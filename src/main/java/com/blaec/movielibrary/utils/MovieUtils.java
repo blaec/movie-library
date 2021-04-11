@@ -1,5 +1,6 @@
 package com.blaec.movielibrary.utils;
 
+import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.to.TmdbResult;
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +35,12 @@ public class MovieUtils {
      *
      * @param fileName movie file name
      * @param dbMovies database movies
-     * @return true if movie exists in database
+     * @return Movie object if movie exists in database, otherwise - null
      */
-    public static boolean isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
+    public static Movie isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
         return StreamSupport.stream(dbMovies.spliterator(), false)
-                .anyMatch(dbMovie -> dbMovie.getFileName().equals(fileName));
+                .filter(dbMovie -> dbMovie.getType() == Type.movie && dbMovie.getFileName().equals(fileName))
+                .findFirst().orElse(null);
     }
 
     public static boolean isNullSave(TmdbResult.TmdbMovie movieJson, String logDetails) {

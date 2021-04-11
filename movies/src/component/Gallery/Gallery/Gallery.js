@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../axios-movies";
-
-import Pagination from '@material-ui/lab/Pagination';
 
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
+import * as actions from "../../../store/actions";
 import "./Gallery.css";
+
+import Pagination from '@material-ui/lab/Pagination';
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -20,9 +21,12 @@ const resolutions = {
 };
 
 const gallery = (props) => {
-    const search = useSelector(state => state.search);
+    let {movies} = props;
 
-    const [loadedMovieList, setLoadedMovieList] = useState([]);
+    const search = useSelector(state => state.search);
+    const dispatch = useDispatch();
+    const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
+
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -30,7 +34,7 @@ const gallery = (props) => {
     const [selectedMovie, setSelectedMovie] = useState('');
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -46,8 +50,8 @@ const gallery = (props) => {
         setIsLoading(true);
         axios.delete('/movies/' + id)
             .then(response => {
-                let updatedMovieList = loadedMovieList.filter(m => m.id !== id);
-                setLoadedMovieList(updatedMovieList);
+                let updatedMovieList = movies.filter(m => m.id !== id);
+                onDeleteMovieChange(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
             })
@@ -63,19 +67,6 @@ const gallery = (props) => {
     };
 
     useEffect(() => {
-        setIsLoading(true);
-        axios.get(props.url)
-            .then(response => {
-                setLoadedMovieList(response.data);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
-    }, []);
-
-    useEffect(() => {
         if (!isViewingDetails) {
             window.scrollBy(0, scrollPosition);
         }
@@ -85,14 +76,15 @@ const gallery = (props) => {
     useEffect(() => {
 
         // filter movies using Search...
-        const filteredMovies = Object.values(loadedMovieList).filter(m => m.title.toLowerCase().includes(search));
+        const filteredMovies = Object.values(movies).filter(m => m.title.toLowerCase().includes(search));
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
         const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
-        setMoviesPerPage(structure.rows * structure.moviesPerRow);
+        let moviesPerPage = structure.rows * structure.moviesPerRow;
+        setMoviesPerPage(moviesPerPage);
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
-    }, [search, windowWidth, loadedMovieList]);
+    }, [search, windowWidth, movies]);
 
     let myGallery = <MyLoader/>;
     if (!isLoading) {

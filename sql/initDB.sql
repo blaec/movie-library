@@ -19,4 +19,4 @@ CREATE TABLE movies
     PRIMARY KEY     (id)
 );
 ALTER TABLE movies AUTO_INCREMENT = 100000;
-CREATE UNIQUE INDEX movies_unique_imdb_id_idx ON movies (tmdb_id);
+CREATE UNIQUE INDEX movies_unique_tmdb_id_idx ON movies (tmdb_id);

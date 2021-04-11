@@ -6,3 +6,24 @@ export const changeSearch = (string) => {
         newSearch: string
     }
 };
+
+export const setMovies = (movies) => {
+    return {
+        type: actionTypes.SET_MOVIES,
+        movies: movies
+    }
+};
+
+export const deleteMovies = (movies) => {
+    return {
+        type: actionTypes.DELETE_MOVIE,
+        movies: movies
+    }
+};
+
+export const setGenreIds = (ids) => {
+    return {
+        type: actionTypes.SET_GENRE_IDS,
+        genreIds: ids
+    }
+};

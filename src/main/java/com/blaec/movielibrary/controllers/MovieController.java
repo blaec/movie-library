@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -36,6 +37,11 @@ public class MovieController {
         return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
     }
 
+    @PostMapping("/filter")
+    public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
+        return movieService.getAllByGenres(genreIds);
+    }
+
     @PostMapping("/{folder}")
     public void scanFolder(@PathVariable String folder) {
 
@@ -50,9 +56,11 @@ public class MovieController {
 
         // Save only new movies to database
         for (MovieFileTo movieFile : movieFiles) {
-            if (!MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies)) {
-//                log.debug("already exist | {}", movieFile.toString());
-//            } else {
+            Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
+            if (dbMovie != null) {
+                // TODO temporarily commented
+//                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
+            } else {
                 movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
             }
         }

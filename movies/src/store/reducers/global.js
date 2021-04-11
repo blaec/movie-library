@@ -1,7 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    search: ''
+    search: '',
+    movies: {},
+    genreIds: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +12,21 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 search: action.newSearch.toLowerCase()
+            };
+        case actionTypes.SET_MOVIES:
+            return {
+                ...state,
+                movies: action.movies
+            };
+        case actionTypes.DELETE_MOVIE:
+            return {
+                ...state,
+                movies: action.movies
+            };
+        case actionTypes.SET_GENRE_IDS:
+            return {
+                ...state,
+                genreIds: action.genreIds
             };
         default:
             return state;

@@ -1,14 +1,27 @@
 import React from 'react';
+
 import {Button} from "@material-ui/core";
 
 const mySubmitButton = (props) => {
+    let {disabled, icon, submit, caption, type, fill} = props;
+    type = type === undefined ? "success" : type;
+    const colorStyle = {
+        success: {color: "primary"},
+        danger: {color: "secondary"}
+    };
+    fill = fill === undefined ? "empty" : fill;
+    const fillStyle = {
+        filled: {variant: "contained"},
+        empty: {variant: "outlined"}
+    }
+
     return (
-        <Button variant="outlined"
-                disabled={props.disabled}
-                color="primary"
-                startIcon={props.icon}
-                onClick={props.submit}>
-            {props.caption}
+        <Button variant={fillStyle[fill].variant}
+                disabled={disabled}
+                color={colorStyle[type].color}
+                startIcon={icon}
+                onClick={submit}>
+            {caption}
         </Button>
     );
 };

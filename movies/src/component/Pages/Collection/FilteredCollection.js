@@ -1,25 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../axios-movies";
+import {useSelector} from "react-redux";
 
 import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {javaApi} from "../../../utils/UrlUtils";
-import * as actions from "../../../store/actions";
 
-const collection = () => {
-    const movies = useSelector(state => state.movies);
-    const dispatch = useDispatch();
-    const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
+const filteredCollection = () => {
+    const genreIds = useSelector(state => state.genreIds);
 
+    const [filteredMovies, setFilteredMovies] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        console.log("load movies");
         setIsLoading(true);
-        axios.get(javaApi.getAllMovies)
+        axios.post(javaApi.getAllByGenres, genreIds)
             .then(response => {
-                onMoviesChange(response.data)
+                setFilteredMovies(response.data);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -28,9 +25,10 @@ const collection = () => {
             });
     }, []);
 
+
     let gallery = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery movies={movies}/>
+        gallery = <Gallery movies={filteredMovies}/>
     }
 
     return (
@@ -40,4 +38,4 @@ const collection = () => {
     );
 };
 
-export default collection;
+export default filteredCollection;
