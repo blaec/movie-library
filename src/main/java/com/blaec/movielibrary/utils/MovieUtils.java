@@ -35,12 +35,11 @@ public class MovieUtils {
      *
      * @param fileName movie file name
      * @param dbMovies database movies
-     * @return true if movie exists in database
+     * @return Movie object if movie exists in database, otherwise - null
      */
     public static Movie isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
         return StreamSupport.stream(dbMovies.spliterator(), false)
-                .filter(dbMovie -> dbMovie.getType() == Type.movie)
-                .filter(dbMovie -> dbMovie.getFileName().equals(fileName))
+                .filter(dbMovie -> dbMovie.getType() == Type.movie && dbMovie.getFileName().equals(fileName))
                 .findFirst().orElse(null);
     }
 

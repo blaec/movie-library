@@ -106,10 +106,6 @@ public class Movie{
         return movie;
     }
 
-    public void setConvertedGenreIds(List<Integer> genres) {
-        this.genres = convertGenreIds(genres);
-    }
-
     public void setConvertedGenres(List<TmdbResult.Genre> genres) {
         this.genres = extractGenres(genres);
     }
@@ -125,12 +121,6 @@ public class Movie{
                 .map(genre -> new Genre(null, Integer.valueOf(genre.getId())))
                 .collect(Collectors.toSet());
     }
-
-//    private static Set<Genre> convertGenres(List<Genre> genres) {
-//        return genres.stream()
-//                .map(Genre::getId)
-//                .collect(Collectors.toSet());
-//    }
 
     @Override
     public String toString() {

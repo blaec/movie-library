@@ -93,18 +93,6 @@ public class MovieService {
         }
     }
 
-    public void update(TmdbResult.TmdbMovie movieJson, Movie movie) {
-        try {
-            movie.setConvertedGenres(movieJson.getGenres());
-            // need to delete children before saving a-new to prevent error
-            movieRepository.delete(movie);
-            Movie updatedMovie = movieRepository.save(movie);
-            log.info("updated | {}", updatedMovie.toString());
-        } catch (Exception e) {
-            log.error(movie.toString(), e);
-        }
-    }
-
     /**
      * Delete movie from db
      *
@@ -123,6 +111,19 @@ public class MovieService {
             log.error("can't delete movie, wrong id: {}", id, e);
         } catch (Exception e) {
             log.error("failed deleting movie by id: {}", id, e);
+        }
+    }
+
+    // TODO currently not in use
+    public void update(TmdbResult.TmdbMovie movieJson, Movie movie) {
+        try {
+            movie.setConvertedGenres(movieJson.getGenres());
+            // need to delete children before saving a-new to prevent error
+            movieRepository.delete(movie);
+            Movie updatedMovie = movieRepository.save(movie);
+            log.info("updated | {}", updatedMovie.toString());
+        } catch (Exception e) {
+            log.error(movie.toString(), e);
         }
     }
 }
