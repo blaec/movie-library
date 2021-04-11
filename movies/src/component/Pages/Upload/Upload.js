@@ -4,7 +4,7 @@ import axios from '../../../axios-movies';
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
-import {getSearchMovieUrl} from "../../../utils/UrlUtils";
+import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
 import './Upload.css';
 
 const upload = () => {
@@ -91,27 +91,32 @@ const upload = () => {
         setIsLoading(true);
         axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear}))
             .then(response => {
-                setWishMovies(response.data.results);
-                console.log(response.data.results);
+                let foundMovies = response.data.results;
+                setWishMovies(foundMovies);
                 setIsLoading(false);
+                if (foundMovies.length > 0) {
+                    setSnackbarProps({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
+                } else {
+                    setSnackbarProps({open: true, message: `Nothing found`, type: 'warning'});
+                }
             })
             .catch(error => {
                 console.log(error);
                 setIsLoading(false);
+                setSnackbarProps({open: true, message: `Failed to search the movies`, type: 'error'});
             });
     };
 
     const handleSaveWishMovie = (wishMovie) => {
         setIsLoading(true);
-        axios.post('/movies/wish', wishMovie)
+        axios.post(movieApi.saveWishMovie, wishMovie)
             .then(response => {
-                console.log(`saving movie #${wishMovie.id}`)
                 setIsLoading(false);
                 setSnackbarProps({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
             })
             .catch(error => {
-                setIsLoading(false);
                 console.log(error);
+                setIsLoading(false);
                 setSnackbarProps({open: true, message: `Failed to movie '${wishMovie.title}' to wishlist`, type: 'error'});
             });
     };

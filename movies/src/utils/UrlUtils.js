@@ -11,6 +11,7 @@ export const movieApi = {
     getAllWishMovies: "/movies/wishlist",
     getAllByGenres: "/movies/filter",
     delete: '/movies/',
+    saveWishMovie: '/movies/wish',
 };
 
 export const getMovieDetailsUrl = (id) => {
