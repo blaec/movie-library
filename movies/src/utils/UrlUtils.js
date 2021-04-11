@@ -6,10 +6,11 @@ export const reactLinks = {
     upload: "/upload",
 };
 
-export const javaApi = {
+export const movieApi = {
     getAllMovies: "/movies/gallery",
     getAllWishMovies: "/movies/wishlist",
     getAllByGenres: "/movies/filter",
+    delete: '/movies/',
 };
 
 export const getMovieDetailsUrl = (id) => {
@@ -35,7 +36,11 @@ export const getSearchMovieUrl = (props) => {
 
 export const getAllGenresUrl = () => {
     return `${url_endpoints.genres}?${getParamsFrom(api_lang_params)}`
-}
+};
+
+export const getDeleteUrl = (id) => {
+    return `${movieApi.delete}${id}`
+};
 
 const getParamsFrom = (obj) => {
     return Object.entries(obj).map(([key, val]) => `${key}=${val}`).join('&');

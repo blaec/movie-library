@@ -4,7 +4,7 @@ import axios from "../../../axios-movies";
 
 import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import {javaApi} from "../../../utils/UrlUtils";
+import {movieApi} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 
 const collection = () => {
@@ -17,7 +17,7 @@ const collection = () => {
     useEffect(() => {
         console.log("load movies");
         setIsLoading(true);
-        axios.get(javaApi.getAllMovies)
+        axios.get(movieApi.getAllMovies)
             .then(response => {
                 onMoviesChange(response.data)
                 setIsLoading(false);

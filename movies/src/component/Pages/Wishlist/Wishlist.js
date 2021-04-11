@@ -4,7 +4,7 @@ import axios from "../../../axios-movies";
 
 import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import {javaApi} from "../../../utils/UrlUtils";
+import {movieApi} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 
 const wishlist = () => {
@@ -17,7 +17,7 @@ const wishlist = () => {
     useEffect(() => {
         console.log("load movies from wishlist");
         setIsLoading(true);
-        axios.get(javaApi.getAllWishMovies)
+        axios.get(movieApi.getAllWishMovies)
             .then(response => {
                 console.log("loaded movies from wishlist");
                 onMoviesChange(response.data)

@@ -5,10 +5,14 @@ import axios from "../../../axios-movies";
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
+import MySnackbar from "../../../UI/MySnackbar";
 import * as actions from "../../../store/actions";
 import "./Gallery.css";
 
 import Pagination from '@material-ui/lab/Pagination';
+import {getDeleteUrl} from "../../../utils/UrlUtils";
+import {Snackbar} from "@material-ui/core";
+import {Alert} from "@material-ui/lab";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -35,6 +39,15 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -48,12 +61,13 @@ const gallery = (props) => {
 
     const handleDeleteMovie = (id) => {
         setIsLoading(true);
-        axios.delete('/movies/' + id)
+        axios.delete(getDeleteUrl(id))
             .then(response => {
                 let updatedMovieList = movies.filter(m => m.id !== id);
                 onDeleteMovieChange(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
+                setOpen(true);
             })
             .catch(error => {
                 handleDetailsClose();
@@ -118,6 +132,11 @@ const gallery = (props) => {
     return (
         <React.Fragment>
             {myGallery}
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success">
+                    This is a success message!
+                </Alert>
+            </Snackbar>
         </React.Fragment>
     );
 };
