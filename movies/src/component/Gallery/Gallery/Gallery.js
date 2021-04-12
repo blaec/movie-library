@@ -5,10 +5,12 @@ import axios from "../../../axios-movies";
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
+import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import * as actions from "../../../store/actions";
 import "./Gallery.css";
 
 import Pagination from '@material-ui/lab/Pagination';
+import {getDeleteUrl} from "../../../utils/UrlUtils";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -35,6 +37,15 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackbarProps(initialSnackBarState);
+    };
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -48,17 +59,20 @@ const gallery = (props) => {
 
     const handleDeleteMovie = (id) => {
         setIsLoading(true);
-        axios.delete('/movies/' + id)
+        axios.delete(getDeleteUrl(id))
             .then(response => {
+                let deleted = movies.find(m => m.id === id);
                 let updatedMovieList = movies.filter(m => m.id !== id);
                 onDeleteMovieChange(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
+                setSnackbarProps({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
             })
             .catch(error => {
+                console.log(error);
                 handleDetailsClose();
                 setIsLoading(false);
-                console.log(error);
+                setSnackbarProps({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
             });
     };
 
@@ -114,10 +128,16 @@ const gallery = (props) => {
             );
         }
     }
+    let snackbar = null;
+    if (snackbarProps.open) {
+        snackbar = <MySnackbar {...snackbarProps}
+                               close={handleSnackbarClose}/>;
+    }
 
     return (
         <React.Fragment>
             {myGallery}
+            {snackbar}
         </React.Fragment>
     );
 };

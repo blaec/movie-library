@@ -27,7 +27,6 @@ const backdropImage = props => {
     const handleCloseDeleteDialog = () => {
         setIsDeleting(false);
     };
-
     return (
         <React.Fragment>
             <div className="ImageBackdrop">
@@ -40,13 +39,12 @@ const backdropImage = props => {
                 <Carousel timeout={TIMEOUT}
                           animation="fade"
                           navButtonsAlwaysInvisible>
-                    {props.backdrops.map( (backdrop, idx) => {
-                        return <img key={idx}
-                                    height={windowWidth / backdrop.aspect_ratio}
-                                    src={getImageUrl(backdrop.file_path)}
-                                    alt={props.alt}
-                            />;
-                        }
+                    {props.backdrops.map((backdrop, idx) =>
+                        <img key={idx + 1}
+                             height={windowWidth / backdrop.aspect_ratio}
+                             src={getImageUrl(backdrop.file_path)}
+                             alt={props.alt}
+                        />
                     )}
                 </Carousel>
             </div>
