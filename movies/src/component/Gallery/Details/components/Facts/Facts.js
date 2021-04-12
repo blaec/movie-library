@@ -20,14 +20,12 @@ const facts = (props) => {
             <Typography component="div">
                 <Fact header="Original title:"
                       text={tmdbDetails.original_title}/>
-                <Fact header="Original Language:"
-                      text={tmdbDetails.original_language}/>
                 <Fact header="Directed By:"
                       text={omdbDetails.Director}/>
-                <Fact header="Budget:"
-                      text={formatter.format(tmdbDetails.budget)}/>
-                <Fact header="Revenue:"
-                      text={formatter.format(tmdbDetails.revenue)}/>
+                <Fact header="Budget / Revenue:"
+                      text={`${formatter.format(tmdbDetails.budget)} / ${formatter.format(tmdbDetails.revenue)}`}/>
+                <Fact header="Awards:"
+                      text={omdbDetails.Awards}/>
                 <Fact header="Released:"
                       text={omdbDetails.Released}/>
                 <Fact header="DVD:"
@@ -36,6 +34,8 @@ const facts = (props) => {
                       text={joinNames(tmdbDetails.production_companies)}/>
                 <Fact header="Production Countries:"
                       text={joinNames(tmdbDetails.production_countries)}/>
+                <Fact header="Original Language:"
+                      text={tmdbDetails.original_language}/>
             </Typography>
         </div>
     );
