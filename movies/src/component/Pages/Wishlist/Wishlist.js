@@ -17,7 +17,7 @@ const wishlist = () => {
     useEffect(() => {
         console.log("load movies from wishlist");
         setIsLoading(true);
-        axios.get(movieApi.getAllWishMovies)
+        axios.get(movieApi.get.getAllWishMovies)
             .then(response => {
                 console.log("loaded movies from wishlist");
                 onMoviesChange(response.data)

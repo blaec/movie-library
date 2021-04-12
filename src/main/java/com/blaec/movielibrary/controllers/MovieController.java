@@ -43,7 +43,9 @@ public class MovieController {
     }
 
     @PostMapping("/{folder}")
-    public void scanFolder(@PathVariable String folder) {
+    public int scanFolder(@PathVariable String folder) {
+
+        int moviesSaved = 0;
 
         // Get all from database
         Iterable<Movie> dbMovies = movieService.getAll();
@@ -62,8 +64,10 @@ public class MovieController {
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
             } else {
                 movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
+                moviesSaved++;
             }
         }
+        return moviesSaved;
         // TODO return list of fails and stats
     }
 

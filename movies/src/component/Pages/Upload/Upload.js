@@ -6,6 +6,7 @@ import WishLoader from "./components/WishLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
 import './Upload.css';
+import * as UrlUtils from "../../../utils/UrlUtils";
 
 const upload = () => {
     const [tmdbId, setTmdbId] = useState('');
@@ -49,7 +50,7 @@ const upload = () => {
             case "file-name":   setFileName(text);  break;
             case "wish-title":  setWishTitle(text); break;
             case "wish-year":   setWishYear(text);  break;
-            default:            alert("Upload -> handleTextFields -> wrong id")
+            default:            setSnackbarProps({open: true, message: `Upload -> handleTextFields -> wrong id`, type: 'error'})
         }
     };
 
@@ -61,28 +62,30 @@ const upload = () => {
                tmdbId: tmdbId,
                fileName: fileName
             }
-            axios.post("/movies/file", data)
+            axios.post(movieApi.post.uploadMovie, data)
                 .then(response => {
                     resetForm();
                     setIsLoading(false);
-                    alert(`uploading ${fileName} from ${fileLocation} folder completed successfully.`)
+                    setSnackbarProps({open: true, message: `Uploading ${fileName} from ${fileLocation} folder completed successfully`, type: 'success'});
                 })
                 .catch(error => {
                     resetForm();
                     setIsLoading(false);
                     console.log(error);
+                    setSnackbarProps({open: true, message: `Failed to upload ${fileName} from ${fileLocation} folder`, type: 'error'});
                 });
         } else {
-            axios.post(`/movies/${fileLocation}`)
+            axios.post(UrlUtils.getScanFolderUrl(fileLocation))
                 .then(response => {
                     resetForm();
                     setIsLoading(false);
-                    alert(`uploading from ${fileLocation} folder completed successfully.`)
+                    setSnackbarProps({open: true, message: `From ${fileLocation} folder successfully uploaded ${response.data} movies.`, type: 'success'});
                 })
                 .catch(error => {
                     resetForm();
                     setIsLoading(false);
                     console.log(error);
+                    setSnackbarProps({open: true, message: `Failed to scan folder ${fileLocation} for movies`, type: 'error'});
                 });
         }
     };
@@ -109,7 +112,7 @@ const upload = () => {
 
     const handleSaveWishMovie = (wishMovie) => {
         setIsLoading(true);
-        axios.post(movieApi.saveWishMovie, wishMovie)
+        axios.post(movieApi.post.saveWishMovie, wishMovie)
             .then(response => {
                 setIsLoading(false);
                 setSnackbarProps({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});

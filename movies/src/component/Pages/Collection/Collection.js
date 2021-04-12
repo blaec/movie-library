@@ -17,7 +17,7 @@ const collection = () => {
     useEffect(() => {
         console.log("load movies");
         setIsLoading(true);
-        axios.get(movieApi.getAllMovies)
+        axios.get(movieApi.get.getAllMovies)
             .then(response => {
                 onMoviesChange(response.data)
                 setIsLoading(false);

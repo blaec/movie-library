@@ -14,7 +14,7 @@ const filteredCollection = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.post(movieApi.getAllByGenres, genreIds)
+        axios.post(movieApi.get.getAllByGenres, genreIds)
             .then(response => {
                 setFilteredMovies(response.data);
                 setIsLoading(false);

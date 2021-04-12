@@ -7,11 +7,19 @@ export const reactLinks = {
 };
 
 export const movieApi = {
-    getAllMovies: "/movies/gallery",
-    getAllWishMovies: "/movies/wishlist",
-    getAllByGenres: "/movies/filter",
-    delete: '/movies/',
-    saveWishMovie: '/movies/wish',
+    get: {
+        getAllMovies: "/movies/gallery",
+        getAllWishMovies: "/movies/wishlist",
+        getAllByGenres: "/movies/filter",
+    },
+    post: {
+        saveWishMovie: "/movies/wish",
+        uploadMovie: "/movies/file",
+        scanFolder: "/movies/",
+    },
+    delete: {
+        delete: "/movies/",
+    },
 };
 
 export const getMovieDetailsUrl = (id) => {
@@ -40,7 +48,11 @@ export const getAllGenresUrl = () => {
 };
 
 export const getDeleteUrl = (id) => {
-    return `${movieApi.delete}${id}`
+    return `${movieApi.delete.delete}${id}`
+};
+
+export const getScanFolderUrl = (fileLocation) => {
+    return `${movieApi.post.scanFolder}${fileLocation}`
 };
 
 const getParamsFrom = (obj) => {
