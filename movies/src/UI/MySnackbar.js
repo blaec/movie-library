@@ -12,7 +12,7 @@ const mySnackbar = (props) => {
                       vertical: 'bottom',
                       horizontal: 'right',
                   }}
-                  autoHideDuration={3000}
+                  autoHideDuration={5000}
                   onClose={close}>
             <Alert onClose={close}
                    severity={type}>
