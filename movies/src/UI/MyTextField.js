@@ -1,16 +1,32 @@
-import React from 'react';
-import {TextField} from "@material-ui/core";
+import React, {useState} from 'react';
+import {InputAdornment, TextField} from "@material-ui/core";
+import ClearIcon from "@material-ui/icons/Clear";
 
 const myTextField = (props) => {
+    const {id, disabled, label, helperText, onChangeTextField} = props;
+    const [text, setText] = useState();
+
+    const handleClear = () => {
+        setText('');
+    };
+
     return (
-        <TextField id={props.id}
-                   disabled={props.disabled}
-                   label={props.label}
+        <TextField id={id}
+                   disabled={disabled}
+                   value={text}
+                   label={label}
                    style={{margin: 8}}
-                   helperText={props.helperText}
+                   helperText={helperText}
                    fullWidth
                    margin="normal"
-                   onChange={props.onChangeTextField}
+                   onChange={onChangeTextField}
+                   InputProps={{
+                       endAdornment: (
+                           <InputAdornment position="end" onClick={() => handleClear()}>
+                               <ClearIcon fontSize="small"/>
+                           </InputAdornment>
+                       )
+                   }}
         />
     );
 };
