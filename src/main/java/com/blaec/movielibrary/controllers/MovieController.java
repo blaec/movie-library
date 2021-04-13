@@ -39,7 +39,7 @@ public class MovieController {
 
     @PostMapping("/filter")
     public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
-        return movieService.getAllByGenres(genreIds);
+        return MovieUtils.sortByTitleAndYear(movieService.getAllByGenres(genreIds));
     }
 
     @PostMapping("/{folder}")

@@ -15,10 +15,13 @@ const MOBILE_WIN_WIDTH = 600;
 const backdropImage = props => {
     const [isDeleting, setIsDeleting] = useState(false);
 
+    const marginBorders = (window.innerHeight < window.innerWidth)
+        ? window.innerWidth > 1000 ? .5 : .8
+        : 1;
     const drawerWidth = window.innerWidth > MOBILE_WIN_WIDTH
         ? DRAWER_WIDTH
         : 0;
-    const windowWidth = window.innerWidth - drawerWidth;
+    const windowWidth = (window.innerWidth - drawerWidth) * marginBorders;
 
     const handleDeletedMovie = () => {
         setIsDeleting(true);

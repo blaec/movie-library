@@ -1,7 +1,11 @@
 import React from 'react';
 
 import {Snackbar} from "@material-ui/core";
-import {Alert} from "@material-ui/lab";
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const mySnackbar = (props) => {
     const {open, close, message, type} = props;
