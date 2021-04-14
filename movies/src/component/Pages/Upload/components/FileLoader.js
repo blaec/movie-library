@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
+import deleteDialog from "../../../Gallery/Details/components/DeleteDialog";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -35,11 +36,13 @@ const movieLocations = {
 const inputs = {
     "tmdb-id": {
         label: "tmdb id",
-        helperText: "Type exact tmdb id"
+        helperText: "Type exact tmdb id",
+        text: "tmdbId"
     },
     "file-name": {
         label: "Exact file name",
-        helperText: "Enter exact file name with extension"
+        helperText: "Enter exact file name with extension",
+        text: "fileName"
     }
 };
 
@@ -55,6 +58,7 @@ const fileLoader = props => {
     const movieInputs = Object.keys(inputs).map(inputKey => (
         <MyTextField key={inputKey}
                      id={inputKey}
+                     text={props[inputs[inputKey].text]}
                      disabled={!props.switchIsOn}
                      label={inputs[inputKey].label}
                      helperText={inputs[inputKey].helperText}

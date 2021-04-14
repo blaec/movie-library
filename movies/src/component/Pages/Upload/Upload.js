@@ -43,9 +43,8 @@ const upload = () => {
         setFileName('');
     };
 
-    const handleTextFieldChange = (event) => {
-        let text = event.target.value;
-        switch (event.target.id) {
+    const handleTextFieldChange = (text, id) => {
+        switch (id) {
             case "tmdb-id":     setTmdbId(text);    break;
             case "file-name":   setFileName(text);  break;
             case "wish-title":  setWishTitle(text); break;
@@ -129,15 +128,21 @@ const upload = () => {
                                close={handleSnackbarClose}/>;
     }
 
+    let wishText = {wishTitle: wishTitle, wishYear: wishYear};
+    let uploadText = {tmdbId: tmdbId, fileName: fileName};
+
     return (
         <div className="Upload">
-            <WishLoader submit={handleSearchWishMovie}
+            <WishLoader {...wishText}
+                        submit={handleSearchWishMovie}
                         add={handleSaveWishMovie}
                         loading={isLoading}
                         wishResults={wishMovies}
                         onChangeTextField={handleTextFieldChange}
+                        onClear={handleTextFieldChange}
             />
-            <FileLoader submit={handleUpload}
+            <FileLoader {...uploadText}
+                        submit={handleUpload}
                         location={fileLocation}
                         loading={isLoading}
                         onChangeRadio={handleChooseLocation}

@@ -37,20 +37,25 @@ const wishLoader = props => {
                 </Carousel>
     }
 
+    console.log(`wishLoader: ${props.wishTitle}`);
     return (
         <Card variant="elevation">
             <CardContent>
                 <FormControl component="wish-upload">
                     <FormLabel>Add to Wish List</FormLabel>
                     <MyTextField id="wish-title"
+                                 text={props.wishTitle}
                                  label="Movie title"
                                  helperText="Enter movie title"
                                  onChangeTextField={props.onChangeTextField}
+                                 onClear={props.onChangeTextField}
                     />
                     <MyTextField id="wish-year"
+                                 text={props.wishYear}
                                  label="Release year"
                                  helperText="Enter movie release year"
                                  onChangeTextField={props.onChangeTextField}
+                                 onClear={props.onChangeTextField}
                     />
                 </FormControl>
                 <LinearProgress hidden={!props.loading}/>
