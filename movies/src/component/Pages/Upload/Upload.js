@@ -128,20 +128,16 @@ const upload = () => {
                                close={handleSnackbarClose}/>;
     }
 
-    let wishText = {wishTitle: wishTitle, wishYear: wishYear};
-    let uploadText = {tmdbId: tmdbId, fileName: fileName};
-
     return (
         <div className="Upload">
-            <WishLoader {...wishText}
+            <WishLoader {...{wishTitle: wishTitle, wishYear: wishYear}}
                         submit={handleSearchWishMovie}
                         add={handleSaveWishMovie}
                         loading={isLoading}
                         wishResults={wishMovies}
                         onChangeTextField={handleTextFieldChange}
-                        onClear={handleTextFieldChange}
             />
-            <FileLoader {...uploadText}
+            <FileLoader {...{tmdbId: tmdbId, fileName: fileName}}
                         submit={handleUpload}
                         location={fileLocation}
                         loading={isLoading}
