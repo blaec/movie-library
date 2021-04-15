@@ -5,6 +5,18 @@ import ClearIcon from "@material-ui/icons/Clear";
 const myTextField = (props) => {
     const {id, text, disabled, label, helperText, onChangeTextField} = props;
 
+    let adornment = null;
+    if (text.length > 0) {
+        adornment = {
+            endAdornment:
+                <InputAdornment position="end">
+                    <IconButton onClick={() => onChangeTextField('', id)}>
+                        <ClearIcon fontSize="small"/>
+                    </IconButton>
+                </InputAdornment>
+        }
+    }
+
     return (
         <TextField id={id}
                    value={text}
@@ -15,15 +27,7 @@ const myTextField = (props) => {
                    fullWidth
                    margin="normal"
                    onChange={event => onChangeTextField(event.target.value, id)}
-                   InputProps={{
-                       endAdornment: (
-                           <InputAdornment position="end">
-                               <IconButton onClick={() => onChangeTextField('', id)}>
-                                   <ClearIcon fontSize="small"/>
-                               </IconButton>
-                           </InputAdornment>
-                       )
-                   }}
+                   InputProps={adornment}
         />
     );
 };
