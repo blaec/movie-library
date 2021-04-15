@@ -1,4 +1,5 @@
 import React from 'react';
+
 import MyTextField from "../../../../UI/MyTextField";
 
 import {
@@ -8,7 +9,8 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    FormLabel, LinearProgress,
+    FormLabel,
+    LinearProgress,
     makeStyles,
     Radio,
     RadioGroup,
@@ -35,11 +37,13 @@ const movieLocations = {
 const inputs = {
     "tmdb-id": {
         label: "tmdb id",
-        helperText: "Type exact tmdb id"
+        helperText: "Type exact tmdb id",
+        text: "tmdbId"
     },
     "file-name": {
         label: "Exact file name",
-        helperText: "Enter exact file name with extension"
+        helperText: "Enter exact file name with extension",
+        text: "fileName"
     }
 };
 
@@ -51,14 +55,16 @@ const locationRadios = Object.keys(movieLocations).map(locKey => (
 ));
 
 const fileLoader = props => {
+    const {switchIsOn, location, loading, submit, onChangeRadio, onChangeSwitch, onChangeTextField} = props;
     const classes = useStyles();
     const movieInputs = Object.keys(inputs).map(inputKey => (
         <MyTextField key={inputKey}
                      id={inputKey}
-                     disabled={!props.switchIsOn}
+                     text={props[inputs[inputKey].text]}
+                     disabled={!switchIsOn}
                      label={inputs[inputKey].label}
                      helperText={inputs[inputKey].helperText}
-                     onChangeTextField={props.onChangeTextField}
+                     onChangeTextField={onChangeTextField}
         />
     ));
 
@@ -68,8 +74,8 @@ const fileLoader = props => {
                 <FormControl>
                     <FormLabel>Movie location</FormLabel>
                     <RadioGroup name="location"
-                                value={props.location}
-                                onChange={props.onChangeRadio}>
+                                value={location}
+                                onChange={onChangeRadio}>
                         {locationRadios}
                     </RadioGroup>
                 </FormControl>
@@ -77,19 +83,19 @@ const fileLoader = props => {
                 <FormControl component="single-upload">
                     <FormControlLabel label="Single movie upload"
                                       control={<Switch color="primary"
-                                                       checked={props.switchIsOn}
-                                                       onChange={props.onChangeSwitch}
+                                                       checked={switchIsOn}
+                                                       onChange={onChangeSwitch}
                                                        name="singleUpload"/>}
                     />
                     {movieInputs}
                 </FormControl>
-                <LinearProgress hidden={!props.loading}/>
+                <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
                 <MySubmitButton icon={<BackupTwoToneIcon/>}
-                                submit={props.submit}
+                                submit={submit}
                                 caption="Scan"
-                                disabled={props.location === '' || props.loading}
+                                disabled={location === '' || loading}
                 />
             </CardActions>
         </Card>
