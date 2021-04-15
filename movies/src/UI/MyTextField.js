@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+
 import {IconButton, InputAdornment, TextField} from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 
