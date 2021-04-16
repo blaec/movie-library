@@ -19,7 +19,6 @@ upload:
 
 ## http://www.omdbapi.com/
 omdbapi:
-  type: omdb
   endpoint: http://www.omdbapi.com/
   name:
     title: t
@@ -31,7 +30,6 @@ omdbapi:
 
 ## https://developers.themoviedb.org/3/getting-started/introduction
 tmdbapi:
-  type: tmdb
   endpoint:
     search: https://api.themoviedb.org/3/search/movie
     movie: https://api.themoviedb.org/3/movie

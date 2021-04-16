@@ -7,8 +7,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Data
 @ConfigurationProperties(prefix = "omdbapi")
 @ConstructorBinding
-public class OmdbApiConfig implements Configs{
-    public final String type;
+public class OmdbApiConfig{
     private final String endpoint;
     private final OmdbApiConfig.Name name;
     private final OmdbApiConfig.Value value;

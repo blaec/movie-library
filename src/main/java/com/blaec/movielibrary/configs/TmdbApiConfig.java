@@ -7,8 +7,7 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @Data
 @ConfigurationProperties(prefix = "tmdbapi")
 @ConstructorBinding
-public class TmdbApiConfig implements Configs{
-    public final String type;
+public class TmdbApiConfig{
     private final TmdbApiConfig.Endpoint endpoint;
     private final TmdbApiConfig.Name name;
     private final TmdbApiConfig.Value value;
