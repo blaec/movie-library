@@ -23,7 +23,7 @@ public class ConfigController {
     private final TmdbApiConfig tmdbApiConfig;
 
     @GetMapping()
-    public List<Configs> getTmdbConfig() {
+    public List<Configs> getConfigs() {
         return ImmutableList.of(tmdbApiConfig, omdbApiConfig);
     }
 }

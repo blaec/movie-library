@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 
 import Layout from "./hoc/Layout/Layout";
@@ -7,12 +7,32 @@ import FilteredCollection from "./component/Pages/Collection/FilteredCollection"
 import Upload from "./component/Pages/Upload/Upload";
 import Wishlist from "./component/Pages/Wishlist/Wishlist";
 import Filter from "./component/Pages/Filter/Filter";
-import {reactLinks} from "./utils/UrlUtils";
+import {configApi, movieApi, reactLinks} from "./utils/UrlUtils";
 import './utils/Constants.css';
+import axios from "./axios-movies";
+import MyLoader from "./UI/Spinners/MyLoader";
 
 const app = () => {
-    return (
-        <div>
+    const [configs, setConfigs] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(true);
+        axios.get(configApi.get.getConfigs)
+            .then(response => {
+                setConfigs(response.data)
+                console.log(response.data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.log(error);
+                setIsLoading(false);
+            });
+    }, []);
+
+    let layout = <MyLoader/>;
+    if (!isLoading) {
+        layout =
             <Layout>
                 <Switch>
                     <Route path={reactLinks.home} exact component={Collection}/>
@@ -22,7 +42,12 @@ const app = () => {
                     <Route path={reactLinks.upload} exact component={Upload}/>
                     <Redirect to={reactLinks.home}/>
                 </Switch>
-            </Layout>
+            </Layout>;
+    }
+
+    return (
+        <div>
+            {layout}
         </div>
     );
 }

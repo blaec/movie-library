@@ -22,6 +22,12 @@ export const movieApi = {
     },
 };
 
+export const configApi = {
+    get: {
+        getConfigs: "/configs"
+    }
+}
+
 export const getMovieDetailsUrl = (id) => {
     return `${url_endpoints.movie}${id}?${getParamsFrom(backdrop_params)}`
 };
