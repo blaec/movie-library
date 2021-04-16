@@ -81,6 +81,7 @@ const settings = {
 //     "w780",
 //     "original"
 // ]
+// TODO sort by tmdb and omdb
 const url_endpoints = {
     image: 'http://image.tmdb.org/t/p/original',
     movie: 'https://api.themoviedb.org/3/movie/',
