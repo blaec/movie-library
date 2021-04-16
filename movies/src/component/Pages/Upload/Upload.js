@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from '../../../axios-movies';
+import {useSelector} from "react-redux";
 
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
@@ -9,6 +10,8 @@ import './Upload.css';
 import * as UrlUtils from "../../../utils/UrlUtils";
 
 const upload = () => {
+    const configs = useSelector(state => state.api);
+
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileLocation, setFileLocation] = useState('');
@@ -91,7 +94,7 @@ const upload = () => {
 
     const handleSearchWishMovie = () => {
         setIsLoading(true);
-        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear}))
+        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear, api_key: configs.tmdbApi}))
             .then(response => {
                 let foundMovies = response.data.results;
                 setWishMovies(foundMovies);

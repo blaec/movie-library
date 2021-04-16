@@ -2,8 +2,6 @@ export {
     changeSearch,
     setMovies,
     deleteMovies,
-    setGenreIds
-} from './global';
-export {
+    setGenreIds,
     initConfigs
-} from './configs';
+} from './global';

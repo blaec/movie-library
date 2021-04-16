@@ -28,16 +28,18 @@ export const configApi = {
     }
 }
 
-export const getMovieDetailsUrl = (id) => {
-    return `${url_endpoints.movie}${id}?${getParamsFrom(backdrop_params)}`
+export const getMovieDetailsUrl = (id, tmdbApi) => {
+    const params = {...backdrop_params, ...{api_key: tmdbApi}};
+    return `${url_endpoints.movie}${id}?${getParamsFrom(params)}`
 };
 
-export const getOmdbMovieDetails = (imdbId) => {
-    return `${url_endpoints.omdb_movie}${imdbId}&apikey=${settings.omdb.api_key}`
+export const getOmdbMovieDetails = (imdbId, omdbApi) => {
+    return `${url_endpoints.omdb_movie}${imdbId}&apikey=${omdbApi}`
 };
 
-export const getMovieCreditsUrl = (id) => {
-    return `${url_endpoints.movie}${id}/credits?${getParamsFrom(api_lang_params)}`
+export const getMovieCreditsUrl = (id, tmdbApi) => {
+    const params = {...api_lang_params, ...{api_key: tmdbApi}};
+    return `${url_endpoints.movie}${id}/credits?${getParamsFrom(params)}`
 };
 
 export const getImageUrl = (path) => {
@@ -49,8 +51,9 @@ export const getSearchMovieUrl = (props) => {
     return `${url_endpoints.searchByNameAndYear}?${getParamsFrom(params)}`
 };
 
-export const getAllGenresUrl = () => {
-    return `${url_endpoints.genres}?${getParamsFrom(api_lang_params)}`
+export const getAllGenresUrl = (tmdbApi) => {
+    const params = {...api_lang_params, ...{api_key: tmdbApi}};
+    return `${url_endpoints.genres}?${getParamsFrom(params)}`
 };
 
 export const getDeleteUrl = (id) => {
@@ -67,13 +70,9 @@ const getParamsFrom = (obj) => {
 
 const settings = {
     tmdb: {
-        api_key: 'd6c79c6e7c9d5f56185d9318481769bc',
         language: 'ru-RU',
         append_to_response: 'images',
         include_image_language: 'ru-RU,null'
-    },
-    omdb: {
-        api_key: '22ea6ede'
     }
 };
 
@@ -97,7 +96,6 @@ const url_endpoints = {
 };
 
 const backdrop_params = {
-    api_key: settings.tmdb.api_key,
     language: settings.tmdb.language,
     append_to_response: settings.tmdb.append_to_response,
     include_image_language: settings.tmdb.include_image_language
@@ -105,12 +103,10 @@ const backdrop_params = {
 
 // https://api.themoviedb.org/3/movie/9487/credits?api_key=<<key>>&language=en-US
 const api_lang_params = {
-    api_key: settings.tmdb.api_key,
     language: settings.tmdb.language
 };
 
 const caption_year_params = {
-    api_key: settings.tmdb.api_key,
     language: 'en-EN'
 };
 

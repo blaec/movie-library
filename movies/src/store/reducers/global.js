@@ -3,7 +3,11 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     search: '',
     movies: {},
-    genreIds: []
+    genreIds: [],
+    api: {
+        tmdbApi: '',
+        omdbApi: ''
+    },
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,6 +31,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 genreIds: action.genreIds
+            };
+        case actionTypes.INIT_CONFIGS:
+            return {
+                ...state,
+                api: {
+                    tmdbApi: action.configs.tmdb.value.apikey,
+                    omdbApi: action.configs.omdb.value.apikey
+                }
             };
         default:
             return state;
