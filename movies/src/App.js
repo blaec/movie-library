@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import axios from "./axios-movies";
 
 import Layout from "./hoc/Layout/Layout";
 import Collection from "./component/Pages/Collection/Collection";
@@ -7,21 +9,21 @@ import FilteredCollection from "./component/Pages/Collection/FilteredCollection"
 import Upload from "./component/Pages/Upload/Upload";
 import Wishlist from "./component/Pages/Wishlist/Wishlist";
 import Filter from "./component/Pages/Filter/Filter";
-import {configApi, movieApi, reactLinks} from "./utils/UrlUtils";
-import './utils/Constants.css';
-import axios from "./axios-movies";
 import MyLoader from "./UI/Spinners/MyLoader";
+import {configApi, reactLinks} from "./utils/UrlUtils";
+import * as actions from "./store/actions";
+import './utils/Constants.css';
 
 const app = () => {
-    const [configs, setConfigs] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
+    const dispatch = useDispatch();
+    const onConfigsInit = (allConfigs) => dispatch(actions.initConfigs(allConfigs));
 
     useEffect(() => {
         setIsLoading(true);
         axios.get(configApi.get.getConfigs)
             .then(response => {
-                setConfigs(response.data)
-                console.log(response.data);
+                onConfigsInit(response.data)
                 setIsLoading(false);
             })
             .catch(error => {

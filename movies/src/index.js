@@ -5,10 +5,16 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import {Provider} from "react-redux";
-import {createStore} from "redux";
+import {combineReducers, createStore} from "redux";
 import globalReducer from "./store/reducers/global";
+import configsReducer from "./store/reducers/configs";
 
-const store = createStore(globalReducer);
+const rootReducer = combineReducers({
+    global: globalReducer,
+    configs: configsReducer
+});
+
+const store = createStore(rootReducer);
 
 const app = (
     <Provider store={store}>
