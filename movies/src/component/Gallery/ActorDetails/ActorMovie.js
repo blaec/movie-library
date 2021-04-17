@@ -1,10 +1,35 @@
 import React from 'react';
+import {Avatar, CardMedia, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
+import {getImageUrl} from "../../../utils/UrlUtils";
 
-const actorMovie = () => {
+const useStyles = makeStyles((theme) => ({
+    large: {
+        width: theme.spacing(9),
+        height: theme.spacing(9),
+    },
+    actor: {
+        paddingLeft: theme.spacing(2),
+    }
+}));
+
+const actorMovie = (props) => {
+    const {title, release_date, poster_path, character} = props;
+    const classes = useStyles();
+
     return (
-        <div>
-
-        </div>
+        <ListItem>
+            <ListItemAvatar>
+                <Avatar variant="square"
+                        alt={title}
+                        src={getImageUrl(poster_path)}
+                        className={classes.large}
+                />
+            </ListItemAvatar>
+            <ListItemText className={classes.actor}
+                          primary={`${title} (${release_date})`}
+                          secondary={` — as ${character}`}
+            />
+        </ListItem>
     );
 };
 

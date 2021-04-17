@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
 import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import {useSelector} from "react-redux";
+import ActorMovie from "./ActorMovie";
+import {Box, List} from "@material-ui/core";
 
 const actorDetails = (props) => {
     const {id} = props;
@@ -14,7 +16,8 @@ const actorDetails = (props) => {
         setIsLoading(true);
         axios.get(getActorDetailsUrl(id, configs.tmdbApi))
             .then(response => {
-                setActorMovies(response.data.credits.cast);
+                setActorMovies(response.data);
+                console.log(response.data);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -25,14 +28,20 @@ const actorDetails = (props) => {
 
     let allMovies = null;
     if (!isLoading) {
-        console.log(actorMovies);
-        allMovies = <div>{actorMovies[0].character}</div>;
+        allMovies =
+            <React.Fragment>
+                <Box fontSize="subtitle1.fontSize"
+                     fontWeight="fontWeightBold">
+                    {actorMovies.name}
+                </Box>
+                {actorMovies.credits.cast.map(movie => <ActorMovie key={movie.id} {...movie}/>)}
+            </React.Fragment>
     }
 
     return (
-        <div>
+        <List>
             {allMovies}
-        </div>
+        </List>
     );
 };
 
