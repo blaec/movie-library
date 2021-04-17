@@ -134,20 +134,20 @@ const upload = () => {
     return (
         <div className="Upload">
             <WishLoader {...{wishTitle: wishTitle, wishYear: wishYear}}
-                        submit={handleSearchWishMovie}
-                        add={handleSaveWishMovie}
                         loading={isLoading}
                         wishResults={wishMovies}
                         onChangeTextField={handleTextFieldChange}
+                        onSubmit={handleSearchWishMovie}
+                        onAdd={handleSaveWishMovie}
             />
             <FileLoader {...{tmdbId: tmdbId, fileName: fileName}}
-                        submit={handleUpload}
                         location={fileLocation}
                         loading={isLoading}
+                        switchIsOn={switchStatus}
                         onChangeRadio={handleChooseLocation}
                         onChangeTextField={handleTextFieldChange}
                         onChangeSwitch={handleSwitchChange}
-                        switchIsOn={switchStatus}
+                        onSubmit={handleUpload}
             />
             {snackbar}
         </div>

@@ -3,7 +3,8 @@ import React from 'react';
 import {Button} from "@material-ui/core";
 
 const myDialogButton = (props) => {
-    let {type, caption, onClick} = props;
+    const {type, caption, onClick} = props;
+
     const style = {
         success: {
             color: "primary",

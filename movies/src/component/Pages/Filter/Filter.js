@@ -105,15 +105,15 @@ const filter = (props) => {
                 </CardContent>
                 <CardActions>
                     <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                    submit={handleGetMovies}
                                     caption="Filter"
                                     type="success"
                                     fill="filled"
+                                    onSubmit={handleGetMovies}
                     />
                     <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
-                                    submit={handleClear}
                                     caption="Clear"
                                     type="danger"
+                                    onSubmit={handleClear}
                     />
                 </CardActions>
             </Card>;

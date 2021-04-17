@@ -24,7 +24,7 @@ const inputs = {
 };
 
 const wishLoader = props => {
-    const {wishResults, alt, onChangeTextField, loading, submit, add} = props;
+    const {wishResults, alt, onChangeTextField, loading, onAdd, onSubmit} = props;
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {
@@ -72,13 +72,13 @@ const wishLoader = props => {
             </CardContent>
             <CardActions>
                 <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                submit={submit}
                                 caption="Search"
+                                onSubmit={onSubmit}
                 />
                 <MySubmitButton icon={<AddCircleTwoToneIcon/>}
-                                submit={() => add(selectedWishMovie)}
                                 disabled={!wishResults}
                                 caption="Add"
+                                onSubmit={() => onAdd(selectedWishMovie)}
                 />
             </CardActions>
             {movie}
