@@ -24,7 +24,7 @@ const inputs = {
 };
 
 const wishLoader = props => {
-    const {wishResults, alt, wishTitle, onChangeTextField, wishYear, loading, submit, add} = props;
+    const {wishResults, alt, onChangeTextField, loading, submit, add} = props;
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {

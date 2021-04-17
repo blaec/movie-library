@@ -3,7 +3,7 @@ import React from 'react';
 import MovieMenu from "./MovieMenu";
 import {DRAWER_WIDTH} from "../../../utils/Constants";
 
-import {Divider, Drawer, Hidden, Toolbar, Typography} from "@material-ui/core";
+import {Divider, Drawer, Hidden} from "@material-ui/core";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
