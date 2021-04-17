@@ -3,11 +3,19 @@ import axios from "../../../axios-movies";
 import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import {useSelector} from "react-redux";
 import ActorMovie from "./ActorMovie";
-import {Box, List} from "@material-ui/core";
+import {Box, List, makeStyles} from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import '../Gallery/Gallery.css';
+
+const useStyles = makeStyles((theme) => ({
+    actor: {
+        paddingLeft: theme.spacing(7),
+    }
+}));
 
 const actorDetails = (props) => {
     const {id, onClose} = props;
+    const classes = useStyles();
 
     const configs = useSelector(state => state.api);
     const [actorMovies, setActorMovies] = useState();
@@ -34,7 +42,8 @@ const actorDetails = (props) => {
                 <ArrowBackIcon onClick={onClose}
                                className="ImageBack"
                                fontSize="large"/>
-                <Box fontSize="subtitle1.fontSize"
+                <Box className={classes.actor}
+                     fontSize="h5.fontSize"
                      fontWeight="fontWeightBold">
                     {actorMovies.name}
                 </Box>
