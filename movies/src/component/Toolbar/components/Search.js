@@ -57,17 +57,15 @@ const search = () => {
 
     const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
 
-    const endAdornment = () => {
-        return !search
-            ? ""
-            : (
-                <InputAdornment position="end">
-                    <IconButton onClick={() => onSearchChange('')}>
-                        <ClearIcon fontSize="small"/>
-                    </IconButton>
-                </InputAdornment>
-            );
-    };
+    let endAdornment = () => "";
+    if (search) {
+        endAdornment = () =>
+            <InputAdornment position="end">
+                <IconButton onClick={() => onSearchChange('')}>
+                    <ClearIcon fontSize="small"/>
+                </IconButton>
+            </InputAdornment>;
+    }
 
     return (
         <div className={classes.search}>
