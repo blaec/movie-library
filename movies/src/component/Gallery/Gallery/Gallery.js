@@ -4,6 +4,7 @@ import axios from "../../../axios-movies";
 
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
+import ActorDetails from "../ActorDetails/ActorDetails";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import {getDeleteUrl} from "../../../utils/UrlUtils";
@@ -35,9 +36,11 @@ const gallery = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedMovie, setSelectedMovie] = useState('');
     const [isViewingDetails, setIsViewingDetails] = useState(false);
+    const [isViewingActorDetails, setIsViewingActorDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
+    const [actorId, setActorId] = useState();
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -81,7 +84,9 @@ const gallery = (props) => {
     };
 
     const handleActorSelect = (id, name) => {
-        alert(`${id} ${name}`);
+        setActorId(id);
+        setIsViewingActorDetails(true);
+        // alert(`${id} ${name}`);
     };
 
     useEffect(() => {
@@ -107,13 +112,20 @@ const gallery = (props) => {
     let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
-            myGallery = <Details {...selectedMovie.movieToDetailsComponent}
-                                 movieToInfoComponent={selectedMovie.movieToInfoComponent}
-                                 onClose={handleDetailsClose}
-                                 onDelete={handleDeleteMovie}
-                                 onActorSelect={handleActorSelect}
-            />;
+            if (isViewingActorDetails) {
+                console.log("actor details");
+                myGallery = <ActorDetails id={actorId}/>
+            } else {
+                console.log("details");
+                myGallery = <Details {...selectedMovie.movieToDetailsComponent}
+                                     movieToInfoComponent={selectedMovie.movieToInfoComponent}
+                                     onClose={handleDetailsClose}
+                                     onDelete={handleDeleteMovie}
+                                     onActorSelect={handleActorSelect}
+                />;
+            }
         } else {
+            console.log("gallery");
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
             myGallery = (
