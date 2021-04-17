@@ -23,7 +23,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const info = props => {
-    console.log(props);
+    const {omdbDetails, tmdbDetails, fileDetails, castDetails, genreDetails} = props;
+    const {Rated, imdbRating, imdbVotes} = omdbDetails;
+    const {release_date, runtime, title, tagline, overview} = tmdbDetails;
+    const {resolution, size, location} = fileDetails;
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -32,15 +35,15 @@ const info = props => {
     };
 
     const metadata = {
-        rated: NA_Safe(props.omdbDetails.Rated),
-        release_date: year(props.details.release_date),
-        runtime: props.details.runtime !== 0
-            ? playTime(props.details.runtime)
+        rated: NA_Safe(Rated),
+        release_date: year(release_date),
+        runtime: runtime !== 0
+            ? playTime(runtime)
             : null,
-        rating: NA_Safe(props.omdbDetails.imdbRating, `${props.omdbDetails.imdbRating} [${props.omdbDetails.imdbVotes}]`),
-        resolution: props.file.resolution,
-        fileSize: props.file.size
-            ? `${props.file.size}Gb`
+        rating: NA_Safe(imdbRating, `${imdbRating} [${imdbVotes}]`),
+        resolution: resolution,
+        fileSize: size
+            ? `${size}Gb`
             : null
     };
 
@@ -52,7 +55,7 @@ const info = props => {
                 <Typography component="div">
                     <Box fontSize="caption.fontSize"
                          fontWeight="fontWeightLight">
-                        {props.file.location}
+                        {location}
                     </Box>
                     <Divider/>
                     <Box fontSize="subtitle2.fontSize"
@@ -65,10 +68,10 @@ const info = props => {
                             .join(` | `)}
                     </Box>
                     <Box fontSize="h4.fontSize" fontWeight="fontWeightBold" textAlign="center">
-                        {props.details.title}
+                        {title}
                     </Box>
                     <Box fontSize="subtitle2.fontSize"  fontWeight="fontWeightMedium" textAlign="center">
-                        {props.genres}
+                        {genreDetails}
                     </Box>
                 </Typography>
             </div>
@@ -92,23 +95,25 @@ const info = props => {
                          textAlign="right"
                          paddingBottom={1}
                          paddingLeft={20}>
-                        {props.details.tagline}
+                        {tagline}
                     </Box>
                     <Box fontSize="body1.fontSize">
-                        {props.details.overview}
+                        {overview}
                     </Box>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <List>
-                        {props.cast.map(actor => <Actor key={actor.cast_id} {...actor}/>)
-                                   .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
+                        {
+                            castDetails
+                                .map(actor => <Actor key={actor.cast_id} {...actor}/>)
+                                .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
                         }
                     </List>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <List>
-                        <Facts omdbDetails={props.omdbDetails}
-                               tmdbDetails={props.details}/>
+                        <Facts omdbDetails={omdbDetails}
+                               tmdbDetails={tmdbDetails}/>
                     </List>
                 </TabPanel>
             </div>
