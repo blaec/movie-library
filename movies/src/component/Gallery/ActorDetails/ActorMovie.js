@@ -1,6 +1,7 @@
 import React from 'react';
 import {Avatar, CardMedia, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 import {getImageUrl} from "../../../utils/UrlUtils";
+import {year} from "../../../utils/Utils";
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -26,7 +27,7 @@ const actorMovie = (props) => {
                 />
             </ListItemAvatar>
             <ListItemText className={classes.actor}
-                          primary={`${title} (${release_date})`}
+                          primary={`${title} (${year(release_date)})`}
                           secondary={` — as ${character}`}
             />
         </ListItem>

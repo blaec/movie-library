@@ -117,10 +117,8 @@ const gallery = (props) => {
     if (!isLoading) {
         if (isViewingDetails) {
             if (isViewingActorDetails) {
-                console.log("actor details");
                 myGallery = <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
             } else {
-                console.log("details");
                 myGallery = <Details {...selectedMovie.movieToDetailsComponent}
                                      movieToInfoComponent={selectedMovie.movieToInfoComponent}
                                      onClose={handleDetailsClose}
@@ -129,7 +127,6 @@ const gallery = (props) => {
                 />;
             }
         } else {
-            console.log("gallery");
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
             myGallery = (

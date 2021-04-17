@@ -26,7 +26,6 @@ const actorDetails = (props) => {
         axios.get(getActorDetailsUrl(id, configs.tmdbApi))
             .then(response => {
                 setActorMovies(response.data);
-                console.log(response.data);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -47,7 +46,10 @@ const actorDetails = (props) => {
                      fontWeight="fontWeightBold">
                     {actorMovies.name}
                 </Box>
-                {actorMovies.credits.cast.map(movie => <ActorMovie key={movie.id} {...movie}/>)}
+                {actorMovies.credits.cast
+                    .filter(movie => movie.release_date !== undefined && movie.release_date !== "")
+                    .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
+                    .map(movie => <ActorMovie key={movie.id} {...movie}/>)}
             </React.Fragment>
     }
 
