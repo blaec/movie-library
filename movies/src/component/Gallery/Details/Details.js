@@ -11,6 +11,7 @@ import {joinNames} from "../../../utils/Utils";
 
 // TODO refactor multiple axios get requests
 const details = (props) => {
+    const {tmdbId, id, onClose, onDelete} = props;
     const configs = useSelector(state => state.api);
 
     const [movieDetails, setMovieDetails] = useState();
@@ -24,7 +25,7 @@ const details = (props) => {
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
         setIsLoadingMovies(true);
-        axios.get(getMovieDetailsUrl(props.tmdbId, configs.tmdbApi))
+        axios.get(getMovieDetailsUrl(tmdbId, configs.tmdbApi))
             .then(response => {
 
                 // console.log("extract data: " + (new Date()).getTime());
@@ -54,7 +55,7 @@ const details = (props) => {
     useEffect(() => {
         // console.log("get cast: " + (new Date()).getTime());
         setIsLoadingCast(true);
-        axios.get(getMovieCreditsUrl(props.tmdbId, configs.tmdbApi))
+        axios.get(getMovieCreditsUrl(tmdbId, configs.tmdbApi))
             .then(response => {
                 // console.log("extract cast: " + (new Date()).getTime());
                 setCast(response.data.cast);
@@ -70,9 +71,9 @@ const details = (props) => {
     if (!isLoadingMovies && !isLoadingCast) {
         details = (
             <React.Fragment>
-                <BackdropImage closed={props.closed}
-                               delete={props.delete}
-                               movieId={props.id}
+                <BackdropImage closed={onClose}
+                               delete={onDelete}
+                               movieId={id}
                                backdrops={backdrops}
                                alt={`${movieDetails.title} ${movieDetails.releaseDate}`}
                 />
