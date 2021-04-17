@@ -51,7 +51,7 @@ const wishLoader = props => {
                 </Carousel>;
     }
 
-    const movieInputs = Object.keys(inputs).map(inputKey => (
+    const movieInputs = Object.keys(inputs).map(inputKey =>
         <MyTextField key={inputKey}
                      id={inputKey}
                      text={props[inputs[inputKey].text]}
@@ -59,7 +59,7 @@ const wishLoader = props => {
                      helperText={inputs[inputKey].helperText}
                      onChangeTextField={onChangeTextField}
         />
-    ));
+    );
 
     return (
         <Card variant="elevation">

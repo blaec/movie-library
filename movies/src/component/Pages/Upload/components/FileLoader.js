@@ -47,12 +47,12 @@ const inputs = {
     }
 };
 
-const locationRadios = Object.keys(movieLocations).map(locKey => (
+const locationRadios = Object.keys(movieLocations).map(locKey =>
     <FormControlLabel key={locKey}
                       value={locKey}
                       control={<Radio color="primary"/>}
                       label={movieLocations[locKey]}/>
-));
+);
 
 const fileLoader = props => {
     const {switchIsOn, location, loading, onChangeRadio, onChangeSwitch, onChangeTextField, onSubmit} = props;
