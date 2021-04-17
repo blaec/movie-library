@@ -103,8 +103,8 @@ const gallery = (props) => {
     let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
-            myGallery = <Details {...selectedMovie.movieDetailsComponent}
-                                 movieInfoComponent={selectedMovie.movieInfoComponent}
+            myGallery = <Details {...selectedMovie.movieToDetailsComponent}
+                                 movieToInfoComponent={selectedMovie.movieToInfoComponent}
                                  onClose={handleDetailsClose}
                                  onDelete={handleDeleteMovie}
             />;
@@ -114,14 +114,27 @@ const gallery = (props) => {
             myGallery = (
                 <React.Fragment>
                     <div className="Gallery">
-                        {moviesOnCurrentPage.map(movie =>
-                            <Movie key={movie.id}
-                                   poster={movie.posterPath}
-                                   alt={`${movie.title} ${movie.releaseDate}`}
-                                   onClick={handleViewMovieDetails}
-                                   movieDetailsComponent={{id: movie.id, tmdbId: movie.tmdbId}}
-                                   movieInfoComponent={{resolution: movie.resolution, size: movie.size, location: movie.location}}
-                            />
+                        {moviesOnCurrentPage.map(movie => {
+                                const {id, tmdbId, posterPath, title, releaseDate, resolution, size, location} = movie;
+                                return (
+                                    <Movie key={id}
+                                           poster={posterPath}
+                                           alt={`${title} ${releaseDate}`}
+                                           onClick={handleViewMovieDetails}
+                                           movieToComponents={{
+                                               movieToDetailsComponent: {
+                                                   id: id,
+                                                   tmdbId: tmdbId
+                                               },
+                                               movieToInfoComponent: {
+                                                   resolution: resolution,
+                                                   size: size,
+                                                   location: location
+                                               }
+                                           }}
+                                    />
+                                )
+                            }
                         )}
                     </div>
                     <Pagination className="Pagination"

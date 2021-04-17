@@ -11,7 +11,7 @@ import {joinNames} from "../../../utils/Utils";
 
 // TODO refactor multiple axios get requests
 const details = (props) => {
-    const {tmdbId, id, onClose, onDelete, movieInfoComponent} = props;
+    const {tmdbId, id, onClose, onDelete, movieToInfoComponent} = props;
     const configs = useSelector(state => state.api);
 
     const [movieDetails, setMovieDetails] = useState();
@@ -79,7 +79,7 @@ const details = (props) => {
                 />
                 <Info tmdbDetails={movieDetails}
                       omdbDetails={omdbMovieDetails}
-                      fileDetails={movieInfoComponent}
+                      fileDetails={movieToInfoComponent}
                       castDetails={cast}
                       genreDetails={genres}
                 />
