@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 const filter = (props) => {
     const classes = useStyles();
     const configs = useSelector(state => state.api);
-
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
 

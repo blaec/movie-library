@@ -1,13 +1,16 @@
 import React from 'react';
-import "./Movie.css";
+
 import {getImageUrl} from "../../../../../utils/UrlUtils";
+import "./Movie.css";
 
 const movie = props => {
+    const {poster, alt, onClick} = props;
+
     return (
         <div className="Movie">
-            <img src={getImageUrl(props.posterPath)}
-                 onClick={() => props.clicked(props)}
-                 alt={`${props.title} ${props.releaseDate}`}
+            <img src={getImageUrl(poster)}
+                 onClick={() => onClick(props)}
+                 alt={alt}
             />
         </div>
     );

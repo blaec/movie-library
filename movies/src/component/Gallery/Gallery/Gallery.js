@@ -6,11 +6,11 @@ import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
+import {getDeleteUrl} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 import "./Gallery.css";
 
 import Pagination from '@material-ui/lab/Pagination';
-import {getDeleteUrl} from "../../../utils/UrlUtils";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -23,7 +23,7 @@ const resolutions = {
 };
 
 const gallery = (props) => {
-    let {movies} = props;
+    const {movies} = props;
 
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
@@ -61,8 +61,8 @@ const gallery = (props) => {
         setIsLoading(true);
         axios.delete(getDeleteUrl(id))
             .then(response => {
-                let deleted = movies.find(m => m.id === id);
-                let updatedMovieList = movies.filter(m => m.id !== id);
+                let deleted = movies.find(movie => movie.id === id);
+                let updatedMovieList = movies.filter(movie => movie.id !== id);
                 onDeleteMovieChange(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
@@ -114,8 +114,9 @@ const gallery = (props) => {
                     <div className="Gallery">
                         {moviesOnCurrentPage.map(movie =>
                             <Movie key={movie.id}
-                                   {...movie}
-                                   clicked={handleViewMovieDetails}/>
+                                   poster={movie.posterPath}
+                                   alt={`${movie.title} ${movie.releaseDate}`}
+                                   onClick={handleViewMovieDetails}/>
                         )}
                     </div>
                     <Pagination className="Pagination"

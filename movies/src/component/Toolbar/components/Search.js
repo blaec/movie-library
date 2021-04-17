@@ -52,9 +52,8 @@ const useStyles = makeStyles((theme) => ({
 
 const search = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const search = useSelector(state => state.search);
-
+    const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
 
     let endAdornment = () => "";
