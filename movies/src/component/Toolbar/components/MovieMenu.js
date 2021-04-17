@@ -19,28 +19,28 @@ const movieMenu = () => {
     return (
         <List>
             <MyListItem selected={selectedCaption}
-                        clicked={handleListItemClick}
                         link={reactLinks.home}
                         caption="Collection"
                         icon={<MovieFilterTwoToneIcon/>}
+                        onClick={handleListItemClick}
             />
             <MyListItem selected={selectedCaption}
-                        clicked={handleListItemClick}
                         link={reactLinks.wishlist}
                         caption="Wishlist"
                         icon={<FavoriteTwoToneIcon/>}
+                        onClick={handleListItemClick}
             />
             <MyListItem selected={selectedCaption}
-                        clicked={handleListItemClick}
                         link={reactLinks.filter}
                         caption="Filter"
                         icon={<SearchTwoToneIcon/>}
+                        onClick={handleListItemClick}
             />
             <MyListItem selected={selectedCaption}
-                        clicked={handleListItemClick}
                         link={reactLinks.upload}
                         caption="Upload"
                         icon={<UpdateTwoToneIcon/>}
+                        onClick={handleListItemClick}
             />
         </List>
     )
