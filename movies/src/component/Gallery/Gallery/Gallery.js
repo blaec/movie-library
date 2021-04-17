@@ -103,8 +103,8 @@ const gallery = (props) => {
     let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
-            myGallery = <Details closed={handleDetailsClose}
-                                 delete={handleDeleteMovie}
+            myGallery = <Details onClose={handleDetailsClose}
+                                 onDelete={handleDeleteMovie}
                                  {...selectedMovie}/>;
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
