@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import axios from '../../../axios-movies';
+import {useSelector} from "react-redux";
 
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
@@ -9,6 +10,8 @@ import './Upload.css';
 import * as UrlUtils from "../../../utils/UrlUtils";
 
 const upload = () => {
+    const configs = useSelector(state => state.api);
+
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileLocation, setFileLocation] = useState('');
@@ -91,7 +94,7 @@ const upload = () => {
 
     const handleSearchWishMovie = () => {
         setIsLoading(true);
-        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear}))
+        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear, api_key: configs.tmdbApi}))
             .then(response => {
                 let foundMovies = response.data.results;
                 setWishMovies(foundMovies);
@@ -125,26 +128,26 @@ const upload = () => {
     let snackbar = null;
     if (snackbarProps.open) {
         snackbar = <MySnackbar {...snackbarProps}
-                               close={handleSnackbarClose}/>;
+                               onClose={handleSnackbarClose}/>;
     }
 
     return (
         <div className="Upload">
             <WishLoader {...{wishTitle: wishTitle, wishYear: wishYear}}
-                        submit={handleSearchWishMovie}
-                        add={handleSaveWishMovie}
                         loading={isLoading}
                         wishResults={wishMovies}
                         onChangeTextField={handleTextFieldChange}
+                        onSubmit={handleSearchWishMovie}
+                        onAdd={handleSaveWishMovie}
             />
             <FileLoader {...{tmdbId: tmdbId, fileName: fileName}}
-                        submit={handleUpload}
                         location={fileLocation}
                         loading={isLoading}
+                        switchIsOn={switchStatus}
                         onChangeRadio={handleChooseLocation}
                         onChangeTextField={handleTextFieldChange}
                         onChangeSwitch={handleSwitchChange}
-                        switchIsOn={switchStatus}
+                        onSubmit={handleUpload}
             />
             {snackbar}
         </div>

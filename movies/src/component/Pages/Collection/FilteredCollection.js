@@ -45,7 +45,7 @@ const filteredCollection = () => {
     let snackbar = null;
     if (snackbarProps.open) {
         snackbar = <MySnackbar {...snackbarProps}
-                               close={handleSnackbarClose}/>;
+                               onClose={handleSnackbarClose}/>;
     }
 
     return (

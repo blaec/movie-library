@@ -8,7 +8,7 @@ function Alert(props) {
 }
 
 const mySnackbar = (props) => {
-    const {open, close, message, type} = props;
+    const {open, message, type, onClose} = props;
 
     return (
         <Snackbar open={open}
@@ -17,8 +17,8 @@ const mySnackbar = (props) => {
                       horizontal: 'right',
                   }}
                   autoHideDuration={5000}
-                  onClose={close}>
-            <Alert onClose={close}
+                  onClose={onClose}>
+            <Alert onClose={onClose}
                    severity={type}>
                 {message}
             </Alert>

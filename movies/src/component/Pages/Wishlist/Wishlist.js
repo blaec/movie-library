@@ -25,11 +25,9 @@ const wishlist = () => {
     };
 
     useEffect(() => {
-        console.log("load movies from wishlist");
         setIsLoading(true);
         axios.get(movieApi.get.getAllWishMovies)
             .then(response => {
-                console.log("loaded movies from wishlist");
                 onMoviesChange(response.data)
                 setIsLoading(false);
                 setSnackbarProps({open: true, message: `Found ${response.data.length} movies`, type: 'success'});
@@ -48,7 +46,7 @@ const wishlist = () => {
     let snackbar = null;
     if (snackbarProps.open) {
         snackbar = <MySnackbar {...snackbarProps}
-                               close={handleSnackbarClose}/>;
+                               onClose={handleSnackbarClose}/>;
     }
 
     return (

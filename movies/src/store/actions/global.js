@@ -27,3 +27,11 @@ export const setGenreIds = (ids) => {
         genreIds: ids
     }
 };
+
+export const initConfigs = (configs) => {
+    return {
+        type: actionTypes.INIT_CONFIGS,
+        configs: configs
+    }
+};
+

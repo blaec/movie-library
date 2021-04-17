@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const toolbar = props => {
+const toolbar = () => {
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -24,12 +24,9 @@ const toolbar = props => {
     return (
         <div className={classes.root}>
             <CssBaseline/>
-            <MyAppBar classes={classes}
-                      toggle={handleDrawerToggle}
-            />
-            <MyDrawer {...props}
-                      drawerToggle={handleDrawerToggle}
-                      open={mobileOpen}
+            <MyAppBar onDrawerToggle={handleDrawerToggle}/>
+            <MyDrawer open={mobileOpen}
+                      onDrawerToggle={handleDrawerToggle}
             />
         </div>
     );

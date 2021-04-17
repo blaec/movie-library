@@ -24,7 +24,7 @@ const inputs = {
 };
 
 const wishLoader = props => {
-    const {wishResults, alt, wishTitle, onChangeTextField, wishYear, loading, submit, add} = props;
+    const {wishResults, alt, onChangeTextField, loading, onAdd, onSubmit} = props;
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {
@@ -51,7 +51,7 @@ const wishLoader = props => {
                 </Carousel>;
     }
 
-    const movieInputs = Object.keys(inputs).map(inputKey => (
+    const movieInputs = Object.keys(inputs).map(inputKey =>
         <MyTextField key={inputKey}
                      id={inputKey}
                      text={props[inputs[inputKey].text]}
@@ -59,7 +59,7 @@ const wishLoader = props => {
                      helperText={inputs[inputKey].helperText}
                      onChangeTextField={onChangeTextField}
         />
-    ));
+    );
 
     return (
         <Card variant="elevation">
@@ -72,13 +72,13 @@ const wishLoader = props => {
             </CardContent>
             <CardActions>
                 <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                submit={submit}
                                 caption="Search"
+                                onSubmit={onSubmit}
                 />
                 <MySubmitButton icon={<AddCircleTwoToneIcon/>}
-                                submit={() => add(selectedWishMovie)}
                                 disabled={!wishResults}
                                 caption="Add"
+                                onSubmit={() => onAdd(selectedWishMovie)}
                 />
             </CardActions>
             {movie}

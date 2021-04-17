@@ -52,22 +52,19 @@ const useStyles = makeStyles((theme) => ({
 
 const search = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const search = useSelector(state => state.search);
-
+    const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
 
-    const endAdornment = () => {
-        return !search
-            ? ""
-            : (
-                <InputAdornment position="end">
-                    <IconButton onClick={() => onSearchChange('')}>
-                        <ClearIcon fontSize="small"/>
-                    </IconButton>
-                </InputAdornment>
-            );
-    };
+    let endAdornment = () => "";
+    if (search) {
+        endAdornment = () =>
+            <InputAdornment position="end">
+                <IconButton onClick={() => onSearchChange('')}>
+                    <ClearIcon fontSize="small"/>
+                </IconButton>
+            </InputAdornment>;
+    }
 
     return (
         <div className={classes.search}>

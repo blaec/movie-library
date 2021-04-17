@@ -13,8 +13,8 @@ const collection = () => {
     const dispatch = useDispatch();
     const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
 
-    const [isLoading, setIsLoading] = useState(true);
     const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -25,7 +25,6 @@ const collection = () => {
     };
 
     useEffect(() => {
-        console.log("load movies");
         setIsLoading(true);
         axios.get(movieApi.get.getAllMovies)
             .then(response => {
@@ -47,7 +46,7 @@ const collection = () => {
     let snackbar = null;
     if (snackbarProps.open) {
         snackbar = <MySnackbar {...snackbarProps}
-                               close={handleSnackbarClose}/>;
+                               onClose={handleSnackbarClose}/>;
     }
 
     return (

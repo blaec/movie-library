@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
+import {useSelector} from "react-redux";
 
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
@@ -10,6 +11,9 @@ import {joinNames} from "../../../utils/Utils";
 
 // TODO refactor multiple axios get requests
 const details = (props) => {
+    const {tmdbId, id, onClose, onDelete, movieToInfoComponent} = props;
+    const configs = useSelector(state => state.api);
+
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
     const [cast, setCast] = useState();
@@ -21,7 +25,7 @@ const details = (props) => {
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
         setIsLoadingMovies(true);
-        axios.get(getMovieDetailsUrl(props.tmdbId))
+        axios.get(getMovieDetailsUrl(tmdbId, configs.tmdbApi))
             .then(response => {
 
                 // console.log("extract data: " + (new Date()).getTime());
@@ -31,7 +35,7 @@ const details = (props) => {
                 setBackdrops(details.images.backdrops);
 
                 // Get movie additional details from omdb
-                axios.get(getOmdbMovieDetails(details.imdb_id))
+                axios.get(getOmdbMovieDetails(details.imdb_id, configs.omdbApi))
                     .then(response => {
                         setOmdbMovieDetails(response.data);
                         setIsLoadingMovies(false);
@@ -51,7 +55,7 @@ const details = (props) => {
     useEffect(() => {
         // console.log("get cast: " + (new Date()).getTime());
         setIsLoadingCast(true);
-        axios.get(getMovieCreditsUrl(props.tmdbId))
+        axios.get(getMovieCreditsUrl(tmdbId, configs.tmdbApi))
             .then(response => {
                 // console.log("extract cast: " + (new Date()).getTime());
                 setCast(response.data.cast);
@@ -67,17 +71,17 @@ const details = (props) => {
     if (!isLoadingMovies && !isLoadingCast) {
         details = (
             <React.Fragment>
-                <BackdropImage closed={props.closed}
-                               delete={props.delete}
-                               movieId={props.id}
+                <BackdropImage id={id}
                                backdrops={backdrops}
                                alt={`${movieDetails.title} ${movieDetails.releaseDate}`}
+                               onClose={onClose}
+                               onDelete={onDelete}
                 />
-                <Info details={movieDetails}
+                <Info tmdbDetails={movieDetails}
                       omdbDetails={omdbMovieDetails}
-                      file={props}
-                      cast={cast}
-                      genres={genres}
+                      fileDetails={movieToInfoComponent}
+                      castDetails={cast}
+                      genreDetails={genres}
                 />
             </React.Fragment>
         );

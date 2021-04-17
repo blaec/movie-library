@@ -6,11 +6,11 @@ import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
+import {getDeleteUrl} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 import "./Gallery.css";
 
 import Pagination from '@material-ui/lab/Pagination';
-import {getDeleteUrl} from "../../../utils/UrlUtils";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -23,7 +23,7 @@ const resolutions = {
 };
 
 const gallery = (props) => {
-    let {movies} = props;
+    const {movies} = props;
 
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
@@ -61,8 +61,8 @@ const gallery = (props) => {
         setIsLoading(true);
         axios.delete(getDeleteUrl(id))
             .then(response => {
-                let deleted = movies.find(m => m.id === id);
-                let updatedMovieList = movies.filter(m => m.id !== id);
+                let deleted = movies.find(movie => movie.id === id);
+                let updatedMovieList = movies.filter(movie => movie.id !== id);
                 onDeleteMovieChange(updatedMovieList);
                 handleDetailsClose();
                 setIsLoading(false);
@@ -103,19 +103,38 @@ const gallery = (props) => {
     let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
-            myGallery = <Details closed={handleDetailsClose}
-                                 delete={handleDeleteMovie}
-                                 {...selectedMovie}/>;
+            myGallery = <Details {...selectedMovie.movieToDetailsComponent}
+                                 movieToInfoComponent={selectedMovie.movieToInfoComponent}
+                                 onClose={handleDetailsClose}
+                                 onDelete={handleDeleteMovie}
+            />;
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
             myGallery = (
                 <React.Fragment>
                     <div className="Gallery">
-                        {moviesOnCurrentPage.map(movie =>
-                            <Movie key={movie.id}
-                                   {...movie}
-                                   clicked={handleViewMovieDetails}/>
+                        {moviesOnCurrentPage.map(movie => {
+                                const {id, tmdbId, posterPath, title, releaseDate, resolution, size, location} = movie;
+                                return (
+                                    <Movie key={id}
+                                           poster={posterPath}
+                                           alt={`${title} ${releaseDate}`}
+                                           onClick={handleViewMovieDetails}
+                                           movieToComponents={{
+                                               movieToDetailsComponent: {
+                                                   id: id,
+                                                   tmdbId: tmdbId
+                                               },
+                                               movieToInfoComponent: {
+                                                   resolution: resolution,
+                                                   size: size,
+                                                   location: location
+                                               }
+                                           }}
+                                    />
+                                )
+                            }
                         )}
                     </div>
                     <Pagination className="Pagination"
@@ -131,7 +150,7 @@ const gallery = (props) => {
     let snackbar = null;
     if (snackbarProps.open) {
         snackbar = <MySnackbar {...snackbarProps}
-                               close={handleSnackbarClose}/>;
+                               onClose={handleSnackbarClose}/>;
     }
 
     return (

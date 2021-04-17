@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 const filter = (props) => {
     const classes = useStyles();
-
+    const configs = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
 
@@ -41,7 +41,7 @@ const filter = (props) => {
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
         setIsLoading(true);
-        axios.get(getAllGenresUrl())
+        axios.get(getAllGenresUrl(configs.tmdbApi))
             .then(response => {
                 setGenres(response.data.genres);
                 setIsLoading(false);
@@ -105,15 +105,15 @@ const filter = (props) => {
                 </CardContent>
                 <CardActions>
                     <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                    submit={handleGetMovies}
                                     caption="Filter"
                                     type="success"
                                     fill="filled"
+                                    onSubmit={handleGetMovies}
                     />
                     <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
-                                    submit={handleClear}
                                     caption="Clear"
                                     type="danger"
+                                    onSubmit={handleClear}
                     />
                 </CardActions>
             </Card>;

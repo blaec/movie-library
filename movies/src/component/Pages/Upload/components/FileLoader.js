@@ -47,15 +47,16 @@ const inputs = {
     }
 };
 
-const locationRadios = Object.keys(movieLocations).map(locKey => (
+const locationRadios = Object.keys(movieLocations).map(locKey =>
     <FormControlLabel key={locKey}
                       value={locKey}
                       control={<Radio color="primary"/>}
                       label={movieLocations[locKey]}/>
-));
+);
 
 const fileLoader = props => {
-    const {switchIsOn, location, loading, submit, onChangeRadio, onChangeSwitch, onChangeTextField} = props;
+    const {switchIsOn, location, loading, onChangeRadio, onChangeSwitch, onChangeTextField, onSubmit} = props;
+
     const classes = useStyles();
     const movieInputs = Object.keys(inputs).map(inputKey => (
         <MyTextField key={inputKey}
@@ -93,9 +94,9 @@ const fileLoader = props => {
             </CardContent>
             <CardActions>
                 <MySubmitButton icon={<BackupTwoToneIcon/>}
-                                submit={submit}
                                 caption="Scan"
                                 disabled={location === '' || loading}
+                                onSubmit={onSubmit}
                 />
             </CardActions>
         </Card>

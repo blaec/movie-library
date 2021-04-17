@@ -15,20 +15,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actor = (props) => {
+    const {name, profile_path, character} = props;
     const classes = useStyles();
 
     return (
         <ListItem>
             <ListItemAvatar>
                 <Avatar variant="circular"
-                        alt={props.name}
-                        src={getImageUrl(props.profile_path)}
+                        alt={name}
+                        src={getImageUrl(profile_path)}
                         className={classes.large}
                 />
             </ListItemAvatar>
             <ListItemText className={classes.actor}
-                          primary={props.name}
-                          secondary={` — as ${props.character}`}
+                          primary={name}
+                          secondary={` — as ${character}`}
             />
         </ListItem>
     );

@@ -5,6 +5,8 @@ import {joinNames} from "../../../../../utils/Utils";
 
 const facts = (props) => {
     const {omdbDetails, tmdbDetails} = props;
+    const {Director, Awards, Released, DVD} = omdbDetails;
+    const {original_title, budget, revenue, production_companies, production_countries, original_language} = tmdbDetails;
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -19,23 +21,23 @@ const facts = (props) => {
         <div>
             <Typography component="div">
                 <Fact header="Original title:"
-                      text={tmdbDetails.original_title}/>
+                      text={original_title}/>
                 <Fact header="Directed By:"
-                      text={omdbDetails.Director}/>
+                      text={Director}/>
                 <Fact header="Budget / Revenue:"
-                      text={`${formatter.format(tmdbDetails.budget)} / ${formatter.format(tmdbDetails.revenue)}`}/>
+                      text={`${formatter.format(budget)} / ${formatter.format(revenue)}`}/>
                 <Fact header="Awards:"
-                      text={omdbDetails.Awards}/>
+                      text={Awards}/>
                 <Fact header="Released:"
-                      text={omdbDetails.Released}/>
+                      text={Released}/>
                 <Fact header="DVD:"
-                      text={omdbDetails.DVD}/>
+                      text={DVD}/>
                 <Fact header="Production Companies:"
-                      text={joinNames(tmdbDetails.production_companies)}/>
+                      text={joinNames(production_companies)}/>
                 <Fact header="Production Countries:"
-                      text={joinNames(tmdbDetails.production_countries)}/>
+                      text={joinNames(production_countries)}/>
                 <Fact header="Original Language:"
-                      text={tmdbDetails.original_language}/>
+                      text={original_language}/>
             </Typography>
         </div>
     );
