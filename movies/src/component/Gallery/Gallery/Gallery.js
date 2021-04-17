@@ -86,7 +86,11 @@ const gallery = (props) => {
     const handleActorSelect = (id, name) => {
         setActorId(id);
         setIsViewingActorDetails(true);
-        // alert(`${id} ${name}`);
+    };
+
+    const handleCloseActorMovies = () => {
+        setActorId(null);
+        setIsViewingActorDetails(false);
     };
 
     useEffect(() => {
@@ -114,7 +118,7 @@ const gallery = (props) => {
         if (isViewingDetails) {
             if (isViewingActorDetails) {
                 console.log("actor details");
-                myGallery = <ActorDetails id={actorId}/>
+                myGallery = <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
             } else {
                 console.log("details");
                 myGallery = <Details {...selectedMovie.movieToDetailsComponent}

@@ -4,9 +4,10 @@ import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import {useSelector} from "react-redux";
 import ActorMovie from "./ActorMovie";
 import {Box, List} from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const actorDetails = (props) => {
-    const {id} = props;
+    const {id, onClose} = props;
 
     const configs = useSelector(state => state.api);
     const [actorMovies, setActorMovies] = useState();
@@ -30,6 +31,9 @@ const actorDetails = (props) => {
     if (!isLoading) {
         allMovies =
             <React.Fragment>
+                <ArrowBackIcon onClick={onClose}
+                               className="ImageBack"
+                               fontSize="large"/>
                 <Box fontSize="subtitle1.fontSize"
                      fontWeight="fontWeightBold">
                     {actorMovies.name}
