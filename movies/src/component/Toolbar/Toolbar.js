@@ -24,11 +24,9 @@ const toolbar = () => {
     return (
         <div className={classes.root}>
             <CssBaseline/>
-            <MyAppBar classes={classes}
-                      toggle={handleDrawerToggle}
-            />
-            <MyDrawer onDrawerToggle={handleDrawerToggle}
-                      open={mobileOpen}
+            <MyAppBar onDrawerToggle={handleDrawerToggle}/>
+            <MyDrawer open={mobileOpen}
+                      onDrawerToggle={handleDrawerToggle}
             />
         </div>
     );

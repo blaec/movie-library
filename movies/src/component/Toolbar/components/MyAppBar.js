@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const myAppBar = (props) => {
+    const {onDrawerToggle} = props;
     const classes = useStyles();
 
     return (
@@ -39,7 +40,7 @@ const myAppBar = (props) => {
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
-                    onClick={props.toggle}
+                    onClick={onDrawerToggle}
                     className={classes.menuButton}
                 >
                     <MenuIcon/>
