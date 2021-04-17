@@ -80,6 +80,10 @@ const gallery = (props) => {
         setCurrentPage(page);
     };
 
+    const handleActorSelect = (id, name) => {
+        alert(`${id} ${name}`);
+    };
+
     useEffect(() => {
         if (!isViewingDetails) {
             window.scrollBy(0, scrollPosition);
@@ -90,7 +94,7 @@ const gallery = (props) => {
     useEffect(() => {
 
         // filter movies using Search...
-        const filteredMovies = Object.values(movies).filter(m => m.title.toLowerCase().includes(search));
+        const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
@@ -107,6 +111,7 @@ const gallery = (props) => {
                                  movieToInfoComponent={selectedMovie.movieToInfoComponent}
                                  onClose={handleDetailsClose}
                                  onDelete={handleDeleteMovie}
+                                 onActorSelect={handleActorSelect}
             />;
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;

@@ -15,11 +15,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actor = (props) => {
-    const {name, profile_path, character} = props;
+    const {id, name, profile_path, character, onActorSelect} = props;
     const classes = useStyles();
 
     return (
-        <ListItem>
+        <ListItem onClick={()=>onActorSelect(id, name)}>
             <ListItemAvatar>
                 <Avatar variant="circular"
                         alt={name}

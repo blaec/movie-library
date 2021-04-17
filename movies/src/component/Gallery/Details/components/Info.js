@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const info = props => {
-    const {omdbDetails, tmdbDetails, fileDetails, castDetails, genreDetails} = props;
+    const {omdbDetails, tmdbDetails, fileDetails, castDetails, genreDetails, onActorSelect} = props;
     const {Rated, imdbRating, imdbVotes} = omdbDetails;
     const {release_date, runtime, title, tagline, overview} = tmdbDetails;
     const {resolution, size, location} = fileDetails;
@@ -105,7 +105,7 @@ const info = props => {
                     <List>
                         {
                             castDetails
-                                .map(actor => <Actor key={actor.cast_id} {...actor}/>)
+                                .map(actor => <Actor key={actor.id} {...actor} onActorSelect={onActorSelect}/>)
                                 .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
                         }
                     </List>
