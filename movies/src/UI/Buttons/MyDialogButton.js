@@ -3,7 +3,7 @@ import React from 'react';
 import {Button} from "@material-ui/core";
 
 const myDialogButton = (props) => {
-    let {clicked, type, caption} = props;
+    let {type, caption, onClick} = props;
     const style = {
         success: {
             color: "primary",
@@ -16,9 +16,9 @@ const myDialogButton = (props) => {
     };
 
     return (
-        <Button onClick={clicked}
-                color={style[type].color}
+        <Button color={style[type].color}
                 autoFocus={style[type].autoFocus}
+                onClick={onClick}
         >
             {caption}
         </Button>

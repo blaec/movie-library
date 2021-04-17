@@ -71,11 +71,11 @@ const details = (props) => {
     if (!isLoadingMovies && !isLoadingCast) {
         details = (
             <React.Fragment>
-                <BackdropImage closed={onClose}
-                               delete={onDelete}
-                               movieId={id}
+                <BackdropImage id={id}
                                backdrops={backdrops}
                                alt={`${movieDetails.title} ${movieDetails.releaseDate}`}
+                               onClose={onClose}
+                               onDelete={onDelete}
                 />
                 <Info details={movieDetails}
                       omdbDetails={omdbMovieDetails}

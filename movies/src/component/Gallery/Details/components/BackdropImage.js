@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
 
-import Carousel from "react-material-ui-carousel";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
-
 import '../Details.css';
 import {getImageUrl} from "../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import {DRAWER_WIDTH} from "../../../../utils/Constants";
 
+import Carousel from "react-material-ui-carousel";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
+
 const TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
 
 const backdropImage = props => {
+    const {id, backdrops, alt, onClose, onDelete} = props;
     const [isDeleting, setIsDeleting] = useState(false);
 
     const marginBorders = (window.innerHeight < window.innerWidth)
@@ -30,10 +31,11 @@ const backdropImage = props => {
     const handleCloseDeleteDialog = () => {
         setIsDeleting(false);
     };
+
     return (
         <React.Fragment>
             <div className="ImageBackdrop">
-                <ArrowBackIcon onClick={props.closed}
+                <ArrowBackIcon onClick={onClose}
                                className="ImageBack"
                                fontSize="large"/>
                 <DeleteTwoToneIcon onClick={handleDeletedMovie}
@@ -42,18 +44,18 @@ const backdropImage = props => {
                 <Carousel timeout={TIMEOUT}
                           animation="fade"
                           navButtonsAlwaysInvisible>
-                    {props.backdrops.map((backdrop, idx) =>
+                    {backdrops.map((backdrop, idx) =>
                         <img key={idx + 1}
                              height={windowWidth / backdrop.aspect_ratio}
                              src={getImageUrl(backdrop.file_path)}
-                             alt={props.alt}
+                             alt={alt}
                         />
                     )}
                 </Carousel>
             </div>
             <DeleteDialog open={isDeleting}
-                          exit={handleCloseDeleteDialog}
-                          delete={() => props.delete(props.movieId)}
+                          onExit={handleCloseDeleteDialog}
+                          onDelete={() => onDelete(id)}
             />
         </React.Fragment>
     );

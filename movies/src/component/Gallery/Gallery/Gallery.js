@@ -103,12 +103,14 @@ const gallery = (props) => {
     let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
-            myGallery = <Details onClose={handleDetailsClose}
+            myGallery = <Details {...selectedMovie}
+                                 onClose={handleDetailsClose}
                                  onDelete={handleDeleteMovie}
-                                 {...selectedMovie}/>;
+            />;
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
+            console.log(moviesOnCurrentPage);
             myGallery = (
                 <React.Fragment>
                     <div className="Gallery">
@@ -116,7 +118,9 @@ const gallery = (props) => {
                             <Movie key={movie.id}
                                    poster={movie.posterPath}
                                    alt={`${movie.title} ${movie.releaseDate}`}
-                                   onClick={handleViewMovieDetails}/>
+                                   onClick={handleViewMovieDetails}
+                                   details={{id: movie.id, tmdbId: movie.tmdbId}}
+                            />
                         )}
                     </div>
                     <Pagination className="Pagination"
