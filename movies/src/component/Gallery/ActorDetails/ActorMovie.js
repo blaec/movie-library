@@ -20,11 +20,17 @@ const actorMovie = (props) => {
     return (
         <ListItem>
             <ListItemAvatar>
-                <Avatar variant="square"
-                        alt={title}
-                        src={getImageUrl(poster_path)}
-                        className={classes.large}
-                />
+                <div className="placeholder">
+                    <img src={getImageUrl(poster_path)}
+                         // alt={title}
+                         width={80}
+                    />
+                </div>
+                {/*<Avatar variant="square"*/}
+                {/*        alt={title}*/}
+                {/*        src={getImageUrl(poster_path)}*/}
+                {/*        className={classes.large}*/}
+                {/*/>*/}
             </ListItemAvatar>
             <ListItemText className={classes.actor}
                           primary={`${title} (${year(release_date)})`}
