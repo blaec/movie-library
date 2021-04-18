@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, CardMedia, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
+import {ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 import {getImageUrl} from "../../../utils/UrlUtils";
 import {year} from "../../../utils/Utils";
 
@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
     },
     actor: {
         paddingLeft: theme.spacing(2),
+    },
+    image: {
+        width: 80,
+        height: 120
     }
 }));
 
@@ -17,20 +21,17 @@ const actorMovie = (props) => {
     const {title, release_date, poster_path, character} = props;
     const classes = useStyles();
 
+    // TODO image size hardcoded
     return (
         <ListItem>
             <ListItemAvatar>
-                <div className="placeholder">
+                <div className={classes.image}
+                     style={{backgroundImage: `url("https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}")`}}>
                     <img src={getImageUrl(poster_path)}
-                         // alt={title}
+                         alt=""
                          width={80}
                     />
                 </div>
-                {/*<Avatar variant="square"*/}
-                {/*        alt={title}*/}
-                {/*        src={getImageUrl(poster_path)}*/}
-                {/*        className={classes.large}*/}
-                {/*/>*/}
             </ListItemAvatar>
             <ListItemText className={classes.actor}
                           primary={`${title} (${year(release_date)})`}
