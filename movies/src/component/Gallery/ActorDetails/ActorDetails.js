@@ -11,6 +11,18 @@ import '../Details/Details.css';
 const useStyles = makeStyles((theme) => ({
     actor: {
         paddingLeft: theme.spacing(7),
+        marginTop: 8,
+    },
+    sticky: {
+        marginTop: -10,
+        zIndex: 2,
+        position: 'fixed',
+        backgroundColor: 'lightgrey',
+        width: '100%',
+        height: 45,
+    },
+    movies: {
+        marginTop: 40,
     }
 }));
 
@@ -39,18 +51,22 @@ const actorDetails = (props) => {
     if (!isLoading) {
         allMovies =
             <React.Fragment>
-                <ArrowBackIcon onClick={onClose}
-                               className="ImageBack"
-                               fontSize="large"/>
-                <Box className={classes.actor}
-                     fontSize="h5.fontSize"
-                     fontWeight="fontWeightBold">
-                    {actorMovies.name}
-                </Box>
-                {actorMovies.credits.cast
-                    .filter(movie => movie.release_date !== undefined && movie.release_date !== "")
-                    .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
-                    .map(movie => <ActorMovie key={movie.id} {...movie}/>)}
+                <div className={classes.sticky}>
+                    <ArrowBackIcon onClick={onClose}
+                                   className="ImageBack"
+                                   fontSize="large"/>
+                    <Box className={classes.actor}
+                         fontSize="h6.fontSize"
+                         fontWeight="fontWeightBold">
+                        {actorMovies.name}
+                    </Box>
+                </div>
+                <div className={classes.movies}>
+                    {actorMovies.credits.cast
+                        .filter(movie => movie.release_date !== undefined && movie.release_date !== "")
+                        .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
+                        .map(movie => <ActorMovie key={movie.id} {...movie}/>)}
+                </div>
             </React.Fragment>
     }
 
