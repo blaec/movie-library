@@ -3,9 +3,10 @@ import axios from "../../../axios-movies";
 import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import {useSelector} from "react-redux";
 import ActorMovie from "./ActorMovie";
-import {Box, List, makeStyles} from "@material-ui/core";
+import {Box, List, ListItem, makeStyles} from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import '../Gallery/Gallery.css';
+import '../Details/Details.css';
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -54,9 +55,11 @@ const actorDetails = (props) => {
     }
 
     return (
-        <List>
-            {allMovies}
-        </List>
+        <div className="Details">
+            <List>
+                {allMovies}
+            </List>
+        </div>
     );
 };
 

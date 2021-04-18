@@ -2,7 +2,6 @@ import React from 'react';
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
 import {getImageUrl} from "../../../utils/UrlUtils";
 import {year} from "../../../utils/Utils";
-import {useTheme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     large: {
