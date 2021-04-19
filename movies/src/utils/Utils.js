@@ -1,5 +1,5 @@
 export const year = (fullDate) => {
-    return fullDate.split('-')[0];
+    return fullDate === undefined ? '' : fullDate.split('-')[0];
 };
 
 export const playTime = (totalMinutes) => {

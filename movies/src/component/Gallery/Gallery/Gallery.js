@@ -4,6 +4,7 @@ import axios from "../../../axios-movies";
 
 import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
+import ActorDetails from "../ActorDetails/ActorDetails";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import {getDeleteUrl} from "../../../utils/UrlUtils";
@@ -23,7 +24,7 @@ const resolutions = {
 };
 
 const gallery = (props) => {
-    const {movies} = props;
+    let {movies, isCollection} = props;
 
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
@@ -35,9 +36,11 @@ const gallery = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedMovie, setSelectedMovie] = useState('');
     const [isViewingDetails, setIsViewingDetails] = useState(false);
+    const [isViewingActorDetails, setIsViewingActorDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
+    const [actorId, setActorId] = useState();
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -63,7 +66,9 @@ const gallery = (props) => {
             .then(response => {
                 let deleted = movies.find(movie => movie.id === id);
                 let updatedMovieList = movies.filter(movie => movie.id !== id);
-                onDeleteMovieChange(updatedMovieList);
+                if (isCollection) {
+                    onDeleteMovieChange(updatedMovieList);
+                }
                 handleDetailsClose();
                 setIsLoading(false);
                 setSnackbarProps({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
@@ -80,6 +85,16 @@ const gallery = (props) => {
         setCurrentPage(page);
     };
 
+    const handleActorSelect = (id, name) => {
+        setActorId(id);
+        setIsViewingActorDetails(true);
+    };
+
+    const handleCloseActorMovies = () => {
+        setActorId(null);
+        setIsViewingActorDetails(false);
+    };
+
     useEffect(() => {
         if (!isViewingDetails) {
             window.scrollBy(0, scrollPosition);
@@ -90,7 +105,7 @@ const gallery = (props) => {
     useEffect(() => {
 
         // filter movies using Search...
-        const filteredMovies = Object.values(movies).filter(m => m.title.toLowerCase().includes(search));
+        const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
@@ -103,11 +118,16 @@ const gallery = (props) => {
     let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
-            myGallery = <Details {...selectedMovie.movieToDetailsComponent}
-                                 movieToInfoComponent={selectedMovie.movieToInfoComponent}
-                                 onClose={handleDetailsClose}
-                                 onDelete={handleDeleteMovie}
-            />;
+            if (isViewingActorDetails) {
+                myGallery = <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
+            } else {
+                myGallery = <Details {...selectedMovie.movieToDetailsComponent}
+                                     movieToInfoComponent={selectedMovie.movieToInfoComponent}
+                                     onClose={handleDetailsClose}
+                                     onDelete={handleDeleteMovie}
+                                     onActorSelect={handleActorSelect}
+                />;
+            }
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);

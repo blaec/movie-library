@@ -65,6 +65,12 @@ export const getScanFolderUrl = (fileLocation) => {
     return `${movieApi.post.scanFolder}${fileLocation}`
 };
 
+// https://api.themoviedb.org/3/person/<<actorId>>?api_key=<<api_key>>&append_to_response=credits
+export const getActorDetailsUrl = (actorId, tmdbApi) => {
+    const params = {...actor_details_params, ...{api_key: tmdbApi}};
+    return `${url_endpoints.tmdb.people.getDetails}${actorId}?${getParamsFrom(params)}`
+};
+
 const getParamsFrom = (obj) => {
     return Object.entries(obj).map(([key, val]) => `${key}=${val}`).join('&');
 };
@@ -99,7 +105,10 @@ const url_endpoints = {
         },
         genres: {
             getMovieList: 'https://api.themoviedb.org/3/genre/movie/list'
-        }
+        },
+        people: {
+            getDetails: 'https://api.themoviedb.org/3/person/'
+        },
     },
     omdb: {
         movie: 'http://www.omdbapi.com/?i=',
@@ -121,4 +130,7 @@ const caption_year_params = {
     language: 'en-EN'
 };
 
+const actor_details_params = {
+    append_to_response: 'credits'
+};
 
