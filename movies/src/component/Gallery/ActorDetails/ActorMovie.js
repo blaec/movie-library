@@ -4,6 +4,7 @@ import {getImageUrl} from "../../../utils/UrlUtils";
 import {year} from "../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
+import {red} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -16,16 +17,19 @@ const useStyles = makeStyles((theme) => ({
     image: {
         width: 80,
         height: 120,
+    },
+    movieExist: {
+        backgroundColor: 'lightgoldenrodyellow'
     }
 }));
 
 const actorMovie = (props) => {
-    const {title, release_date, poster_path, character} = props;
+    const {title, release_date, poster_path, character, exist} = props;
     const classes = useStyles();
 
     // TODO image size hardcoded
     return (
-        <ListItem>
+        <ListItem className={exist ? classes.movieExist : null}>
             <ListItemAvatar>
                 <Paper elevation={3}
                        className={classes.image}
@@ -46,7 +50,7 @@ const actorMovie = (props) => {
                 <Box fontSize="body1.fontSize"
                      fontWeight="fontWeightLight"
                      color="text.disabled">
-                     {` — as ${character}`}
+                    {` — as ${character}`}
                 </Box>
             </ListItemText>
         </ListItem>

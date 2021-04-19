@@ -7,7 +7,7 @@ import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import '../Gallery/Gallery.css';
 import '../Details/Details.css';
 
-import {Box, List, ListItem, makeStyles} from "@material-ui/core";
+import {Box, List, makeStyles} from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,8 +32,10 @@ const actorDetails = (props) => {
     const {id, onClose} = props;
     const classes = useStyles();
 
+    const movies = useSelector(state => state.movies);
     const configs = useSelector(state => state.api);
     const [actorMovies, setActorMovies] = useState();
+    const [moviesIds, setMoviesIds] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -41,6 +43,7 @@ const actorDetails = (props) => {
         axios.get(getActorDetailsUrl(id, configs.tmdbApi))
             .then(response => {
                 setActorMovies(response.data);
+                setMoviesIds(movies.map(movie => +movie.tmdbId));
                 setIsLoading(false);
             })
             .catch(error => {
@@ -67,7 +70,9 @@ const actorDetails = (props) => {
                     {actorMovies.credits.cast
                         .filter(movie => movie.release_date !== undefined && movie.release_date !== "")
                         .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
-                        .map(movie => <ActorMovie key={movie.id} {...movie}/>)}
+                        .map(movie => <ActorMovie key={movie.id}
+                                                  {...movie}
+                                                  exist={moviesIds.includes(movie.id)}/>)}
                 </div>
             </React.Fragment>
     }
