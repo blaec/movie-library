@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {Box, Divider, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
-
 import {a11yProps, NA_Safe, playTime, year} from "../../../../utils/Utils";
 import Actor from "./Actor";
 import Facts from "./Facts/Facts";
 import '../Details.css';
 import TabPanel from "../../../Tabs/TabPanel";
 import * as PropTypes from "prop-types";
+
+import {Box, Divider, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
 
 TabPanel.propTypes = {
     children: PropTypes.node,
@@ -104,9 +104,8 @@ const info = props => {
                 <TabPanel value={value} index={1}>
                     <List>
                         {
-                            castDetails
-                                .map(actor => <Actor key={actor.id} {...actor} onActorSelect={onActorSelect}/>)
-                                .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
+                            castDetails.map(actor => <Actor key={actor.id} {...actor} onActorSelect={onActorSelect}/>)
+                                       .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
                         }
                     </List>
                 </TabPanel>

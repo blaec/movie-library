@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
-import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import {useSelector} from "react-redux";
+
 import ActorMovie from "./ActorMovie";
-import {Box, List, ListItem, makeStyles} from "@material-ui/core";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import '../Gallery/Gallery.css';
 import '../Details/Details.css';
+
+import {Box, List, ListItem, makeStyles} from "@material-ui/core";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
     actor: {

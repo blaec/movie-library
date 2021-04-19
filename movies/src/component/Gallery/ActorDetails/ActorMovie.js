@@ -1,7 +1,9 @@
 import React from 'react';
-import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
+
 import {getImageUrl} from "../../../utils/UrlUtils";
 import {year} from "../../../utils/Utils";
+
+import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -27,11 +29,8 @@ const actorMovie = (props) => {
             <ListItemAvatar>
                 <Paper elevation={3}
                        className={classes.image}
-                     style={{backgroundImage: `url("https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}")`}}>
-                    <img src={getImageUrl(poster_path)}
-                         alt=""
-                         width={80}
-                    />
+                       style={{backgroundImage: `url("https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}")`}}>
+                    <img src={getImageUrl(poster_path)} alt=""/>
                 </Paper>
             </ListItemAvatar>
             <ListItemText className={classes.actor}>
@@ -47,7 +46,7 @@ const actorMovie = (props) => {
                 <Box fontSize="body1.fontSize"
                      fontWeight="fontWeightLight"
                      color="text.disabled">
-                    {` — as ${character}`}
+                     {` — as ${character}`}
                 </Box>
             </ListItemText>
         </ListItem>

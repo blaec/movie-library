@@ -19,7 +19,7 @@ const actor = (props) => {
     const classes = useStyles();
 
     return (
-        <ListItem onClick={()=>onActorSelect(id, name)}>
+        <ListItem onClick={() => onActorSelect(id, name)}>
             <ListItemAvatar>
                 <Avatar variant="circular"
                         alt={name}
