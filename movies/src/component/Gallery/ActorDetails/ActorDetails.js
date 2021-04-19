@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 
 import ActorMovie from "./ActorMovie";
 import {getActorDetailsUrl} from "../../../utils/UrlUtils";
+import MyLoader from "../../../UI/Spinners/MyLoader";
 import '../Gallery/Gallery.css';
 import '../Details/Details.css';
 
@@ -52,7 +53,7 @@ const actorDetails = (props) => {
             });
     }, []);
 
-    let allMovies = null;
+    let allMovies = <MyLoader/>;
     if (!isLoading) {
         allMovies =
             <React.Fragment>
@@ -72,7 +73,7 @@ const actorDetails = (props) => {
                         .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
                         .map(movie => <ActorMovie key={movie.id}
                                                   {...movie}
-                                                  exist={moviesIds.includes(movie.id)}/>)}
+                                                  exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)}
                 </div>
             </React.Fragment>
     }
