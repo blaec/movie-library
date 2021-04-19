@@ -9,11 +9,8 @@ import * as actions from "../../../store/actions";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 
 const wishlist = () => {
-    const movies = useSelector(state => state.movies);
-    const dispatch = useDispatch();
-    const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
-
     const [isLoading, setIsLoading] = useState(true);
+    const [wishMovies, setWishMovies] = useState();
     const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
 
     const handleSnackbarClose = (event, reason) => {
@@ -28,7 +25,7 @@ const wishlist = () => {
         setIsLoading(true);
         axios.get(movieApi.get.getAllWishMovies)
             .then(response => {
-                onMoviesChange(response.data)
+                setWishMovies(response.data)
                 setIsLoading(false);
                 setSnackbarProps({open: true, message: `Found ${response.data.length} movies`, type: 'success'});
             })
@@ -41,7 +38,7 @@ const wishlist = () => {
 
     let wishList = <MyLoader/>;
     if (!isLoading) {
-        wishList = <Gallery movies={movies}/>
+        wishList = <Gallery movies={wishMovies}/>
     }
     let snackbar = null;
     if (snackbarProps.open) {
