@@ -41,7 +41,7 @@ const collection = () => {
 
     let gallery = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery movies={movies}/>
+        gallery = <Gallery movies={movies} isCollection={true}/>
     }
     let snackbar = null;
     if (snackbarProps.open) {

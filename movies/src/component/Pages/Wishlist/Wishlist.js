@@ -38,7 +38,7 @@ const wishlist = () => {
 
     let wishList = <MyLoader/>;
     if (!isLoading) {
-        wishList = <Gallery movies={wishMovies}/>
+        wishList = <Gallery movies={wishMovies} isCollection={false}/>
     }
     let snackbar = null;
     if (snackbarProps.open) {

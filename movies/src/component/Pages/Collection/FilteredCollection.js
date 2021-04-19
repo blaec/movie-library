@@ -40,7 +40,7 @@ const filteredCollection = () => {
 
     let gallery = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery movies={filteredMovies}/>
+        gallery = <Gallery movies={filteredMovies} isCollection={false}/>
     }
     let snackbar = null;
     if (snackbarProps.open) {

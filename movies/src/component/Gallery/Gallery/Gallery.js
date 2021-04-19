@@ -24,7 +24,7 @@ const resolutions = {
 };
 
 const gallery = (props) => {
-    const {movies} = props;
+    let {movies, isCollection} = props;
 
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
@@ -66,7 +66,9 @@ const gallery = (props) => {
             .then(response => {
                 let deleted = movies.find(movie => movie.id === id);
                 let updatedMovieList = movies.filter(movie => movie.id !== id);
-                onDeleteMovieChange(updatedMovieList);
+                if (isCollection) {
+                    onDeleteMovieChange(updatedMovieList);
+                }
                 handleDetailsClose();
                 setIsLoading(false);
                 setSnackbarProps({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
