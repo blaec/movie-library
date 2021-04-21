@@ -5,11 +5,21 @@ import {useSelector} from "react-redux";
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
+import * as UrlUtils from "../../../utils/UrlUtils";
 import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
 import './Upload.css';
-import * as UrlUtils from "../../../utils/UrlUtils";
+
+import {Grid} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    loader: {
+        paddingTop: theme.spacing(2),
+    },
+}));
 
 const upload = () => {
+    const classes = useStyles();
     const configs = useSelector(state => state.api);
 
     const [tmdbId, setTmdbId] = useState('');
@@ -131,26 +141,41 @@ const upload = () => {
                                onClose={handleSnackbarClose}/>;
     }
 
+    let loaders = [
+        <WishLoader {...{wishTitle: wishTitle, wishYear: wishYear}}
+                    loading={isLoading}
+                    wishResults={wishMovies}
+                    onChangeTextField={handleTextFieldChange}
+                    onSubmit={handleSearchWishMovie}
+                    onAdd={handleSaveWishMovie}
+        />,
+        <FileLoader {...{tmdbId: tmdbId, fileName: fileName}}
+                    location={fileLocation}
+                    loading={isLoading}
+                    switchIsOn={switchStatus}
+                    onChangeRadio={handleChooseLocation}
+                    onChangeTextField={handleTextFieldChange}
+                    onChangeSwitch={handleSwitchChange}
+                    onSubmit={handleUpload}
+        />
+    ]
+
     return (
-        <div className="Upload">
-            <WishLoader {...{wishTitle: wishTitle, wishYear: wishYear}}
-                        loading={isLoading}
-                        wishResults={wishMovies}
-                        onChangeTextField={handleTextFieldChange}
-                        onSubmit={handleSearchWishMovie}
-                        onAdd={handleSaveWishMovie}
-            />
-            <FileLoader {...{tmdbId: tmdbId, fileName: fileName}}
-                        location={fileLocation}
-                        loading={isLoading}
-                        switchIsOn={switchStatus}
-                        onChangeRadio={handleChooseLocation}
-                        onChangeTextField={handleTextFieldChange}
-                        onChangeSwitch={handleSwitchChange}
-                        onSubmit={handleUpload}
-            />
+        <React.Fragment>
+            <Grid container className={classes.loader}>
+                <Grid item xs={1} lg={2} xl={3}/>
+                <Grid item xs={10} lg={8} xl={6}>
+                    <Grid container spacing={2}>
+                        {loaders.map((loader, index) =>
+                            <Grid key={index} item xs={12} md={6}>
+                                {loader}
+                            </Grid>)}
+                    </Grid>
+                </Grid>
+                <Grid item xs={1} lg={2} xl={3}/>
+            </Grid>
             {snackbar}
-        </div>
+        </React.Fragment>
     );
 };
 
