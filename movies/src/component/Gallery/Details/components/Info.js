@@ -47,6 +47,10 @@ const info = props => {
             : null
     };
 
+    let filteredCast = castDetails.map(actor => <Actor key={actor.id} {...actor} onActorSelect={onActorSelect}/>);
+    let filteredCastWithDivider = filteredCast.size === 0
+        ? filteredCast
+        : filteredCast.reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr]);
     return (
         <React.Fragment>
 
@@ -103,10 +107,7 @@ const info = props => {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <List>
-                        {
-                            castDetails.map(actor => <Actor key={actor.id} {...actor} onActorSelect={onActorSelect}/>)
-                                       .reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr])
-                        }
+                        {filteredCastWithDivider}
                     </List>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
