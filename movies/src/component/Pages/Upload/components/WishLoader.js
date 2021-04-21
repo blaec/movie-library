@@ -3,12 +3,30 @@ import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 import {getImageUrl} from "../../../../utils/UrlUtils";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
 import '../Upload.css';
 
-import {Card, CardActions, CardContent, FormControl, FormLabel, LinearProgress} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, FormLabel, Grid, LinearProgress, Paper} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    imagePosition: {
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    imageSize: {
+        width: 200,
+        height: 300,
+    },
+    imageFit: {
+        width: '100%',
+        height: '100%',
+    }
+}));
+
 
 const inputs = {
     "wish-title": {
@@ -25,6 +43,7 @@ const inputs = {
 
 const wishLoader = props => {
     const {wishResults, alt, onChangeTextField, loading, onAdd, onSubmit} = props;
+    const classes = useStyles();
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {
@@ -39,13 +58,17 @@ const wishLoader = props => {
                           onChange={(active) => {setSelectedWishMovie(wishResults[active]);}}
                           navButtonsAlwaysVisible>
                     {wishResults.map((poster, idx) => {
-                        let errImage = `https://via.placeholder.com/200x300.png?text=${poster.title}`
-                        return <div key={idx} className="WishBlock">
-                                    <img onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
-                                         src={getImageUrl(poster.poster_path)}
-                                         alt={alt}
-                                    />
-                                </div>;
+                        let errImage = `https://via.placeholder.com/200x300.png?text=${poster.title}`;
+                        return <div key={idx} className={classes.imagePosition}>
+                                    <Paper className={classes.imageSize}
+                                           elevation={3}
+                                           style={{backgroundImage: `url("${errImage}")`}}>
+                                        <img className={classes.imageFit}
+                                             src={getImageUrl(poster.poster_path)}
+                                             onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
+                                             alt=''/>
+                                    </Paper>
+                               </div>;
                         }
                     )}
                 </Carousel>;
@@ -71,15 +94,20 @@ const wishLoader = props => {
                 <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
-                <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                caption="Search"
-                                onSubmit={onSubmit}
-                />
-                <MySubmitButton icon={<AddCircleTwoToneIcon/>}
-                                disabled={!wishResults}
-                                caption="Add"
-                                onSubmit={() => onAdd(selectedWishMovie)}
-                />
+                <Grid container direction='row'>
+                    <Grid item xs={4}/>
+                    <Grid item xs={8}>
+                        <MySubmitButton icon={<SearchTwoToneIcon/>}
+                                        caption="Search"
+                                        onSubmit={onSubmit}
+                        />
+                        <MySubmitButton icon={<AddCircleTwoToneIcon/>}
+                                        disabled={!wishResults}
+                                        caption="Add"
+                                        onSubmit={() => onAdd(selectedWishMovie)}
+                        />
+                    </Grid>
+                </Grid>
             </CardActions>
             {movie}
         </Card>
