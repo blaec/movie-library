@@ -3,7 +3,7 @@ import React from 'react';
 import {Button} from "@material-ui/core";
 
 const mySubmitButton = (props) => {
-    let {disabled, icon, caption, type, fill, onSubmit} = props;
+    let {disabled, icon, caption, type, fill, style, onSubmit} = props;
 
     type = type === undefined ? "success" : type;
     const colorStyle = {
@@ -21,6 +21,7 @@ const mySubmitButton = (props) => {
                 disabled={disabled}
                 color={colorStyle[type].color}
                 startIcon={icon}
+                style={style}
                 onClick={onSubmit}>
             {caption}
         </Button>

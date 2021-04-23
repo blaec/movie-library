@@ -3,7 +3,6 @@ import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 import {getImageUrl} from "../../../../utils/UrlUtils";
-import MyLoader from "../../../../UI/Spinners/MyLoader";
 import '../Upload.css';
 
 import {Card, CardActions, CardContent, FormControl, FormLabel, Grid, LinearProgress, Paper} from "@material-ui/core";
@@ -13,8 +12,10 @@ import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+    },
     imagePosition: {
-        display: 'flex',
         justifyContent: 'center',
     },
     imageSize: {
@@ -42,7 +43,7 @@ const inputs = {
 };
 
 const wishLoader = props => {
-    const {wishResults, alt, onChangeTextField, loading, onAdd, onSubmit} = props;
+    const {loading, wishResults, onChangeTextField, onSubmit, onAdd} = props;
     const classes = useStyles();
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
@@ -58,13 +59,14 @@ const wishLoader = props => {
                           onChange={(active) => {setSelectedWishMovie(wishResults[active]);}}
                           navButtonsAlwaysVisible>
                     {wishResults.map((poster, idx) => {
-                        let errImage = `https://via.placeholder.com/200x300.png?text=${poster.title}`;
-                        return <div key={idx} className={classes.imagePosition}>
+                        const {title, poster_path} = poster;
+                        let errImage = `https://via.placeholder.com/200x300.png?text=${title}`;
+                        return <div key={idx} className={`${classes.root} ${classes.imagePosition}`}>
                                     <Paper className={classes.imageSize}
                                            elevation={3}
                                            style={{backgroundImage: `url("${errImage}")`}}>
                                         <img className={classes.imageFit}
-                                             src={getImageUrl(poster.poster_path)}
+                                             src={getImageUrl(poster_path)}
                                              onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
                                              alt=''/>
                                     </Paper>
@@ -94,10 +96,10 @@ const wishLoader = props => {
                 <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
-                <Grid container direction='row'>
-                    <Grid item xs={4}/>
-                    <Grid item xs={8}>
+                <Grid container className={classes.root}>
+                    <Grid container item xs={12} justify='flex-end'>
                         <MySubmitButton icon={<SearchTwoToneIcon/>}
+                                        style={{ marginRight: '10px' }}
                                         caption="Search"
                                         onSubmit={onSubmit}
                         />
