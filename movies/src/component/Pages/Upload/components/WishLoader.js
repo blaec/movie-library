@@ -13,19 +13,14 @@ import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-    },
-    imagePosition: {
-        justifyContent: 'center',
-    },
-    imageSize: {
+    image: {
         width: 200,
         height: 300,
+        margin: 'auto',
     },
     imageFit: {
-        width: '100%',
-        height: '100%',
+        width: 'inherit',
+        height: 'inherit',
     }
 }));
 
@@ -62,10 +57,10 @@ const wishLoader = props => {
                     {wishResults.map((poster, idx) => {
                         const {title, release_date, poster_path} = poster;
                         let errImage = `https://via.placeholder.com/1000x1500.png?text=${title} (${year(release_date)})`;
-                        return <div key={idx} className={`${classes.root} ${classes.imagePosition}`}>
-                                    <Paper className={classes.imageSize}
-                                           elevation={3}
-                                           style={{backgroundImage: `url("${errImage}")`}}>
+                        return <div key={idx}>
+                                    <Paper className={classes.image}
+                                           style={{backgroundImage: `url("${errImage}")`}}
+                                           elevation={3}>
                                         <img className={classes.imageFit}
                                              src={getImageUrl(poster_path)}
                                              onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
