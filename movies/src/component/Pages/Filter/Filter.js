@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
+import ButtonGrid from "../../../UI/Buttons/ButtonGrid";
 import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 import './Filter.css';
@@ -104,17 +105,20 @@ const filter = (props) => {
                     </FormControl>
                 </CardContent>
                 <CardActions>
-                    <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                    caption="Filter"
-                                    type="success"
-                                    fill="filled"
-                                    onSubmit={handleGetMovies}
-                    />
-                    <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
-                                    caption="Clear"
-                                    type="danger"
-                                    onSubmit={handleClear}
-                    />
+                    <ButtonGrid>
+                        <MySubmitButton icon={<SearchTwoToneIcon/>}
+                                        buttonStyles={{marginRight: 1}}
+                                        caption="Filter"
+                                        type="success"
+                                        fill="filled"
+                                        onSubmit={handleGetMovies}
+                        />
+                        <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
+                                        caption="Clear"
+                                        type="danger"
+                                        onSubmit={handleClear}
+                        />
+                    </ButtonGrid>
                 </CardActions>
             </Card>;
     }

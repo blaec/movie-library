@@ -4,7 +4,6 @@ import {getImageUrl} from "../../../utils/UrlUtils";
 import {year} from "../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
-import {red} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
     large: {

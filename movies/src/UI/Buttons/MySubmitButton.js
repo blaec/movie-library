@@ -5,7 +5,7 @@ import {makeStyles} from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles((theme) => ({
-    root: buttonStyles => {
+    myStyle: buttonStyles => {
         const {marginRight} = buttonStyles;
         return {
             marginRight: theme.spacing(marginRight || 0),
@@ -29,7 +29,7 @@ const mySubmitButton = (props) => {
     }
 
     return (
-        <Button className={classes.root}
+        <Button className={classes.myStyle}
                 variant={fillStyle[fill].variant}
                 disabled={disabled}
                 color={colorStyle[type].color}

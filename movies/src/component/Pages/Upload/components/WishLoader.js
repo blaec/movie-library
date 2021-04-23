@@ -3,18 +3,16 @@ import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 import {getImageUrl} from "../../../../utils/UrlUtils";
+import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
 import {year} from "../../../../utils/Utils";
 
-import {Card, CardActions, CardContent, FormControl, FormLabel, Grid, LinearProgress, Paper} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, FormLabel, LinearProgress, Paper} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-    },
     imagePosition: {
         justifyContent: 'center',
     },
@@ -97,20 +95,18 @@ const wishLoader = props => {
                 <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
-                <Grid container className={classes.root}>
-                    <Grid container item xs={12} justify='flex-end'>
-                        <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                        buttonStyles={{marginRight: 1}}
-                                        caption="Search"
-                                        onSubmit={onSubmit}
-                        />
-                        <MySubmitButton icon={<AddCircleTwoToneIcon/>}
-                                        disabled={!wishResults}
-                                        caption="Add"
-                                        onSubmit={() => onAdd(selectedWishMovie)}
-                        />
-                    </Grid>
-                </Grid>
+                <ButtonGrid>
+                    <MySubmitButton icon={<SearchTwoToneIcon/>}
+                                    buttonStyles={{marginRight: 1}}
+                                    caption="Search"
+                                    onSubmit={onSubmit}
+                    />
+                    <MySubmitButton icon={<AddCircleTwoToneIcon/>}
+                                    disabled={!wishResults}
+                                    caption="Add"
+                                    onSubmit={() => onAdd(selectedWishMovie)}
+                    />
+                </ButtonGrid>
             </CardActions>
             {movie}
         </Card>

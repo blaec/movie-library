@@ -18,6 +18,7 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
+import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -88,16 +89,18 @@ const fileLoader = props => {
                                                        onChange={onChangeSwitch}
                                                        name="singleUpload"/>}
                     />
-                    {movieInputs}
+                            {movieInputs}
                 </FormControl>
                 <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
-                <MySubmitButton icon={<BackupTwoToneIcon/>}
-                                caption="Scan"
-                                disabled={location === '' || loading}
-                                onSubmit={onSubmit}
-                />
+                <ButtonGrid>
+                    <MySubmitButton icon={<BackupTwoToneIcon/>}
+                                    caption="Scan"
+                                    disabled={location === '' || loading}
+                                    onSubmit={onSubmit}
+                    />
+                </ButtonGrid>
             </CardActions>
         </Card>
     );
