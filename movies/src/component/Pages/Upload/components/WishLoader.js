@@ -40,7 +40,7 @@ const inputs = {
 
 const wishLoader = props => {
     const {loading, wishResults, onChangeTextField, onSubmit, onAdd} = props;
-    const classes = useStyles();
+    const {image, imageFit} = useStyles();
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {
@@ -58,10 +58,10 @@ const wishLoader = props => {
                         const {title, release_date, poster_path} = poster;
                         let errImage = `https://via.placeholder.com/1000x1500.png?text=${title} (${year(release_date)})`;
                         return <div key={idx}>
-                                    <Paper className={classes.image}
+                                    <Paper className={image}
                                            style={{backgroundImage: `url("${errImage}")`}}
                                            elevation={3}>
-                                        <img className={classes.imageFit}
+                                        <img className={imageFit}
                                              src={getImageUrl(poster_path)}
                                              onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
                                              alt=''/>

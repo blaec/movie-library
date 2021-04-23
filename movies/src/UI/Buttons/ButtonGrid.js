@@ -10,10 +10,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const buttonGrid = (props) => {
-    const classes = useStyles();
+    const {root} = useStyles();
 
     return (
-        <Grid container className={classes.root}>
+        <Grid container className={root}>
             <Grid container item xs={12} justify='flex-end'>
                 {props.children}
             </Grid>

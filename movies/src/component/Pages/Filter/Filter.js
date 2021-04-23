@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const filter = (props) => {
-    const classes = useStyles();
+    const {card, formControl, label} = useStyles();
     const configs = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
@@ -81,10 +81,10 @@ const filter = (props) => {
     if (!isLoading) {
         const names = genres.flatMap(g => g.name);
         genreFilter =
-            <Card variant="elevation" className={classes.card}>
+            <Card variant="elevation" className={card}>
                 <CardContent>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel className={classes.label} shrink htmlFor="select-multiple-native">
+                    <FormControl className={formControl}>
+                        <InputLabel className={label} shrink htmlFor="select-multiple-native">
                             GENRES
                         </InputLabel>
                         <Select

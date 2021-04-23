@@ -24,14 +24,14 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: 45,
     },
-    movies: {
+    movieItems: {
         marginTop: 40,
     }
 }));
 
 const actorDetails = (props) => {
     const {id, onClose} = props;
-    const classes = useStyles();
+    const {sticky, actor, movieItems} = useStyles();
 
     const movies = useSelector(state => state.movies);
     const configs = useSelector(state => state.api);
@@ -55,25 +55,26 @@ const actorDetails = (props) => {
 
     let allMovies = <MyLoader/>;
     if (!isLoading) {
+        const {name, credits} = actorMovies;
+        const {cast} = credits;
         allMovies =
             <React.Fragment>
-                <div className={classes.sticky}>
+                <div className={sticky}>
                     <ArrowBackIcon onClick={onClose}
                                    className="ImageBack"
                                    fontSize="large"/>
-                    <Box className={classes.actor}
+                    <Box className={actor}
                          fontSize="h6.fontSize"
                          fontWeight="fontWeightBold">
-                        {actorMovies.name}
+                        {name}
                     </Box>
                 </div>
-                <div className={classes.movies}>
-                    {actorMovies.credits.cast
-                        .filter(movie => movie.release_date !== undefined && movie.release_date !== "")
-                        .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
-                        .map(movie => <ActorMovie key={movie.id}
-                                                  {...movie}
-                                                  exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)}
+                <div className={movieItems}>
+                    {cast.filter(movie => movie.release_date !== undefined && movie.release_date !== "")
+                         .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
+                         .map(movie => <ActorMovie key={movie.id}
+                                                   {...movie}
+                                                   exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)}
                 </div>
             </React.Fragment>
     }

@@ -27,7 +27,7 @@ const info = props => {
     const {Rated, imdbRating, imdbVotes} = omdbDetails;
     const {release_date, runtime, title, tagline, overview} = tmdbDetails;
     const {resolution, size, location} = fileDetails;
-    const classes = useStyles();
+    const {root} = useStyles();
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -81,7 +81,7 @@ const info = props => {
             </div>
 
             {/* Additional movie info: tabs: Info and Cast */}
-            <div className={classes.root}>
+            <div className={root}>
                 <Paper square>
                     <Tabs value={value}
                           onChange={handleChange}

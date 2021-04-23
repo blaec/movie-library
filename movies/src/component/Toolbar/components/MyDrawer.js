@@ -7,7 +7,7 @@ import {Divider, Drawer, Hidden} from "@material-ui/core";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    drawer: {
+    drawerShrink: {
         [theme.breakpoints.up('sm')]: {
             width: DRAWER_WIDTH,
             flexShrink: 0,
@@ -23,23 +23,23 @@ const useStyles = makeStyles((theme) => ({
 
 const myDrawer = (props) => {
     const {open, onDrawerToggle} = props;
-    const classes = useStyles();
+    const {drawerShrink, toolbar, drawerPaper} = useStyles();
     const theme = useTheme();
 
     const drawer = (
         <div>
-            <div className={classes.toolbar}/>
+            <div className={toolbar}/>
             <Divider/>
             <MovieMenu/>
         </div>
     );
 
     return (
-        <nav className={classes.drawer} aria-label="mailbox folders">
+        <nav className={drawerShrink} aria-label="mailbox folders">
             <Hidden smUp implementation="css">
                 <Drawer
                     classes={{
-                        paper: classes.drawerPaper,
+                        paper: drawerPaper,
                     }}
                     variant="temporary"
                     open={open}
@@ -56,7 +56,7 @@ const myDrawer = (props) => {
             <Hidden xsDown implementation="css">
                 <Drawer
                     classes={{
-                        paper: classes.drawerPaper,
+                        paper: drawerPaper,
                     }}
                     variant="permanent"
                     open

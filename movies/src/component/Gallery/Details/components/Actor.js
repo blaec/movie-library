@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const actor = (props) => {
     const {id, name, profile_path, character, onActorSelect} = props;
-    const classes = useStyles();
+    const {large, actor} = useStyles();
 
     return (
         <ListItem onClick={() => onActorSelect(id, name)}>
@@ -24,10 +24,10 @@ const actor = (props) => {
                 <Avatar variant="circular"
                         alt={name}
                         src={getImageUrl(profile_path)}
-                        className={classes.large}
+                        className={large}
                 />
             </ListItemAvatar>
-            <ListItemText className={classes.actor}
+            <ListItemText className={actor}
                           primary={name}
                           secondary={` — as ${character}`}
             />

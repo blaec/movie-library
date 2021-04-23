@@ -58,7 +58,7 @@ const locationRadios = Object.keys(movieLocations).map(locKey =>
 const fileLoader = props => {
     const {switchIsOn, location, loading, onChangeRadio, onChangeSwitch, onChangeTextField, onSubmit} = props;
 
-    const classes = useStyles();
+    const {divider} = useStyles();
     const movieInputs = Object.keys(inputs).map(inputKey => (
         <MyTextField key={inputKey}
                      id={inputKey}
@@ -81,7 +81,7 @@ const fileLoader = props => {
                         {locationRadios}
                     </RadioGroup>
                 </FormControl>
-                <Divider className={classes.divider}/>
+                <Divider className={divider}/>
                 <FormControl component="single-upload">
                     <FormControlLabel label="Single movie upload"
                                       control={<Switch color="primary"

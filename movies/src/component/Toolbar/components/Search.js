@@ -9,7 +9,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles((theme) => ({
-    search: {
+    root: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const search = () => {
-    const classes = useStyles();
+    const {root, searchIcon, inputRoot, inputInput} = useStyles();
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
@@ -67,16 +67,16 @@ const search = () => {
     }
 
     return (
-        <div className={classes.search}>
-            <div className={classes.searchIcon}>
+        <div className={root}>
+            <div className={searchIcon}>
                 <SearchIcon/>
             </div>
             <InputBase
                 placeholder="Search..."
                 onChange={event => onSearchChange(event.target.value)}
                 classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
+                    root: inputRoot,
+                    input: inputInput,
                 }}
                 inputProps={{'aria-label': 'search'}}
                 value={search}

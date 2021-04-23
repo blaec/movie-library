@@ -31,21 +31,21 @@ const useStyles = makeStyles((theme) => ({
 
 const myAppBar = (props) => {
     const {onDrawerToggle} = props;
-    const classes = useStyles();
+    const {appBar, menuButton, title} = useStyles();
 
     return (
-        <AppBar position="fixed" className={classes.appBar}>
+        <AppBar position="fixed" className={appBar}>
             <Toolbar>
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
                     edge="start"
                     onClick={onDrawerToggle}
-                    className={classes.menuButton}
+                    className={menuButton}
                 >
                     <MenuIcon/>
                 </IconButton>
-                <Typography className={classes.title} variant="h6" noWrap>
+                <Typography className={title} variant="h6" noWrap>
                     MOVIE-LIBRARY
                 </Typography>
                 <Search/>
