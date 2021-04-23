@@ -7,7 +7,6 @@ import WishLoader from "./components/WishLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import * as UrlUtils from "../../../utils/UrlUtils";
 import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
-import './Upload.css';
 
 import {Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";

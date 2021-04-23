@@ -3,7 +3,7 @@ import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 import {getImageUrl} from "../../../../utils/UrlUtils";
-import '../Upload.css';
+import {year} from "../../../../utils/Utils";
 
 import {Card, CardActions, CardContent, FormControl, FormLabel, Grid, LinearProgress, Paper} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
@@ -59,8 +59,9 @@ const wishLoader = props => {
                           onChange={(active) => {setSelectedWishMovie(wishResults[active]);}}
                           navButtonsAlwaysVisible>
                     {wishResults.map((poster, idx) => {
-                        const {title, poster_path} = poster;
-                        let errImage = `https://via.placeholder.com/200x300.png?text=${title}`;
+                        const {title, release_date, poster_path} = poster;
+                        console.log(poster);
+                        let errImage = `https://via.placeholder.com/1000x1500.png?text=${title} (${year(release_date)})`;
                         return <div key={idx} className={`${classes.root} ${classes.imagePosition}`}>
                                     <Paper className={classes.imageSize}
                                            elevation={3}

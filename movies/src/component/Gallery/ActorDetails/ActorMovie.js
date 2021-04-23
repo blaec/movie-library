@@ -33,7 +33,7 @@ const actorMovie = (props) => {
             <ListItemAvatar>
                 <Paper elevation={3}
                        className={classes.image}
-                       style={{backgroundImage: `url("https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}")`}}>
+                       style={{backgroundImage: `url("https://via.placeholder.com/400x600.png?text=${title.substring(0, 1)}")`}}>
                     <img src={getImageUrl(poster_path)} alt=""/>
                 </Paper>
             </ListItemAvatar>
