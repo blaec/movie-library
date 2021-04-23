@@ -13,6 +13,9 @@ import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        display: "flex",
+    },
     imagePosition: {
         justifyContent: 'center',
     },
@@ -58,7 +61,6 @@ const wishLoader = props => {
                           navButtonsAlwaysVisible>
                     {wishResults.map((poster, idx) => {
                         const {title, release_date, poster_path} = poster;
-                        console.log(poster);
                         let errImage = `https://via.placeholder.com/1000x1500.png?text=${title} (${year(release_date)})`;
                         return <div key={idx} className={`${classes.root} ${classes.imagePosition}`}>
                                     <Paper className={classes.imageSize}
