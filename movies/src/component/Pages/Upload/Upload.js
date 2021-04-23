@@ -88,9 +88,10 @@ const upload = () => {
         } else {
             axios.post(UrlUtils.getScanFolderUrl(fileLocation))
                 .then(response => {
+                    const {data} = response;
                     resetForm();
                     setIsLoading(false);
-                    setSnackbarProps({open: true, message: `From ${fileLocation} folder successfully uploaded ${response.data} movies.`, type: 'success'});
+                    setSnackbarProps({open: true, message: `From ${fileLocation} folder successfully uploaded ${data} movies.`, type: 'success'});
                 })
                 .catch(error => {
                     resetForm();
@@ -105,7 +106,9 @@ const upload = () => {
         setIsLoading(true);
         axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear, api_key: configs.tmdbApi}))
             .then(response => {
-                let foundMovies = response.data.results;
+                const {data} = response;
+                const {results} = data;
+                let foundMovies = results;
                 setWishMovies(foundMovies);
                 setIsLoading(false);
                 if (foundMovies.length > 0) {

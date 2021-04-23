@@ -27,9 +27,10 @@ const details = (props) => {
         setIsLoadingMovies(true);
         axios.get(getMovieDetailsUrl(tmdbId, configs.tmdbApi))
             .then(response => {
+                const {data} = response;
 
                 // console.log("extract data: " + (new Date()).getTime());
-                let details = response.data;
+                let details = data;
                 setMovieDetails(details);
                 setGenres(joinNames(details.genres));
                 setBackdrops(details.images.backdrops);
@@ -37,7 +38,8 @@ const details = (props) => {
                 // Get movie additional details from omdb
                 axios.get(getOmdbMovieDetails(details.imdb_id, configs.omdbApi))
                     .then(response => {
-                        setOmdbMovieDetails(response.data);
+                        const {data} = response;
+                        setOmdbMovieDetails(data);
                         setIsLoadingMovies(false);
                     })
                     .catch(error => {
@@ -57,8 +59,10 @@ const details = (props) => {
         setIsLoadingCast(true);
         axios.get(getMovieCreditsUrl(tmdbId, configs.tmdbApi))
             .then(response => {
+                const {data} = response;
+                const {cast} = data;
                 // console.log("extract cast: " + (new Date()).getTime());
-                setCast(response.data.cast);
+                setCast(cast);
                 setIsLoadingCast(false);
             })
             .catch(error => {

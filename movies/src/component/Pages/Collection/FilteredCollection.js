@@ -26,9 +26,10 @@ const filteredCollection = () => {
         setIsLoading(true);
         axios.post(movieApi.get.getAllByGenres, genreIds)
             .then(response => {
-                setFilteredMovies(response.data);
+                const {data} = response;
+                setFilteredMovies(data);
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Found ${response.data.length} movies`, type: 'success'});
+                setSnackbarProps({open: true, message: `Found ${data.length} movies`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);

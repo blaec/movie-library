@@ -28,9 +28,10 @@ const collection = () => {
         setIsLoading(true);
         axios.get(movieApi.get.getAllMovies)
             .then(response => {
-                onMoviesChange(response.data)
+                const {data} = response;
+                onMoviesChange(data)
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Found ${response.data.length} movies`, type: 'success'});
+                setSnackbarProps({open: true, message: `Found ${data.length} movies`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);

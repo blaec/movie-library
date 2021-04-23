@@ -25,7 +25,8 @@ const app = () => {
         setIsLoading(true);
         axios.get(configApi.get.getConfigs)
             .then(response => {
-                onConfigsInit(response.data)
+                const {data} = response;
+                onConfigsInit(data)
                 setIsLoading(false);
             })
             .catch(error => {

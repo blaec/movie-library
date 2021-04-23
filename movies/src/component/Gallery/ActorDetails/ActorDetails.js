@@ -43,7 +43,8 @@ const actorDetails = (props) => {
         setIsLoading(true);
         axios.get(getActorDetailsUrl(id, configs.tmdbApi))
             .then(response => {
-                setActorMovies(response.data);
+                const {data} = response;
+                setActorMovies(data);
                 setMoviesIds(movies.map(movie => +movie.tmdbId));
                 setIsLoading(false);
             })

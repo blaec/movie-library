@@ -44,7 +44,9 @@ const filter = (props) => {
         setIsLoading(true);
         axios.get(getAllGenresUrl(configs.tmdbApi))
             .then(response => {
-                setGenres(response.data.genres);
+                const {data} = response;
+                const {genres} = data;
+                setGenres(genres);
                 setIsLoading(false);
             })
             .catch(error => {

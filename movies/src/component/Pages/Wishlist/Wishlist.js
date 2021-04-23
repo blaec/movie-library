@@ -23,9 +23,10 @@ const wishlist = () => {
         setIsLoading(true);
         axios.get(movieApi.get.getAllWishMovies)
             .then(response => {
-                setWishMovies(response.data)
+                const {data} = response;
+                setWishMovies(data)
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Found ${response.data.length} movies`, type: 'success'});
+                setSnackbarProps({open: true, message: `Found ${data.length} movies`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);
