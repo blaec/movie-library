@@ -99,7 +99,7 @@ const wishLoader = props => {
                 <Grid container className={classes.root}>
                     <Grid container item xs={12} justify='flex-end'>
                         <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                        style={{ marginRight: '10px' }}
+                                        buttonStyles={{marginRight: 1}}
                                         caption="Search"
                                         onSubmit={onSubmit}
                         />

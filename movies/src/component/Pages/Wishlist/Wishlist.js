@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../axios-movies";
 
 import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../utils/UrlUtils";
-import * as actions from "../../../store/actions";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 
 const wishlist = () => {
