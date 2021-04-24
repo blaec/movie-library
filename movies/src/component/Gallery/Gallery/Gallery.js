@@ -9,10 +9,22 @@ import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import {getDeleteUrl} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
-import "./Gallery.css";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {fullTitle} from "../../../utils/Utils";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    pagination: {
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '10px 0',
+    }
+}));
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -26,6 +38,7 @@ const resolutions = {
 
 const gallery = (props) => {
     let {movies, isCollection} = props;
+    const {root, pagination} = useStyles();
 
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
@@ -134,7 +147,7 @@ const gallery = (props) => {
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
             myGallery = (
                 <React.Fragment>
-                    <div className="Gallery">
+                    <div className={root}>
                         {moviesOnCurrentPage.map(movie => {
                                 const {id, tmdbId, posterPath, title, releaseDate, resolution, size, location} = movie;
                                 return (
@@ -158,12 +171,12 @@ const gallery = (props) => {
                             }
                         )}
                     </div>
-                    <Pagination className="Pagination"
+                    <Pagination className={pagination}
                                 page={currentPage}
                                 count={totalPages}
-                                onChange={handlePageChange}
                                 variant="outlined"
-                                color="primary"/>
+                                color="primary"
+                                onChange={handlePageChange}/>
                 </React.Fragment>
             );
         }
