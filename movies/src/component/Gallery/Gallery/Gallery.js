@@ -6,7 +6,6 @@ import Movie from "./components/Movie/Movie";
 import Details from "../Details/Details";
 import ActorDetails from "../ActorDetails/ActorDetails";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import {getDeleteUrl} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 
@@ -43,6 +42,7 @@ const gallery = (props) => {
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
     const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
+    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -53,16 +53,7 @@ const gallery = (props) => {
     const [isViewingActorDetails, setIsViewingActorDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
     const [actorId, setActorId] = useState();
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setSnackbarProps(initialSnackBarState);
-    };
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -85,13 +76,13 @@ const gallery = (props) => {
                 }
                 handleDetailsClose();
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
+                onSetSnackbar({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);
                 handleDetailsClose();
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
+                onSetSnackbar({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
             });
     };
 
@@ -181,17 +172,9 @@ const gallery = (props) => {
             );
         }
     }
-    let snackbar = null;
-    if (snackbarProps.open) {
-        snackbar = <MySnackbar {...snackbarProps}
-                               onClose={handleSnackbarClose}/>;
-    }
 
     return (
-        <React.Fragment>
-            {myGallery}
-            {snackbar}
-        </React.Fragment>
+        {myGallery}
     );
 };
 

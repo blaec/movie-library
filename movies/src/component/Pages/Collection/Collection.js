@@ -6,23 +6,14 @@ import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
-import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 
 const collection = () => {
     const movies = useSelector(state => state.movies);
     const dispatch = useDispatch();
     const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
+    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
-    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
     const [isLoading, setIsLoading] = useState(true);
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setSnackbarProps(initialSnackBarState);
-    };
 
     useEffect(() => {
         setIsLoading(true);
@@ -31,12 +22,12 @@ const collection = () => {
                 const {data} = response;
                 onMoviesChange(data)
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Found ${data.length} movies`, type: 'success'});
+                onSetSnackbar({open: true, message: `Found ${data.length} movies`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `To load movies`, type: 'error'})
+                onSetSnackbar({open: true, message: `To load movies`, type: 'error'})
             });
     }, []);
 
@@ -44,17 +35,9 @@ const collection = () => {
     if (!isLoading) {
         gallery = <Gallery movies={movies} isCollection={true}/>
     }
-    let snackbar = null;
-    if (snackbarProps.open) {
-        snackbar = <MySnackbar {...snackbarProps}
-                               onClose={handleSnackbarClose}/>;
-    }
 
     return (
-        <React.Fragment>
-            {gallery}
-            {snackbar}
-        </React.Fragment>
+        {gallery}
     );
 };
 

@@ -1,23 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
+import {useDispatch} from "react-redux";
 
 import Gallery from "../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../utils/UrlUtils";
-import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
+import * as actions from "../../../store/actions";
 
 const wishlist = () => {
+    const dispatch = useDispatch();
+    const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
+
     const [isLoading, setIsLoading] = useState(true);
     const [wishMovies, setWishMovies] = useState();
-    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setSnackbarProps(initialSnackBarState);
-    };
 
     useEffect(() => {
         setIsLoading(true);
@@ -26,12 +21,12 @@ const wishlist = () => {
                 const {data} = response;
                 setWishMovies(data)
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Found ${data.length} movies`, type: 'success'});
+                onSetSnackbar({open: true, message: `Found ${data.length} movies`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `To load movies`, type: 'error'})
+                onSetSnackbar({open: true, message: `To load movies`, type: 'error'})
             });
     }, []);
 
@@ -39,16 +34,10 @@ const wishlist = () => {
     if (!isLoading) {
         wishList = <Gallery movies={wishMovies} isCollection={false}/>
     }
-    let snackbar = null;
-    if (snackbarProps.open) {
-        snackbar = <MySnackbar {...snackbarProps}
-                               onClose={handleSnackbarClose}/>;
-    }
 
     return (
         <React.Fragment>
             {wishList}
-            {snackbar}
         </React.Fragment>
     );
 };

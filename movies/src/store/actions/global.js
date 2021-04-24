@@ -35,3 +35,10 @@ export const initConfigs = (configs) => {
     }
 };
 
+export const setSnackbar = (snackbar) => {
+    return {
+        type: actionTypes.SET_SNACKBAR,
+        snackbar: snackbar
+    }
+};
+

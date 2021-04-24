@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import axios from '../../../axios-movies';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
-import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import * as UrlUtils from "../../../utils/UrlUtils";
 import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
+import * as actions from "../../../store/actions";
 
 import {Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
 const upload = () => {
     const {loader} = useStyles();
     const configs = useSelector(state => state.api);
+    const dispatch = useDispatch();
+    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
@@ -29,15 +31,6 @@ const upload = () => {
     const [switchStatus, setSwitchStatus] = useState(false);
     const [wishMovies, setWishMovies] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setSnackbarProps(initialSnackBarState);
-    };
 
     const resetForm = () => {
         setFileLocation('');
@@ -61,7 +54,7 @@ const upload = () => {
             case "file-name":   setFileName(text);  break;
             case "wish-title":  setWishTitle(text); break;
             case "wish-year":   setWishYear(text);  break;
-            default:            setSnackbarProps({open: true, message: `Upload -> handleTextFields -> wrong id`, type: 'error'})
+            default:            onSetSnackbar({open: true, message: `Upload -> handleTextFields -> wrong id`, type: 'error'})
         }
     };
 
@@ -77,13 +70,13 @@ const upload = () => {
                 .then(response => {
                     resetForm();
                     setIsLoading(false);
-                    setSnackbarProps({open: true, message: `Uploading ${fileName} from ${fileLocation} folder completed successfully`, type: 'success'});
+                    onSetSnackbar({open: true, message: `Uploading ${fileName} from ${fileLocation} folder completed successfully`, type: 'success'});
                 })
                 .catch(error => {
                     resetForm();
                     setIsLoading(false);
                     console.log(error);
-                    setSnackbarProps({open: true, message: `Failed to upload ${fileName} from ${fileLocation} folder`, type: 'error'});
+                    onSetSnackbar({open: true, message: `Failed to upload ${fileName} from ${fileLocation} folder`, type: 'error'});
                 });
         } else {
             axios.post(UrlUtils.getScanFolderUrl(fileLocation))
@@ -91,13 +84,13 @@ const upload = () => {
                     const {data} = response;
                     resetForm();
                     setIsLoading(false);
-                    setSnackbarProps({open: true, message: `From ${fileLocation} folder successfully uploaded ${data} movies.`, type: 'success'});
+                    onSetSnackbar({open: true, message: `From ${fileLocation} folder successfully uploaded ${data} movies.`, type: 'success'});
                 })
                 .catch(error => {
                     resetForm();
                     setIsLoading(false);
                     console.log(error);
-                    setSnackbarProps({open: true, message: `Failed to scan folder ${fileLocation} for movies`, type: 'error'});
+                    onSetSnackbar({open: true, message: `Failed to scan folder ${fileLocation} for movies`, type: 'error'});
                 });
         }
     };
@@ -112,15 +105,15 @@ const upload = () => {
                 setWishMovies(foundMovies);
                 setIsLoading(false);
                 if (foundMovies.length > 0) {
-                    setSnackbarProps({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
+                    onSetSnackbar({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
                 } else {
-                    setSnackbarProps({open: true, message: `Nothing found`, type: 'warning'});
+                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
                 }
             })
             .catch(error => {
                 console.log(error);
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Failed to search the movies`, type: 'error'});
+                onSetSnackbar({open: true, message: `Failed to search the movies`, type: 'error'});
             });
     };
 
@@ -129,19 +122,14 @@ const upload = () => {
         axios.post(movieApi.post.saveWishMovie, wishMovie)
             .then(response => {
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
+                onSetSnackbar({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Failed to movie '${wishMovie.title}' to wishlist`, type: 'error'});
+                onSetSnackbar({open: true, message: `Failed to movie '${wishMovie.title}' to wishlist`, type: 'error'});
             });
     };
-    let snackbar = null;
-    if (snackbarProps.open) {
-        snackbar = <MySnackbar {...snackbarProps}
-                               onClose={handleSnackbarClose}/>;
-    }
 
     let loaders = [
         <WishLoader {...{wishTitle: wishTitle, wishYear: wishYear}}
@@ -176,7 +164,6 @@ const upload = () => {
                 </Grid>
                 <Grid item xs={1} lg={2} xl={3}/>
             </Grid>
-            {snackbar}
         </React.Fragment>
     );
 };

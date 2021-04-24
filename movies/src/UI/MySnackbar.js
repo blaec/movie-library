@@ -1,14 +1,25 @@
 import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
+
+import * as actions from "../store/actions";
 
 import {Snackbar} from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
+import {Alert} from "@material-ui/lab";
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+const mySnackbar = () => {
+    const snackbar = useSelector(state => state.snackbar);
+    const {open, message, type} = snackbar;
 
-const mySnackbar = (props) => {
-    const {open, message, type, onClose} = props;
+    const dispatch = useDispatch();
+    const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
+
+    const handleSnackbarClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        onSetSnackbar({open: false, type: type, message: message});
+    };
 
     return (
         <Snackbar open={open}
@@ -16,9 +27,11 @@ const mySnackbar = (props) => {
                       vertical: 'bottom',
                       horizontal: 'right',
                   }}
-                  autoHideDuration={5000}
-                  onClose={onClose}>
-            <Alert onClose={onClose}
+                  autoHideDuration={3000}
+                  onClose={handleSnackbarClose}>
+            <Alert onClose={handleSnackbarClose}
+                   elevation={6}
+                   variant='filled'
                    severity={type}>
                 {message}
             </Alert>
@@ -27,5 +40,3 @@ const mySnackbar = (props) => {
 };
 
 export default mySnackbar;
-
-export const initialSnackBarState = {open: false, message: '', type: ''};

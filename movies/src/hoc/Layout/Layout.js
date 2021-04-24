@@ -1,6 +1,7 @@
 import React from 'react';
 import './Layout.css';
 
+import MySnackbar from "../../UI/MySnackbar";
 import Toolbar from "../../component/Toolbar/Toolbar";
 
 const layout = props => {
@@ -9,6 +10,7 @@ const layout = props => {
     return (
         <React.Fragment>
             <Toolbar />
+            <MySnackbar/>
             <main className="Children">
                 {children}
             </main>

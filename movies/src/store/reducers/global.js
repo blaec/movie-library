@@ -8,6 +8,11 @@ const initialState = {
         tmdbApi: '',
         omdbApi: ''
     },
+    snackbar: {
+        open: false,
+        message: '',
+        type: 'success'
+    },
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,6 +43,15 @@ const reducer = (state = initialState, action) => {
                 api: {
                     tmdbApi: action.configs.tmdb.value.apikey,
                     omdbApi: action.configs.omdb.value.apikey
+                }
+            };
+        case actionTypes.SET_SNACKBAR:
+            return {
+                ...state,
+                snackbar: {
+                    open: action.snackbar.open,
+                    type: action.snackbar.type,
+                    message: action.snackbar.message
                 }
             };
         default:
