@@ -11,10 +11,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const infoGeneral = (props) => {
-    const {omdbDetails, tmdbDetails, fileDetails, genreDetails} = props;
-    const {Rated, imdbRating, imdbVotes} = omdbDetails;
-    const {release_date, runtime, title} = tmdbDetails;
-    const {resolution, size, location} = fileDetails;
+    const {
+        omdbDetails: {Rated, imdbRating, imdbVotes},
+        tmdbDetails: {release_date, runtime, title},
+        fileDetails: {resolution, size, location},
+        genreDetails
+    } = props;
     const {root} = useStyles();
 
     const metadata = {

@@ -39,8 +39,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const info = props => {
-    const {omdbDetails, tmdbDetails, fileDetails, castDetails, genreDetails, onActorSelect} = props;
-    const {tagline, overview} = tmdbDetails;
+    const {
+        omdbDetails,
+        tmdbDetails,
+        tmdbDetails: {tagline, overview},
+        fileDetails,
+        castDetails,
+        genreDetails,
+        onActorSelect
+    } = props;
     const {root} = useStyles();
     const [tabSelected, setTabSelected] = React.useState(0);
 
