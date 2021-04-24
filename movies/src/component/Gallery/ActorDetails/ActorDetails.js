@@ -5,11 +5,9 @@ import {useSelector} from "react-redux";
 import ActorMovie from "./ActorMovie";
 import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import '../Gallery/Gallery.css';
-import '../Details/Details.css';
+import MyArrowBack from "../../../UI/Buttons/Icons/MyArrowBack";
 
 import {Box, List, makeStyles} from "@material-ui/core";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -61,9 +59,7 @@ const actorDetails = (props) => {
         allMovies =
             <React.Fragment>
                 <div className={sticky}>
-                    <ArrowBackIcon onClick={onClose}
-                                   className="ImageBack"
-                                   fontSize="large"/>
+                    <MyArrowBack onClose={onClose}/>
                     <Box className={actor}
                          fontSize="h6.fontSize"
                          fontWeight="fontWeightBold">
