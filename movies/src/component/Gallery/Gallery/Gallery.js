@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
         margin: '10px 0',
-    }
+    },
 }));
 
 // Duplicate to @media in Movie.css

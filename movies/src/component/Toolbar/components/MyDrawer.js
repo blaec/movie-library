@@ -4,7 +4,7 @@ import MovieMenu from "./MovieMenu";
 import {DRAWER_WIDTH} from "../../../utils/Constants";
 
 import {Divider, Drawer, Hidden} from "@material-ui/core";
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     drawerShrink: {
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 const myDrawer = (props) => {
     const {open, onDrawerToggle} = props;
     const {drawerShrink, toolbar, drawerPaper} = useStyles();
-    const theme = useTheme();
 
     const drawer = (
         <div>
@@ -43,7 +42,6 @@ const myDrawer = (props) => {
                     }}
                     variant="temporary"
                     open={open}
-                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
                     onClick={onDrawerToggle}
                     onClose={onDrawerToggle}
                     ModalProps={{
