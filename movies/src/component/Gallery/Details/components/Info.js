@@ -1,13 +1,29 @@
 import React from 'react';
 
-import {NA_Safe, playTime, releaseDateYear} from "../../../../utils/Utils";
-import Actor from "./Actor";
-import Facts from "./Facts/Facts";
-import '../Details.css';
-import TabPanel from "../../../Tabs/TabPanel";
+import Description from "./InfoComponents/Tabs/Description";
+import Cast from "./InfoComponents/Tabs/Cast/Cast";
+import Facts from "./InfoComponents/Tabs/Facts/Facts";
+import InfoGeneral from "./InfoComponents/InfoGeneral";
 import * as PropTypes from "prop-types";
 
-import {Box, Divider, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
+import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
+
+const TabPanel = (props) => {
+    const {children, value, index, ...other} = props;
+
+    return (
+        <div role="tabpanel"
+             hidden={value !== index}
+             {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    {children}
+                </Box>
+            )}
+        </div>
+    );
+}
 
 TabPanel.propTypes = {
     children: PropTypes.node,
@@ -24,97 +40,43 @@ const useStyles = makeStyles((theme) => ({
 
 const info = props => {
     const {omdbDetails, tmdbDetails, fileDetails, castDetails, genreDetails, onActorSelect} = props;
-    const {Rated, imdbRating, imdbVotes} = omdbDetails;
-    const {release_date, runtime, title, tagline, overview} = tmdbDetails;
-    const {resolution, size, location} = fileDetails;
+    const {tagline, overview} = tmdbDetails;
     const {root} = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [tabSelected, setTabSelected] = React.useState(0);
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        setTabSelected(newValue);
     };
 
-    const metadata = {
-        rated: NA_Safe(Rated),
-        release_date: releaseDateYear(release_date),
-        runtime: runtime !== 0
-            ? playTime(runtime)
-            : null,
-        rating: NA_Safe(imdbRating, `${imdbRating} [${imdbVotes}]`),
-        resolution: resolution,
-        fileSize: size
-            ? `${size}Gb`
-            : null
-    };
-
-    let filteredCast = castDetails.map(actor => <Actor key={actor.id} {...actor} onActorSelect={onActorSelect}/>);
-    let filteredCastWithDivider = filteredCast.size === 0
-        ? filteredCast
-        : filteredCast.reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr]);
     return (
         <React.Fragment>
-
-            {/* Main movie info */}
-            <div className="Info">
-                <Typography component="div">
-                    <Box fontSize="caption.fontSize"
-                         fontWeight="fontWeightLight">
-                        {location}
-                    </Box>
-                    <Divider/>
-                    <Box fontSize="subtitle2.fontSize"
-                         fontWeight="fontWeightRegular"
-                         textAlign="center"
-                         paddingTop={1}
-                    >
-                        {Object.values(metadata)
-                            .filter(val => val !== null)
-                            .join(` | `)}
-                    </Box>
-                    <Box fontSize="h4.fontSize" fontWeight="fontWeightBold" textAlign="center">
-                        {title}
-                    </Box>
-                    <Box fontSize="subtitle2.fontSize"  fontWeight="fontWeightMedium" textAlign="center">
-                        {genreDetails}
-                    </Box>
-                </Typography>
-            </div>
-
-            {/* Additional movie info: tabs: Info and Cast */}
+            <InfoGeneral omdbDetails={omdbDetails}
+                         tmdbDetails={tmdbDetails}
+                         fileDetails={fileDetails}
+                         genreDetails={genreDetails}/>
             <div className={root}>
                 <Paper square>
-                    <Tabs value={value}
+                    <Tabs value={tabSelected}
                           onChange={handleChange}
                           indicatorColor="primary"
                           textColor="primary"
                           variant="fullWidth">
-                        <Tab label="Info"/>
+                        <Tab label="Description"/>
                         <Tab label="Cast"/>
                         <Tab label="Facts"/>
                     </Tabs>
                 </Paper>
-                <TabPanel value={value} index={0}>
-                    <Box fontSize="subtitle2.fontSize"
-                         fontWeight="fontWeightBold"
-                         textAlign="right"
-                         paddingBottom={1}
-                         paddingLeft={20}>
-                        {tagline}
-                    </Box>
-                    <Box fontSize="body1.fontSize">
-                        {overview}
-                    </Box>
+                <TabPanel value={tabSelected} index={0}>
+                    <Description tagline={tagline}
+                                 overview={overview}/>
                 </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <List>
-                        {filteredCastWithDivider}
-                    </List>
+                <TabPanel value={tabSelected} index={1}>
+                    <Cast castDetails={castDetails}
+                          onActorSelect={onActorSelect}/>
                 </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <List>
-                        <Facts omdbDetails={omdbDetails}
-                               tmdbDetails={tmdbDetails}/>
-                    </List>
+                <TabPanel value={tabSelected} index={2}>
+                    <Facts omdbDetails={omdbDetails}
+                           tmdbDetails={tmdbDetails}/>
                 </TabPanel>
             </div>
         </React.Fragment>

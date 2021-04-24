@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getImageUrl} from "../../../../utils/UrlUtils";
+import {getImageUrl} from "../../../../../../../utils/UrlUtils";
 
 import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 
