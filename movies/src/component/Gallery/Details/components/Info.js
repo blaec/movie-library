@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {a11yProps, NA_Safe, playTime, releaseDateYear} from "../../../../utils/Utils";
+import {NA_Safe, playTime, releaseDateYear} from "../../../../utils/Utils";
 import Actor from "./Actor";
 import Facts from "./Facts/Facts";
 import '../Details.css';
@@ -88,9 +88,9 @@ const info = props => {
                           indicatorColor="primary"
                           textColor="primary"
                           variant="fullWidth">
-                        <Tab label="Info" {...a11yProps(0)} />
-                        <Tab label="Cast" {...a11yProps(1)} />
-                        <Tab label="Facts" {...a11yProps(2)} />
+                        <Tab label="Info"/>
+                        <Tab label="Cast"/>
+                        <Tab label="Facts"/>
                     </Tabs>
                 </Paper>
                 <TabPanel value={value} index={0}>

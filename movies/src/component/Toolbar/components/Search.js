@@ -78,7 +78,6 @@ const search = () => {
                     root: inputRoot,
                     input: inputInput,
                 }}
-                inputProps={{'aria-label': 'search'}}
                 value={search}
                 endAdornment={endAdornment()}
             />

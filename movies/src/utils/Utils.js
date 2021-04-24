@@ -30,13 +30,6 @@ export const playTime = (totalMinutes) => {
         : `${minute} mins`;
 };
 
-export const a11yProps = (index) => {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-};
-
 /**
  * Check if condition equals N/A
  *

@@ -35,7 +35,7 @@ const myDrawer = (props) => {
     );
 
     return (
-        <nav className={drawerShrink} aria-label="mailbox folders">
+        <nav className={drawerShrink}>
             <Hidden smUp implementation="css">
                 <Drawer
                     classes={{
