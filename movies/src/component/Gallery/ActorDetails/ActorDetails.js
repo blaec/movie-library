@@ -81,11 +81,9 @@ const actorDetails = (props) => {
     }
 
     return (
-        <div className="Details">
-            <List>
-                {allMovies}
-            </List>
-        </div>
+        <List>
+            {allMovies}
+        </List>
     );
 };
 

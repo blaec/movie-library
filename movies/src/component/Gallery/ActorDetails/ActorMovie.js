@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(2),
     },
     image: {
+        width: '100%',
+    },
+    imageSize: {
         width: 80,
         height: 120,
     },
@@ -20,16 +23,16 @@ const useStyles = makeStyles((theme) => ({
 
 const actorMovie = (props) => {
     const {title, release_date, poster_path, character, exist} = props;
-    const {actor, image, movieExist} = useStyles();
+    const {actor, image, imageSize, movieExist} = useStyles();
 
     // TODO image size hardcoded
     return (
         <ListItem className={exist ? movieExist : null}>
             <ListItemAvatar>
                 <Paper elevation={3}
-                       className={image}
+                       className={imageSize}
                        style={{backgroundImage: `url("https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}")`}}>
-                    <img src={getImageUrl(poster_path)} alt=""/>
+                    <img className={image} src={getImageUrl(poster_path)} alt=""/>
                 </Paper>
             </ListItemAvatar>
             <ListItemText className={actor}>
