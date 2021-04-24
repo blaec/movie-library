@@ -38,7 +38,9 @@ const filteredCollection = () => {
     }
 
     return (
-        {gallery}
+        <React.Fragment>
+            {gallery}
+        </React.Fragment>
     );
 };
 

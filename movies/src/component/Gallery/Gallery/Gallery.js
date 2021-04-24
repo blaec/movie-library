@@ -174,7 +174,9 @@ const gallery = (props) => {
     }
 
     return (
-        {myGallery}
+        <React.Fragment>
+            {myGallery}
+        </React.Fragment>
     );
 };
 
