@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {a11yProps, NA_Safe, playTime, year} from "../../../../utils/Utils";
+import {a11yProps, NA_Safe, playTime, releaseDateYear} from "../../../../utils/Utils";
 import Actor from "./Actor";
 import Facts from "./Facts/Facts";
 import '../Details.css';
@@ -36,7 +36,7 @@ const info = props => {
 
     const metadata = {
         rated: NA_Safe(Rated),
-        release_date: year(release_date),
+        release_date: releaseDateYear(release_date),
         runtime: runtime !== 0
             ? playTime(runtime)
             : null,

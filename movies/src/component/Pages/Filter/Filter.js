@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const filter = (props) => {
     const {card, formControl, label} = useStyles();
-    const configs = useSelector(state => state.api);
+    const {tmdbApi} = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
 
@@ -42,7 +42,7 @@ const filter = (props) => {
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
         setIsLoading(true);
-        axios.get(getAllGenresUrl(configs.tmdbApi))
+        axios.get(getAllGenresUrl(tmdbApi))
             .then(response => {
                 const {data} = response;
                 const {genres} = data;

@@ -4,7 +4,7 @@ import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 import {getImageUrl} from "../../../../utils/UrlUtils";
 import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
-import {year} from "../../../../utils/Utils";
+import {fullTitle} from "../../../../utils/Utils";
 
 import {Card, CardActions, CardContent, FormControl, FormLabel, LinearProgress, Paper} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
@@ -56,7 +56,7 @@ const wishLoader = props => {
                           navButtonsAlwaysVisible>
                     {wishResults.map((poster, idx) => {
                         const {title, release_date, poster_path} = poster;
-                        let errImage = `https://via.placeholder.com/1000x1500.png?text=${title} (${year(release_date)})`;
+                        let errImage = `https://via.placeholder.com/1000x1500.png?text=${fullTitle(title, release_date)}`;
                         return <div key={idx}>
                                     <Paper className={image}
                                            style={{backgroundImage: `url("${errImage}")`}}

@@ -12,6 +12,7 @@ import * as actions from "../../../store/actions";
 import "./Gallery.css";
 
 import Pagination from '@material-ui/lab/Pagination';
+import {fullTitle} from "../../../utils/Utils";
 
 // Duplicate to @media in Movie.css
 const resolutions = {
@@ -139,7 +140,7 @@ const gallery = (props) => {
                                 return (
                                     <Movie key={id}
                                            poster={posterPath}
-                                           alt={`${title} ${releaseDate}`}
+                                           alt={`${fullTitle(title, releaseDate)}`}
                                            onClick={handleViewMovieDetails}
                                            movieToComponents={{
                                                movieToDetailsComponent: {

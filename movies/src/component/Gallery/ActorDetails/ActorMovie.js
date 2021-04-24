@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {getImageUrl} from "../../../utils/UrlUtils";
-import {year} from "../../../utils/Utils";
+import {releaseDateYear} from "../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
 
@@ -36,7 +36,7 @@ const actorMovie = (props) => {
                 <Box fontSize="subtitle1.fontSize"
                      fontWeight="fontWeightLight"
                      color="text.secondary">
-                    {year(release_date)}
+                    {releaseDateYear(release_date)}
                 </Box>
                 <Box fontSize="h5.fontSize"
                      fontWeight="fontWeightBold">

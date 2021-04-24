@@ -34,14 +34,14 @@ const actorDetails = (props) => {
     const {sticky, actor, movieItems} = useStyles();
 
     const movies = useSelector(state => state.movies);
-    const configs = useSelector(state => state.api);
+    const {tmdbApi} = useSelector(state => state.api);
     const [actorMovies, setActorMovies] = useState();
     const [moviesIds, setMoviesIds] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(getActorDetailsUrl(id, configs.tmdbApi))
+        axios.get(getActorDetailsUrl(id, tmdbApi))
             .then(response => {
                 const {data} = response;
                 setActorMovies(data);
