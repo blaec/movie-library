@@ -16,42 +16,48 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    switch (action.type) {
+    const {type : actionType, newSearch, movies, genreIds, configs, snackbar} = action;
+    switch (actionType) {
         case actionTypes.CHANGE_FILTER:
             return {
                 ...state,
-                search: action.newSearch.toLowerCase()
+                search: newSearch.toLowerCase()
             };
         case actionTypes.SET_MOVIES:
             return {
                 ...state,
-                movies: action.movies
+                movies: movies
             };
         case actionTypes.DELETE_MOVIE:
             return {
                 ...state,
-                movies: action.movies
+                movies: movies
             };
         case actionTypes.SET_GENRE_IDS:
             return {
                 ...state,
-                genreIds: action.genreIds
+                genreIds: genreIds
             };
         case actionTypes.INIT_CONFIGS:
+            const {
+                tmdb: {value: {apikey: tmdbApiKey}},
+                omdb: {value: {apikey: omdbApiKey}}
+            } = configs;
             return {
                 ...state,
                 api: {
-                    tmdbApi: action.configs.tmdb.value.apikey,
-                    omdbApi: action.configs.omdb.value.apikey
+                    tmdbApi: tmdbApiKey,
+                    omdbApi: omdbApiKey
                 }
             };
         case actionTypes.SET_SNACKBAR:
+            const {open, type, message} = snackbar;
             return {
                 ...state,
                 snackbar: {
-                    open: action.snackbar.open,
-                    type: action.snackbar.type,
-                    message: action.snackbar.message
+                    open: open,
+                    type: type,
+                    message: message
                 }
             };
         default:
