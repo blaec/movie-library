@@ -3,7 +3,7 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import axios from "./axios-movies";
 
-import Layout from "./hoc/Layout/Layout";
+import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/Collection/Collection";
 import FilteredCollection from "./component/Pages/Collection/FilteredCollection";
 import Upload from "./component/Pages/Upload/Upload";
@@ -12,7 +12,6 @@ import Filter from "./component/Pages/Filter/Filter";
 import MyLoader from "./UI/Spinners/MyLoader";
 import {configApi, reactLinks} from "./utils/UrlUtils";
 import * as actions from "./store/actions";
-import './utils/Constants.css';
 
 const app = () => {
     const {home, filtered, wishlist, filter, upload} = reactLinks;
