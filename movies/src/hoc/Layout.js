@@ -2,7 +2,7 @@ import React from 'react';
 
 import MySnackbar from "../UI/MySnackbar";
 import Toolbar from "../component/Toolbar/Toolbar";
-import {DRAWER_WIDTH} from "../utils/Constants";
+import {drawer, toolbarHeight} from "../utils/Constants";
 
 import {makeStyles} from "@material-ui/core/styles";
 import {CssBaseline} from "@material-ui/core";
@@ -10,10 +10,10 @@ import {CssBaseline} from "@material-ui/core";
 const useStyle = makeStyles((theme) => ({
     root: {
         [theme.breakpoints.up('sm')]: {
-            marginTop: 64,
-            paddingLeft: DRAWER_WIDTH,
+            marginTop: toolbarHeight.mobile,
+            paddingLeft: drawer.width,
         },
-        marginTop: 56,
+        marginTop: toolbarHeight.desktop,
     }
 }));
 

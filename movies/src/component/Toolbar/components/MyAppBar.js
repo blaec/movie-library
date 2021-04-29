@@ -1,22 +1,21 @@
 import React from 'react';
 
 import Search from "./Search";
-import {DRAWER_WIDTH} from "../../../utils/Constants";
-import Logo from "./Logo";
+import {drawer} from "../../../utils/Constants";
 
-import {AppBar, Box, Icon, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, IconButton, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'flex-end'
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${DRAWER_WIDTH}px)`,
-            marginLeft: DRAWER_WIDTH,
+            width: `calc(100% - ${drawer.width}px)`,
+            marginLeft: drawer.width,
         },
     },
     menuButton: {
@@ -40,7 +39,6 @@ const myAppBar = (props) => {
                             onClick={onDrawerToggle}>
                     <MenuIcon/>
                 </IconButton>
-                <Logo/>
                 <Search/>
             </Toolbar>
         </AppBar>

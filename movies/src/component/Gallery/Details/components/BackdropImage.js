@@ -4,7 +4,7 @@ import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import MyDelete from "../../../../UI/Buttons/Icons/MyDelete";
 import {getImageUrl} from "../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
-import {DRAWER_WIDTH} from "../../../../utils/Constants";
+import {drawer} from "../../../../utils/Constants";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
@@ -28,7 +28,7 @@ const backdropImage = props => {
         ? window.innerWidth > 1000 ? .5 : .8
         : 1;
     const drawerWidth = window.innerWidth > MOBILE_WIN_WIDTH
-        ? DRAWER_WIDTH
+        ? drawer.width
         : 0;
     const windowWidth = (window.innerWidth - drawerWidth) * marginBorders;
 
