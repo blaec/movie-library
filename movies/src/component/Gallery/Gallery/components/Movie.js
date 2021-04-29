@@ -1,27 +1,28 @@
 import React from 'react';
 
 import {getImageUrl} from "../../../../utils/UrlUtils";
+import {grid} from "../../../../utils/Constants";
 
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: `calc(100% / 7)`,
-        [theme.breakpoints.down(1700)]: {
-            width: `calc(100% / 6)`,
+        [theme.breakpoints.up(grid.g2.resolution)]: {
+            width: `calc(100% / ${grid.g2.moviesPerRow})`,
         },
-        [theme.breakpoints.down(1300)]: {
-            width: `calc(100% / 5)`,
+        [theme.breakpoints.up(grid.g3.resolution)]: {
+            width: `calc(100% / ${grid.g3.moviesPerRow})`,
         },
-        [theme.breakpoints.down(1000)]: {
-            width: `calc(100% / 4)`,
+        [theme.breakpoints.up(grid.g4.resolution)]: {
+            width: `calc(100% / ${grid.g4.moviesPerRow})`,
         },
-        [theme.breakpoints.down(700)]: {
-            width: `calc(100% / 3)`,
+        [theme.breakpoints.up(grid.g5.resolution)]: {
+            width: `calc(100% / ${grid.g5.moviesPerRow})`,
         },
-        [theme.breakpoints.down(450)]: {
-            width: `calc(100% / 2)`,
+        [theme.breakpoints.up(grid.g6.resolution)]: {
+            width: `calc(100% / ${grid.g6.moviesPerRow})`,
         },
+        width: `calc(100% / ${grid.g7.moviesPerRow})`,
     },
     image: {
         width: '100%',

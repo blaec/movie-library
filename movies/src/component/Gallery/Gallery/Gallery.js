@@ -2,15 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../axios-movies";
 
-import Movie from "./components/Movie/Movie";
+import Movie from "./components/Movie";
 import Details from "../Details/Details";
 import ActorDetails from "../ActorDetails/ActorDetails";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {getDeleteUrl} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
+import {fullTitle} from "../../../utils/Utils";
+import {grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
-import {fullTitle} from "../../../utils/Utils";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,16 +25,6 @@ const useStyles = makeStyles((theme) => ({
         margin: '10px 0',
     },
 }));
-
-// Duplicate to @media in Movie.css
-const resolutions = {
-    450: {rows: 12, moviesPerRow: 2},
-    700: {rows: 7, moviesPerRow: 3},
-    1000: {rows: 6, moviesPerRow: 4},
-    1300: {rows: 5, moviesPerRow: 5},
-    1700: {rows: 4, moviesPerRow: 6},
-    9999: {rows: 3, moviesPerRow: 7}
-};
 
 const gallery = (props) => {
     let {movies, isCollection} = props;
@@ -114,7 +105,7 @@ const gallery = (props) => {
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
-        const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
+        const structure = Object.values(grid).filter(grid => grid.resolution < windowWidth).slice(-1).pop();
         let moviesPerPage = structure.rows * structure.moviesPerRow;
         setMoviesPerPage(moviesPerPage);
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
