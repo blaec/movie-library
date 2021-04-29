@@ -5,6 +5,7 @@ import Toolbar from "../component/Toolbar/Toolbar";
 import {DRAWER_WIDTH} from "../utils/Constants";
 
 import {makeStyles} from "@material-ui/core/styles";
+import {CssBaseline} from "@material-ui/core";
 
 const useStyle = makeStyles((theme) => ({
     root: {
@@ -22,8 +23,9 @@ const layout = props => {
 
     return (
         <React.Fragment>
+            <CssBaseline/>
             <Toolbar />
-            <MySnackbar/>
+            <MySnackbar />
             <main className={root}>
                 {children}
             </main>

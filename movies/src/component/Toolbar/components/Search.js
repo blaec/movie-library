@@ -56,7 +56,7 @@ const search = () => {
     const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
 
-    let endAdornment = () => "";
+    let endAdornment = () => '';
     if (search) {
         endAdornment = () =>
             <InputAdornment position="end">
@@ -71,15 +71,14 @@ const search = () => {
             <div className={searchIcon}>
                 <SearchIcon/>
             </div>
-            <InputBase
-                placeholder="Search..."
-                onChange={event => onSearchChange(event.target.value)}
-                classes={{
-                    root: inputRoot,
-                    input: inputInput,
-                }}
-                value={search}
-                endAdornment={endAdornment()}
+            <InputBase placeholder="Search..."
+                       onChange={event => onSearchChange(event.target.value)}
+                       classes={{
+                           root: inputRoot,
+                           input: inputInput,
+                       }}
+                       value={search}
+                       endAdornment={endAdornment()}
             />
         </div>
     );
