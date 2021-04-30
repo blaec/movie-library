@@ -5,13 +5,26 @@ import {useSelector} from "react-redux";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import './Details.css';
 import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
 import {fullTitle, joinNames} from "../../../utils/Utils";
+
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyle = makeStyles((theme) => ({
+    root: {
+        [`@media (orientation:landscape)`]: {
+            margin: '0 10%',
+        },
+        [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
+            margin: '0 25%',
+        },
+    },
+}));
 
 // TODO refactor multiple axios get requests
 const details = (props) => {
     const {tmdbId, id, onClose, onDelete, onActorSelect, movieToInfoComponent} = props;
+    const {root} = useStyle();
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
 
     const [movieDetails, setMovieDetails] = useState();
@@ -95,7 +108,7 @@ const details = (props) => {
     }
 
     return (
-        <div className="Details">
+        <div className={root}>
             {details}
         </div>
     );

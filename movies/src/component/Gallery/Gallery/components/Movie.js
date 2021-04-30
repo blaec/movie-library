@@ -37,9 +37,10 @@ const movie = props => {
 
     return (
         <div className={root}>
-            <img className={image} src={getImageUrl(poster)}
-                 onClick={() => onClick({...movieToComponents})}
+            <img className={image}
+                 src={getImageUrl(poster)}
                  alt={alt}
+                 onClick={() => onClick({...movieToComponents})}
             />
         </div>
     );
