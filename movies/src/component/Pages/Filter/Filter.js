@@ -8,32 +8,33 @@ import ButtonGrid from "../../../UI/Buttons/ButtonGrid";
 import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 
-import {Card, CardActions, CardContent, FormControl, InputLabel, makeStyles, Select} from "@material-ui/core";
+import {
+    Card,
+    CardActions,
+    CardContent,
+    FormControl,
+    FormLabel,
+    Grid,
+    InputLabel,
+    makeStyles,
+    Select
+} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '80%',
-        margin: '1em auto 0',
-    },
-    card: {
-        marginTop: theme.spacing(9)
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
-        paddingTop: theme.spacing(1)
+        paddingTop: theme.spacing(2),
     },
     label: {
         fontWeight: 1000,
-        fontSize: 20
+        fontSize: 20,
+        paddingBottom: theme.spacing(2),
     }
 }));
 
 const filter = (props) => {
-    const {root, card, formControl, label} = useStyles();
+    const {root, label} = useStyles();
     const {tmdbApi} = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
@@ -86,20 +87,21 @@ const filter = (props) => {
     if (!isLoading) {
         const names = genres.flatMap(g => g.name);
         genreFilter =
-            <Card variant="elevation" className={card}>
+            <Card variant="elevation">
                 <CardContent>
-                    <FormControl className={formControl}>
-                        <InputLabel className={label} shrink htmlFor="select-multiple-native">
-                            GENRES
-                        </InputLabel>
-                        <Select
-                            multiple
-                            native
-                            value={genreSelection}
-                            onChange={handleChangeMultiple}
-                            inputProps={{
-                                id: 'select-multiple-native',
-                            }}
+                    <FormControl fullWidth
+                                 variant='outlined'
+                    >
+                        <FormLabel className={label}>
+                            Genres
+                        </FormLabel>
+                        <Select multiple
+                                native
+                                value={genreSelection}
+                                onChange={handleChangeMultiple}
+                                inputProps={{
+                                    id: 'select-multiple-native',
+                                }}
                         >
                             {names.map((name) => (
                                 <option key={name} value={name}>
@@ -111,17 +113,17 @@ const filter = (props) => {
                 </CardContent>
                 <CardActions>
                     <ButtonGrid>
-                        <MySubmitButton icon={<SearchTwoToneIcon/>}
+                        <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
                                         buttonStyles={{marginRight: 1}}
+                                        caption="Clear"
+                                        type="danger"
+                                        onSubmit={handleClear}
+                        />
+                        <MySubmitButton icon={<SearchTwoToneIcon/>}
                                         caption="Filter"
                                         type="success"
                                         fill="filled"
                                         onSubmit={handleGetMovies}
-                        />
-                        <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
-                                        caption="Clear"
-                                        type="danger"
-                                        onSubmit={handleClear}
                         />
                     </ButtonGrid>
                 </CardActions>
@@ -129,9 +131,19 @@ const filter = (props) => {
     }
 
     return (
-        <div className={root}>
-            {genreFilter}
-        </div>
+        <React.Fragment>
+            <Grid container className={root}>
+                <Grid item xs={1} lg={2} xl={3}/>
+                <Grid item xs={10} lg={8} xl={6}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            {genreFilter}
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={1} lg={2} xl={3}/>
+            </Grid>
+        </React.Fragment>
     );
 };
 

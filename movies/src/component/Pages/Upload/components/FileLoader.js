@@ -24,6 +24,13 @@ const useStyles = makeStyles((theme) => ({
     divider: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(2),
+    },
+    radioGroup: {
+        paddingTop: theme.spacing(3)
+    },
+    label: {
+        fontWeight: 1000,
+        fontSize: 20
     }
 }));
 
@@ -57,8 +64,8 @@ const locationRadios = Object.keys(movieLocations).map(locKey =>
 
 const fileLoader = props => {
     const {switchIsOn, location, loading, onChangeRadio, onChangeSwitch, onChangeTextField, onSubmit} = props;
+    const {divider, radioGroup, label} = useStyles();
 
-    const {divider} = useStyles();
     const movieInputs = Object.keys(inputs).map(inputKey => (
         <MyTextField key={inputKey}
                      id={inputKey}
@@ -74,8 +81,9 @@ const fileLoader = props => {
         <Card variant="elevation">
             <CardContent>
                 <FormControl>
-                    <FormLabel>Movie location</FormLabel>
-                    <RadioGroup name="location"
+                    <FormLabel className={label}>Movie location</FormLabel>
+                    <RadioGroup className={radioGroup}
+                                name="location"
                                 value={location}
                                 onChange={onChangeRadio}>
                         {locationRadios}
