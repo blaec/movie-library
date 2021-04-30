@@ -159,7 +159,8 @@ const upload = () => {
                         {loaders.map((loader, index) =>
                             <Grid key={index} item xs={12} md={6}>
                                 {loader}
-                            </Grid>)}
+                            </Grid>)
+                        }
                     </Grid>
                 </Grid>
                 <Grid item xs={1} lg={2} xl={3}/>

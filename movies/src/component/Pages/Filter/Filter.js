@@ -7,13 +7,16 @@ import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
 import ButtonGrid from "../../../UI/Buttons/ButtonGrid";
 import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
-import './Filter.css';
 
 import {Card, CardActions, CardContent, FormControl, InputLabel, makeStyles, Select} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '80%',
+        margin: '1em auto 0',
+    },
     card: {
         marginTop: theme.spacing(9)
     },
@@ -30,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const filter = (props) => {
-    const {card, formControl, label} = useStyles();
+    const {root, card, formControl, label} = useStyles();
     const {tmdbApi} = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
@@ -126,7 +129,7 @@ const filter = (props) => {
     }
 
     return (
-        <div className='Filter'>
+        <div className={root}>
             {genreFilter}
         </div>
     );
