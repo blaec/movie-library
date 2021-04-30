@@ -7,20 +7,23 @@ import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../UI/Buttons/Icons/MyArrowBack";
 
-import {Box, List, makeStyles} from "@material-ui/core";
+import {Box, List, makeStyles, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
-        paddingLeft: theme.spacing(7),
-        marginTop: 8,
+        height: 'inherit',
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: theme.spacing(6),
     },
     sticky: {
         marginTop: -10,
         zIndex: 2,
         position: 'fixed',
-        backgroundColor: 'lightgrey',
+        backgroundColor: '#5c6bc0',
         width: '100%',
         height: 45,
+        color: 'white',
     },
     movieItems: {
         marginTop: 40,
@@ -60,11 +63,10 @@ const actorDetails = (props) => {
             <React.Fragment>
                 <div className={sticky}>
                     <MyArrowBack onClose={onClose}/>
-                    <Box className={actor}
-                         fontSize="h6.fontSize"
-                         fontWeight="fontWeightBold">
+                    <Typography className={actor}
+                                variant="h6">
                         {name}
-                    </Box>
+                    </Typography>
                 </div>
                 <div className={movieItems}>
                     {cast.filter(movie => movie.release_date !== undefined && movie.release_date !== "")
