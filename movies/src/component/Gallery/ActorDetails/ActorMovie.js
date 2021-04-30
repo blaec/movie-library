@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(2),
     },
     image: {
-        width: '100%',
+        objectFit: 'cover',
     },
     imageSize: {
         width: 80,
@@ -18,22 +18,34 @@ const useStyles = makeStyles((theme) => ({
     },
     movieExist: {
         backgroundColor: '#3f51b540',
-        boxShadow: '0px 3px 15px #3f51b540, 0px -3px 15px #3f51b540'
-    }
+        // boxShadow: '0px 3px 15px #3f51b540, 0px -3px 15px #3f51b540'
+    },
+    titleFont: {
+        fontWeight: 500,
+        fontFamily: ['Teko', "!important"],
+    },
 }));
 
 const actorMovie = (props) => {
     const {title, release_date, poster_path, character, exist} = props;
-    const {actor, image, imageSize, movieExist} = useStyles();
+    const {actor, image, imageSize, movieExist, titleFont} = useStyles();
 
     // TODO image size hardcoded
+    let errImage = `https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}`;
+    let characterText = null;
+    if (character.length > 0) {
+        characterText = ` — as ${character}`;
+    }
     return (
         <ListItem className={exist ? movieExist : null}>
             <ListItemAvatar>
                 <Paper elevation={3}
                        className={imageSize}
-                       style={{backgroundImage: `url("https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}")`}}>
-                    <img className={image} src={getImageUrl(poster_path)} alt=""/>
+                       style={{backgroundImage: `url("${errImage}")`}}>
+                    <img className={`${image} ${imageSize}`}
+                         src={getImageUrl(poster_path)}
+                         onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
+                         alt=""/>
                 </Paper>
             </ListItemAvatar>
             <ListItemText className={actor}>
@@ -42,14 +54,14 @@ const actorMovie = (props) => {
                      color="text.secondary">
                     {releaseDateYear(release_date)}
                 </Box>
-                <Box fontSize="h5.fontSize"
-                     fontWeight="fontWeightBold">
+                <Box className={titleFont}
+                     fontSize="h5.fontSize">
                     {title}
                 </Box>
                 <Box fontSize="body1.fontSize"
                      fontWeight="fontWeightLight"
                      color="text.disabled">
-                    {` — as ${character}`}
+                    {characterText}
                 </Box>
             </ListItemText>
         </ListItem>
