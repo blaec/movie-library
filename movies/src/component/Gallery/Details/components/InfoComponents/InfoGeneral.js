@@ -8,6 +8,19 @@ const useStyles = makeStyles((theme) => ({
     root: {
         padding: '0 10px',
     },
+    titleFont: {
+        fontFamily: ['Russo One', "!important"],
+        textShadow: '1px 2px 4px #333',
+    },
+    metaFont: {
+        fontFamily: ['Antonio', "!important"],
+    },
+    locationFont: {
+        fontFamily: ['Chakra Petch', "!important"],
+    },
+    genreFont: {
+        fontFamily: ['Andika', "!important"],
+    },
 }));
 
 const infoGeneral = (props) => {
@@ -17,7 +30,7 @@ const infoGeneral = (props) => {
         fileDetails: {resolution, size, location},
         genreDetails
     } = props;
-    const {root} = useStyles();
+    const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
 
     const metadata = {
         rated: NA_Safe(Rated),
@@ -25,7 +38,7 @@ const infoGeneral = (props) => {
         runtime: runtime !== 0
             ? playTime(runtime)
             : null,
-        rating: NA_Safe(imdbRating, `${imdbRating} [${imdbVotes}]`),
+        rating: NA_Safe(imdbRating, `${imdbRating} <${imdbVotes}>`),
         resolution: resolution,
         fileSize: size
             ? `${size}Gb`
@@ -35,13 +48,14 @@ const infoGeneral = (props) => {
     return (
         <div className={root}>
             <Typography component="div">
-                <Box fontSize="caption.fontSize"
-                     fontWeight="fontWeightLight">
+                <Box className={locationFont}
+                     fontSize="caption.fontSize"
+                >
                     {location}
                 </Box>
                 <Divider/>
-                <Box fontSize="subtitle2.fontSize"
-                     fontWeight="fontWeightRegular"
+                <Box className={metaFont}
+                     fontSize="subtitle2.fontSize"
                      textAlign="center"
                      paddingTop={1}
                 >
@@ -49,10 +63,16 @@ const infoGeneral = (props) => {
                         .filter(val => val !== null)
                         .join(` | `)}
                 </Box>
-                <Box fontSize="h4.fontSize" fontWeight="fontWeightBold" textAlign="center">
+                <Box className={titleFont}
+                     fontSize="h4.fontSize"
+                     textAlign="center"
+                >
                     {title}
                 </Box>
-                <Box fontSize="subtitle2.fontSize"  fontWeight="fontWeightMedium" textAlign="center">
+                <Box className={genreFont}
+                     fontSize="subtitle1.fontSize"
+                     textAlign="center"
+                >
                     {genreDetails}
                 </Box>
             </Typography>

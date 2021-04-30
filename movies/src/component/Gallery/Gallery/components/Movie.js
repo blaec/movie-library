@@ -22,7 +22,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up(grid.g6.resolution)]: {
             width: `calc(100% / ${grid.g6.moviesPerRow})`,
         },
-        width: `calc(100% / ${grid.g7.moviesPerRow})`,
+        [theme.breakpoints.up(grid.g7.resolution)]: {
+            width: `calc(100% / ${grid.g7.moviesPerRow})`,
+        },
     },
     image: {
         width: '100%',
