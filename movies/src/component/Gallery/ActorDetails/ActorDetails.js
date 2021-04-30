@@ -8,6 +8,7 @@ import MyLoader from "../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../UI/Buttons/Icons/MyArrowBack";
 
 import {Box, List, makeStyles, Typography} from "@material-ui/core";
+import {drawer} from "../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -24,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         height: 45,
         color: 'white',
+        [`@media (orientation:landscape)`]: {
+            width: `calc(80% - ${drawer.width * .8}px)`,
+        },
+        [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
+            width: `calc(50% - ${drawer.width *.5}px)`,
+        },
     },
     movieItems: {
         marginTop: 40,

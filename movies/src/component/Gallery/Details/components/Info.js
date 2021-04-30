@@ -34,8 +34,10 @@ TabPanel.propTypes = {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        backgroundColor: theme.palette.background.paper,
     },
+    tabsBackground: {
+        backgroundColor: '#3f51b50f',
+    }
 }));
 
 const info = props => {
@@ -48,7 +50,7 @@ const info = props => {
         genreDetails,
         onActorSelect
     } = props;
-    const {root} = useStyles();
+    const {root, tabsBackground} = useStyles();
     const [tabSelected, setTabSelected] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -61,8 +63,8 @@ const info = props => {
                          tmdbDetails={tmdbDetails}
                          fileDetails={fileDetails}
                          genreDetails={genreDetails}/>
-            <div className={root}>
-                <Paper square>
+            <div className={`${root} ${tabsBackground}`}>
+                <Paper square className={tabsBackground}>
                     <Tabs value={tabSelected}
                           onChange={handleChange}
                           indicatorColor="primary"

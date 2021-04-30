@@ -6,7 +6,7 @@ import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: '0 10px',
+        padding: theme.spacing(2),
     },
     titleFont: {
         fontFamily: ['Russo One', "!important"],

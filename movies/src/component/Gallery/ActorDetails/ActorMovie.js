@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
         height: 120,
     },
     movieExist: {
-        backgroundColor: 'lightgoldenrodyellow'
+        backgroundColor: '#3f51b540',
+        boxShadow: '0px 3px 15px #3f51b540, 0px -3px 15px #3f51b540'
     }
 }));
 

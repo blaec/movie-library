@@ -24,11 +24,20 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         margin: '10px 0',
     },
+    detailsRoot: {
+        [`@media (orientation:landscape)`]: {
+            margin: '0 10%',
+        },
+        [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
+            margin: '0 25%',
+        },
+        backgroundColor: '#3f51b50f',
+    },
 }));
 
 const gallery = (props) => {
     let {movies, isCollection} = props;
-    const {root, pagination} = useStyles();
+    const {root, detailsRoot, pagination} = useStyles();
 
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
@@ -115,14 +124,18 @@ const gallery = (props) => {
     if (!isLoading) {
         if (isViewingDetails) {
             if (isViewingActorDetails) {
-                myGallery = <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
+                myGallery = <div className={detailsRoot}>
+                                <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
+                            </div>;
             } else {
-                myGallery = <Details {...selectedMovie.movieToDetailsComponent}
-                                     movieToInfoComponent={selectedMovie.movieToInfoComponent}
-                                     onClose={handleDetailsClose}
-                                     onDelete={handleDeleteMovie}
-                                     onActorSelect={handleActorSelect}
-                />;
+                myGallery = <div className={detailsRoot}>
+                                 <Details {...selectedMovie.movieToDetailsComponent}
+                                          movieToInfoComponent={selectedMovie.movieToInfoComponent}
+                                          onClose={handleDetailsClose}
+                                          onDelete={handleDeleteMovie}
+                                          onActorSelect={handleActorSelect}
+                                 />
+                            </div>;
             }
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
