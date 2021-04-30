@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
-import ButtonGrid from "../../../UI/Buttons/ButtonGrid";
+import MyButtonGrid from "../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../UI/MyFormLabel";
 import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
@@ -98,7 +98,7 @@ const filter = (props) => {
                     </FormControl>
                 </CardContent>
                 <CardActions>
-                    <ButtonGrid>
+                    <MyButtonGrid>
                         <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
                                         buttonStyles={{marginRight: 1}}
                                         caption="Clear"
@@ -111,7 +111,7 @@ const filter = (props) => {
                                         fill="filled"
                                         onSubmit={handleGetMovies}
                         />
-                    </ButtonGrid>
+                    </MyButtonGrid>
                 </CardActions>
             </Card>;
     }

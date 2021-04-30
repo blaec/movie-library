@@ -3,7 +3,7 @@ import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 import {getImageUrl} from "../../../../utils/UrlUtils";
-import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
+import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import {fullTitle} from "../../../../utils/Utils";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 
@@ -93,7 +93,7 @@ const wishLoader = props => {
                 <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
-                <ButtonGrid>
+                <MyButtonGrid>
                     <MySubmitButton icon={<SearchTwoToneIcon/>}
                                     buttonStyles={{marginRight: 1}}
                                     caption="Search"
@@ -104,7 +104,7 @@ const wishLoader = props => {
                                     caption="Add"
                                     onSubmit={() => onAdd(selectedWishMovie)}
                     />
-                </ButtonGrid>
+                </MyButtonGrid>
             </CardActions>
             {movie}
         </Card>

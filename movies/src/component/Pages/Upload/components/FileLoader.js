@@ -3,7 +3,7 @@ import React from 'react';
 import MyTextField from "../../../../UI/MyTextField";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
-import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
+import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 
 import {
     Card,
@@ -98,13 +98,13 @@ const fileLoader = props => {
                 <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
-                <ButtonGrid>
+                <MyButtonGrid>
                     <MySubmitButton icon={<BackupTwoToneIcon/>}
                                     caption="Scan"
                                     disabled={location === '' || loading}
                                     onSubmit={onSubmit}
                     />
-                </ButtonGrid>
+                </MyButtonGrid>
             </CardActions>
         </Card>
     );

@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const buttonGrid = (props) => {
+const myButtonGrid = (props) => {
     const {root} = useStyles();
 
     return (
@@ -21,4 +21,4 @@ const buttonGrid = (props) => {
     );
 };
 
-export default buttonGrid;
+export default myButtonGrid;
