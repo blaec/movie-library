@@ -5,20 +5,11 @@ import {useDispatch, useSelector} from "react-redux";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
 import ButtonGrid from "../../../UI/Buttons/ButtonGrid";
+import MyFormLabel from "../../../UI/MyFormLabel";
 import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 
-import {
-    Card,
-    CardActions,
-    CardContent,
-    FormControl,
-    FormLabel,
-    Grid,
-    InputLabel,
-    makeStyles,
-    Select
-} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, Grid, makeStyles, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
@@ -26,15 +17,11 @@ const useStyles = makeStyles((theme) => ({
     root: {
         paddingTop: theme.spacing(2),
     },
-    label: {
-        fontWeight: 1000,
-        fontSize: 20,
-        paddingBottom: theme.spacing(2),
-    }
 }));
 
 const filter = (props) => {
-    const {root, label} = useStyles();
+    const {root} = useStyles();
+    const theme = useTheme();
     const {tmdbApi} = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
@@ -92,9 +79,8 @@ const filter = (props) => {
                     <FormControl fullWidth
                                  variant='outlined'
                     >
-                        <FormLabel className={label}>
-                            Genres
-                        </FormLabel>
+                        <MyFormLabel text="Genres"
+                                     customStyle={{paddingBottom: theme.spacing(2)}}/>
                         <Select multiple
                                 native
                                 value={genreSelection}

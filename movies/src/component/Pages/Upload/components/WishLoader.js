@@ -5,8 +5,9 @@ import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import {getImageUrl} from "../../../../utils/UrlUtils";
 import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
 import {fullTitle} from "../../../../utils/Utils";
+import MyFormLabel from "../../../../UI/MyFormLabel";
 
-import {Card, CardActions, CardContent, FormControl, FormLabel, LinearProgress, Paper} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, LinearProgress, Paper} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
@@ -22,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
         width: 'inherit',
         height: 'inherit',
     },
-    label: {
-        fontWeight: 1000,
-        fontSize: 20
-    }
 }));
 
 
@@ -44,7 +41,7 @@ const inputs = {
 
 const wishLoader = props => {
     const {loading, wishResults, onChangeTextField, onSubmit, onAdd} = props;
-    const {image, imageFit, label} = useStyles();
+    const {image, imageFit} = useStyles();
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {
@@ -90,7 +87,7 @@ const wishLoader = props => {
         <Card variant="elevation">
             <CardContent>
                 <FormControl component="wish-upload">
-                    <FormLabel className={label}>Add to Wish List</FormLabel>
+                    <MyFormLabel text="Add to Wish List"/>
                     {movieInputs}
                 </FormControl>
                 <LinearProgress hidden={!loading}/>

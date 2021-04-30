@@ -1,6 +1,9 @@
 import React from 'react';
 
 import MyTextField from "../../../../UI/MyTextField";
+import MyFormLabel from "../../../../UI/MyFormLabel";
+import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
+import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
 
 import {
     Card,
@@ -9,7 +12,6 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    FormLabel,
     LinearProgress,
     makeStyles,
     Radio,
@@ -17,8 +19,6 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
-import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
-import ButtonGrid from "../../../../UI/Buttons/ButtonGrid";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -28,10 +28,6 @@ const useStyles = makeStyles((theme) => ({
     radioGroup: {
         paddingTop: theme.spacing(3)
     },
-    label: {
-        fontWeight: 1000,
-        fontSize: 20
-    }
 }));
 
 const movieLocations = {
@@ -64,7 +60,7 @@ const locationRadios = Object.keys(movieLocations).map(locKey =>
 
 const fileLoader = props => {
     const {switchIsOn, location, loading, onChangeRadio, onChangeSwitch, onChangeTextField, onSubmit} = props;
-    const {divider, radioGroup, label} = useStyles();
+    const {divider, radioGroup} = useStyles();
 
     const movieInputs = Object.keys(inputs).map(inputKey => (
         <MyTextField key={inputKey}
@@ -81,7 +77,7 @@ const fileLoader = props => {
         <Card variant="elevation">
             <CardContent>
                 <FormControl>
-                    <FormLabel className={label}>Movie location</FormLabel>
+                    <MyFormLabel text="Movie location"/>
                     <RadioGroup className={radioGroup}
                                 name="location"
                                 value={location}
