@@ -1,29 +1,15 @@
 import React, {useEffect, useState} from 'react';
+
 import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
-
-import {getImageUrl} from "../../../../utils/UrlUtils";
 import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
-import {fullTitle} from "../../../../utils/Utils";
 import MyFormLabel from "../../../../UI/MyFormLabel";
+import WishPreview from "./WishPreview";
 
-import {Card, CardActions, CardContent, FormControl, LinearProgress, Paper} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, LinearProgress} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
-import {makeStyles} from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-    image: {
-        width: 200,
-        height: 300,
-        margin: 'auto',
-    },
-    imageFit: {
-        width: 'inherit',
-        height: 'inherit',
-    },
-}));
 
 
 const inputs = {
@@ -41,7 +27,6 @@ const inputs = {
 
 const wishLoader = props => {
     const {loading, wishResults, onChangeTextField, onSubmit, onAdd} = props;
-    const {image, imageFit} = useStyles();
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {
@@ -55,21 +40,7 @@ const wishLoader = props => {
                           autoPlay={false}
                           onChange={(active) => {setSelectedWishMovie(wishResults[active]);}}
                           navButtonsAlwaysVisible>
-                    {wishResults.map((poster, idx) => {
-                        const {title, release_date, poster_path} = poster;
-                        let errImage = `https://via.placeholder.com/1000x1500.png?text=${fullTitle(title, release_date)}`;
-                        return <div key={idx}>
-                                    <Paper className={image}
-                                           style={{backgroundImage: `url("${errImage}")`}}
-                                           elevation={3}>
-                                        <img className={imageFit}
-                                             src={getImageUrl(poster_path)}
-                                             onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
-                                             alt=''/>
-                                    </Paper>
-                               </div>;
-                        }
-                    )}
+                    {wishResults.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
                 </Carousel>;
     }
 
