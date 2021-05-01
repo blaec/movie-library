@@ -4,7 +4,7 @@ import {IconButton, InputAdornment, TextField} from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 
 const myTextField = (props) => {
-    const {id, text, disabled, label, helperText, onChangeTextField} = props;
+    const {id, text, disabled, label, helperText, required, onChangeTextField} = props;
 
     let adornment = null;
     if (text.length > 0) {
@@ -27,6 +27,7 @@ const myTextField = (props) => {
                    helperText={helperText}
                    fullWidth
                    margin="normal"
+                   required={required}
                    onChange={event => onChangeTextField(event.target.value, id)}
                    InputProps={adornment}
         />

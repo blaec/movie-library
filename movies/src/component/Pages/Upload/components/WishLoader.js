@@ -16,17 +16,19 @@ const inputs = {
     "wish-title": {
         label: "Movie title",
         helperText: "Enter movie title",
-        text: "wishTitle"
+        text: "wishTitle",
+        required: true
     },
     "wish-year": {
         label: "Release year",
         helperText: "Enter movie release year",
-        text: "wishYear"
+        text: "wishYear",
+        required: false
     }
 };
 
 const wishLoader = props => {
-    const {loading, wishResults, onChangeTextField, onSubmit, onAdd} = props;
+    const {loading, wishTitle, wishResults, onChangeTextField, onSubmit, onAdd} = props;
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     useEffect(() => {
         if (wishResults) {
@@ -51,6 +53,7 @@ const wishLoader = props => {
                      text={props[inputs[inputKey].text]}
                      label={inputs[inputKey].label}
                      helperText={inputs[inputKey].helperText}
+                     required={inputs[inputKey].required}
                      onChangeTextField={onChangeTextField}
         />
     );
@@ -68,6 +71,7 @@ const wishLoader = props => {
                 <MyButtonGrid>
                     <MySubmitButton icon={<SearchTwoToneIcon/>}
                                     buttonStyles={{marginRight: 1}}
+                                    disabled={wishTitle.length === 0}
                                     caption="Search"
                                     onSubmit={onSubmit}
                     />
