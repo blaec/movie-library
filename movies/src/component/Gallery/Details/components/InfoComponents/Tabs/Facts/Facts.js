@@ -20,23 +20,25 @@ const facts = (props) => {
 
     return (
         <Typography component="div">
-            <Fact header="Original title:"
+            <Fact header="Original title: "
                   text={original_title}/>
-            <Fact header="Directed By:"
+            <Fact header="Directed By: "
                   text={Director}/>
-            <Fact header="Budget / Revenue:"
-                  text={`${formatter.format(budget)} / ${formatter.format(revenue)}`}/>
-            <Fact header="Awards:"
+            <Fact header="Budget: "
+                  text={formatter.format(budget)}/>
+            <Fact header="Revenue: "
+                  text={formatter.format(revenue)}/>
+            <Fact header="Awards: "
                   text={Awards}/>
-            <Fact header="Released:"
+            <Fact header="Released: "
                   text={Released}/>
-            <Fact header="DVD:"
+            <Fact header="DVD: "
                   text={DVD}/>
-            <Fact header="Production Companies:"
+            <Fact header="Production Companies: "
                   text={joinNames(production_companies)}/>
-            <Fact header="Production Countries:"
+            <Fact header="Production Countries: "
                   text={joinNames(production_countries)}/>
-            <Fact header="Original Language:"
+            <Fact header="Original Language: "
                   text={original_language}/>
         </Typography>
     );
