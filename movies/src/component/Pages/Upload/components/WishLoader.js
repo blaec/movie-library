@@ -8,7 +8,7 @@ import MyFormLabel from "../../../../UI/MyFormLabel";
 import WishPreview from "./WishPreview";
 import MyLinearProgress from "./MyLinearProgress";
 import axios from "../../../../axios-movies";
-import {getSearchMovieUrl} from "../../../../utils/UrlUtils";
+import {getSearchMovieUrl, movieApi} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
@@ -16,31 +16,33 @@ import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
 
-const inputs = {
-    "wish-title": {
-        label: "Movie title",
-        helperText: "Enter movie title",
-        text: "wishTitle",
-        required: true
-    },
-    "wish-year": {
-        label: "Release year",
-        helperText: "Enter movie release year",
-        text: "wishYear",
-        required: false
-    }
-};
 
-const wishLoader = props => {
-    const {wishTitle, wishYear, onChangeTextField, onAdd} = props;
+const wishLoader = () => {
     const [selectedWishMovie, setSelectedWishMovie] = useState();
 
     const configs = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
-    const [isLoading, setIsLoading] = useState(false);
     const [wishMovies, setWishMovies] = useState([]);
+    const [wishTitle, setWishTitle] = useState('');
+    const [wishYear, setWishYear] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const inputs = {
+        "wish-title": {
+            label: "Movie title",
+            helperText: "Enter movie title",
+            text: wishTitle,
+            required: true
+        },
+        "wish-year": {
+            label: "Release year",
+            helperText: "Enter movie release year",
+            text: wishYear,
+            required: false
+        }
+    };
 
     let hasResults = wishMovies.length > 0;
     useEffect(() => {
@@ -48,6 +50,28 @@ const wishLoader = props => {
             setSelectedWishMovie(wishMovies[0]);
         }
     }, [wishMovies]);
+
+    const handleTextFieldChange = (text, id) => {
+        switch (id) {
+            case "wish-title":  setWishTitle(text); break;
+            case "wish-year":   setWishYear(text);  break;
+            default:            onSetSnackbar({open: true, message: `Upload -> handleTextFields -> wrong id`, type: 'error'})
+        }
+    };
+
+    const handleSaveWishMovie = (wishMovie) => {
+        setIsLoading(true);
+        axios.post(movieApi.post.saveWishMovie, wishMovie)
+            .then(response => {
+                setIsLoading(false);
+                onSetSnackbar({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
+            })
+            .catch(error => {
+                console.log(error);
+                setIsLoading(false);
+                onSetSnackbar({open: true, message: `Failed to movie '${wishMovie.title}' to wishlist`, type: 'error'});
+            });
+    };
 
     const handleSearchWishMovie = () => {
         setIsLoading(true);
@@ -84,11 +108,11 @@ const wishLoader = props => {
     const movieInputs = Object.keys(inputs).map(inputKey =>
         <MyTextField key={inputKey}
                      id={inputKey}
-                     text={props[inputs[inputKey].text]}
+                     text={inputs[inputKey].text}
                      label={inputs[inputKey].label}
                      helperText={inputs[inputKey].helperText}
                      required={inputs[inputKey].required}
-                     onChangeTextField={onChangeTextField}
+                     onChangeTextField={handleTextFieldChange}
         />
     );
 
@@ -112,7 +136,7 @@ const wishLoader = props => {
                     <MySubmitButton icon={<AddCircleTwoToneIcon/>}
                                     disabled={!hasResults}
                                     caption="Add"
-                                    onSubmit={() => onAdd(selectedWishMovie)}
+                                    onSubmit={() => handleSaveWishMovie(selectedWishMovie)}
                     />
                 </MyButtonGrid>
             </CardActions>
