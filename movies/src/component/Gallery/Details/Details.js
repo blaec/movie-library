@@ -5,14 +5,15 @@ import {useSelector} from "react-redux";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import './Details.css';
 import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
-import {joinNames} from "../../../utils/Utils";
+import {fullTitle, joinNames} from "../../../utils/Utils";
+
+import {makeStyles} from "@material-ui/core/styles";
 
 // TODO refactor multiple axios get requests
 const details = (props) => {
     const {tmdbId, id, onClose, onDelete, onActorSelect, movieToInfoComponent} = props;
-    const configs = useSelector(state => state.api);
+    const {tmdbApi, omdbApi} = useSelector(state => state.api);
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
@@ -25,19 +26,22 @@ const details = (props) => {
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
         setIsLoadingMovies(true);
-        axios.get(getMovieDetailsUrl(tmdbId, configs.tmdbApi))
+        axios.get(getMovieDetailsUrl(tmdbId, tmdbApi))
             .then(response => {
+                const {data} = response;
+                const {imdb_id, genres, images} = data;
+                const {backdrops} = images;
 
                 // console.log("extract data: " + (new Date()).getTime());
-                let details = response.data;
-                setMovieDetails(details);
-                setGenres(joinNames(details.genres));
-                setBackdrops(details.images.backdrops);
+                setMovieDetails(data);
+                setGenres(joinNames(genres));
+                setBackdrops(backdrops);
 
                 // Get movie additional details from omdb
-                axios.get(getOmdbMovieDetails(details.imdb_id, configs.omdbApi))
+                axios.get(getOmdbMovieDetails(imdb_id, omdbApi))
                     .then(response => {
-                        setOmdbMovieDetails(response.data);
+                        const {data} = response;
+                        setOmdbMovieDetails(data);
                         setIsLoadingMovies(false);
                     })
                     .catch(error => {
@@ -55,10 +59,12 @@ const details = (props) => {
     useEffect(() => {
         // console.log("get cast: " + (new Date()).getTime());
         setIsLoadingCast(true);
-        axios.get(getMovieCreditsUrl(tmdbId, configs.tmdbApi))
+        axios.get(getMovieCreditsUrl(tmdbId, tmdbApi))
             .then(response => {
+                const {data} = response;
+                const {cast} = data;
                 // console.log("extract cast: " + (new Date()).getTime());
-                setCast(response.data.cast);
+                setCast(cast);
                 setIsLoadingCast(false);
             })
             .catch(error => {
@@ -69,11 +75,12 @@ const details = (props) => {
 
     let details = <MyLoader/>
     if (!isLoadingMovies && !isLoadingCast) {
+        const {title, releaseDate} = movieDetails;
         details = (
             <React.Fragment>
                 <BackdropImage id={id}
                                backdrops={backdrops}
-                               alt={`${movieDetails.title} ${movieDetails.releaseDate}`}
+                               alt={`${fullTitle(title, releaseDate)}`}
                                onClose={onClose}
                                onDelete={onDelete}
                 />
@@ -89,9 +96,9 @@ const details = (props) => {
     }
 
     return (
-        <div className="Details">
+        <React.Fragment>
             {details}
-        </div>
+        </React.Fragment>
     );
 };
 

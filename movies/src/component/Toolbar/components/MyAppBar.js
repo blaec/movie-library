@@ -1,17 +1,21 @@
 import React from 'react';
 
 import Search from "./Search";
+import {drawer} from "../../../utils/Constants";
 
-import {AppBar, IconButton, Toolbar, Typography} from "@material-ui/core";
+import {AppBar, IconButton, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import {makeStyles} from "@material-ui/core/styles";
-import {DRAWER_WIDTH} from "../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
-    appBar: {
+    root: {
+        display: 'flex',
+        justifyContent: 'flex-end'
+    },
+    drawer: {
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${DRAWER_WIDTH}px)`,
-            marginLeft: DRAWER_WIDTH,
+            width: `calc(100% - ${drawer.width}px)`,
+            marginLeft: drawer.width,
         },
     },
     menuButton: {
@@ -20,34 +24,21 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
-    title: {
-        flexGrow: 1,
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    }
 }));
 
 const myAppBar = (props) => {
     const {onDrawerToggle} = props;
-    const classes = useStyles();
+    const {root, drawer, menuButton} = useStyles();
 
     return (
-        <AppBar position="fixed" className={classes.appBar}>
-            <Toolbar>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={onDrawerToggle}
-                    className={classes.menuButton}
-                >
+        <AppBar position="fixed" className={drawer}>
+            <Toolbar className={root}>
+                <IconButton className={menuButton}
+                            color="inherit"
+                            edge="start"
+                            onClick={onDrawerToggle}>
                     <MenuIcon/>
                 </IconButton>
-                <Typography className={classes.title} variant="h6" noWrap>
-                    MOVIE-LIBRARY
-                </Typography>
                 <Search/>
             </Toolbar>
         </AppBar>

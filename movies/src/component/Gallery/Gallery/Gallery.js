@@ -2,33 +2,47 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../axios-movies";
 
-import Movie from "./components/Movie/Movie";
+import Movie from "./components/Movie";
 import Details from "../Details/Details";
 import ActorDetails from "../ActorDetails/ActorDetails";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import MySnackbar, {initialSnackBarState} from "../../../UI/MySnackbar";
 import {getDeleteUrl} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
-import "./Gallery.css";
+import {fullTitle} from "../../../utils/Utils";
+import {grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
+import {makeStyles} from "@material-ui/core/styles";
 
-// Duplicate to @media in Movie.css
-const resolutions = {
-    450: {rows: 12, moviesPerRow: 2},
-    700: {rows: 7, moviesPerRow: 3},
-    1000: {rows: 6, moviesPerRow: 4},
-    1300: {rows: 5, moviesPerRow: 5},
-    1700: {rows: 4, moviesPerRow: 6},
-    9999: {rows: 3, moviesPerRow: 7}
-};
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    pagination: {
+        display: 'flex',
+        justifyContent: 'center',
+        margin: '10px 0',
+    },
+    detailsRoot: {
+        [`@media (orientation:landscape)`]: {
+            margin: '0 10%',
+        },
+        [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
+            margin: '0 25%',
+        },
+        backgroundColor: '#3f51b50f',
+    },
+}));
 
 const gallery = (props) => {
     let {movies, isCollection} = props;
+    const {root, detailsRoot, pagination} = useStyles();
 
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
     const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
+    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -39,16 +53,7 @@ const gallery = (props) => {
     const [isViewingActorDetails, setIsViewingActorDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const [snackbarProps, setSnackbarProps] = useState(initialSnackBarState);
     const [actorId, setActorId] = useState();
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setSnackbarProps(initialSnackBarState);
-    };
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -71,13 +76,13 @@ const gallery = (props) => {
                 }
                 handleDetailsClose();
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
+                onSetSnackbar({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);
                 handleDetailsClose();
                 setIsLoading(false);
-                setSnackbarProps({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
+                onSetSnackbar({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
             });
     };
 
@@ -109,7 +114,7 @@ const gallery = (props) => {
         setDisplayedMovieList(filteredMovies);
 
         // set gallery pagination structure
-        const structure = resolutions[Object.keys(resolutions).filter(res => windowWidth <= res)[0]];
+        const structure = Object.values(grid).filter(grid => grid.resolution < windowWidth).slice(-1).pop();
         let moviesPerPage = structure.rows * structure.moviesPerRow;
         setMoviesPerPage(moviesPerPage);
         setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
@@ -119,27 +124,31 @@ const gallery = (props) => {
     if (!isLoading) {
         if (isViewingDetails) {
             if (isViewingActorDetails) {
-                myGallery = <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
+                myGallery = <div className={detailsRoot}>
+                                <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
+                            </div>;
             } else {
-                myGallery = <Details {...selectedMovie.movieToDetailsComponent}
-                                     movieToInfoComponent={selectedMovie.movieToInfoComponent}
-                                     onClose={handleDetailsClose}
-                                     onDelete={handleDeleteMovie}
-                                     onActorSelect={handleActorSelect}
-                />;
+                myGallery = <div className={detailsRoot}>
+                                 <Details {...selectedMovie.movieToDetailsComponent}
+                                          movieToInfoComponent={selectedMovie.movieToInfoComponent}
+                                          onClose={handleDetailsClose}
+                                          onDelete={handleDeleteMovie}
+                                          onActorSelect={handleActorSelect}
+                                 />
+                            </div>;
             }
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
             myGallery = (
                 <React.Fragment>
-                    <div className="Gallery">
+                    <div className={root}>
                         {moviesOnCurrentPage.map(movie => {
                                 const {id, tmdbId, posterPath, title, releaseDate, resolution, size, location} = movie;
                                 return (
                                     <Movie key={id}
                                            poster={posterPath}
-                                           alt={`${title} ${releaseDate}`}
+                                           alt={`${fullTitle(title, releaseDate)}`}
                                            onClick={handleViewMovieDetails}
                                            movieToComponents={{
                                                movieToDetailsComponent: {
@@ -157,26 +166,20 @@ const gallery = (props) => {
                             }
                         )}
                     </div>
-                    <Pagination className="Pagination"
+                    <Pagination className={pagination}
                                 page={currentPage}
                                 count={totalPages}
-                                onChange={handlePageChange}
                                 variant="outlined"
-                                color="primary"/>
+                                color="primary"
+                                onChange={handlePageChange}/>
                 </React.Fragment>
             );
         }
-    }
-    let snackbar = null;
-    if (snackbarProps.open) {
-        snackbar = <MySnackbar {...snackbarProps}
-                               onClose={handleSnackbarClose}/>;
     }
 
     return (
         <React.Fragment>
             {myGallery}
-            {snackbar}
         </React.Fragment>
     );
 };

@@ -1,6 +1,9 @@
 import React from 'react';
 
 import MyTextField from "../../../../UI/MyTextField";
+import MyFormLabel from "../../../../UI/MyFormLabel";
+import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
+import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 
 import {
     Card,
@@ -9,7 +12,6 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    FormLabel,
     LinearProgress,
     makeStyles,
     Radio,
@@ -17,13 +19,15 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
-import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(2),
-    }
+    },
+    radioGroup: {
+        paddingTop: theme.spacing(3)
+    },
 }));
 
 const movieLocations = {
@@ -56,8 +60,8 @@ const locationRadios = Object.keys(movieLocations).map(locKey =>
 
 const fileLoader = props => {
     const {switchIsOn, location, loading, onChangeRadio, onChangeSwitch, onChangeTextField, onSubmit} = props;
+    const {divider, radioGroup} = useStyles();
 
-    const classes = useStyles();
     const movieInputs = Object.keys(inputs).map(inputKey => (
         <MyTextField key={inputKey}
                      id={inputKey}
@@ -73,14 +77,15 @@ const fileLoader = props => {
         <Card variant="elevation">
             <CardContent>
                 <FormControl>
-                    <FormLabel>Movie location</FormLabel>
-                    <RadioGroup name="location"
+                    <MyFormLabel text="Movie location"/>
+                    <RadioGroup className={radioGroup}
+                                name="location"
                                 value={location}
                                 onChange={onChangeRadio}>
                         {locationRadios}
                     </RadioGroup>
                 </FormControl>
-                <Divider className={classes.divider}/>
+                <Divider className={divider}/>
                 <FormControl component="single-upload">
                     <FormControlLabel label="Single movie upload"
                                       control={<Switch color="primary"
@@ -88,16 +93,18 @@ const fileLoader = props => {
                                                        onChange={onChangeSwitch}
                                                        name="singleUpload"/>}
                     />
-                    {movieInputs}
+                            {movieInputs}
                 </FormControl>
                 <LinearProgress hidden={!loading}/>
             </CardContent>
             <CardActions>
-                <MySubmitButton icon={<BackupTwoToneIcon/>}
-                                caption="Scan"
-                                disabled={location === '' || loading}
-                                onSubmit={onSubmit}
-                />
+                <MyButtonGrid>
+                    <MySubmitButton icon={<BackupTwoToneIcon/>}
+                                    caption="Scan"
+                                    disabled={location === '' || loading}
+                                    onSubmit={onSubmit}
+                    />
+                </MyButtonGrid>
             </CardActions>
         </Card>
     );

@@ -1,49 +1,47 @@
 import React from 'react';
 
 import MovieMenu from "./MovieMenu";
-import {DRAWER_WIDTH} from "../../../utils/Constants";
+import {drawer} from "../../../utils/Constants";
+import Logo from "./Logo";
 
 import {Divider, Drawer, Hidden} from "@material-ui/core";
-import {makeStyles, useTheme} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    drawer: {
+    drawerShrink: {
         [theme.breakpoints.up('sm')]: {
-            width: DRAWER_WIDTH,
+            width: drawer.width,
             flexShrink: 0,
         },
     },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
     drawerPaper: {
-        width: DRAWER_WIDTH,
+        width: drawer.width,
     }
 }));
 
 
 const myDrawer = (props) => {
     const {open, onDrawerToggle} = props;
-    const classes = useStyles();
-    const theme = useTheme();
+    const {drawerShrink, toolbar, drawerPaper} = useStyles();
 
     const drawer = (
         <div>
-            <div className={classes.toolbar}/>
+            <Logo/>
+            <div className={toolbar}/>
             <Divider/>
             <MovieMenu/>
         </div>
     );
 
     return (
-        <nav className={classes.drawer} aria-label="mailbox folders">
+        <nav className={drawerShrink}>
             <Hidden smUp implementation="css">
                 <Drawer
                     classes={{
-                        paper: classes.drawerPaper,
+                        paper: drawerPaper,
                     }}
                     variant="temporary"
                     open={open}
-                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
                     onClick={onDrawerToggle}
                     onClose={onDrawerToggle}
                     ModalProps={{
@@ -56,7 +54,7 @@ const myDrawer = (props) => {
             <Hidden xsDown implementation="css">
                 <Drawer
                     classes={{
-                        paper: classes.drawerPaper,
+                        paper: drawerPaper,
                     }}
                     variant="permanent"
                     open

@@ -1,56 +1,67 @@
 import React from 'react';
 
 import {getImageUrl} from "../../../utils/UrlUtils";
-import {year} from "../../../utils/Utils";
+import {releaseDateYear} from "../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
-import {red} from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
-    large: {
-        width: theme.spacing(9),
-        height: theme.spacing(9),
-    },
     actor: {
         paddingLeft: theme.spacing(2),
     },
     image: {
+        objectFit: 'cover',
+    },
+    imageSize: {
         width: 80,
         height: 120,
     },
     movieExist: {
-        backgroundColor: 'lightgoldenrodyellow'
-    }
+        backgroundColor: '#3f51b540',
+        // boxShadow: '0px 3px 15px #3f51b540, 0px -3px 15px #3f51b540'
+    },
+    titleFont: {
+        fontWeight: 500,
+        fontFamily: ['Teko', "!important"],
+    },
 }));
 
 const actorMovie = (props) => {
     const {title, release_date, poster_path, character, exist} = props;
-    const classes = useStyles();
+    const {actor, image, imageSize, movieExist, titleFont} = useStyles();
 
     // TODO image size hardcoded
+    let errImage = `https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}`;
+    let characterText = null;
+    if (character.length > 0) {
+        characterText = ` — as ${character}`;
+    }
     return (
-        <ListItem className={exist ? classes.movieExist : null}>
+        <ListItem className={exist ? movieExist : null}>
             <ListItemAvatar>
                 <Paper elevation={3}
-                       className={classes.image}
-                       style={{backgroundImage: `url("https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}")`}}>
-                    <img src={getImageUrl(poster_path)} alt=""/>
+                       className={imageSize}
+                       style={{backgroundImage: `url("${errImage}")`}}>
+                    <img className={`${image} ${imageSize}`}
+                         src={getImageUrl(poster_path)}
+                         onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
+                         alt=""/>
                 </Paper>
             </ListItemAvatar>
-            <ListItemText className={classes.actor}>
+            <ListItemText className={actor}>
                 <Box fontSize="subtitle1.fontSize"
                      fontWeight="fontWeightLight"
                      color="text.secondary">
-                    {year(release_date)}
+                    {releaseDateYear(release_date)}
                 </Box>
-                <Box fontSize="h5.fontSize"
-                     fontWeight="fontWeightBold">
+                <Box className={titleFont}
+                     fontSize="h5.fontSize">
                     {title}
                 </Box>
                 <Box fontSize="body1.fontSize"
                      fontWeight="fontWeightLight"
                      color="text.disabled">
-                    {` — as ${character}`}
+                    {characterText}
                 </Box>
             </ListItemText>
         </ListItem>

@@ -4,33 +4,25 @@ import {useDispatch, useSelector} from "react-redux";
 
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
+import MyButtonGrid from "../../../UI/Buttons/MyButtonGrid";
+import MyFormLabel from "../../../UI/MyFormLabel";
 import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
-import './Filter.css';
 
-import {Card, CardActions, CardContent, FormControl, InputLabel, makeStyles, Select} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, Grid, makeStyles, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
 const useStyles = makeStyles((theme) => ({
-    card: {
-        marginTop: theme.spacing(9)
+    root: {
+        paddingTop: theme.spacing(2),
     },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        maxWidth: 300,
-        paddingTop: theme.spacing(1)
-    },
-    label: {
-        fontWeight: 1000,
-        fontSize: 20
-    }
 }));
 
 const filter = (props) => {
-    const classes = useStyles();
-    const configs = useSelector(state => state.api);
+    const {root} = useStyles();
+    const theme = useTheme();
+    const {tmdbApi} = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
 
@@ -41,9 +33,11 @@ const filter = (props) => {
     useEffect(() => {
         // console.log("get data: " + (new Date()).getTime());
         setIsLoading(true);
-        axios.get(getAllGenresUrl(configs.tmdbApi))
+        axios.get(getAllGenresUrl(tmdbApi))
             .then(response => {
-                setGenres(response.data.genres);
+                const {data} = response;
+                const {genres} = data;
+                setGenres(genres);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -80,20 +74,20 @@ const filter = (props) => {
     if (!isLoading) {
         const names = genres.flatMap(g => g.name);
         genreFilter =
-            <Card variant="elevation" className={classes.card}>
+            <Card variant="elevation">
                 <CardContent>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel className={classes.label} shrink htmlFor="select-multiple-native">
-                            GENRES
-                        </InputLabel>
-                        <Select
-                            multiple
-                            native
-                            value={genreSelection}
-                            onChange={handleChangeMultiple}
-                            inputProps={{
-                                id: 'select-multiple-native',
-                            }}
+                    <FormControl fullWidth
+                                 variant='outlined'
+                    >
+                        <MyFormLabel text="Genres"
+                                     customStyle={{paddingBottom: theme.spacing(2)}}/>
+                        <Select multiple
+                                native
+                                value={genreSelection}
+                                onChange={handleChangeMultiple}
+                                inputProps={{
+                                    id: 'select-multiple-native',
+                                }}
                         >
                             {names.map((name) => (
                                 <option key={name} value={name}>
@@ -104,25 +98,38 @@ const filter = (props) => {
                     </FormControl>
                 </CardContent>
                 <CardActions>
-                    <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                    caption="Filter"
-                                    type="success"
-                                    fill="filled"
-                                    onSubmit={handleGetMovies}
-                    />
-                    <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
-                                    caption="Clear"
-                                    type="danger"
-                                    onSubmit={handleClear}
-                    />
+                    <MyButtonGrid>
+                        <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
+                                        buttonStyles={{marginRight: 1}}
+                                        caption="Clear"
+                                        type="danger"
+                                        onSubmit={handleClear}
+                        />
+                        <MySubmitButton icon={<SearchTwoToneIcon/>}
+                                        caption="Filter"
+                                        type="success"
+                                        fill="filled"
+                                        onSubmit={handleGetMovies}
+                        />
+                    </MyButtonGrid>
                 </CardActions>
             </Card>;
     }
 
     return (
-        <div className='Filter'>
-            {genreFilter}
-        </div>
+        <React.Fragment>
+            <Grid container className={root}>
+                <Grid item xs={1} lg={2} xl={3}/>
+                <Grid item xs={10} lg={8} xl={6}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={6}>
+                            {genreFilter}
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid item xs={1} lg={2} xl={3}/>
+            </Grid>
+        </React.Fragment>
     );
 };
 

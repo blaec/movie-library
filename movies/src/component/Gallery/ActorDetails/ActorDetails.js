@@ -5,45 +5,54 @@ import {useSelector} from "react-redux";
 import ActorMovie from "./ActorMovie";
 import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import MyLoader from "../../../UI/Spinners/MyLoader";
-import '../Gallery/Gallery.css';
-import '../Details/Details.css';
+import MyArrowBack from "../../../UI/Buttons/Icons/MyArrowBack";
 
-import {Box, List, makeStyles} from "@material-ui/core";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import {List, makeStyles, Typography} from "@material-ui/core";
+import {drawer} from "../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
-        paddingLeft: theme.spacing(7),
-        marginTop: 8,
+        height: 'inherit',
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: theme.spacing(6),
     },
     sticky: {
         marginTop: -10,
         zIndex: 2,
         position: 'fixed',
-        backgroundColor: 'lightgrey',
+        backgroundColor: '#5c6bc0',
         width: '100%',
         height: 45,
+        color: 'white',
+        [`@media (orientation:landscape)`]: {
+            width: `calc(80% - ${drawer.width * .8}px)`,
+        },
+        [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
+            width: `calc(50% - ${drawer.width *.5}px)`,
+        },
     },
-    movies: {
+    movieItems: {
         marginTop: 40,
     }
 }));
 
 const actorDetails = (props) => {
     const {id, onClose} = props;
-    const classes = useStyles();
+    const {sticky, actor, movieItems} = useStyles();
 
     const movies = useSelector(state => state.movies);
-    const configs = useSelector(state => state.api);
+    const {tmdbApi} = useSelector(state => state.api);
     const [actorMovies, setActorMovies] = useState();
     const [moviesIds, setMoviesIds] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(getActorDetailsUrl(id, configs.tmdbApi))
+        axios.get(getActorDetailsUrl(id, tmdbApi))
             .then(response => {
-                setActorMovies(response.data);
+                const {data} = response;
+                setActorMovies(data);
                 setMoviesIds(movies.map(movie => +movie.tmdbId));
                 setIsLoading(false);
             })
@@ -55,35 +64,46 @@ const actorDetails = (props) => {
 
     let allMovies = <MyLoader/>;
     if (!isLoading) {
-        allMovies =
-            <React.Fragment>
-                <div className={classes.sticky}>
-                    <ArrowBackIcon onClick={onClose}
-                                   className="ImageBack"
-                                   fontSize="large"/>
-                    <Box className={classes.actor}
-                         fontSize="h6.fontSize"
-                         fontWeight="fontWeightBold">
-                        {actorMovies.name}
-                    </Box>
-                </div>
-                <div className={classes.movies}>
-                    {actorMovies.credits.cast
-                        .filter(movie => movie.release_date !== undefined && movie.release_date !== "")
-                        .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
-                        .map(movie => <ActorMovie key={movie.id}
-                                                  {...movie}
-                                                  exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)}
-                </div>
-            </React.Fragment>
+        const {name, credits} = actorMovies;
+        const {cast} = credits;
+        const farFuture = new Date((new Date).getFullYear() + 10, 1,1);
+        const movieList = cast.filter(movie => {
+                                   // skip 'Documentary' movies and movies without genres
+                                   const {genre_ids} = movie;
+                                   return !genre_ids.includes(99)
+                                       && genre_ids.length !== 0;
+                              })
+                              .sort((a, b) => {
+                                  const getDate = (movie) => {
+                                      const {release_date} = movie;
+                                      return (release_date === undefined || release_date === "")
+                                          ? farFuture
+                                          : release_date
+                                  };
+                                  return new Date(getDate(a)) < new Date(getDate(b)) ? 1 : -1;
+                              });
+        allMovies = <React.Fragment>
+                        <div className={sticky}>
+                            <MyArrowBack onClose={onClose}/>
+                            <Typography className={actor}
+                                        variant="h6">
+                                {`${name} (${movieList.length})`}
+                            </Typography>
+                        </div>
+                        <div className={movieItems}>
+                            {movieList.map(movie =>
+                                <ActorMovie key={movie.id}
+                                            {...movie}
+                                            exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)
+                            }
+                        </div>
+                    </React.Fragment>;
     }
 
     return (
-        <div className="Details">
-            <List>
-                {allMovies}
-            </List>
-        </div>
+        <List>
+            {allMovies}
+        </List>
     );
 };
 

@@ -9,24 +9,28 @@ import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 
-const menuItemsData = {
-    "Collection": {
+const menuItemsData = [
+    {
+        text: "Collection",
         link: reactLinks.home,
         icon: <MovieFilterTwoToneIcon/>
     },
-    "Wishlist": {
+    {
+        text: "Wishlist",
         link: reactLinks.wishlist,
         icon: <FavoriteTwoToneIcon/>
     },
-    "Filter": {
+    {
+        text: "Filter",
         link: reactLinks.filter,
         icon: <SearchTwoToneIcon/>
     },
-    "Upload": {
+    {
+        text: "Upload",
         link: reactLinks.upload,
         icon: <UpdateTwoToneIcon/>
     },
-};
+];
 
 const movieMenu = () => {
     const [selectedCaption, setSelectedCaption] = useState("Gallery");
@@ -35,14 +39,16 @@ const movieMenu = () => {
         setSelectedCaption(index);
     };
 
-    const menuItems = Object.keys(menuItemsData).map(inputKey =>
-        <MyListItem key={inputKey}
-                    caption={inputKey}
-                    link={menuItemsData[inputKey].link}
-                    icon={menuItemsData[inputKey].icon}
-                    selected={selectedCaption}
-                    onClick={handleListItemClick}
-        />
+    const menuItems = menuItemsData.map((item, index) => {
+            const {text, link, icon} = item;
+            return <MyListItem key={index}
+                               caption={text}
+                               link={link}
+                               icon={icon}
+                               selected={selectedCaption}
+                               onClick={handleListItemClick}
+            />;
+        }
     );
 
     return (

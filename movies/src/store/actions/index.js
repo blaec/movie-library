@@ -3,5 +3,6 @@ export {
     setMovies,
     deleteMovies,
     setGenreIds,
-    initConfigs
+    initConfigs,
+    setSnackbar,
 } from './global';
