@@ -35,7 +35,8 @@ const wishLoader = props => {
     }, [wishResults]);
 
     let movie = null;
-    if (wishResults.length > 0) {
+    let hasResults = wishResults.length > 0;
+    if (hasResults) {
         movie = <Carousel animation="slide"
                           autoPlay={false}
                           onChange={(active) => {setSelectedWishMovie(wishResults[active]);}}
@@ -71,7 +72,7 @@ const wishLoader = props => {
                                     onSubmit={onSubmit}
                     />
                     <MySubmitButton icon={<AddCircleTwoToneIcon/>}
-                                    disabled={!wishResults}
+                                    disabled={!hasResults}
                                     caption="Add"
                                     onSubmit={() => onAdd(selectedWishMovie)}
                     />
