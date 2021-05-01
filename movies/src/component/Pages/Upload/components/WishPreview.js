@@ -1,7 +1,9 @@
 import React from 'react';
+
 import {getImageUrl} from "../../../../utils/UrlUtils";
-import {Paper} from "@material-ui/core";
 import {fullTitle} from "../../../../utils/Utils";
+
+import {Paper} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({

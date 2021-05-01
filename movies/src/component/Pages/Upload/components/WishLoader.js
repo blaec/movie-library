@@ -35,7 +35,7 @@ const wishLoader = props => {
     }, [wishResults]);
 
     let movie = null;
-    if (wishResults) {
+    if (wishResults.length > 0) {
         movie = <Carousel animation="slide"
                           autoPlay={false}
                           onChange={(active) => {setSelectedWishMovie(wishResults[active]);}}
