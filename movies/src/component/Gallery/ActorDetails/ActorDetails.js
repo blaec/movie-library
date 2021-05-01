@@ -7,7 +7,7 @@ import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../UI/Buttons/Icons/MyArrowBack";
 
-import {Box, List, makeStyles, Typography} from "@material-ui/core";
+import {List, makeStyles, Typography} from "@material-ui/core";
 import {drawer} from "../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,23 +66,38 @@ const actorDetails = (props) => {
     if (!isLoading) {
         const {name, credits} = actorMovies;
         const {cast} = credits;
-        allMovies =
-            <React.Fragment>
-                <div className={sticky}>
-                    <MyArrowBack onClose={onClose}/>
-                    <Typography className={actor}
-                                variant="h6">
-                        {name}
-                    </Typography>
-                </div>
-                <div className={movieItems}>
-                    {cast.filter(movie => movie.release_date !== undefined && movie.release_date !== "")
-                         .sort((a, b) => (new Date(a.release_date) < new Date(b.release_date) ? 1 : -1))
-                         .map(movie => <ActorMovie key={movie.id}
-                                                   {...movie}
-                                                   exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)}
-                </div>
-            </React.Fragment>
+        const farFuture = new Date((new Date).getFullYear() + 10, 1,1);
+        const movieList = cast.filter(movie => {
+                                   // skip 'Documentary' movies and movies without genres
+                                   const {genre_ids} = movie;
+                                   return !genre_ids.includes(99)
+                                       && genre_ids.length !== 0;
+                              })
+                              .sort((a, b) => {
+                                  const getDate = (movie) => {
+                                      const {release_date} = movie;
+                                      return (release_date === undefined || release_date === "")
+                                          ? farFuture
+                                          : release_date
+                                  };
+                                  return new Date(getDate(a)) < new Date(getDate(b)) ? 1 : -1;
+                              });
+        allMovies = <React.Fragment>
+                        <div className={sticky}>
+                            <MyArrowBack onClose={onClose}/>
+                            <Typography className={actor}
+                                        variant="h6">
+                                {`${name} (${movieList.length})`}
+                            </Typography>
+                        </div>
+                        <div className={movieItems}>
+                            {movieList.map(movie =>
+                                <ActorMovie key={movie.id}
+                                            {...movie}
+                                            exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)
+                            }
+                        </div>
+                    </React.Fragment>;
     }
 
     return (
