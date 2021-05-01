@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import axios from '../../../axios-movies';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 import FileLoader from "./components/FileLoader";
 import WishLoader from "./components/WishLoader";
 import * as UrlUtils from "../../../utils/UrlUtils";
-import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
+import {movieApi} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
 
 import {Grid} from "@material-ui/core";
@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 const upload = () => {
     const {root} = useStyles();
-    const configs = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
@@ -29,7 +28,6 @@ const upload = () => {
     const [wishTitle, setWishTitle] = useState('');
     const [wishYear, setWishYear] = useState('');
     const [switchStatus, setSwitchStatus] = useState(false);
-    const [wishMovies, setWishMovies] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const resetForm = () => {
@@ -95,28 +93,6 @@ const upload = () => {
         }
     };
 
-    const handleSearchWishMovie = () => {
-        setIsLoading(true);
-        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear, api_key: configs.tmdbApi}))
-            .then(response => {
-                const {data} = response;
-                const {results} = data;
-                let foundMovies = results;
-                setWishMovies(foundMovies);
-                setIsLoading(false);
-                if (foundMovies.length > 0) {
-                    onSetSnackbar({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
-                } else {
-                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Failed to search the movies`, type: 'error'});
-            });
-    };
-
     const handleSaveWishMovie = (wishMovie) => {
         setIsLoading(true);
         axios.post(movieApi.post.saveWishMovie, wishMovie)
@@ -133,10 +109,7 @@ const upload = () => {
 
     let loaders = [
         <WishLoader {...{wishTitle: wishTitle, wishYear: wishYear}}
-                    loading={isLoading}
-                    wishResults={wishMovies}
                     onChangeTextField={handleTextFieldChange}
-                    onSubmit={handleSearchWishMovie}
                     onAdd={handleSaveWishMovie}
         />,
         <FileLoader {...{tmdbId: tmdbId, fileName: fileName}}

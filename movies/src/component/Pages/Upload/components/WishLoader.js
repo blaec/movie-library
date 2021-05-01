@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
 import MyTextField from "../../../../UI/MyTextField";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
@@ -6,6 +7,9 @@ import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import WishPreview from "./WishPreview";
 import MyLinearProgress from "./MyLinearProgress";
+import axios from "../../../../axios-movies";
+import {getSearchMovieUrl} from "../../../../utils/UrlUtils";
+import * as actions from "../../../../store/actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
@@ -28,22 +32,52 @@ const inputs = {
 };
 
 const wishLoader = props => {
-    const {loading, wishTitle, wishResults, onChangeTextField, onSubmit, onAdd} = props;
+    const {wishTitle, wishYear, onChangeTextField, onAdd} = props;
     const [selectedWishMovie, setSelectedWishMovie] = useState();
+
+    const configs = useSelector(state => state.api);
+    const dispatch = useDispatch();
+    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [wishMovies, setWishMovies] = useState([]);
+
+    let hasResults = wishMovies.length > 0;
     useEffect(() => {
-        if (wishResults) {
-            setSelectedWishMovie(wishResults[0]);
+        if (hasResults) {
+            setSelectedWishMovie(wishMovies[0]);
         }
-    }, [wishResults]);
+    }, [wishMovies]);
+
+    const handleSearchWishMovie = () => {
+        setIsLoading(true);
+        axios.get(getSearchMovieUrl({query: wishTitle, year: wishYear, api_key: configs.tmdbApi}))
+            .then(response => {
+                const {data} = response;
+                const {results} = data;
+                let foundMovies = results;
+                setWishMovies(foundMovies);
+                setIsLoading(false);
+                if (foundMovies.length > 0) {
+                    onSetSnackbar({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
+                } else {
+                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                setIsLoading(false);
+                onSetSnackbar({open: true, message: `Failed to search the movies`, type: 'error'});
+            });
+    };
 
     let movie = null;
-    let hasResults = wishResults.length > 0;
     if (hasResults) {
         movie = <Carousel animation="slide"
                           autoPlay={false}
-                          onChange={(active) => {setSelectedWishMovie(wishResults[active]);}}
+                          onChange={(active) => {setSelectedWishMovie(wishMovies[active]);}}
                           navButtonsAlwaysVisible>
-                    {wishResults.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
+                    {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
                 </Carousel>;
     }
 
@@ -65,7 +99,7 @@ const wishLoader = props => {
                     <MyFormLabel text="Add to Wish List"/>
                     {movieInputs}
                 </FormControl>
-                <MyLinearProgress loading={loading}/>
+                <MyLinearProgress loading={isLoading}/>
             </CardContent>
             <CardActions>
                 <MyButtonGrid>
@@ -73,7 +107,7 @@ const wishLoader = props => {
                                     buttonStyles={{marginRight: 1}}
                                     disabled={wishTitle.length === 0}
                                     caption="Search"
-                                    onSubmit={onSubmit}
+                                    onSubmit={handleSearchWishMovie}
                     />
                     <MySubmitButton icon={<AddCircleTwoToneIcon/>}
                                     disabled={!hasResults}
