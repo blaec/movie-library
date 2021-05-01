@@ -30,14 +30,6 @@ const fact = props => {
                     {text}
                 </Typography>
             </Box>
-            {/*<Box fontSize="subtitle1.fontSize"*/}
-            {/*     fontWeight="fontWeightBold">*/}
-            {/*    {header}*/}
-            {/*</Box>*/}
-            {/*<Box fontSize="subtitle2.fontSize"*/}
-            {/*     fontWeight="fontWeightLight">*/}
-            {/*    {text}*/}
-            {/*</Box>*/}
         </React.Fragment>
     );
 };
