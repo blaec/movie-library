@@ -1,22 +1,30 @@
 import React from 'react';
 
-import {Box} from "@material-ui/core";
+import {Typography} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
+
+const useStyle = makeStyles((theme) => ({
+    taglineFont: {
+        fontWeight: 700,
+        fontFamily: ['Caveat', "!important"],
+        textAlign: 'right',
+        margin: theme.spacing(0,0,1,'20%'),
+    },
+}));
 
 const description = (props) => {
-    const{tagline, overview} = props;
+    const {tagline, overview} = props;
+    const {taglineFont} = useStyle();
 
     return (
         <React.Fragment>
-            <Box fontSize="subtitle2.fontSize"
-                 fontWeight="fontWeightBold"
-                 textAlign="right"
-                 paddingBottom={1}
-                 paddingLeft={20}>
+            <Typography className={taglineFont}
+                        variant='h5'>
                 {tagline}
-            </Box>
-            <Box fontSize="body1.fontSize">
+            </Typography>
+            <Typography variant='body1'>
                 {overview}
-            </Box>
+            </Typography>
         </React.Fragment>
     );
 };
