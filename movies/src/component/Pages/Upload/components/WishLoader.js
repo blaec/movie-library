@@ -5,12 +5,12 @@ import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import WishPreview from "./WishPreview";
+import MyLinearProgress from "./MyLinearProgress";
 
-import {Card, CardActions, CardContent, FormControl, LinearProgress} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
-
 
 const inputs = {
     "wish-title": {
@@ -62,7 +62,7 @@ const wishLoader = props => {
                     <MyFormLabel text="Add to Wish List"/>
                     {movieInputs}
                 </FormControl>
-                <LinearProgress hidden={!loading}/>
+                <MyLinearProgress loading={loading}/>
             </CardContent>
             <CardActions>
                 <MyButtonGrid>

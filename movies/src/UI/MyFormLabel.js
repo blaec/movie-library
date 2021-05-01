@@ -3,7 +3,7 @@ import React from 'react';
 import {FormLabel} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
-const useStyle = makeStyles(themes => ({
+const useStyles = makeStyles(themes => ({
     label: {
         fontWeight: 1000,
         fontSize: 20
@@ -12,7 +12,7 @@ const useStyle = makeStyles(themes => ({
 
 const myFormLabel = (props) => {
     const {text, customStyle} = props;
-    const {label} = useStyle();
+    const {label} = useStyles();
 
     return (
         <FormLabel className={label}

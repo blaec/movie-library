@@ -4,6 +4,7 @@ import MyTextField from "../../../../UI/MyTextField";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
+import MyLinearProgress from "./MyLinearProgress";
 
 import {
     Card,
@@ -12,7 +13,6 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    LinearProgress,
     makeStyles,
     Radio,
     RadioGroup,
@@ -95,7 +95,7 @@ const fileLoader = props => {
                     />
                             {movieInputs}
                 </FormControl>
-                <LinearProgress hidden={!loading}/>
+                <MyLinearProgress loading={loading}/>
             </CardContent>
             <CardActions>
                 <MyButtonGrid>

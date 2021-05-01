@@ -3,7 +3,7 @@ import React from 'react';
 import {Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
-const useStyle = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     taglineFont: {
         fontWeight: 700,
         fontFamily: ['Caveat', "!important"],
@@ -14,7 +14,7 @@ const useStyle = makeStyles((theme) => ({
 
 const description = (props) => {
     const {tagline, overview} = props;
-    const {taglineFont} = useStyle();
+    const {taglineFont} = useStyles();
 
     return (
         <React.Fragment>
