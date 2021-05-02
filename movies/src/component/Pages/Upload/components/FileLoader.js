@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const movieLocations = {
-    cartoons: "K | Cartoons",
-    movies: "L | Movies",
+    cartoons:     "K | Cartoons",
+    movies:       "L | Movies",
     serialMovies: "M | Serial Movies",
-    music: "D | New Movies",
-    videos: "C | Videos"
+    music:        "D | New Movies",
+    videos:       "C | Videos"
 };
 
 const locationRadios = Object.keys(movieLocations).map(locKey =>
@@ -58,21 +58,23 @@ const fileLoader = () => {
     const [tmdbId, setTmdbId] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileLocation, setFileLocation] = useState('');
-    const [switchStatus, setSwitchStatus] = useState(false);
+    const [isSingleMovieUpload, setIsSingleMovieUpload] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const inputs = {
-        "tmdb-id": {
+    const inputs = [
+        {
+            id: "tmdb-id",
             label: "tmdb id",
             helperText: "Type exact tmdb id",
             text: tmdbId
         },
-        "file-name": {
+        {
+            id: "file-name",
             label: "Exact file name",
             helperText: "Enter exact file name with extension",
             text: fileName
         }
-    };
+    ];
 
     const resetForm = () => {
         setFileLocation('');
@@ -85,7 +87,7 @@ const fileLoader = () => {
     };
 
     const handleSwitchChange = () => {
-        setSwitchStatus(!switchStatus);
+        setIsSingleMovieUpload(!isSingleMovieUpload);
         setTmdbId('');
         setFileName('');
     };
@@ -100,7 +102,7 @@ const fileLoader = () => {
 
     const handleUpload = () => {
         setIsLoading(true);
-        if (switchStatus) {
+        if (isSingleMovieUpload) {
             let data = {
                 location: fileLocation,
                 tmdbId: tmdbId,
@@ -135,17 +137,24 @@ const fileLoader = () => {
         }
     };
 
-    const movieInputs = Object.keys(inputs).map(inputKey => (
-        <MyTextField key={inputKey}
-                     id={inputKey}
-                     text={inputs[inputKey].text}
-                     disabled={!switchStatus}
-                     label={inputs[inputKey].label}
-                     helperText={inputs[inputKey].helperText}
-                     onChangeTextField={handleTextFieldChange}
-        />
-    ));
+    const movieInputs = inputs.map(input => {
+            const {id, label, helperText, text} = input;
+            return <MyTextField key={id}
+                                id={id}
+                                text={text}
+                                disabled={!isSingleMovieUpload}
+                                label={label}
+                                required={true}
+                                helperText={helperText}
+                                onChangeTextField={handleTextFieldChange}
+            />;
+        }
+    );
 
+    const singleMovieUploadSwitch = <Switch color="primary"
+                                            checked={isSingleMovieUpload}
+                                            onChange={handleSwitchChange}
+                                            name="singleUpload"/>;
     return (
         <Card variant="elevation">
             <CardContent>
@@ -161,10 +170,7 @@ const fileLoader = () => {
                 <Divider className={divider}/>
                 <FormControl component="single-upload">
                     <FormControlLabel label="Single movie upload"
-                                      control={<Switch color="primary"
-                                                       checked={switchStatus}
-                                                       onChange={handleSwitchChange}
-                                                       name="singleUpload"/>}
+                                      control={singleMovieUploadSwitch}
                     />
                             {movieInputs}
                 </FormControl>
