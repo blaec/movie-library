@@ -155,6 +155,9 @@ const fileLoader = () => {
                                             checked={isSingleMovieUpload}
                                             onChange={handleSwitchChange}
                                             name="singleUpload"/>;
+    const isScanButtonDisabled = isLoading
+                                 || fileLocation === ''
+                                 || (isSingleMovieUpload && (tmdbId === '' || fileName === ''));
     return (
         <Card variant="elevation">
             <CardContent>
@@ -180,7 +183,7 @@ const fileLoader = () => {
                 <MyButtonGrid>
                     <MySubmitButton icon={<BackupTwoToneIcon/>}
                                     caption="Scan"
-                                    disabled={fileLocation === '' || isLoading}
+                                    disabled={isScanButtonDisabled}
                                     onSubmit={handleUpload}
                     />
                 </MyButtonGrid>
