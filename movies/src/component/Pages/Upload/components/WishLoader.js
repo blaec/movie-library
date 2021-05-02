@@ -18,31 +18,32 @@ import Carousel from "react-material-ui-carousel";
 
 
 const wishLoader = () => {
-    const [selectedWishMovie, setSelectedWishMovie] = useState();
-
     const configs = useSelector(state => state.api);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
+    const [selectedWishMovie, setSelectedWishMovie] = useState();
     const [wishMovies, setWishMovies] = useState([]);
     const [wishTitle, setWishTitle] = useState('');
     const [wishYear, setWishYear] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const inputs = {
-        "wish-title": {
+    const inputs = [
+        {
+            id: "wish-title",
             label: "Movie title",
             helperText: "Enter movie title",
             text: wishTitle,
             required: true
         },
-        "wish-year": {
+        {
+            id: "wish-year",
             label: "Release year",
             helperText: "Enter movie release year",
             text: wishYear,
             required: false
         }
-    };
+    ];
 
     let hasResults = wishMovies.length > 0;
     useEffect(() => {
@@ -53,8 +54,8 @@ const wishLoader = () => {
 
     const handleTextFieldChange = (text, id) => {
         switch (id) {
-            case "wish-title":  setWishTitle(text); break;
-            case "wish-year":   setWishYear(text);  break;
+            case "wish-title":  setWishTitle(text);   break;
+            case "wish-year":   setWishYear(text);    break;
             default:            onSetSnackbar({open: true, message: `Upload -> handleTextFields -> wrong id`, type: 'error'})
         }
     };
@@ -105,15 +106,17 @@ const wishLoader = () => {
                 </Carousel>;
     }
 
-    const movieInputs = Object.keys(inputs).map(inputKey =>
-        <MyTextField key={inputKey}
-                     id={inputKey}
-                     text={inputs[inputKey].text}
-                     label={inputs[inputKey].label}
-                     helperText={inputs[inputKey].helperText}
-                     required={inputs[inputKey].required}
-                     onChangeTextField={handleTextFieldChange}
-        />
+    const textFields = inputs.map(input => {
+        const {id, label, helperText, text, required} = input;
+            return <MyTextField key={id}
+                                id={id}
+                                text={text}
+                                label={label}
+                                helperText={helperText}
+                                required={required}
+                                onChangeTextField={handleTextFieldChange}
+            />;
+        }
     );
 
     return (
@@ -121,7 +124,7 @@ const wishLoader = () => {
             <CardContent>
                 <FormControl component="wish-upload">
                     <MyFormLabel text="Add to Wish List"/>
-                    {movieInputs}
+                    {textFields}
                 </FormControl>
                 <MyLinearProgress loading={isLoading}/>
             </CardContent>

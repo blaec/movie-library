@@ -16,6 +16,7 @@ const upload = () => {
     const {root} = useStyles();
 
     let loaders = [<WishLoader/>, <FileLoader/>]
+    // TODO duplicate Filter.js
     return (
         <React.Fragment>
             <Grid container className={root}>
