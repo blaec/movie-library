@@ -96,14 +96,16 @@ const wishLoader = () => {
             });
     };
 
-    let movie = null;
+    let moviePreviews = <WishPreview/>;
     if (hasResults) {
-        movie = <Carousel animation="slide"
-                          autoPlay={false}
-                          onChange={(active) => {setSelectedWishMovie(wishMovies[active]);}}
-                          navButtonsAlwaysVisible>
-                    {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
-                </Carousel>;
+        moviePreviews = <Carousel animation="slide"
+                                  autoPlay={false}
+                                  onChange={(active) => {
+                                      setSelectedWishMovie(wishMovies[active]);
+                                  }}
+                                  navButtonsAlwaysVisible>
+                            {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
+                        </Carousel>;
     }
 
     const textFields = inputs.map(input => {
@@ -143,7 +145,7 @@ const wishLoader = () => {
                     />
                 </MyButtonGrid>
             </CardActions>
-            {movie}
+            {moviePreviews}
         </Card>
     );
 };

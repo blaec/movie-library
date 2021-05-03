@@ -7,10 +7,13 @@ import {Paper} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    image: {
-        width: 200,
-        height: 300,
-        margin: 'auto',
+    image: isPreview => {
+        return {
+            width: 200,
+            height: 300,
+            margin: 'auto',
+            marginBottom: theme.spacing(isPreview ? 3.7 : 1),
+        }
     },
     imageFit: {
         width: 'inherit',
@@ -20,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const wishPreview = (props) => {
     const {title, release_date, poster_path} = props;
-    const {image, imageFit} = useStyles();
+    const {image, imageFit} = useStyles(title === undefined);
 
-    let errImage = `https://via.placeholder.com/1000x1500.png?text=${fullTitle(title, release_date)}`;
+    let errImage = `https://via.placeholder.com/1000x1500.png?text=${fullTitle(title || 'Preview', release_date)}`;
     return (
         <Paper className={image}
                style={{backgroundImage: `url("${errImage}")`}}

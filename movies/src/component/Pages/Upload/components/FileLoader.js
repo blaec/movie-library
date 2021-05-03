@@ -27,8 +27,7 @@ import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(2),
+        margin: theme.spacing(4,0,3.5,0)
     },
     radioGroup: {
         paddingTop: theme.spacing(3)
