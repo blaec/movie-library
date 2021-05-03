@@ -7,7 +7,7 @@ import {drawer, toolbarHeight} from "../utils/Constants";
 import {makeStyles} from "@material-ui/core/styles";
 import {CssBaseline} from "@material-ui/core";
 
-const useStyle = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         [theme.breakpoints.up('sm')]: {
             marginTop: toolbarHeight.mobile,
@@ -19,7 +19,7 @@ const useStyle = makeStyles((theme) => ({
 
 const layout = props => {
     const {children} = props;
-    const {root} = useStyle();
+    const {root} = useStyles();
 
     return (
         <React.Fragment>
