@@ -3,6 +3,7 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     search: '',
     movies: {},
+    wishlist: {},
     genreIds: [],
     api: {
         tmdbApi: '',
@@ -16,7 +17,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    const {type : actionType, newSearch, movies, genreIds, configs, snackbar} = action;
+    const {type : actionType, newSearch, movies, wishlist, genreIds, configs, snackbar} = action;
     switch (actionType) {
         case actionTypes.CHANGE_FILTER:
             return {
@@ -32,6 +33,16 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 movies: movies
+            };
+        case actionTypes.SET_WISHLIST:
+            return {
+                ...state,
+                wishlist: wishlist
+            };
+        case actionTypes.DELETE_WISHLIST:
+            return {
+                ...state,
+                wishlist: wishlist
             };
         case actionTypes.SET_GENRE_IDS:
             return {

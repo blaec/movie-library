@@ -21,6 +21,20 @@ export const deleteMovies = (movies) => {
     }
 };
 
+export const setWishlist = (wishlist) => {
+    return {
+        type: actionTypes.SET_WISHLIST,
+        wishlist: wishlist
+    }
+};
+
+export const deleteWishlist = (wishlist) => {
+    return {
+        type: actionTypes.DELETE_WISHLIST,
+        wishlist: wishlist
+    }
+};
+
 export const setGenreIds = (ids) => {
     return {
         type: actionTypes.SET_GENRE_IDS,

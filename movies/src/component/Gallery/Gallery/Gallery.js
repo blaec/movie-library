@@ -42,6 +42,7 @@ const gallery = (props) => {
     const search = useSelector(state => state.search);
     const dispatch = useDispatch();
     const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
+    const onDeleteWishlistChange = (movies) => dispatch(actions.deleteWishlist(movies));
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
@@ -73,6 +74,8 @@ const gallery = (props) => {
                 let updatedMovieList = movies.filter(movie => movie.id !== id);
                 if (isCollection) {
                     onDeleteMovieChange(updatedMovieList);
+                } else {
+                    onDeleteWishlistChange(updatedMovieList);
                 }
                 handleDetailsClose();
                 setIsLoading(false);
