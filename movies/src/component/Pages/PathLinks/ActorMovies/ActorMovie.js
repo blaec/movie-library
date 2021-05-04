@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {getImageUrl} from "../../../utils/UrlUtils";
-import {releaseDateYear} from "../../../utils/Utils";
+import {getImageUrl} from "../../../../utils/UrlUtils";
+import {releaseDateYear} from "../../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
 import {useSelector} from "react-redux";
 
-import ActorMovie from "./ActorMovie";
+import ActorMovie from "../../Pages/PathLinks/ActorMovies/ActorMovie";
 import {getActorDetailsUrl} from "../../../utils/UrlUtils";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../UI/Buttons/Icons/MyArrowBack";
