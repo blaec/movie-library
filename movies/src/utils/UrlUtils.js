@@ -4,6 +4,8 @@ export const reactLinks = {
     wishlist: "/wishlist",
     filter: "/filter",
     upload: "/upload",
+    movieDetails: "/details/movie/:movieId",
+    actorMovies: "/details/actor/:actorId",
 };
 
 let baseMovieApi = "/movies/";
