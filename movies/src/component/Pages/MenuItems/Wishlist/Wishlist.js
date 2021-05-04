@@ -1,26 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../../axios-movies";
+import axios from "../../../../axios-movies";
 import {useDispatch, useSelector} from "react-redux";
 
-import Gallery from "../../Gallery/Gallery/Gallery";
-import MyLoader from "../../../UI/Spinners/MyLoader";
-import {movieApi} from "../../../utils/UrlUtils";
-import * as actions from "../../../store/actions";
+import Gallery from "../../../Gallery/Gallery/Gallery";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
+import {movieApi} from "../../../../utils/UrlUtils";
+import * as actions from "../../../../store/actions";
 
-const filteredCollection = () => {
-    const genreIds = useSelector(state => state.genreIds);
+const wishlist = () => {
+    const wishMovies = useSelector(state => state.wishlist);
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onWishMoviesChange = (movies) => dispatch(actions.setWishlist(movies));
+    const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
 
-    const [filteredMovies, setFilteredMovies] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(true);
-        axios.post(movieApi.get.getAllByGenres, genreIds)
+        axios.get(movieApi.get.getAllWishMovies)
             .then(response => {
                 const {data} = response;
-                setFilteredMovies(data);
+                onWishMoviesChange(data)
                 setIsLoading(false);
                 onSetSnackbar({open: true, message: `Found ${data.length} movies`, type: 'success'});
             })
@@ -31,17 +31,16 @@ const filteredCollection = () => {
             });
     }, []);
 
-
-    let gallery = <MyLoader/>;
+    let wishList = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery movies={filteredMovies} isCollection={false}/>
+        wishList = <Gallery movies={wishMovies} isCollection={false}/>
     }
 
     return (
         <React.Fragment>
-            {gallery}
+            {wishList}
         </React.Fragment>
     );
 };
 
-export default filteredCollection;
+export default wishlist;
