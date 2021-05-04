@@ -9,6 +9,15 @@ import ActorMovie from "./ActorMovie";
 import {drawer} from "../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        [`@media (orientation:landscape)`]: {
+            margin: '0 10%',
+        },
+        [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
+            margin: '0 25%',
+        },
+        backgroundColor: '#3f51b50f',
+    },
     actor: {
         height: 'inherit',
         display: 'flex',
@@ -37,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 const actorMovies = (props) => {
     const {match : {params : {actorId}}} = props;
-    const {sticky, actor, movieItems} = useStyles();
+    const {root, sticky, actor, movieItems} = useStyles();
 
     const movies = useSelector(state => state.movies);
     const {tmdbApi} = useSelector(state => state.api);
@@ -103,7 +112,7 @@ const actorMovies = (props) => {
     }
 
     return (
-        <List>
+        <List className={root}>
             {allMovies}
         </List>
     );
