@@ -8,11 +8,9 @@ import MyLoader from "../../../UI/Spinners/MyLoader";
 import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
 import {fullTitle, joinNames} from "../../../utils/Utils";
 
-import {makeStyles} from "@material-ui/core/styles";
-
 // TODO refactor multiple axios get requests
 const details = (props) => {
-    const {tmdbId, id, onClose, onDelete, onActorSelect, movieToInfoComponent} = props;
+    const {tmdbId, id, onClose, onDelete, movieToInfoComponent} = props;
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
 
     const [movieDetails, setMovieDetails] = useState();
@@ -89,7 +87,6 @@ const details = (props) => {
                       fileDetails={movieToInfoComponent}
                       castDetails={cast}
                       genreDetails={genres}
-                      onActorSelect={onActorSelect}
                 />
             </React.Fragment>
         );

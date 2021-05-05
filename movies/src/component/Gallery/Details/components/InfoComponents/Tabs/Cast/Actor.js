@@ -1,6 +1,7 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
-import {getImageUrl} from "../../../../../../../utils/UrlUtils";
+import {getImageUrl, reactLinks} from "../../../../../../../utils/UrlUtils";
 
 import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 
@@ -15,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actor = (props) => {
-    const {id, name, profile_path, character, onActorSelect} = props;
+    const {id, name, profile_path, character} = props;
     const {large, actor} = useStyles();
 
     return (
-        <ListItem onClick={() => onActorSelect(id, name)}>
+        <ListItem component={NavLink} to={`${reactLinks.actorMoviesEndpoint}${id}`}>
             <ListItemAvatar>
                 <Avatar variant="circular"
                         alt={name}

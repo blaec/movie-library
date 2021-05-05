@@ -93,10 +93,10 @@ const gallery = (props) => {
         setCurrentPage(page);
     };
 
-    const handleActorSelect = (id, name) => {
-        setActorId(id);
-        setIsViewingActorDetails(true);
-    };
+    // const handleActorSelect = (id, name) => {
+    //     setActorId(id);
+    //     setIsViewingActorDetails(true);
+    // };
 
     const handleCloseActorMovies = () => {
         setActorId(null);
@@ -136,7 +136,6 @@ const gallery = (props) => {
                                           movieToInfoComponent={selectedMovie.movieToInfoComponent}
                                           onClose={handleDetailsClose}
                                           onDelete={handleDeleteMovie}
-                                          onActorSelect={handleActorSelect}
                                  />
                             </div>;
             }

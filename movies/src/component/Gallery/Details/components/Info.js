@@ -47,8 +47,7 @@ const info = props => {
         tmdbDetails: {tagline, overview},
         fileDetails,
         castDetails,
-        genreDetails,
-        onActorSelect
+        genreDetails
     } = props;
     const {root, tabsBackground} = useStyles();
     const [tabSelected, setTabSelected] = React.useState(0);
@@ -80,8 +79,7 @@ const info = props => {
                                  overview={overview}/>
                 </TabPanel>
                 <TabPanel value={tabSelected} index={1}>
-                    <Cast castDetails={castDetails}
-                          onActorSelect={onActorSelect}/>
+                    <Cast castDetails={castDetails}/>
                 </TabPanel>
                 <TabPanel value={tabSelected} index={2}>
                     <Facts omdbDetails={omdbDetails}
