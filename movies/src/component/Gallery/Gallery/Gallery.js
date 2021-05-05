@@ -4,7 +4,6 @@ import axios from "../../../axios-movies";
 
 import Movie from "./components/Movie";
 import Details from "../Details/Details";
-import ActorDetails from "../ActorDetails/ActorDetails";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {getDeleteUrl} from "../../../utils/UrlUtils";
 import * as actions from "../../../store/actions";
@@ -51,10 +50,8 @@ const gallery = (props) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedMovie, setSelectedMovie] = useState('');
     const [isViewingDetails, setIsViewingDetails] = useState(false);
-    const [isViewingActorDetails, setIsViewingActorDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    const [actorId, setActorId] = useState();
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
@@ -93,16 +90,6 @@ const gallery = (props) => {
         setCurrentPage(page);
     };
 
-    // const handleActorSelect = (id, name) => {
-    //     setActorId(id);
-    //     setIsViewingActorDetails(true);
-    // };
-
-    const handleCloseActorMovies = () => {
-        setActorId(null);
-        setIsViewingActorDetails(false);
-    };
-
     useEffect(() => {
         if (!isViewingDetails) {
             window.scrollBy(0, scrollPosition);
@@ -126,19 +113,13 @@ const gallery = (props) => {
     let myGallery = <MyLoader/>;
     if (!isLoading) {
         if (isViewingDetails) {
-            if (isViewingActorDetails) {
-                myGallery = <div className={detailsRoot}>
-                                <ActorDetails id={actorId} onClose={handleCloseActorMovies}/>
-                            </div>;
-            } else {
-                myGallery = <div className={detailsRoot}>
-                                 <Details {...selectedMovie.movieToDetailsComponent}
-                                          movieToInfoComponent={selectedMovie.movieToInfoComponent}
-                                          onClose={handleDetailsClose}
-                                          onDelete={handleDeleteMovie}
-                                 />
-                            </div>;
-            }
+            myGallery = <div className={detailsRoot}>
+                             <Details {...selectedMovie.movieToDetailsComponent}
+                                      movieToInfoComponent={selectedMovie.movieToInfoComponent}
+                                      onClose={handleDetailsClose}
+                                      onDelete={handleDeleteMovie}
+                             />
+                        </div>;
         } else {
             const lastMovieOnCurrentPage = currentPage * moviesPerPage;
             const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
