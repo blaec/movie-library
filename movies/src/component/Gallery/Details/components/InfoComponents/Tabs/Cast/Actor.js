@@ -20,7 +20,9 @@ const actor = (props) => {
     const {large, actor} = useStyles();
 
     return (
-        <ListItem component={NavLink} to={`${reactLinks.actorMoviesEndpoint}${id}`}>
+        <ListItem button
+                  component={NavLink}
+                  to={`${reactLinks.actorMoviesEndpoint}${id}`}>
             <ListItemAvatar>
                 <Avatar variant="circular"
                         alt={name}
