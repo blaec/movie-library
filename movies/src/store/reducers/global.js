@@ -18,6 +18,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     const {type : actionType, newSearch, movies, wishlist, genreIds, configs, snackbar} = action;
+    console.log(state);
     switch (actionType) {
         case actionTypes.CHANGE_FILTER:
             return {

@@ -5,7 +5,7 @@ import {getActorDetailsUrl} from "../../../../utils/UrlUtils";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import {List, makeStyles, Typography} from "@material-ui/core";
-import ActorMovie from "./ActorMovie";
+import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
