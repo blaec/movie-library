@@ -33,7 +33,7 @@ const collection = () => {
 
     let gallery = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery movies={movies} isCollection={true}/>
+        gallery = <Gallery movies={movies}/>
     }
 
     return (

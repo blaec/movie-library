@@ -33,7 +33,7 @@ const wishlist = () => {
 
     let wishList = <MyLoader/>;
     if (!isLoading) {
-        wishList = <Gallery movies={wishMovies} isCollection={false}/>
+        wishList = <Gallery movies={wishMovies}/>
     }
 
     return (

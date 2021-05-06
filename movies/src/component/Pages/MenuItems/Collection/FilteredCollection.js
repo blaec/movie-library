@@ -34,7 +34,7 @@ const filteredCollection = () => {
 
     let gallery = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery movies={filteredMovies} isCollection={false}/>
+        gallery = <Gallery movies={filteredMovies}/>
     }
 
     return (

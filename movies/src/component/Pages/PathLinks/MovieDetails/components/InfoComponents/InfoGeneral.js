@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {NA_Safe, playTime, releaseDateYear} from "../../../../../utils/Utils";
+import {NA_Safe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 

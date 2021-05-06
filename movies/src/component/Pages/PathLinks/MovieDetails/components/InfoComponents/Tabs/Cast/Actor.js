@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 
-import {getImageUrl, reactLinks} from "../../../../../../../utils/UrlUtils";
+import {getImageUrl, reactLinks} from "../../../../../../../../utils/UrlUtils";
 
 import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 

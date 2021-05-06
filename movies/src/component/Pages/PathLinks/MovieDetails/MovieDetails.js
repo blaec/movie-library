@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
-import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import axios from "../../../../axios-movies";
 
-import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
+import {getDeleteUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
 import {fullTitle, joinNames} from "../../../../utils/Utils";
-import BackdropImage from "../../../Gallery/Details/components/BackdropImage";
-import Info from "../../../Gallery/Details/components/Info";
+import BackdropImage from "./components/BackdropImage";
+import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 
 import {makeStyles} from "@material-ui/core/styles";
+import * as actions from "../../../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,7 +28,13 @@ const movieDetails = (props) => {
     const {match : {params : {movieId}}} = props;
     const {root} = useStyles();
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
+    const movies = useSelector(state => state.movies);
     const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
+    console.log(selectedMovieDetails);
+    const dispatch = useDispatch();
+    const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
+    const onDeleteWishlistChange = (movies) => dispatch(actions.deleteWishlist(movies));
+    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
@@ -36,9 +43,33 @@ const movieDetails = (props) => {
     const [backdrops, setBackdrops] = useState([]);
     const [isLoadingMovies, setIsLoadingMovies] = useState(true);
     const [isLoadingCast, setIsLoadingCast] = useState(true);
-
+    const [isLoading, setIsLoading] = useState(false);
     const handleBack = () => {
         props.history.goBack();
+    };
+
+    const handleDeleteMovie = (id) => {
+        console.log(getDeleteUrl(id));
+        setIsLoading(true);
+        axios.delete(getDeleteUrl(id))
+            .then(response => {
+                let deleted = movies.find(movie => movie.id === id);
+                let updatedMovieList = movies.filter(movie => movie.id !== id);
+                if (selectedMovieDetails.type === 'movie') {
+                    onDeleteMovieChange(updatedMovieList);
+                } else if (selectedMovieDetails.type === 'wish_list') {
+                    onDeleteWishlistChange(updatedMovieList);
+                }
+                handleBack();
+                setIsLoading(false);
+                onSetSnackbar({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
+            })
+            .catch(error => {
+                console.log(error);
+                handleBack();
+                setIsLoading(false);
+                onSetSnackbar({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
+            });
     };
 
     useEffect(() => {
@@ -94,13 +125,14 @@ const movieDetails = (props) => {
     let details = <MyLoader/>
     if (!isLoadingMovies && !isLoadingCast) {
         const {title, releaseDate} = movieDetails;
+        const {movieToDetailsComponent: {id}} = selectedMovieDetails;
         details = (
             <div className={root}>
                 <BackdropImage backdrops={backdrops}
                                alt={`${fullTitle(title, releaseDate)}`}
-                               // id={id}
+                               id={id}
                                onClose={handleBack}
-                               // onDelete={onDelete}
+                               onDelete={handleDeleteMovie}
                 />
                 <Info tmdbDetails={movieDetails}
                       omdbDetails={omdbMovieDetails}

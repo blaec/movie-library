@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from "../../../axios-movies";
 import {useSelector} from "react-redux";
 
-import BackdropImage from "./components/BackdropImage";
-import Info from "./components/Info";
+import BackdropImage from "../../Pages/PathLinks/MovieDetails/components/BackdropImage";
+import Info from "../../Pages/PathLinks/MovieDetails/components/Info";
 import MyLoader from "../../../UI/Spinners/MyLoader";
 import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
 import {fullTitle, joinNames} from "../../../utils/Utils";
