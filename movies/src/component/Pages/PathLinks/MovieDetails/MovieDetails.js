@@ -25,12 +25,11 @@ const useStyles = makeStyles((theme) => ({
 // TODO refactor multiple axios get requests
 const movieDetails = (props) => {
     const {match : {params : {movieId}}} = props;
+    const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
     // const {tmdbId, id, onClose, onDelete, movieToInfoComponent} = props;
     const {root} = useStyles();
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
     const movies = useSelector(state => state.movies);
-
-    console.log(movies);
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
@@ -51,7 +50,6 @@ const movieDetails = (props) => {
 
                 // console.log("extract data: " + (new Date()).getTime());
                 setMovieDetails(data);
-                console.log(data);
                 setGenres(joinNames(genres));
                 setBackdrops(backdrops);
 
@@ -104,7 +102,7 @@ const movieDetails = (props) => {
                 />
                 <Info tmdbDetails={movieDetails}
                       omdbDetails={omdbMovieDetails}
-                      fileDetails={{resolution: 1, size: 1, location: 1}}
+                      fileDetails={selectedMovieDetails.movieToInfoComponent}
                       castDetails={cast}
                       genreDetails={genres}
                 />

@@ -10,7 +10,8 @@ import {fullTitle, joinNames} from "../../../utils/Utils";
 
 // TODO refactor multiple axios get requests
 const details = (props) => {
-    const {tmdbId, id, onClose, onDelete, movieToInfoComponent} = props;
+    const {tmdbId, id, onClose, onDelete} = props;
+    const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
 
     const [movieDetails, setMovieDetails] = useState();
@@ -84,7 +85,7 @@ const details = (props) => {
                 />
                 <Info tmdbDetails={movieDetails}
                       omdbDetails={omdbMovieDetails}
-                      fileDetails={movieToInfoComponent}
+                      fileDetails={selectedMovieDetails.movieToInfoComponent}
                       castDetails={cast}
                       genreDetails={genres}
                 />

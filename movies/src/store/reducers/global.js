@@ -4,6 +4,7 @@ const initialState = {
     search: '',
     movies: {},
     wishlist: {},
+    selectedMovieDetails: {},
     genreIds: [],
     api: {
         tmdbApi: '',
@@ -17,8 +18,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    const {type : actionType, newSearch, movies, wishlist, genreIds, configs, snackbar} = action;
-    console.log(state);
+    const {type : actionType, newSearch, movies, wishlist, selectedMovieDetails, genreIds, configs, snackbar} = action;
     switch (actionType) {
         case actionTypes.CHANGE_FILTER:
             return {
@@ -44,6 +44,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 wishlist: wishlist
+            };
+        case actionTypes.SET_SELECTED_MOVIE_DETAILS:
+            return {
+                ...state,
+                selectedMovieDetails: selectedMovieDetails
             };
         case actionTypes.SET_GENRE_IDS:
             return {

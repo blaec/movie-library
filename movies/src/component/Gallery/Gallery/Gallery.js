@@ -43,6 +43,7 @@ const gallery = (props) => {
     const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
     const onDeleteWishlistChange = (movies) => dispatch(actions.deleteWishlist(movies));
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSelectedMovieDetails = (movie) => dispatch(actions.setSelectedMovieDetails(movie));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -55,6 +56,8 @@ const gallery = (props) => {
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
+        onSetSelectedMovieDetails(movie);
+        console.log(movie);
         setSelectedMovie(movie);
         setIsViewingDetails(true);
     };
