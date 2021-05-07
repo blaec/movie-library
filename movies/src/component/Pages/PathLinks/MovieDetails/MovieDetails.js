@@ -43,6 +43,7 @@ const movieDetails = (props) => {
     const [isLoadingCast, setIsLoadingCast] = useState(true);
 
     const handleBack = () => {
+        localStorage.removeItem('id');
         props.history.goBack();
     };
 
@@ -110,7 +111,7 @@ const movieDetails = (props) => {
     let details = <MyLoader/>
     if (!isLoadingMovies && !isLoadingCast) {
         const {title, releaseDate} = movieDetails;
-        const {movieToDetailsComponent: {id}} = selectedMovieDetails;
+        const id = localStorage.getItem('id');
         details = (
             <div className={root}>
                 <BackdropImage backdrops={backdrops}
