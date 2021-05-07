@@ -77,7 +77,7 @@ const actorMovies = (props) => {
     if (!isLoading) {
         const {name, credits} = actorMovies;
         const {cast} = credits;
-        const farFuture = new Date((new Date).getFullYear() + 10, 1,1);
+        const farFuture = new Date((new Date()).getFullYear() + 10, 1,1);
         const movieList = cast.filter(movie => {
             // skip 'Documentary' movies and movies without genres
             const {genre_ids} = movie;
