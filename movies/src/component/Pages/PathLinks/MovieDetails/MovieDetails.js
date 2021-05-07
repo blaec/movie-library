@@ -27,61 +27,48 @@ const useStyles = makeStyles((theme) => ({
 const movieDetails = (props) => {
     const {match : {params : {movieId}}} = props;
     const {root} = useStyles();
+
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
-    const movies = useSelector(state => state.movies);
     const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
-    console.log(selectedMovieDetails);
     const dispatch = useDispatch();
-    const onDeleteMovieChange = (movies) => dispatch(actions.deleteMovies(movies));
-    const onDeleteWishlistChange = (movies) => dispatch(actions.deleteWishlist(movies));
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
     const [cast, setCast] = useState();
+    const [title, setTitle] = useState();
     const [genres, setGenres] = useState('');
     const [backdrops, setBackdrops] = useState([]);
     const [isLoadingMovies, setIsLoadingMovies] = useState(true);
     const [isLoadingCast, setIsLoadingCast] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
+
     const handleBack = () => {
         props.history.goBack();
     };
 
     const handleDeleteMovie = (id) => {
         console.log(getDeleteUrl(id));
-        setIsLoading(true);
         axios.delete(getDeleteUrl(id))
             .then(response => {
-                let deleted = movies.find(movie => movie.id === id);
-                let updatedMovieList = movies.filter(movie => movie.id !== id);
-                if (selectedMovieDetails.type === 'movie') {
-                    onDeleteMovieChange(updatedMovieList);
-                } else if (selectedMovieDetails.type === 'wish_list') {
-                    onDeleteWishlistChange(updatedMovieList);
-                }
+                onSetSnackbar({open: true, message: `Movie '${title}' is deleted`, type: 'success'});
                 handleBack();
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Movie '${deleted.title}' is deleted`, type: 'success'});
             })
             .catch(error => {
                 console.log(error);
-                handleBack();
-                setIsLoading(false);
                 onSetSnackbar({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
+                handleBack();
             });
     };
 
     useEffect(() => {
-        // console.log("get data: " + (new Date()).getTime());
         setIsLoadingMovies(true);
         axios.get(getMovieDetailsUrl(movieId, tmdbApi))
             .then(response => {
                 const {data} = response;
-                const {imdb_id, genres, images} = data;
+                const {imdb_id, genres, images, original_title} = data;
                 const {backdrops} = images;
 
-                // console.log("extract data: " + (new Date()).getTime());
+                setTitle(original_title);
                 setMovieDetails(data);
                 setGenres(joinNames(genres));
                 setBackdrops(backdrops);
@@ -106,13 +93,11 @@ const movieDetails = (props) => {
     }, []);
 
     useEffect(() => {
-        // console.log("get cast: " + (new Date()).getTime());
         setIsLoadingCast(true);
         axios.get(getMovieCreditsUrl(movieId, tmdbApi))
             .then(response => {
                 const {data} = response;
                 const {cast} = data;
-                // console.log("extract cast: " + (new Date()).getTime());
                 setCast(cast);
                 setIsLoadingCast(false);
             })
