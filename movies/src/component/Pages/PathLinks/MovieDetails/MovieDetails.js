@@ -1,38 +1,75 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../../axios-movies";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import axios from "../../../../axios-movies";
 
+import {getDeleteUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
+import {fullTitle, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
-import MyLoader from "../../../UI/Spinners/MyLoader";
-import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
-import {fullTitle, joinNames} from "../../../utils/Utils";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
 
 import {makeStyles} from "@material-ui/core/styles";
+import * as actions from "../../../../store/actions";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        [`@media (orientation:landscape)`]: {
+            margin: '0 10%',
+        },
+        [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
+            margin: '0 25%',
+        },
+        backgroundColor: '#3f51b50f',
+    },
+}));
 
 // TODO refactor multiple axios get requests
-const details = (props) => {
-    const {tmdbId, id, onClose, onDelete, onActorSelect, movieToInfoComponent} = props;
+const movieDetails = (props) => {
+    const {match : {params : {movieId}}} = props;
+    const {root} = useStyles();
+
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
+    const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
+    const dispatch = useDispatch();
+    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
     const [cast, setCast] = useState();
+    const [title, setTitle] = useState();
     const [genres, setGenres] = useState('');
     const [backdrops, setBackdrops] = useState([]);
     const [isLoadingMovies, setIsLoadingMovies] = useState(true);
     const [isLoadingCast, setIsLoadingCast] = useState(true);
 
+    const handleBack = () => {
+        localStorage.removeItem('id');
+        props.history.goBack();
+    };
+
+    const handleDeleteMovie = (id) => {
+        console.log(getDeleteUrl(id));
+        axios.delete(getDeleteUrl(id))
+            .then(response => {
+                onSetSnackbar({open: true, message: `Movie '${title}' is deleted`, type: 'success'});
+                handleBack();
+            })
+            .catch(error => {
+                console.log(error);
+                onSetSnackbar({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
+                handleBack();
+            });
+    };
+
     useEffect(() => {
-        // console.log("get data: " + (new Date()).getTime());
         setIsLoadingMovies(true);
-        axios.get(getMovieDetailsUrl(tmdbId, tmdbApi))
+        axios.get(getMovieDetailsUrl(movieId, tmdbApi))
             .then(response => {
                 const {data} = response;
-                const {imdb_id, genres, images} = data;
+                const {imdb_id, genres, images, original_title} = data;
                 const {backdrops} = images;
 
-                // console.log("extract data: " + (new Date()).getTime());
+                setTitle(original_title);
                 setMovieDetails(data);
                 setGenres(joinNames(genres));
                 setBackdrops(backdrops);
@@ -57,13 +94,11 @@ const details = (props) => {
     }, []);
 
     useEffect(() => {
-        // console.log("get cast: " + (new Date()).getTime());
         setIsLoadingCast(true);
-        axios.get(getMovieCreditsUrl(tmdbId, tmdbApi))
+        axios.get(getMovieCreditsUrl(movieId, tmdbApi))
             .then(response => {
                 const {data} = response;
                 const {cast} = data;
-                // console.log("extract cast: " + (new Date()).getTime());
                 setCast(cast);
                 setIsLoadingCast(false);
             })
@@ -76,30 +111,30 @@ const details = (props) => {
     let details = <MyLoader/>
     if (!isLoadingMovies && !isLoadingCast) {
         const {title, releaseDate} = movieDetails;
+        const id = localStorage.getItem('id');
         details = (
-            <React.Fragment>
-                <BackdropImage id={id}
-                               backdrops={backdrops}
+            <div className={root}>
+                <BackdropImage backdrops={backdrops}
                                alt={`${fullTitle(title, releaseDate)}`}
-                               onClose={onClose}
-                               onDelete={onDelete}
+                               id={id}
+                               onClose={handleBack}
+                               onDelete={handleDeleteMovie}
                 />
                 <Info tmdbDetails={movieDetails}
                       omdbDetails={omdbMovieDetails}
-                      fileDetails={movieToInfoComponent}
+                      fileDetails={selectedMovieDetails.movieToInfoComponent}
                       castDetails={cast}
                       genreDetails={genres}
-                      onActorSelect={onActorSelect}
                 />
-            </React.Fragment>
+            </div>
         );
     }
 
     return (
         <React.Fragment>
-            {details}
+             {details}
         </React.Fragment>
     );
 };
 
-export default details;
+export default movieDetails;

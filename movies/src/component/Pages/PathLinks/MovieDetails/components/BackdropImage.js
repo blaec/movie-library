@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
-import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
-import MyDelete from "../../../../UI/Buttons/Icons/MyDelete";
-import {getImageUrl} from "../../../../utils/UrlUtils";
+import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
+import MyDelete from "../../../../../UI/Buttons/Icons/MyDelete";
+import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
-import {drawer} from "../../../../utils/Constants";
+import {drawer} from "../../../../../utils/Constants";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";

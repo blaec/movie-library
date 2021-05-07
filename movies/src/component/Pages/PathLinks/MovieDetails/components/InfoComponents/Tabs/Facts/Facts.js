@@ -1,7 +1,7 @@
 import React from 'react';
 import Fact from "./Fact";
 import {Typography} from "@material-ui/core";
-import {joinNames} from "../../../../../../../utils/Utils";
+import {joinNames} from "../../../../../../../../utils/Utils";
 
 const facts = (props) => {
     const {

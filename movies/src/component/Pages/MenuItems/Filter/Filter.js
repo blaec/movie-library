@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../../axios-movies";
+import axios from "../../../../axios-movies";
 import {useDispatch, useSelector} from "react-redux";
 
-import MyLoader from "../../../UI/Spinners/MyLoader";
-import MySubmitButton from "../../../UI/Buttons/MySubmitButton";
-import MyButtonGrid from "../../../UI/Buttons/MyButtonGrid";
-import MyFormLabel from "../../../UI/MyFormLabel";
-import {getAllGenresUrl, reactLinks} from "../../../utils/UrlUtils";
-import * as actions from "../../../store/actions";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
+import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
+import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
+import MyFormLabel from "../../../../UI/MyFormLabel";
+import {getAllGenresUrl, reactLinks} from "../../../../utils/UrlUtils";
+import * as actions from "../../../../store/actions";
 
 import {Card, CardActions, CardContent, FormControl, Grid, makeStyles, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";

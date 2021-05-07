@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import axios from "../../../../axios-movies";
+import axios from "../../../../../axios-movies";
 import {useDispatch} from "react-redux";
 
-import MyTextField from "../../../../UI/MyTextField";
-import MyFormLabel from "../../../../UI/MyFormLabel";
-import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
-import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
+import MyTextField from "../../../../../UI/MyTextField";
+import MyFormLabel from "../../../../../UI/MyFormLabel";
+import MySubmitButton from "../../../../../UI/Buttons/MySubmitButton";
+import MyButtonGrid from "../../../../../UI/Buttons/MyButtonGrid";
 import MyLinearProgress from "./MyLinearProgress";
-import * as UrlUtils from "../../../../utils/UrlUtils";
-import {movieApi} from "../../../../utils/UrlUtils";
-import * as actions from "../../../../store/actions";
+import * as UrlUtils from "../../../../../utils/UrlUtils";
+import {movieApi} from "../../../../../utils/UrlUtils";
+import * as actions from "../../../../../store/actions";
 
 import {
     Card,

@@ -1,9 +1,11 @@
 import React from 'react';
 
-import {getImageUrl} from "../../../../utils/UrlUtils";
+import {getImageUrl, reactLinks} from "../../../../utils/UrlUtils";
 import {grid} from "../../../../utils/Constants";
 
 import {makeStyles} from "@material-ui/core/styles";
+import {Paper} from "@material-ui/core";
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -34,17 +36,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 const movie = props => {
-    const {poster, alt, onClick, movieToComponents} = props;
+    const {poster, alt, onClick, movieToComponents, movieToComponents: {movieToDetailsComponent: {tmdbId}}} = props;
     const {root, image} = useStyles();
 
     return (
-        <div className={root}>
+        <Paper className={root}
+               component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}>
             <img className={image}
                  src={getImageUrl(poster)}
                  alt={alt}
                  onClick={() => onClick({...movieToComponents})}
             />
-        </div>
+        </Paper>
     );
 }
 

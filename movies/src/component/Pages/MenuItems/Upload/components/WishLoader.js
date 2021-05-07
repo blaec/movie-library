@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import MyTextField from "../../../../UI/MyTextField";
-import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
-import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
-import MyFormLabel from "../../../../UI/MyFormLabel";
+import MyTextField from "../../../../../UI/MyTextField";
+import MySubmitButton from "../../../../../UI/Buttons/MySubmitButton";
+import MyButtonGrid from "../../../../../UI/Buttons/MyButtonGrid";
+import MyFormLabel from "../../../../../UI/MyFormLabel";
 import WishPreview from "./WishPreview";
 import MyLinearProgress from "./MyLinearProgress";
-import axios from "../../../../axios-movies";
-import {getSearchMovieUrl, movieApi} from "../../../../utils/UrlUtils";
-import * as actions from "../../../../store/actions";
+import axios from "../../../../../axios-movies";
+import {getSearchMovieUrl, movieApi} from "../../../../../utils/UrlUtils";
+import * as actions from "../../../../../store/actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";

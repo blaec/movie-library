@@ -4,6 +4,10 @@ export const reactLinks = {
     wishlist: "/wishlist",
     filter: "/filter",
     upload: "/upload",
+    movieDetailsEndpoint: "/details/movie/",
+    movieDetails: "/details/movie/:movieId",
+    actorMoviesEndpoint: "/details/actor/",
+    actorMovies: "/details/actor/:actorId",
 };
 
 let baseMovieApi = "/movies/";

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {NA_Safe, playTime, releaseDateYear} from "../../../../../utils/Utils";
+import {NA_Safe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 
@@ -27,9 +27,10 @@ const infoGeneral = (props) => {
     const {
         omdbDetails: {Rated, imdbRating, imdbVotes},
         tmdbDetails: {release_date, runtime, title},
-        fileDetails: {resolution, size, location},
+        fileDetails,
         genreDetails
     } = props;
+    const {resolution, size, location} = fileDetails || {};
     const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
 
     const metadata = {
@@ -39,7 +40,7 @@ const infoGeneral = (props) => {
             ? playTime(runtime)
             : null,
         rating: NA_Safe(imdbRating, `${imdbRating} <${imdbVotes}>`),
-        resolution: resolution,
+        resolution: resolution || null,
         fileSize: size
             ? `${size}Gb`
             : null

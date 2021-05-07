@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../../axios-movies";
+import axios from "../../../../axios-movies";
 import {useDispatch, useSelector} from "react-redux";
 
-import Gallery from "../../Gallery/Gallery/Gallery";
-import MyLoader from "../../../UI/Spinners/MyLoader";
-import {movieApi} from "../../../utils/UrlUtils";
-import * as actions from "../../../store/actions";
+import Gallery from "../../../Gallery/Gallery/Gallery";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
+import {movieApi} from "../../../../utils/UrlUtils";
+import * as actions from "../../../../store/actions";
 
 const wishlist = () => {
     const wishMovies = useSelector(state => state.wishlist);
@@ -33,7 +33,7 @@ const wishlist = () => {
 
     let wishList = <MyLoader/>;
     if (!isLoading) {
-        wishList = <Gallery movies={wishMovies} isCollection={false}/>
+        wishList = <Gallery movies={wishMovies}/>
     }
 
     return (

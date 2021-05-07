@@ -20,6 +20,13 @@ export const deleteMovies = (movies) => {
         movies: movies
     }
 };
+export const setSelectedMovieDetails = (movie) => {
+    return {
+        type: actionTypes.SET_SELECTED_MOVIE_DETAILS,
+        selectedMovieDetails: movie
+    }
+};
+
 
 export const setWishlist = (wishlist) => {
     return {

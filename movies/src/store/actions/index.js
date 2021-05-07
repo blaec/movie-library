@@ -2,6 +2,7 @@ export {
     changeSearch,
     setMovies,
     deleteMovies,
+    setSelectedMovieDetails,
     setWishlist,
     deleteWishlist,
     setGenreIds,

@@ -4,17 +4,19 @@ import {useDispatch} from "react-redux";
 import axios from "./axios-movies";
 
 import Layout from "./hoc/Layout";
-import Collection from "./component/Pages/Collection/Collection";
-import FilteredCollection from "./component/Pages/Collection/FilteredCollection";
-import Upload from "./component/Pages/Upload/Upload";
-import Wishlist from "./component/Pages/Wishlist/Wishlist";
-import Filter from "./component/Pages/Filter/Filter";
+import Collection from "./component/Pages/MenuItems/Collection/Collection";
+import FilteredCollection from "./component/Pages/MenuItems/Collection/FilteredCollection";
+import Upload from "./component/Pages/MenuItems/Upload/Upload";
+import Wishlist from "./component/Pages/MenuItems/Wishlist/Wishlist";
+import Filter from "./component/Pages/MenuItems/Filter/Filter";
+import MovieDetails from "./component/Pages/PathLinks/MovieDetails/MovieDetails";
+import ActorMovies from "./component/Pages/PathLinks/ActorMovies/ActorMovies";
 import MyLoader from "./UI/Spinners/MyLoader";
 import {configApi, reactLinks} from "./utils/UrlUtils";
 import * as actions from "./store/actions";
 
 const app = () => {
-    const {home, filtered, wishlist, filter, upload} = reactLinks;
+    const {home, filtered, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
 
     const [isLoading, setIsLoading] = useState(true);
     const dispatch = useDispatch();
@@ -39,11 +41,17 @@ const app = () => {
         layout =
             <Layout>
                 <Switch>
+
+                    {/* Menu items */}
                     <Route path={home} exact component={Collection}/>
                     <Route path={filtered} exact component={FilteredCollection}/>
                     <Route path={wishlist} exact component={Wishlist}/>
                     <Route path={filter} exact component={Filter}/>
                     <Route path={upload} exact component={Upload}/>
+
+                    {/* Path links */}
+                    <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
+                    <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
                     <Redirect to={home}/>
                 </Switch>
             </Layout>;

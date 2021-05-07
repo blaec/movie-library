@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../../axios-movies";
+import axios from "../../../../axios-movies";
 import {useDispatch, useSelector} from "react-redux";
 
-import Gallery from "../../Gallery/Gallery/Gallery";
-import MyLoader from "../../../UI/Spinners/MyLoader";
-import {movieApi} from "../../../utils/UrlUtils";
-import * as actions from "../../../store/actions";
+import Gallery from "../../../Gallery/Gallery/Gallery";
+import MyLoader from "../../../../UI/Spinners/MyLoader";
+import {movieApi} from "../../../../utils/UrlUtils";
+import * as actions from "../../../../store/actions";
 
 const filteredCollection = () => {
     const genreIds = useSelector(state => state.genreIds);
@@ -34,7 +34,7 @@ const filteredCollection = () => {
 
     let gallery = <MyLoader/>;
     if (!isLoading) {
-        gallery = <Gallery movies={filteredMovies} isCollection={false}/>
+        gallery = <Gallery movies={filteredMovies}/>
     }
 
     return (
