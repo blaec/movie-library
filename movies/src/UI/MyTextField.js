@@ -4,7 +4,7 @@ import {IconButton, InputAdornment, TextField} from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 
 const myTextField = (props) => {
-    const {id, text, disabled, label, helperText, required, onChangeTextField} = props;
+    const {id, inputRef, text, disabled, label, helperText, required, onChangeTextField} = props;
 
     let adornment = null;
     if (text.length > 0) {
@@ -18,9 +18,11 @@ const myTextField = (props) => {
         }
     }
 
+    // TODO check unused props, like id
     return (
         <TextField id={id}
                    value={text}
+                   inputRef={inputRef}
                    disabled={disabled}
                    label={label}
                    style={{margin: 8}}
