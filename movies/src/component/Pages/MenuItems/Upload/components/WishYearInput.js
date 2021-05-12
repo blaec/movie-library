@@ -10,12 +10,13 @@ const wishYearInput = (props) => {
     };
 
     return (
-        <MyTextField text={wishYear}
-                     label="Release year"
-                     helperText="Enter movie release year"
-                     inputRef={inputRef}
-                     required={false}
-                     onChangeTextField={handleTextFieldChange}
+        <MyTextField
+            text={wishYear}
+            label="Release year"
+            helperText="Enter movie release year"
+            inputRef={inputRef}
+            required={false}
+            onChangeTextField={handleTextFieldChange}
         />
     );
 };

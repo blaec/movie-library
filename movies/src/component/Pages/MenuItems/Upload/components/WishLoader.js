@@ -82,12 +82,13 @@ const wishLoader = () => {
 
     let moviePreviews = <WishPreview/>;
     if (hasResults) {
-        moviePreviews = <Carousel animation="slide"
-                                  autoPlay={false}
-                                  onChange={(active) => {
-                                      setSelectedWishMovie(wishMovies[active]);
-                                  }}
-                                  navButtonsAlwaysVisible>
+        moviePreviews = <Carousel
+                            animation="slide"
+                            autoPlay={false}
+                            onChange={(active) => {
+                                setSelectedWishMovie(wishMovies[active]);
+                            }}
+                            navButtonsAlwaysVisible>
                             {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
                         </Carousel>;
     }
@@ -97,23 +98,27 @@ const wishLoader = () => {
             <CardContent>
                 <FormControl component="wish-upload">
                     <MyFormLabel text="Add to Wish List"/>
-                    <WishTitleInput inputRef={wishTitle} onDisable={handleSearchDisable}/>
+                    <WishTitleInput
+                        inputRef={wishTitle}
+                        onDisable={handleSearchDisable}/>
                     <WishYearInput inputRef={wishYear}/>
                 </FormControl>
                 <MyLinearProgress loading={isLoading}/>
             </CardContent>
             <CardActions>
                 <MyButtonGrid>
-                    <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                    buttonStyles={{marginRight: 1}}
-                                    disabled={isSearchDisabled}
-                                    caption="Search"
-                                    onSubmit={handleSearchWishMovie}
+                    <MySubmitButton
+                        icon={<SearchTwoToneIcon/>}
+                        buttonStyles={{marginRight: 1}}
+                        disabled={isSearchDisabled}
+                        caption="Search"
+                        onSubmit={handleSearchWishMovie}
                     />
-                    <MySubmitButton icon={<AddCircleTwoToneIcon/>}
-                                    disabled={!hasResults}
-                                    caption="Add"
-                                    onSubmit={() => handleSaveWishMovie(selectedWishMovie)}
+                    <MySubmitButton
+                        icon={<AddCircleTwoToneIcon/>}
+                        disabled={!hasResults}
+                        caption="Add"
+                        onSubmit={() => handleSaveWishMovie(selectedWishMovie)}
                     />
                 </MyButtonGrid>
             </CardActions>

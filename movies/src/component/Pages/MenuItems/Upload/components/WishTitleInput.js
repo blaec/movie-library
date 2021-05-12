@@ -11,12 +11,13 @@ const wishTitleInput = (props) => {
     };
 
     return (
-        <MyTextField text={wishTitle}
-                     label="Movie title"
-                     helperText="Enter movie title"
-                     inputRef={inputRef}
-                     required={true}
-                     onChangeTextField={handleTextFieldChange}
+        <MyTextField
+            text={wishTitle}
+            label="Movie title"
+            helperText="Enter movie title"
+            inputRef={inputRef}
+            required={true}
+            onChangeTextField={handleTextFieldChange}
         />
     );
 };

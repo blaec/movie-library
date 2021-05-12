@@ -20,18 +20,19 @@ const myTextField = (props) => {
 
     // TODO check unused props, like id
     return (
-        <TextField id={id}
-                   value={text}
-                   inputRef={inputRef}
-                   disabled={disabled}
-                   label={label}
-                   style={{margin: 8}}
-                   helperText={helperText}
-                   fullWidth
-                   margin="normal"
-                   required={required}
-                   onChange={event => onChangeTextField(event.target.value, id)}
-                   InputProps={adornment}
+        <TextField
+            id={id}
+            value={text}
+            inputRef={inputRef}
+            disabled={disabled}
+            label={label}
+            style={{margin: 8}}
+            helperText={helperText}
+            fullWidth
+            margin="normal"
+            required={required}
+            onChange={event => onChangeTextField(event.target.value, id)}
+            InputProps={adornment}
         />
     );
 };
