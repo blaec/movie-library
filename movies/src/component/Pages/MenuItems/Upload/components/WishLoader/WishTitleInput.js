@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import MyTextField from "../../../../../UI/MyTextField";
+import MyTextField from "../../../../../../UI/MyTextField";
 
 const wishTitleInput = (props) => {
-    const {inputRef, onDisable} = props;
+    const {inputRef, onSearchDisable} = props;
     const [wishTitle, setWishTitle] = useState('');
 
     const handleTextFieldChange = (text) => {
         setWishTitle(text);
-        onDisable(text.length === 0);
+        onSearchDisable(text.length === 0);
     };
 
     return (

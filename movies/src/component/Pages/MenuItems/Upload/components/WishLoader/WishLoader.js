@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import MySubmitButton from "../../../../../UI/Buttons/MySubmitButton";
-import MyButtonGrid from "../../../../../UI/Buttons/MyButtonGrid";
-import MyFormLabel from "../../../../../UI/MyFormLabel";
+import MySubmitButton from "../../../../../../UI/Buttons/MySubmitButton";
+import MyButtonGrid from "../../../../../../UI/Buttons/MyButtonGrid";
+import MyFormLabel from "../../../../../../UI/MyFormLabel";
 import WishPreview from "./WishPreview";
-import MyLinearProgress from "./MyLinearProgress";
-import axios from "../../../../../axios-movies";
-import {getSearchMovieUrl, movieApi} from "../../../../../utils/UrlUtils";
-import * as actions from "../../../../../store/actions";
+import MyLinearProgress from "../MyLinearProgress";
+import axios from "../../../../../../axios-movies";
+import {getSearchMovieUrl, movieApi} from "../../../../../../utils/UrlUtils";
+import * as actions from "../../../../../../store/actions";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 
@@ -31,12 +31,9 @@ const wishLoader = () => {
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
-    let hasResults = wishMovies.length > 0;
-    useEffect(() => {
-        if (hasResults) {
-            setSelectedWishMovie(wishMovies[0]);
-        }
-    }, [wishMovies]);
+    const handleChangeSelectedWishMovie = (current) => {
+        setSelectedWishMovie(wishMovies[current]);
+    };
 
     const handleSaveWishMovie = (wishMovie) => {
         setIsLoading(true);
@@ -64,6 +61,7 @@ const wishLoader = () => {
                 setWishMovies(foundMovies);
                 setIsLoading(false);
                 if (foundMovies.length > 0) {
+                    setSelectedWishMovie(foundMovies[0]);
                     onSetSnackbar({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
                 } else {
                     onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
@@ -81,13 +79,12 @@ const wishLoader = () => {
     };
 
     let moviePreviews = <WishPreview/>;
+    let hasResults = wishMovies.length > 0;
     if (hasResults) {
         moviePreviews = <Carousel
                             animation="slide"
                             autoPlay={false}
-                            onChange={(active) => {
-                                setSelectedWishMovie(wishMovies[active]);
-                            }}
+                            onChange={(active) => handleChangeSelectedWishMovie(active)}
                             navButtonsAlwaysVisible>
                             {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
                         </Carousel>;
@@ -100,7 +97,7 @@ const wishLoader = () => {
                     <MyFormLabel text="Add to Wish List"/>
                     <WishTitleInput
                         inputRef={wishTitle}
-                        onDisable={handleSearchDisable}/>
+                        onSearchDisable={handleSearchDisable}/>
                     <WishYearInput inputRef={wishYear}/>
                 </FormControl>
                 <MyLinearProgress loading={isLoading}/>

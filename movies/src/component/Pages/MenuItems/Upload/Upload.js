@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FileLoader from "./components/FileLoader";
-import WishLoader from "./components/WishLoader";
+import WishLoader from "./components/WishLoader/WishLoader";
 
 import {Grid} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
