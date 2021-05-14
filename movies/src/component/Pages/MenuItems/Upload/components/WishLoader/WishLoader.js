@@ -23,8 +23,8 @@ const wishLoader = () => {
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
-    const wishTitle = useRef();
-    const wishYear = useRef();
+    const wishTitleRef = useRef();
+    const wishYearRef = useRef();
 
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     const [wishMovies, setWishMovies] = useState([]);
@@ -51,8 +51,8 @@ const wishLoader = () => {
 
     const handleSearchWishMovie = () => {
         setIsLoading(true);
-        const {current : {value : title}} = wishTitle;
-        const {current : {value : year}} = wishYear;
+        const {current : {value : title}} = wishTitleRef;
+        const {current : {value : year}} = wishYearRef;
         axios.get(getSearchMovieUrl({query: title, year: year, api_key: configs.tmdbApi}))
             .then(response => {
                 const {data} = response;
@@ -96,9 +96,9 @@ const wishLoader = () => {
                 <FormControl component="wish-upload">
                     <MyFormLabel text="Add to Wish List"/>
                     <WishTitleInput
-                        inputRef={wishTitle}
+                        inputRef={wishTitleRef}
                         onSearchDisable={handleSearchDisable}/>
-                    <WishYearInput inputRef={wishYear}/>
+                    <WishYearInput inputRef={wishYearRef}/>
                 </FormControl>
                 <MyLinearProgress loading={isLoading}/>
             </CardContent>

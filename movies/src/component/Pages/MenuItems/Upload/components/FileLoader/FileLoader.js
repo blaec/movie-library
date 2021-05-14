@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
-import axios from "../../../../../axios-movies";
+import React, {useRef, useState} from 'react';
+import axios from "../../../../../../axios-movies";
 import {useDispatch} from "react-redux";
 
-import MyTextField from "../../../../../UI/MyTextField";
-import MyFormLabel from "../../../../../UI/MyFormLabel";
-import MySubmitButton from "../../../../../UI/Buttons/MySubmitButton";
-import MyButtonGrid from "../../../../../UI/Buttons/MyButtonGrid";
-import MyLinearProgress from "./MyLinearProgress";
-import * as UrlUtils from "../../../../../utils/UrlUtils";
-import {movieApi} from "../../../../../utils/UrlUtils";
-import * as actions from "../../../../../store/actions";
+import MyFormLabel from "../../../../../../UI/MyFormLabel";
+import MySubmitButton from "../../../../../../UI/Buttons/MySubmitButton";
+import MyButtonGrid from "../../../../../../UI/Buttons/MyButtonGrid";
+import MyLinearProgress from "../MyLinearProgress";
+import * as UrlUtils from "../../../../../../utils/UrlUtils";
+import {movieApi} from "../../../../../../utils/UrlUtils";
+import * as actions from "../../../../../../store/actions";
+import FileTmdbIdInput from "./FileTmdbIdInput";
+import FileNameInput from "./FileNameInput";
 
 import {
     Card,
@@ -43,10 +44,11 @@ const movieLocations = {
 };
 
 const locationRadios = Object.keys(movieLocations).map(locKey =>
-    <FormControlLabel key={locKey}
-                      value={locKey}
-                      control={<Radio color="primary"/>}
-                      label={movieLocations[locKey]}/>
+    <FormControlLabel
+        key={locKey}
+        value={locKey}
+        control={<Radio color="primary"/>}
+        label={movieLocations[locKey]}/>
 );
 
 const fileLoader = () => {
@@ -54,31 +56,17 @@ const fileLoader = () => {
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
-    const [tmdbId, setTmdbId] = useState('');
-    const [fileName, setFileName] = useState('');
+    const tmdbIdRef = useRef();
+    const fileNameRef = useRef();
+
     const [fileLocation, setFileLocation] = useState('');
     const [isSingleMovieUpload, setIsSingleMovieUpload] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const inputs = [
-        {
-            id: "tmdb-id",
-            label: "tmdb id",
-            helperText: "Type exact tmdb id",
-            text: tmdbId
-        },
-        {
-            id: "file-name",
-            label: "Exact file name",
-            helperText: "Enter exact file name with extension",
-            text: fileName
-        }
-    ];
-
     const resetForm = () => {
         setFileLocation('');
-        setTmdbId('');
-        setFileName('');
+        tmdbIdRef.current.value = '';
+        fileNameRef.current.value = '';
     };
 
     const handleChooseLocation = (event) => {
@@ -87,21 +75,15 @@ const fileLoader = () => {
 
     const handleSwitchChange = () => {
         setIsSingleMovieUpload(!isSingleMovieUpload);
-        setTmdbId('');
-        setFileName('');
-    };
-
-    const handleTextFieldChange = (text, id) => {
-        switch (id) {
-            case "tmdb-id":     setTmdbId(text);    break;
-            case "file-name":   setFileName(text);  break;
-            default:            onSetSnackbar({open: true, message: `Upload -> handleTextFields -> wrong id`, type: 'error'})
-        }
+        tmdbIdRef.current.value = '';
+        fileNameRef.current.value = '';
     };
 
     const handleUpload = () => {
         setIsLoading(true);
         if (isSingleMovieUpload) {
+            const {current : {value : tmdbId}} = tmdbIdRef;
+            const {current : {value : fileName}} = fileNameRef;
             let data = {
                 location: fileLocation,
                 tmdbId: tmdbId,
@@ -136,54 +118,49 @@ const fileLoader = () => {
         }
     };
 
-    const movieInputs = inputs.map(input => {
-            const {id, label, helperText, text} = input;
-            return <MyTextField key={id}
-                                id={id}
-                                text={text}
-                                disabled={!isSingleMovieUpload}
-                                label={label}
-                                required={true}
-                                helperText={helperText}
-                                onChangeTextField={handleTextFieldChange}
-            />;
-        }
-    );
-
-    const singleMovieUploadSwitch = <Switch color="primary"
-                                            checked={isSingleMovieUpload}
-                                            onChange={handleSwitchChange}
-                                            name="singleUpload"/>;
+    const singleMovieUploadSwitch = <Switch
+                                        color="primary"
+                                        checked={isSingleMovieUpload}
+                                        onChange={handleSwitchChange}
+                                        name="singleUpload"/>;
     const isScanButtonDisabled = isLoading
                                  || fileLocation === ''
-                                 || (isSingleMovieUpload && (tmdbId === '' || fileName === ''));
+                                 || (isSingleMovieUpload && (tmdbIdRef === '' || fileNameRef === ''));
     return (
         <Card variant="elevation">
             <CardContent>
                 <FormControl>
                     <MyFormLabel text="Movie location"/>
-                    <RadioGroup className={radioGroup}
-                                name="location"
-                                value={fileLocation}
-                                onChange={handleChooseLocation}>
+                    <RadioGroup
+                        className={radioGroup}
+                        name="location"
+                        value={fileLocation}
+                        onChange={handleChooseLocation}>
                         {locationRadios}
                     </RadioGroup>
                 </FormControl>
                 <Divider className={divider}/>
                 <FormControl component="single-upload">
-                    <FormControlLabel label="Single movie upload"
-                                      control={singleMovieUploadSwitch}
+                    <FormControlLabel
+                        label="Single movie upload"
+                        control={singleMovieUploadSwitch}
                     />
-                            {movieInputs}
+                    <FileTmdbIdInput
+                        inputRef={tmdbIdRef}
+                        isSingleMovieUpload={isSingleMovieUpload}/>
+                    <FileNameInput
+                        inputRef={fileNameRef}
+                        isSingleMovieUpload={isSingleMovieUpload}/>
                 </FormControl>
                 <MyLinearProgress loading={isLoading}/>
             </CardContent>
             <CardActions>
                 <MyButtonGrid>
-                    <MySubmitButton icon={<BackupTwoToneIcon/>}
-                                    caption="Scan"
-                                    disabled={isScanButtonDisabled}
-                                    onSubmit={handleUpload}
+                    <MySubmitButton
+                        icon={<BackupTwoToneIcon/>}
+                        caption="Scan"
+                        disabled={isScanButtonDisabled}
+                        onSubmit={handleUpload}
                     />
                 </MyButtonGrid>
             </CardActions>
