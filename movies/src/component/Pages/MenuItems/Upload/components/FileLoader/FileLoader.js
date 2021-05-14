@@ -11,6 +11,7 @@ import {movieApi} from "../../../../../../utils/UrlUtils";
 import * as actions from "../../../../../../store/actions";
 import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
+import FileRadios from "./FileRadios";
 
 import {
     Card,
@@ -20,7 +21,6 @@ import {
     FormControl,
     FormControlLabel,
     makeStyles,
-    Radio,
     RadioGroup,
     Switch
 } from "@material-ui/core";
@@ -34,22 +34,6 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(3)
     },
 }));
-
-const movieLocations = {
-    cartoons:     "K | Cartoons",
-    movies:       "L | Movies",
-    serialMovies: "M | Serial Movies",
-    music:        "D | New Movies",
-    videos:       "C | Videos"
-};
-
-const locationRadios = Object.keys(movieLocations).map(locKey =>
-    <FormControlLabel
-        key={locKey}
-        value={locKey}
-        control={<Radio color="primary"/>}
-        label={movieLocations[locKey]}/>
-);
 
 const fileLoader = () => {
     const {divider, radioGroup} = useStyles();
@@ -135,8 +119,9 @@ const fileLoader = () => {
                         className={radioGroup}
                         name="location"
                         value={fileLocation}
-                        onChange={handleChooseLocation}>
-                        {locationRadios}
+                        onChange={handleChooseLocation}
+                    >
+                        <FileRadios/>
                     </RadioGroup>
                 </FormControl>
                 <Divider className={divider}/>
