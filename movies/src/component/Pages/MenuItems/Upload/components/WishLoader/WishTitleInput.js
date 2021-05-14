@@ -4,6 +4,7 @@ import MyTextField from "../../../../../../UI/MyTextField";
 
 const wishTitleInput = (props) => {
     const {inputRef, onSearchDisable} = props;
+
     const [wishTitle, setWishTitle] = useState('');
 
     const handleTextFieldChange = (text) => {

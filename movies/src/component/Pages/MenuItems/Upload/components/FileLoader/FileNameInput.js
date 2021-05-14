@@ -4,6 +4,7 @@ import MyTextField from "../../../../../../UI/MyTextField";
 
 const fileNameInput = (props) => {
     const {inputRef, isSingleMovieUpload} = props;
+
     const [fileName, setFileName] = useState('');
 
     const handleTextFieldChange = (text) => {

@@ -4,24 +4,22 @@ import {IconButton, InputAdornment, TextField} from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 
 const myTextField = (props) => {
-    const {id, inputRef, text, disabled, label, helperText, required, onChangeTextField} = props;
+    const {inputRef, text, disabled, label, helperText, required, onChangeTextField} = props;
 
     let adornment = null;
     if (text.length > 0) {
         adornment = {
             endAdornment:
                 <InputAdornment position="end">
-                    <IconButton onClick={() => onChangeTextField('', id)}>
+                    <IconButton onClick={() => onChangeTextField('')}>
                         <ClearIcon fontSize="small"/>
                     </IconButton>
                 </InputAdornment>
         }
     }
 
-    // TODO check unused props, like id
     return (
         <TextField
-            id={id}
             value={text}
             inputRef={inputRef}
             disabled={disabled}
@@ -31,7 +29,7 @@ const myTextField = (props) => {
             fullWidth
             margin="normal"
             required={required}
-            onChange={event => onChangeTextField(event.target.value, id)}
+            onChange={event => onChangeTextField(event.target.value)}
             InputProps={adornment}
         />
     );
