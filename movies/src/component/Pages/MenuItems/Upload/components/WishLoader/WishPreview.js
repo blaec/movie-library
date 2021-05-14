@@ -25,18 +25,24 @@ const wishPreview = (props) => {
     const {title, release_date, poster_path} = props;
     const {image, imageFit} = useStyles(title === undefined);
 
-    let errImage = `https://via.placeholder.com/1000x1500.png?text=${fullTitle(title || 'Preview', release_date)}`;
+    const errImage = `https://via.placeholder.com/1000x1500.png?text=${fullTitle(title || 'Preview', release_date)}`;
+    const sourceImage = poster_path
+        ? getImageUrl(poster_path)
+        : errImage;
     return (
-        <Paper className={image}
-               style={{backgroundImage: `url("${errImage}")`}}
-               elevation={3}>
-            <img className={imageFit}
-                 src={getImageUrl(poster_path)}
-                 onError={(e) => {
-                     e.target.onerror = null;
-                     e.target.src = errImage
-                 }}
-                 alt=''/>
+        <Paper
+            className={image}
+            style={{backgroundImage: `url("${errImage}")`}}
+            elevation={3}
+        >
+            <img
+                className={imageFit}
+                src={sourceImage}
+                onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = errImage
+                }}
+                alt=''/>
         </Paper>
     );
 };
