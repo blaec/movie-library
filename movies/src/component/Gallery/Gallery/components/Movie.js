@@ -40,12 +40,15 @@ const movie = props => {
     const {root, image} = useStyles();
 
     return (
-        <Paper className={root}
-               component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}>
-            <img className={image}
-                 src={getImageUrl(poster)}
-                 alt={alt}
-                 onClick={() => onClick({...movieToComponents})}
+        <Paper
+            className={root}
+            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}
+        >
+            <img
+                className={image}
+                src={getImageUrl(poster)}
+                alt={alt}
+                onClick={() => onClick({...movieToComponents})}
             />
         </Paper>
     );

@@ -30,16 +30,20 @@ const logo = () => {
     const {logoMovie, logoLibrary, logo} = useStyles();
     return (
         <Box className={logo}>
-            <Typography className={logoMovie}
-                        display='inline'
-                        color="primary"
-                        variant="h5">
+            <Typography
+                className={logoMovie}
+                display='inline'
+                color="primary"
+                variant="h5"
+            >
                 MOVIE
             </Typography>
-            <Typography className={logoLibrary}
-                        display='inline'
-                        color="secondary"
-                        variant="h5">
+            <Typography
+                className={logoLibrary}
+                display='inline'
+                color="secondary"
+                variant="h5"
+            >
                 LIBRARY
             </Typography>
         </Box>

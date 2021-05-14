@@ -24,8 +24,8 @@ const layout = props => {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Toolbar />
-            <MySnackbar />
+            <Toolbar/>
+            <MySnackbar/>
             <main className={root}>
                 {children}
             </main>

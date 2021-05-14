@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
             width: `calc(80% - ${drawer.width * .8}px)`,
         },
         [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
-            width: `calc(50% - ${drawer.width *.5}px)`,
+            width: `calc(50% - ${drawer.width * .5}px)`,
         },
     },
     movieItems: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actorMovies = (props) => {
-    const {match : {params : {actorId}}} = props;
+    const {match: {params: {actorId}}} = props;
     const {root, sticky, actor, movieItems} = useStyles();
 
     const movies = useSelector(state => state.movies);
@@ -77,7 +77,7 @@ const actorMovies = (props) => {
     if (!isLoading) {
         const {name, credits} = actorMovies;
         const {cast} = credits;
-        const farFuture = new Date((new Date()).getFullYear() + 10, 1,1);
+        const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
         const movieList = cast.filter(movie => {
             // skip 'Documentary' movies and movies without genres
             const {genre_ids} = movie;

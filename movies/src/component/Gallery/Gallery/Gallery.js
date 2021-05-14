@@ -91,33 +91,35 @@ const gallery = (props) => {
                 {moviesOnCurrentPage.map(movie => {
                         const {id, tmdbId, type, posterPath, title, releaseDate, resolution, size, location} = movie;
                         return (
-                            <Movie key={id}
-                                   poster={posterPath}
-                                   alt={`${fullTitle(title, releaseDate)}`}
-                                   onClick={handleViewMovieDetails}
-                                   movieToComponents={{
-                                       type: type,
-                                       movieToDetailsComponent: {
-                                           id: id,
-                                           tmdbId: tmdbId,
-                                       },
-                                       movieToInfoComponent: {
-                                           resolution: resolution,
-                                           size: size,
-                                           location: location
-                                       }
-                                   }}
+                            <Movie
+                                key={id}
+                                poster={posterPath}
+                                alt={`${fullTitle(title, releaseDate)}`}
+                                onClick={handleViewMovieDetails}
+                                movieToComponents={{
+                                    type: type,
+                                    movieToDetailsComponent: {
+                                        id: id,
+                                        tmdbId: tmdbId,
+                                    },
+                                    movieToInfoComponent: {
+                                        resolution: resolution,
+                                        size: size,
+                                        location: location
+                                    }
+                                }}
                             />
                         )
                     }
                 )}
             </div>
-            <Pagination className={pagination}
-                        page={currentPage}
-                        count={totalPages}
-                        variant="outlined"
-                        color="primary"
-                        onChange={handlePageChange}/>
+            <Pagination
+                className={pagination}
+                page={currentPage}
+                count={totalPages}
+                variant="outlined"
+                color="primary"
+                onChange={handlePageChange}/>
         </React.Fragment>
     );
 

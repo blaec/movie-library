@@ -39,28 +39,40 @@ const actorMovie = (props) => {
     return (
         <ListItem className={exist ? movieExist : null}>
             <ListItemAvatar>
-                <Paper elevation={3}
-                       className={imageSize}
-                       style={{backgroundImage: `url("${errImage}")`}}>
-                    <img className={`${image} ${imageSize}`}
-                         src={getImageUrl(poster_path)}
-                         onError={(e)=>{e.target.onerror = null; e.target.src=errImage}}
-                         alt=""/>
+                <Paper
+                    elevation={3}
+                    className={imageSize}
+                    style={{backgroundImage: `url("${errImage}")`}}
+                >
+                    <img
+                        className={`${image} ${imageSize}`}
+                        src={getImageUrl(poster_path)}
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = errImage
+                        }}
+                        alt=""/>
                 </Paper>
             </ListItemAvatar>
             <ListItemText className={actor}>
-                <Box fontSize="subtitle1.fontSize"
-                     fontWeight="fontWeightLight"
-                     color="text.secondary">
+                <Box
+                    fontSize="subtitle1.fontSize"
+                    fontWeight="fontWeightLight"
+                    color="text.secondary"
+                >
                     {releaseDateYear(release_date)}
                 </Box>
-                <Box className={titleFont}
-                     fontSize="h5.fontSize">
+                <Box
+                    className={titleFont}
+                    fontSize="h5.fontSize"
+                >
                     {title}
                 </Box>
-                <Box fontSize="body1.fontSize"
-                     fontWeight="fontWeightLight"
-                     color="text.disabled">
+                <Box
+                    fontSize="body1.fontSize"
+                    fontWeight="fontWeightLight"
+                    color="text.disabled"
+                >
                     {characterText}
                 </Box>
             </ListItemText>

@@ -51,8 +51,8 @@ const wishLoader = () => {
 
     const handleSearchWishMovie = () => {
         setIsLoading(true);
-        const {current : {value : title}} = wishTitleRef;
-        const {current : {value : year}} = wishYearRef;
+        const {current: {value: title}} = wishTitleRef;
+        const {current: {value: year}} = wishYearRef;
         axios.get(getSearchMovieUrl({query: title, year: year, api_key: configs.tmdbApi}))
             .then(response => {
                 const {data} = response;
@@ -81,13 +81,15 @@ const wishLoader = () => {
     let moviePreviews = <WishPreview/>;
     let hasResults = wishMovies.length > 0;
     if (hasResults) {
-        moviePreviews = <Carousel
-                            animation="slide"
-                            autoPlay={false}
-                            onChange={(active) => handleChangeSelectedWishMovie(active)}
-                            navButtonsAlwaysVisible>
-                            {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
-                        </Carousel>;
+        moviePreviews = (
+            <Carousel
+                animation="slide"
+                autoPlay={false}
+                onChange={(active) => handleChangeSelectedWishMovie(active)}
+                navButtonsAlwaysVisible>
+                {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
+            </Carousel>
+        );
     }
 
     return (

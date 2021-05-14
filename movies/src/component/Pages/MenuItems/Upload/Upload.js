@@ -17,10 +17,11 @@ const upload = () => {
 
     let loaders = [<WishLoader/>, <FileLoader/>]
     // TODO duplicate Filter.js
+    const border = <Grid item xs={1} lg={2} xl={3}/>;
     return (
         <React.Fragment>
             <Grid container className={root}>
-                <Grid item xs={1} lg={2} xl={3}/>
+                {border}
                 <Grid item xs={10} lg={8} xl={6}>
                     <Grid container spacing={2}>
                         {loaders.map((loader, index) =>
@@ -30,7 +31,7 @@ const upload = () => {
                         }
                     </Grid>
                 </Grid>
-                <Grid item xs={1} lg={2} xl={3}/>
+                {border}
             </Grid>
         </React.Fragment>
     );

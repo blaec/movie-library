@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 700,
         fontFamily: ['Caveat', "!important"],
         textAlign: 'right',
-        margin: theme.spacing(0,0,1,'20%'),
+        margin: theme.spacing(0, 0, 1, '20%'),
     },
 }));
 
@@ -18,8 +18,10 @@ const description = (props) => {
 
     return (
         <React.Fragment>
-            <Typography className={taglineFont}
-                        variant='h5'>
+            <Typography
+                className={taglineFont}
+                variant='h5'
+            >
                 {tagline}
             </Typography>
             <Typography variant='body1'>

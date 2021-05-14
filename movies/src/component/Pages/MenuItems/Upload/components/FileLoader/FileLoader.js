@@ -27,7 +27,7 @@ import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
-        margin: theme.spacing(4,0,3.5,0)
+        margin: theme.spacing(4, 0, 3.5, 0)
     },
 }));
 
@@ -62,8 +62,8 @@ const fileLoader = () => {
     const handleUpload = () => {
         setIsLoading(true);
         if (isSingleMovieUpload) {
-            const {current : {value : tmdbId}} = tmdbIdRef;
-            const {current : {value : fileName}} = fileNameRef;
+            const {current: {value: tmdbId}} = tmdbIdRef;
+            const {current: {value: fileName}} = fileNameRef;
             let data = {
                 location: fileLocation,
                 tmdbId: tmdbId,
@@ -73,13 +73,21 @@ const fileLoader = () => {
                 .then(response => {
                     resetForm();
                     setIsLoading(false);
-                    onSetSnackbar({open: true, message: `Uploading ${fileName} from ${fileLocation} folder completed successfully`, type: 'success'});
+                    onSetSnackbar({
+                        open: true,
+                        message: `Uploading ${fileName} from ${fileLocation} folder completed successfully`,
+                        type: 'success'
+                    });
                 })
                 .catch(error => {
                     resetForm();
                     setIsLoading(false);
                     console.log(error);
-                    onSetSnackbar({open: true, message: `Failed to upload ${fileName} from ${fileLocation} folder`, type: 'error'});
+                    onSetSnackbar({
+                        open: true,
+                        message: `Failed to upload ${fileName} from ${fileLocation} folder`,
+                        type: 'error'
+                    });
                 });
         } else {
             axios.post(UrlUtils.getScanFolderUrl(fileLocation))
@@ -87,22 +95,32 @@ const fileLoader = () => {
                     const {data} = response;
                     resetForm();
                     setIsLoading(false);
-                    onSetSnackbar({open: true, message: `From ${fileLocation} folder successfully uploaded ${data} movies.`, type: 'success'});
+                    onSetSnackbar({
+                        open: true,
+                        message: `From ${fileLocation} folder successfully uploaded ${data} movies.`,
+                        type: 'success'
+                    });
                 })
                 .catch(error => {
                     resetForm();
                     setIsLoading(false);
                     console.log(error);
-                    onSetSnackbar({open: true, message: `Failed to scan folder ${fileLocation} for movies`, type: 'error'});
+                    onSetSnackbar({
+                        open: true,
+                        message: `Failed to scan folder ${fileLocation} for movies`,
+                        type: 'error'
+                    });
                 });
         }
     };
 
-    const singleMovieUploadSwitch = <Switch
-                                        color="primary"
-                                        checked={isSingleMovieUpload}
-                                        onChange={handleSwitchChange}
-                                        name="singleUpload"/>;
+    const singleMovieUploadSwitch = (
+        <Switch
+            color="primary"
+            checked={isSingleMovieUpload}
+            onChange={handleSwitchChange}
+            name="singleUpload"/>
+    );
     const isScanButtonDisabled = isLoading
                                  || fileLocation === ''
                                  || (isSingleMovieUpload && (tmdbIdRef === '' || fileNameRef === ''));

@@ -29,12 +29,13 @@ const mySubmitButton = (props) => {
     }
 
     return (
-        <Button className={root}
-                variant={fillStyle[fill].variant}
-                disabled={disabled}
-                color={colorStyle[type].color}
-                startIcon={icon}
-                onClick={onSubmit}
+        <Button
+            className={root}
+            variant={fillStyle[fill].variant}
+            disabled={disabled}
+            color={colorStyle[type].color}
+            startIcon={icon}
+            onClick={onSubmit}
         >
             {caption}
         </Button>

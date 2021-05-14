@@ -35,7 +35,10 @@ const myDrawer = (props) => {
 
     return (
         <nav className={drawerShrink}>
-            <Hidden smUp implementation="css">
+            <Hidden
+                smUp
+                implementation="css"
+            >
                 <Drawer
                     classes={{
                         paper: drawerPaper,
@@ -51,7 +54,10 @@ const myDrawer = (props) => {
                     {drawer}
                 </Drawer>
             </Hidden>
-            <Hidden xsDown implementation="css">
+            <Hidden
+                xsDown
+                implementation="css"
+            >
                 <Drawer
                     classes={{
                         paper: drawerPaper,

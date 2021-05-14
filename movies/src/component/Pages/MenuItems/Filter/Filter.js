@@ -76,18 +76,21 @@ const filter = (props) => {
         genreFilter =
             <Card variant="elevation">
                 <CardContent>
-                    <FormControl fullWidth
-                                 variant='outlined'
+                    <FormControl
+                        fullWidth
+                        variant='outlined'
                     >
-                        <MyFormLabel text="Genres"
-                                     customStyle={{paddingBottom: theme.spacing(2)}}/>
-                        <Select multiple
-                                native
-                                value={genreSelection}
-                                onChange={handleChangeMultiple}
-                                inputProps={{
-                                    id: 'select-multiple-native',
-                                }}
+                        <MyFormLabel
+                            text="Genres"
+                            customStyle={{paddingBottom: theme.spacing(2)}}/>
+                        <Select
+                            multiple
+                            native
+                            value={genreSelection}
+                            onChange={handleChangeMultiple}
+                            inputProps={{
+                                id: 'select-multiple-native',
+                            }}
                         >
                             {names.map((name) => (
                                 <option key={name} value={name}>
@@ -99,17 +102,19 @@ const filter = (props) => {
                 </CardContent>
                 <CardActions>
                     <MyButtonGrid>
-                        <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
-                                        buttonStyles={{marginRight: 1}}
-                                        caption="Clear"
-                                        type="danger"
-                                        onSubmit={handleClear}
+                        <MySubmitButton
+                            icon={<HighlightOffTwoToneIcon/>}
+                            buttonStyles={{marginRight: 1}}
+                            caption="Clear"
+                            type="danger"
+                            onSubmit={handleClear}
                         />
-                        <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                        caption="Filter"
-                                        type="success"
-                                        fill="filled"
-                                        onSubmit={handleGetMovies}
+                        <MySubmitButton
+                            icon={<SearchTwoToneIcon/>}
+                            caption="Filter"
+                            type="success"
+                            fill="filled"
+                            onSubmit={handleGetMovies}
                         />
                     </MyButtonGrid>
                 </CardActions>
@@ -117,10 +122,11 @@ const filter = (props) => {
     }
 
     // TODO duplicate Upload.js
+    let border = <Grid item xs={1} lg={2} xl={3}/>;
     return (
         <React.Fragment>
             <Grid container className={root}>
-                <Grid item xs={1} lg={2} xl={3}/>
+                {border}
                 <Grid item xs={10} lg={8} xl={6}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>
@@ -128,7 +134,7 @@ const filter = (props) => {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid item xs={1} lg={2} xl={3}/>
+                {border}
             </Grid>
         </React.Fragment>
     );

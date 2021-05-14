@@ -37,23 +37,27 @@ const fileRadios = (props) => {
 
     const radios = movieLocations.map(location => {
             const {key, label} = location;
-            return <FormControlLabel
-                       key={key}
-                       value={key}
-                       control={<Radio color="primary"/>}
-                       label={label}
-                   />
+            return (
+                <FormControlLabel
+                    key={key}
+                    value={key}
+                    control={<Radio color="primary"/>}
+                    label={label}
+                />
+            );
         }
     );
 
-    return <RadioGroup
-               className={root}
-               name="location"
-               value={fileLocation}
-               onChange={onChooseLocation}
-           >
-               {radios}
-           </RadioGroup>;
+    return (
+        <RadioGroup
+            className={root}
+            name="location"
+            value={fileLocation}
+            onChange={onChooseLocation}
+        >
+            {radios}
+        </RadioGroup>
+    );
 };
 
 export default fileRadios;

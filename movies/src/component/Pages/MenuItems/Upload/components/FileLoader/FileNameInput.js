@@ -10,15 +10,17 @@ const fileNameInput = (props) => {
         setFileName(text);
     };
 
-    return <MyTextField
-               text={fileName}
-               disabled={!isSingleMovieUpload}
-               label="Exact file name"
-               inputRef={inputRef}
-               required={true}
-               helperText="Enter exact file name with extension"
-               onChangeTextField={handleTextFieldChange}
-           />;
+    return (
+        <MyTextField
+            text={fileName}
+            disabled={!isSingleMovieUpload}
+            label="Exact file name"
+            inputRef={inputRef}
+            required={true}
+            helperText="Enter exact file name with extension"
+            onChangeTextField={handleTextFieldChange}
+        />
+    );
 };
 
 export default fileNameInput;

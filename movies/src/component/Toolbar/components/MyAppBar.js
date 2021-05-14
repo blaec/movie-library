@@ -31,12 +31,17 @@ const myAppBar = (props) => {
     const {root, drawer, menuButton} = useStyles();
 
     return (
-        <AppBar position="fixed" className={drawer}>
+        <AppBar
+            position="fixed"
+            className={drawer}
+        >
             <Toolbar className={root}>
-                <IconButton className={menuButton}
-                            color="inherit"
-                            edge="start"
-                            onClick={onDrawerToggle}>
+                <IconButton
+                    className={menuButton}
+                    color="inherit"
+                    edge="start"
+                    onClick={onDrawerToggle}
+                >
                     <MenuIcon/>
                 </IconButton>
                 <Search/>

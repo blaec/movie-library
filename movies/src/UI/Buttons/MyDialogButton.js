@@ -17,9 +17,10 @@ const myDialogButton = (props) => {
     };
 
     return (
-        <Button color={style[type].color}
-                autoFocus={style[type].autoFocus}
-                onClick={onClick}
+        <Button
+            color={style[type].color}
+            autoFocus={style[type].autoFocus}
+            onClick={onClick}
         >
             {caption}
         </Button>

@@ -20,9 +20,12 @@ const myArrowBack = (props) => {
     const {onClose} = props;
     const {root} = useStyles();
 
-    return <ArrowBackIcon className={root}
-                          fontSize="large"
-                          onClick={onClose}/>;
+    return (
+        <ArrowBackIcon
+            className={root}
+            fontSize="large"
+            onClick={onClose}/>
+    );
 };
 
 export default myArrowBack;
