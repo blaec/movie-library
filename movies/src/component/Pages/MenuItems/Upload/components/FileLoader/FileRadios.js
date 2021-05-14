@@ -26,7 +26,7 @@ const movieLocations = [
         label: "D | New Movies",
     },
     {
-        videos: "cartoons",
+        key: "videos",
         label: "C | Videos",
     },
 ];
