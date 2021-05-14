@@ -1,30 +1,39 @@
 import React from 'react';
 
-import {FormControlLabel, Radio} from "@material-ui/core";
+import {FormControlLabel, makeStyles, Radio, RadioGroup} from "@material-ui/core";
 
-const fileRadios = () => {
-    const movieLocations = [
-        {
-            key: "cartoons",
-            label: "K | Cartoons",
-        },
-        {
-            key: "movies",
-            label: "L | Movies",
-        },
-        {
-            key: "serialMovies",
-            label: "M | Serial Movies",
-        },
-        {
-            key: "music",
-            label: "D | New Movies",
-        },
-        {
-            videos: "cartoons",
-            label: "C | Videos",
-        },
-    ];
+const useStyles = makeStyles((theme) => ({
+    root: {
+        paddingTop: theme.spacing(3)
+    },
+}));
+
+const movieLocations = [
+    {
+        key: "cartoons",
+        label: "K | Cartoons",
+    },
+    {
+        key: "movies",
+        label: "L | Movies",
+    },
+    {
+        key: "serialMovies",
+        label: "M | Serial Movies",
+    },
+    {
+        key: "music",
+        label: "D | New Movies",
+    },
+    {
+        videos: "cartoons",
+        label: "C | Videos",
+    },
+];
+
+const fileRadios = (props) => {
+    const {fileLocation, onChooseLocation} = props;
+    const {root} = useStyles();
 
     const radios = movieLocations.map(location => {
             const {key, label} = location;
@@ -37,9 +46,14 @@ const fileRadios = () => {
         }
     );
 
-    return <React.Fragment>
+    return <RadioGroup
+               className={root}
+               name="location"
+               value={fileLocation}
+               onChange={onChooseLocation}
+           >
                {radios}
-           </React.Fragment>;
+           </RadioGroup>;
 };
 
 export default fileRadios;

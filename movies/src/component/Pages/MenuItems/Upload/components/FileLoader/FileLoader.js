@@ -21,7 +21,6 @@ import {
     FormControl,
     FormControlLabel,
     makeStyles,
-    RadioGroup,
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
@@ -30,13 +29,10 @@ const useStyles = makeStyles((theme) => ({
     divider: {
         margin: theme.spacing(4,0,3.5,0)
     },
-    radioGroup: {
-        paddingTop: theme.spacing(3)
-    },
 }));
 
 const fileLoader = () => {
-    const {divider, radioGroup} = useStyles();
+    const {divider} = useStyles();
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
@@ -115,14 +111,9 @@ const fileLoader = () => {
             <CardContent>
                 <FormControl>
                     <MyFormLabel text="Movie location"/>
-                    <RadioGroup
-                        className={radioGroup}
-                        name="location"
-                        value={fileLocation}
-                        onChange={handleChooseLocation}
-                    >
-                        <FileRadios/>
-                    </RadioGroup>
+                    <FileRadios
+                        fileLocation={fileLocation}
+                        onChooseLocation={handleChooseLocation}/>
                 </FormControl>
                 <Divider className={divider}/>
                 <FormControl component="single-upload">
