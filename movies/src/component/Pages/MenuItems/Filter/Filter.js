@@ -10,18 +10,11 @@ import {getAllGenresUrl, reactLinks} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 
-import {Card, CardActions, CardContent, FormControl, makeStyles, Select, useTheme} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        paddingTop: theme.spacing(2),
-    },
-}));
-
 const filter = (props) => {
-    const {root} = useStyles();
     const theme = useTheme();
     const {tmdbApi} = useSelector(state => state.api);
     const dispatch = useDispatch();
@@ -36,8 +29,7 @@ const filter = (props) => {
         setIsLoading(true);
         axios.get(getAllGenresUrl(tmdbApi))
             .then(response => {
-                const {data} = response;
-                const {genres} = data;
+                const {data: {genres}} = response;
                 setGenres(genres);
                 setIsLoading(false);
             })
@@ -73,7 +65,7 @@ const filter = (props) => {
 
     let genreFilter = <MyLoader/>;
     if (!isLoading) {
-        const names = genres.flatMap(g => g.name);
+        const genreNames = genres.flatMap(genre => genre.name);
         genreFilter =
             <Card variant="elevation">
                 <CardContent>
@@ -83,7 +75,8 @@ const filter = (props) => {
                     >
                         <MyFormLabel
                             text="Genres"
-                            customStyle={{paddingBottom: theme.spacing(2)}}/>
+                            customStyle={{paddingBottom: theme.spacing(2)}}
+                        />
                         <Select
                             multiple
                             native
@@ -93,7 +86,7 @@ const filter = (props) => {
                                 id: 'select-multiple-native',
                             }}
                         >
-                            {names.map((name) => (
+                            {genreNames.map((name) => (
                                 <option key={name} value={name}>
                                     {name}
                                 </option>
