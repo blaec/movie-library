@@ -41,6 +41,8 @@ const fileLoader = () => {
 
     const [fileLocation, setFileLocation] = useState('');
     const [isSingleMovieUpload, setIsSingleMovieUpload] = useState(false);
+    const [isTmdbIdValid, setIsTmdbIdValid] = useState(false);
+    const [isFileNameValid, setIsFileNameValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const resetForm = () => {
@@ -114,6 +116,14 @@ const fileLoader = () => {
         }
     };
 
+    const handleTmdbIdValidation = (isValid) => {
+        setIsTmdbIdValid(isValid);
+    };
+
+    const handleFileNameValidation = (isValid) => {
+        setIsFileNameValid(isValid);
+    };
+
     const singleMovieUploadSwitch = (
         <Switch
             color="primary"
@@ -123,7 +133,7 @@ const fileLoader = () => {
     );
     const isScanButtonDisabled = isLoading
                                  || fileLocation === ''
-                                 || (isSingleMovieUpload && (tmdbIdRef === '' || fileNameRef === ''));
+                                 || (isSingleMovieUpload && (!isTmdbIdValid || !isFileNameValid));
     return (
         <Card variant="elevation">
             <CardContent>
@@ -141,10 +151,14 @@ const fileLoader = () => {
                     />
                     <FileTmdbIdInput
                         inputRef={tmdbIdRef}
-                        isSingleMovieUpload={isSingleMovieUpload}/>
+                        isSingleMovieUpload={isSingleMovieUpload}
+                        onValid={handleTmdbIdValidation}
+                    />
                     <FileNameInput
                         inputRef={fileNameRef}
-                        isSingleMovieUpload={isSingleMovieUpload}/>
+                        isSingleMovieUpload={isSingleMovieUpload}
+                        onValid={handleFileNameValidation}
+                    />
                 </FormControl>
                 <MyLinearProgress loading={isLoading}/>
             </CardContent>
