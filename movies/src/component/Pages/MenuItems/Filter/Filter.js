@@ -124,7 +124,11 @@ const filter = (props) => {
 
     return (
         <MyGrid>
-            {[genreFilter]}
+            {[
+                <React.Fragment key={1}>
+                    {genreFilter}
+                </React.Fragment>
+            ]}
         </MyGrid>
     );
 };

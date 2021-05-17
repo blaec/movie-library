@@ -5,7 +5,7 @@ import WishLoader from "./components/WishLoader/WishLoader";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 
 const upload = () => {
-    let loaders = [<WishLoader/>, <FileLoader/>]
+    let loaders = [<WishLoader key={1}/>, <FileLoader key={2}/>]
     return (
         <MyGrid>
             {loaders}
