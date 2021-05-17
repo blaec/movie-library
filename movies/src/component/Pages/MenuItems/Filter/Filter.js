@@ -8,8 +8,9 @@ import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import {getAllGenresUrl, reactLinks} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
+import MyGrid from "../../../../UI/Buttons/MyGrid";
 
-import {Card, CardActions, CardContent, FormControl, Grid, makeStyles, Select, useTheme} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, makeStyles, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
@@ -121,22 +122,10 @@ const filter = (props) => {
             </Card>;
     }
 
-    // TODO duplicate Upload.js
-    let border = <Grid item xs={1} lg={2} xl={3}/>;
     return (
-        <React.Fragment>
-            <Grid container className={root}>
-                {border}
-                <Grid item xs={10} lg={8} xl={6}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            {genreFilter}
-                        </Grid>
-                    </Grid>
-                </Grid>
-                {border}
-            </Grid>
-        </React.Fragment>
+        <MyGrid>
+            {[genreFilter]}
+        </MyGrid>
     );
 };
 
