@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 
@@ -8,7 +8,7 @@ const fileTmdbIdInput = (props) => {
     const [tmdbId, setTmdbId] = useState('');
     const [isTouched, setIsTouched] = useState(false);
 
-    const validityCheck = (text) => !isTouched || text.length > 0;
+    const validityCheck = (text) => !isTouched || (text.length > 0 && Number.isInteger(+text));
 
     let isValid = validityCheck(tmdbId);
     const handleTextFieldChange = (text) => {
@@ -19,6 +19,14 @@ const fileTmdbIdInput = (props) => {
     const handleFieldTouch = () => {
         setIsTouched(true);
     };
+
+    const {current: {value: tmdbIdRefValue} = {value: ''}} = inputRef;
+    useEffect(() => {
+        if (tmdbIdRefValue === '') {
+            setTmdbId('');
+            onValid(validityCheck(''));
+        }
+    }, [tmdbIdRefValue]);
 
     return (
         <MyTextField

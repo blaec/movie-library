@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 
@@ -19,6 +19,14 @@ const fileNameInput = (props) => {
     const handleFieldTouch = () => {
         setIsTouched(true);
     };
+
+    const {current: {value: fileNameRefValue} = {value: ''}} = inputRef;
+    useEffect(() => {
+        if (fileNameRefValue === '') {
+            setFileName('');
+            onValid(validityCheck(''));
+        }
+    }, [fileNameRefValue]);
 
     return (
         <MyTextField
