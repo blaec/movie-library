@@ -1,28 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
+import useInput from "../../../../../../hooks/use-input";
+
+const validateValue = (text) => text.trim() !== '';
 
 const wishTitleInput = (props) => {
     const {inputRef, onSearchDisable} = props;
 
-    const [wishTitle, setWishTitle] = useState('');
-    const [isTouched, setIsTouched] = useState(false);
-
-    const validityCheck = (text) => isTouched && text.length === 0;
-
-    let isNotValid = validityCheck(wishTitle);
-    const handleTextFieldChange = (text) => {
-        setWishTitle(text);
-        onSearchDisable(validityCheck(text));
-    };
-
-    const handleFieldTouch = () => {
-        setIsTouched(true);
-    };
+    const {value: wishTitle, handleFieldTouch, handleTextFieldChange, isValid} = useInput(inputRef, validateValue);
+    onSearchDisable(!isValid);
 
     return (
         <MyTextField
-            isNotValid={isNotValid}
+            isNotValid={!isValid}
             text={wishTitle}
             label="Movie title"
             helperText="Enter movie title"
