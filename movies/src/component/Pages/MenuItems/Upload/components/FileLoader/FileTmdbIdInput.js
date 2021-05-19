@@ -1,32 +1,39 @@
 import React, {useEffect, useState} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
+import useInput from "../../../../../../hooks/use-input";
 
 const fileTmdbIdInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
 
-    const [tmdbId, setTmdbId] = useState('');
-    const [isTouched, setIsTouched] = useState(false);
-
-    const validityCheck = (text) => !isTouched || (text.length > 0 && Number.isInteger(+text));
-
-    let isValid = validityCheck(tmdbId);
-    const handleTextFieldChange = (text) => {
-        setTmdbId(text);
-        onValid(validityCheck(text));
-    };
-
-    const handleFieldTouch = () => {
-        setIsTouched(true);
-    };
-
-    const {current: {value: tmdbIdRefValue} = {value: ''}} = inputRef;
-    useEffect(() => {
-        if (tmdbIdRefValue === '') {
-            setTmdbId('');
-            onValid(validityCheck(''));
-        }
-    }, [tmdbIdRefValue]);
+    const {
+        value: tmdbId,
+        handleFieldTouch,
+        handleTextFieldChange,
+        isValid
+    } = useInput(inputRef, (text) => (text.length > 0 && Number.isInteger(+text)), onValid);
+    // const [tmdbId, setTmdbId] = useState('');
+    // const [isTouched, setIsTouched] = useState(false);
+    //
+    // const validityCheck = (text) => !isTouched || (text.length > 0 && Number.isInteger(+text));
+    //
+    // let isValid = validityCheck(tmdbId);
+    // const handleTextFieldChange = (text) => {
+    //     setTmdbId(text);
+    //     onValid(validityCheck(text));
+    // };
+    //
+    // const handleFieldTouch = () => {
+    //     setIsTouched(true);
+    // };
+    //
+    // const {current: {value: tmdbIdRefValue} = {value: ''}} = inputRef;
+    // useEffect(() => {
+    //     if (tmdbIdRefValue === '') {
+    //         setTmdbId('');
+    //         onValid(validityCheck(''));
+    //     }
+    // }, [tmdbIdRefValue]);
 
     return (
         <MyTextField
