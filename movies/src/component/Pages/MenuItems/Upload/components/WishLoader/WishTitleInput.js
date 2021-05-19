@@ -13,7 +13,7 @@ const wishTitleInput = (props) => {
 
     return (
         <MyTextField
-            isNotValid={!isValid}
+            isValid={isValid}
             text={wishTitle}
             label="Movie title"
             helperText="Enter movie title"

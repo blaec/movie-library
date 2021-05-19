@@ -13,7 +13,7 @@ const fileTmdbIdInput = (props) => {
 
     return (
         <MyTextField
-            isNotValid={!isValid && isSingleMovieUpload}
+            isValid={isValid || !isSingleMovieUpload}
             text={tmdbId}
             disabled={!isSingleMovieUpload}
             label="tmdb id"

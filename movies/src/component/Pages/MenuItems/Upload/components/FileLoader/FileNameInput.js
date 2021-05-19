@@ -13,7 +13,7 @@ const fileNameInput = (props) => {
 
     return (
         <MyTextField
-            isNotValid={!isValid && isSingleMovieUpload}
+            isValid={isValid || !isSingleMovieUpload}
             text={fileName}
             disabled={!isSingleMovieUpload}
             label="Exact file name"

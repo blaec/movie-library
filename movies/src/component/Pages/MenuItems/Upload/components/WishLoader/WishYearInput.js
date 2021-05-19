@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
@@ -16,7 +16,7 @@ const wishYearInput = (props) => {
 
     return (
         <MyTextField
-            isNotValid={!isValid}
+            isValid={isValid}
             text={wishYear}
             label="Release year"
             helperText="Enter movie release year"
