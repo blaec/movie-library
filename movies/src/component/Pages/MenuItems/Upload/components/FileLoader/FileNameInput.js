@@ -1,32 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
+import useInput from "../../../../../../hooks/use-input";
+
+const validateValue = (text) => text.trim() !== '';
 
 const fileNameInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
 
-    const [fileName, setFileName] = useState('');
-    const [isTouched, setIsTouched] = useState(false);
-
-    const validityCheck = (text) => !isTouched || text.length > 0;
-
-    let isValid = validityCheck(fileName);
-    const handleTextFieldChange = (text) => {
-        setFileName(text);
-        onValid(validityCheck(text));
-    };
-
-    const handleFieldTouch = () => {
-        setIsTouched(true);
-    };
-
-    const {current: {value: fileNameRefValue} = {value: ''}} = inputRef;
-    useEffect(() => {
-        if (fileNameRefValue === '') {
-            setFileName('');
-            onValid(validityCheck(''));
-        }
-    }, [fileNameRefValue]);
+    const {value: fileName, handleFieldTouch, handleTextFieldChange, isValid} = useInput(inputRef, validateValue);
+    onValid(isValid);
 
     return (
         <MyTextField

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const useInput = (inputRef, validateValue, onValid) => {
+const useInput = (inputRef, validateValue) => {
     const [enteredValue, setEnteredValue] = useState('');
     const [isTouched, setIsTouched] = useState(false);
 
@@ -8,7 +8,6 @@ const useInput = (inputRef, validateValue, onValid) => {
 
     const handleTextFieldChange = (text) => {
         setEnteredValue(text);
-        onValid(validateValue(text) || !isTouched);
     };
 
     const handleFieldTouch = () => {
@@ -19,7 +18,6 @@ const useInput = (inputRef, validateValue, onValid) => {
     useEffect(() => {
         if (tmdbIdRefValue === '') {
             setEnteredValue('');
-            onValid(!isTouched);
         }
     }, [tmdbIdRefValue]);
 
