@@ -12,11 +12,17 @@ const validateValue = (text) => (
 const wishYearInput = (props) => {
     const {inputRef} = props;
 
-    const {value: wishYear, handleTextFieldChange, handleFieldTouch, isValid} = useInput(inputRef, validateValue);
+    const {
+        value: wishYear,
+        handleTextFieldChange,
+        handleFieldTouch,
+        isValid,
+        hasError
+    } = useInput(inputRef, validateValue);
 
     return (
         <MyTextField
-            isValid={isValid}
+            isValid={!hasError}
             text={wishYear}
             label="Release year"
             helperText="Enter movie release year"

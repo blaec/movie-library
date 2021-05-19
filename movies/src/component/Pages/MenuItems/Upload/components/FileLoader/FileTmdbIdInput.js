@@ -8,12 +8,18 @@ const validateValue = (text) => (text.trim() !== '' && Number.isInteger(+text));
 const fileTmdbIdInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
 
-    const {value: tmdbId, handleFieldTouch, handleTextFieldChange, isValid} = useInput(inputRef, validateValue);
+    const {
+        value: tmdbId,
+        handleFieldTouch,
+        handleTextFieldChange,
+        isValid,
+        hasError
+    } = useInput(inputRef, validateValue);
     onValid(isValid);
 
     return (
         <MyTextField
-            isValid={isValid || !isSingleMovieUpload}
+            isValid={!hasError || !isSingleMovieUpload}
             text={tmdbId}
             disabled={!isSingleMovieUpload}
             label="tmdb id"

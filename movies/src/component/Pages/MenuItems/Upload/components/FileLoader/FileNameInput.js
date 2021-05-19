@@ -8,12 +8,18 @@ const validateValue = (text) => text.trim() !== '';
 const fileNameInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
 
-    const {value: fileName, handleFieldTouch, handleTextFieldChange, isValid} = useInput(inputRef, validateValue);
+    const {
+        value: fileName,
+        handleFieldTouch,
+        handleTextFieldChange,
+        isValid,
+        hasError
+    } = useInput(inputRef, validateValue);
     onValid(isValid);
 
     return (
         <MyTextField
-            isValid={isValid || !isSingleMovieUpload}
+            isValid={!hasError || !isSingleMovieUpload}
             text={fileName}
             disabled={!isSingleMovieUpload}
             label="Exact file name"

@@ -8,12 +8,18 @@ const validateValue = (text) => text.trim() !== '';
 const wishTitleInput = (props) => {
     const {inputRef, onSearchDisable} = props;
 
-    const {value: wishTitle, handleFieldTouch, handleTextFieldChange, isValid} = useInput(inputRef, validateValue);
+    const {
+        value: wishTitle,
+        handleFieldTouch,
+        handleTextFieldChange,
+        isValid,
+        hasError
+    } = useInput(inputRef, validateValue);
     onSearchDisable(!isValid);
 
     return (
         <MyTextField
-            isValid={isValid}
+            isValid={!hasError}
             text={wishTitle}
             label="Movie title"
             helperText="Enter movie title"

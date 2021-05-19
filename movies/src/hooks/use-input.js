@@ -4,7 +4,8 @@ const useInput = (inputRef, validateValue) => {
     const [enteredValue, setEnteredValue] = useState('');
     const [isTouched, setIsTouched] = useState(false);
 
-    const isValid = validateValue(enteredValue) || !isTouched;
+    const isValid = validateValue(enteredValue);
+    const hasError = !isValid && isTouched;
 
     const handleTextFieldChange = (text) => {
         setEnteredValue(text);
@@ -25,7 +26,8 @@ const useInput = (inputRef, validateValue) => {
         value: enteredValue,
         handleTextFieldChange,
         handleFieldTouch,
-        isValid
+        isValid,
+        hasError
     };
 };
 
