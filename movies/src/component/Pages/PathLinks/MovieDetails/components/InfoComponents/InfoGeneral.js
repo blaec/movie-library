@@ -3,6 +3,7 @@ import React from 'react';
 import {NA_Safe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,11 +28,13 @@ const infoGeneral = (props) => {
     const {
         omdbDetails: {Rated, imdbRating, imdbVotes},
         tmdbDetails: {release_date, runtime, title},
-        fileDetails,
         genreDetails
     } = props;
-    const {resolution, size, location} = fileDetails || {};
     const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
+
+    const {
+        movieToInfoComponent: {resolution, size, location} = {movieToInfoComponent: {}}
+    } = useSelector(state => state.collection.selectedMovie);
 
     const metadata = {
         rated: NA_Safe(Rated),
