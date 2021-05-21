@@ -10,6 +10,7 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 
 import {makeStyles} from "@material-ui/core/styles";
 import * as actions from "../../../../store/actions";
+import {feedbackActions} from "../../../../store/feedback";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,8 +34,7 @@ const movieDetails = (props) => {
     // const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
     const selectedMovieDetails = {};
     const dispatch = useDispatch();
-    const onSetSnackbar = () => {};
-    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();

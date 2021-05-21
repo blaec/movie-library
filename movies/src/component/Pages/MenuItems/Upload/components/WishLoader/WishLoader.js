@@ -16,13 +16,13 @@ import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
+import {feedbackActions} from "../../../../../../store/feedback";
 
 
 const wishLoader = () => {
     const tmdbApi = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
-    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
-    const onSetSnackbar = () => {};
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const wishTitleRef = useRef();
     const wishYearRef = useRef();

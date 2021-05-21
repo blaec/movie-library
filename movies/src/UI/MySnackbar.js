@@ -5,15 +5,14 @@ import * as actions from "../store/actions";
 
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
+import {feedbackActions} from "../store/feedback";
 
 const mySnackbar = () => {
-    const snackbar = {};
-    // const snackbar = useSelector(state => state.snackbar);
+    const snackbar = useSelector(state => state.feedback.snackbar);
     const {open, message, type} = snackbar;
 
     const dispatch = useDispatch();
-    const onSetSnackbar = () => {};
-    // const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
+    const onSetSnackbar = (settings) => dispatch(feedbackActions.setSnackbar(settings));
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {

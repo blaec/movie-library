@@ -24,6 +24,7 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import {feedbackActions} from "../../../../../../store/feedback";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -34,8 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const fileLoader = () => {
     const {divider} = useStyles();
     const dispatch = useDispatch();
-    const onSetSnackbar = () => {};
-    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const tmdbIdRef = useRef();
     const fileNameRef = useRef();
