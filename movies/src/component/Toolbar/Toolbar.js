@@ -13,8 +13,9 @@ const toolbar = () => {
     return (
         <div>
             <MyAppBar onDrawerToggle={handleDrawerToggle}/>
-            <MyDrawer open={mobileOpen}
-                      onDrawerToggle={handleDrawerToggle}
+            <MyDrawer
+                open={mobileOpen}
+                onDrawerToggle={handleDrawerToggle}
             />
         </div>
     );

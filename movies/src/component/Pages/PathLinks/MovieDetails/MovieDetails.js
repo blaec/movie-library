@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 // TODO refactor multiple axios get requests
 const movieDetails = (props) => {
-    const {match : {params : {movieId}}} = props;
+    const {match: {params: {movieId}}} = props;
     const {root} = useStyles();
 
     const {tmdbApi, omdbApi} = useSelector(state => state.api);
@@ -114,17 +114,19 @@ const movieDetails = (props) => {
         const id = localStorage.getItem('id');
         details = (
             <div className={root}>
-                <BackdropImage backdrops={backdrops}
-                               alt={`${fullTitle(title, releaseDate)}`}
-                               id={id}
-                               onClose={handleBack}
-                               onDelete={handleDeleteMovie}
+                <BackdropImage
+                    backdrops={backdrops}
+                    alt={`${fullTitle(title, releaseDate)}`}
+                    id={id}
+                    onClose={handleBack}
+                    onDelete={handleDeleteMovie}
                 />
-                <Info tmdbDetails={movieDetails}
-                      omdbDetails={omdbMovieDetails}
-                      fileDetails={selectedMovieDetails.movieToInfoComponent}
-                      castDetails={cast}
-                      genreDetails={genres}
+                <Info
+                    tmdbDetails={movieDetails}
+                    omdbDetails={omdbMovieDetails}
+                    fileDetails={selectedMovieDetails.movieToInfoComponent}
+                    castDetails={cast}
+                    genreDetails={genres}
                 />
             </div>
         );
@@ -132,7 +134,7 @@ const movieDetails = (props) => {
 
     return (
         <React.Fragment>
-             {details}
+            {details}
         </React.Fragment>
     );
 };

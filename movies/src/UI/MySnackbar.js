@@ -22,17 +22,21 @@ const mySnackbar = () => {
     };
 
     return (
-        <Snackbar open={open}
-                  anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                  }}
-                  autoHideDuration={3000}
-                  onClose={handleSnackbarClose}>
-            <Alert onClose={handleSnackbarClose}
-                   elevation={6}
-                   variant='filled'
-                   severity={type}>
+        <Snackbar
+            open={open}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+        >
+            <Alert
+                onClose={handleSnackbarClose}
+                elevation={6}
+                variant='filled'
+                severity={type}
+            >
                 {message}
             </Alert>
         </Snackbar>

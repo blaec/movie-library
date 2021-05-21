@@ -41,13 +41,16 @@ const movieMenu = () => {
 
     const menuItems = menuItemsData.map((item, index) => {
             const {text, link, icon} = item;
-            return <MyListItem key={index}
-                               caption={text}
-                               link={link}
-                               icon={icon}
-                               selected={selectedCaption}
-                               onClick={handleListItemClick}
-            />;
+            return (
+                <MyListItem
+                    key={index}
+                    caption={text}
+                    link={link}
+                    icon={icon}
+                    selected={selectedCaption}
+                    onClick={handleListItemClick}
+                />
+            );
         }
     );
 

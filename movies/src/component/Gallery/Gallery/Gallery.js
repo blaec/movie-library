@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Movie from "./components/Movie";
 import * as actions from "../../../store/actions";
 import {fullTitle} from "../../../utils/Utils";
-import {grid} from "../../../utils/Constants";
+import {delay, grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
@@ -41,9 +41,11 @@ const gallery = (props) => {
         onSetSelectedMovieDetails(movie);
         setIsViewingDetails(true);
         localStorage.setItem('id', movie.movieToDetailsComponent.id);
+        localStorage.setItem('currentPage', `${currentPage}`);
     };
 
     const handlePageChange = (event, page) => {
+        localStorage.removeItem('currentPage');
         setCurrentPage(page);
     };
 
@@ -53,18 +55,32 @@ const gallery = (props) => {
         }
     }, [isViewingDetails, scrollPosition]);
 
+    useEffect(() => {
+        let page = +localStorage.getItem('currentPage');
+        if (page !== 0) {
+            setCurrentPage(page);
+            localStorage.removeItem('currentPage')
+        }
+    }, []);
+
     const windowWidth = window.innerWidth;
     useEffect(() => {
+        const identifier = setTimeout(() => {
 
-        // filter movies using Search...
-        const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
-        setDisplayedMovieList(filteredMovies);
+            // filter movies using Search...
+            const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
+            setDisplayedMovieList(filteredMovies);
 
-        // set gallery pagination structure
-        const structure = Object.values(grid).filter(grid => grid.resolution < windowWidth).slice(-1).pop();
-        let moviesPerPage = structure.rows * structure.moviesPerRow;
-        setMoviesPerPage(moviesPerPage);
-        setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
+            // set gallery pagination structure
+            const structure = Object.values(grid).filter(grid => grid.resolution < windowWidth).slice(-1).pop();
+            let moviesPerPage = structure.rows * structure.moviesPerRow;
+            setMoviesPerPage(moviesPerPage);
+            setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
+        }, delay.search);
+
+        return () => {
+            clearTimeout(identifier);
+        };
     }, [search, windowWidth, movies]);
 
     const lastMovieOnCurrentPage = currentPage * moviesPerPage;
@@ -75,33 +91,35 @@ const gallery = (props) => {
                 {moviesOnCurrentPage.map(movie => {
                         const {id, tmdbId, type, posterPath, title, releaseDate, resolution, size, location} = movie;
                         return (
-                            <Movie key={id}
-                                   poster={posterPath}
-                                   alt={`${fullTitle(title, releaseDate)}`}
-                                   onClick={handleViewMovieDetails}
-                                   movieToComponents={{
-                                       type: type,
-                                       movieToDetailsComponent: {
-                                           id: id,
-                                           tmdbId: tmdbId,
-                                       },
-                                       movieToInfoComponent: {
-                                           resolution: resolution,
-                                           size: size,
-                                           location: location
-                                       }
-                                   }}
+                            <Movie
+                                key={id}
+                                poster={posterPath}
+                                alt={`${fullTitle(title, releaseDate)}`}
+                                onClick={handleViewMovieDetails}
+                                movieToComponents={{
+                                    type: type,
+                                    movieToDetailsComponent: {
+                                        id: id,
+                                        tmdbId: tmdbId,
+                                    },
+                                    movieToInfoComponent: {
+                                        resolution: resolution,
+                                        size: size,
+                                        location: location
+                                    }
+                                }}
                             />
                         )
                     }
                 )}
             </div>
-            <Pagination className={pagination}
-                        page={currentPage}
-                        count={totalPages}
-                        variant="outlined"
-                        color="primary"
-                        onChange={handlePageChange}/>
+            <Pagination
+                className={pagination}
+                page={currentPage}
+                count={totalPages}
+                variant="outlined"
+                color="primary"
+                onChange={handlePageChange}/>
         </React.Fragment>
     );
 

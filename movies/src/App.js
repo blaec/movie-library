@@ -52,15 +52,16 @@ const app = () => {
                     {/* Path links */}
                     <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
                     <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
+
                     <Redirect to={home}/>
                 </Switch>
             </Layout>;
     }
 
     return (
-        <div>
+        <React.Fragment>
             {layout}
-        </div>
+        </React.Fragment>
     );
 }
 

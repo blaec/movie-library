@@ -1,5 +1,5 @@
 /**
- * Extract year from release date, release date could be undifined
+ * Extract year from release date, release date could be undefined
  * @param releaseDate release date formatted like yyyy-mm-dd
  * @returns {string|*|string} empty string or year
  */

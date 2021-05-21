@@ -21,9 +21,10 @@ const myDelete = (props) => {
     const {root} = useStyles();
 
     return (
-        <DeleteTwoToneIcon className={root}
-                           fontSize="large"
-                           onClick={onDelete}/>
+        <DeleteTwoToneIcon
+            className={root}
+            fontSize="large"
+            onClick={onDelete}/>
     );
 };
 

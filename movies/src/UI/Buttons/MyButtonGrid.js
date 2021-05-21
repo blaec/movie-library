@@ -14,7 +14,11 @@ const myButtonGrid = (props) => {
 
     return (
         <Grid container className={root}>
-            <Grid container item xs={12} justify='flex-end'>
+            <Grid container
+                  item
+                  xs={12}
+                  justify='flex-end'
+            >
                 {props.children}
             </Grid>
         </Grid>

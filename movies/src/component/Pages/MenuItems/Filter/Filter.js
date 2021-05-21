@@ -8,19 +8,13 @@ import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import {getAllGenresUrl, reactLinks} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
+import MyGrid from "../../../../UI/Buttons/MyGrid";
 
-import {Card, CardActions, CardContent, FormControl, Grid, makeStyles, Select, useTheme} from "@material-ui/core";
+import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        paddingTop: theme.spacing(2),
-    },
-}));
-
 const filter = (props) => {
-    const {root} = useStyles();
     const theme = useTheme();
     const {tmdbApi} = useSelector(state => state.api);
     const dispatch = useDispatch();
@@ -35,8 +29,7 @@ const filter = (props) => {
         setIsLoading(true);
         axios.get(getAllGenresUrl(tmdbApi))
             .then(response => {
-                const {data} = response;
-                const {genres} = data;
+                const {data: {genres}} = response;
                 setGenres(genres);
                 setIsLoading(false);
             })
@@ -72,24 +65,28 @@ const filter = (props) => {
 
     let genreFilter = <MyLoader/>;
     if (!isLoading) {
-        const names = genres.flatMap(g => g.name);
+        const genreNames = genres.flatMap(genre => genre.name);
         genreFilter =
             <Card variant="elevation">
                 <CardContent>
-                    <FormControl fullWidth
-                                 variant='outlined'
+                    <FormControl
+                        fullWidth
+                        variant='outlined'
                     >
-                        <MyFormLabel text="Genres"
-                                     customStyle={{paddingBottom: theme.spacing(2)}}/>
-                        <Select multiple
-                                native
-                                value={genreSelection}
-                                onChange={handleChangeMultiple}
-                                inputProps={{
-                                    id: 'select-multiple-native',
-                                }}
+                        <MyFormLabel
+                            text="Genres"
+                            customStyle={{paddingBottom: theme.spacing(2)}}
+                        />
+                        <Select
+                            multiple
+                            native
+                            value={genreSelection}
+                            onChange={handleChangeMultiple}
+                            inputProps={{
+                                id: 'select-multiple-native',
+                            }}
                         >
-                            {names.map((name) => (
+                            {genreNames.map((name) => (
                                 <option key={name} value={name}>
                                     {name}
                                 </option>
@@ -99,38 +96,33 @@ const filter = (props) => {
                 </CardContent>
                 <CardActions>
                     <MyButtonGrid>
-                        <MySubmitButton icon={<HighlightOffTwoToneIcon/>}
-                                        buttonStyles={{marginRight: 1}}
-                                        caption="Clear"
-                                        type="danger"
-                                        onSubmit={handleClear}
+                        <MySubmitButton
+                            icon={<HighlightOffTwoToneIcon/>}
+                            buttonStyles={{marginRight: 1}}
+                            caption="Clear"
+                            type="danger"
+                            onSubmit={handleClear}
                         />
-                        <MySubmitButton icon={<SearchTwoToneIcon/>}
-                                        caption="Filter"
-                                        type="success"
-                                        fill="filled"
-                                        onSubmit={handleGetMovies}
+                        <MySubmitButton
+                            icon={<SearchTwoToneIcon/>}
+                            caption="Filter"
+                            type="success"
+                            fill="filled"
+                            onSubmit={handleGetMovies}
                         />
                     </MyButtonGrid>
                 </CardActions>
             </Card>;
     }
 
-    // TODO duplicate Upload.js
     return (
-        <React.Fragment>
-            <Grid container className={root}>
-                <Grid item xs={1} lg={2} xl={3}/>
-                <Grid item xs={10} lg={8} xl={6}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            {genreFilter}
-                        </Grid>
-                    </Grid>
-                </Grid>
-                <Grid item xs={1} lg={2} xl={3}/>
-            </Grid>
-        </React.Fragment>
+        <MyGrid>
+            {[
+                <React.Fragment key={1}>
+                    {genreFilter}
+                </React.Fragment>
+            ]}
+        </MyGrid>
     );
 };
 

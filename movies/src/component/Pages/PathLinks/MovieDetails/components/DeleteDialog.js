@@ -8,8 +8,9 @@ const deleteDialog = (props) => {
     const {open, onExit, onDelete} = props;
 
     return (
-        <Dialog open={open}
-                onClose={onExit}
+        <Dialog
+            open={open}
+            onClose={onExit}
         >
             <DialogTitle>
                 Delete Movie
@@ -20,12 +21,14 @@ const deleteDialog = (props) => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <MyDialogButton type="success"
-                                caption="No"
-                                onClick={onExit}/>
-                <MyDialogButton type="danger"
-                                caption="Yes"
-                                onClick={onDelete}/>
+                <MyDialogButton
+                    type="success"
+                    caption="No"
+                    onClick={onExit}/>
+                <MyDialogButton
+                    type="danger"
+                    caption="Yes"
+                    onClick={onDelete}/>
             </DialogActions>
         </Dialog>
     );

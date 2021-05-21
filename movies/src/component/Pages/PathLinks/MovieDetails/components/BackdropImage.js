@@ -45,22 +45,28 @@ const backdropImage = props => {
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
                 <MyDelete onDelete={handleDeletedMovie}/>
-                <Carousel timeout={TIMEOUT}
-                          animation="fade"
-                          navButtonsAlwaysInvisible>
+                <Carousel
+                    timeout={TIMEOUT}
+                    animation="fade"
+                    navButtonsAlwaysInvisible
+                >
                     {backdrops.map((backdrop, idx) => {
                         const {aspect_ratio, file_path} = backdrop;
-                        return <img key={idx + 1}
-                                    height={windowWidth / aspect_ratio}
-                                    src={getImageUrl(file_path)}
-                                    alt={alt}
-                        />;
+                        return (
+                            <img
+                                key={idx + 1}
+                                height={windowWidth / aspect_ratio}
+                                src={getImageUrl(file_path)}
+                                alt={alt}
+                            />
+                        );
                     })}
                 </Carousel>
             </div>
-            <DeleteDialog open={isDeleting}
-                          onExit={handleCloseDeleteDialog}
-                          onDelete={() => onDelete(id)}
+            <DeleteDialog
+                open={isDeleting}
+                onExit={handleCloseDeleteDialog}
+                onDelete={() => onDelete(id)}
             />
         </React.Fragment>
     );

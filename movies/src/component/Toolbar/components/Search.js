@@ -71,14 +71,15 @@ const search = () => {
             <div className={searchIcon}>
                 <SearchIcon/>
             </div>
-            <InputBase placeholder="Search..."
-                       onChange={event => onSearchChange(event.target.value)}
-                       classes={{
-                           root: inputRoot,
-                           input: inputInput,
-                       }}
-                       value={search}
-                       endAdornment={endAdornment()}
+            <InputBase
+                placeholder="Search..."
+                onChange={event => onSearchChange(event.target.value)}
+                classes={{
+                    root: inputRoot,
+                    input: inputInput,
+                }}
+                value={search}
+                endAdornment={endAdornment()}
             />
         </div>
     );

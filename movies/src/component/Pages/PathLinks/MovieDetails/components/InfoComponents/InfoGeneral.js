@@ -49,30 +49,34 @@ const infoGeneral = (props) => {
     return (
         <div className={root}>
             <Typography component="div">
-                <Box className={locationFont}
-                     fontSize="caption.fontSize"
+                <Box
+                    className={locationFont}
+                    fontSize="caption.fontSize"
                 >
                     {location}
                 </Box>
                 <Divider/>
-                <Box className={metaFont}
-                     fontSize="subtitle2.fontSize"
-                     textAlign="center"
-                     paddingTop={1}
+                <Box
+                    className={metaFont}
+                    fontSize="subtitle2.fontSize"
+                    textAlign="center"
+                    paddingTop={1}
                 >
                     {Object.values(metadata)
                         .filter(val => val !== null)
                         .join(` | `)}
                 </Box>
-                <Box className={titleFont}
-                     fontSize="h4.fontSize"
-                     textAlign="center"
+                <Box
+                    className={titleFont}
+                    fontSize="h4.fontSize"
+                    textAlign="center"
                 >
                     {title}
                 </Box>
-                <Box className={genreFont}
-                     fontSize="subtitle1.fontSize"
-                     textAlign="center"
+                <Box
+                    className={genreFont}
+                    fontSize="subtitle1.fontSize"
+                    textAlign="center"
                 >
                     {genreDetails}
                 </Box>

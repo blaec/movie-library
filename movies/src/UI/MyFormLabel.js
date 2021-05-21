@@ -15,8 +15,10 @@ const myFormLabel = (props) => {
     const {label} = useStyles();
 
     return (
-        <FormLabel className={label}
-                   style={customStyle}>
+        <FormLabel
+            className={label}
+            style={customStyle}
+        >
             {text}
         </FormLabel>
     );
