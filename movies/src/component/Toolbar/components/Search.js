@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import * as actions from "../../../store/actions";
+import {filterActions} from "../../../store/filter";
 
 import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -52,9 +52,9 @@ const useStyles = makeStyles((theme) => ({
 
 const search = () => {
     const {root, searchIcon, inputRoot, inputInput} = useStyles();
-    const search = useSelector(state => state.search);
+    const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
-    const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
+    const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));
 
     let endAdornment = () => '';
     if (search) {

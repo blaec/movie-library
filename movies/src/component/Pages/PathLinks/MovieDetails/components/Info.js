@@ -46,7 +46,6 @@ const info = props => {
         omdbDetails,
         tmdbDetails,
         tmdbDetails: {tagline, overview},
-        fileDetails,
         castDetails,
         genreDetails
     } = props;
@@ -61,7 +60,6 @@ const info = props => {
         <React.Fragment>
             <InfoGeneral omdbDetails={omdbDetails}
                          tmdbDetails={tmdbDetails}
-                         fileDetails={fileDetails}
                          genreDetails={genreDetails}/>
             <div className={`${root} ${tabsBackground}`}>
                 <Paper square className={tabsBackground}>

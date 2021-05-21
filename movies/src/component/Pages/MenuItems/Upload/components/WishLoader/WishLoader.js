@@ -8,9 +8,9 @@ import WishPreview from "./WishPreview";
 import MyLinearProgress from "../MyLinearProgress";
 import axios from "../../../../../../axios-movies";
 import {getSearchMovieUrl, movieApi} from "../../../../../../utils/UrlUtils";
-import * as actions from "../../../../../../store/actions";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
+import {feedbackActions} from "../../../../../../store/feedback";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
@@ -19,9 +19,9 @@ import Carousel from "react-material-ui-carousel";
 
 
 const wishLoader = () => {
-    const configs = useSelector(state => state.api);
+    const tmdbApi = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const wishTitleRef = useRef();
     const wishYearRef = useRef();
@@ -53,7 +53,7 @@ const wishLoader = () => {
         setIsLoading(true);
         const {current: {value: title}} = wishTitleRef;
         const {current: {value: year}} = wishYearRef;
-        axios.get(getSearchMovieUrl({query: title, year: year, api_key: configs.tmdbApi}))
+        axios.get(getSearchMovieUrl({query: title, year: year, api_key: tmdbApi}))
             .then(response => {
                 const {data} = response;
                 const {results} = data;

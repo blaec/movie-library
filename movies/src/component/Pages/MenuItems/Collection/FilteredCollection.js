@@ -5,12 +5,12 @@ import {useDispatch, useSelector} from "react-redux";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
-import * as actions from "../../../../store/actions";
+import {feedbackActions} from "../../../../store/feedback";
 
 const filteredCollection = () => {
-    const genreIds = useSelector(state => state.genreIds);
+    const genreIds = useSelector(state => state.filter.genreIds);
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const [filteredMovies, setFilteredMovies] = useState();
     const [isLoading, setIsLoading] = useState(true);

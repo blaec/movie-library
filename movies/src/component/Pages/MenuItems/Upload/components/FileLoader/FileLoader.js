@@ -8,10 +8,10 @@ import MyButtonGrid from "../../../../../../UI/Buttons/MyButtonGrid";
 import MyLinearProgress from "../MyLinearProgress";
 import * as UrlUtils from "../../../../../../utils/UrlUtils";
 import {movieApi} from "../../../../../../utils/UrlUtils";
-import * as actions from "../../../../../../store/actions";
 import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
+import {feedbackActions} from "../../../../../../store/feedback";
 
 import {
     Card,
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const fileLoader = () => {
     const {divider} = useStyles();
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const tmdbIdRef = useRef();
     const fileNameRef = useRef();

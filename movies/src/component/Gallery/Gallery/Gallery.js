@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import Movie from "./components/Movie";
-import * as actions from "../../../store/actions";
 import {fullTitle} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
+import {collectionActions} from "../../../store/collection";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
@@ -25,9 +25,9 @@ const gallery = (props) => {
     let {movies} = props;
     const {root, pagination} = useStyles();
 
-    const search = useSelector(state => state.search);
+    const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
-    const onSetSelectedMovieDetails = (movie) => dispatch(actions.setSelectedMovieDetails(movie));
+    const onSetSelectedMovieDetails = (movie) => dispatch(collectionActions.setSelectedMovie(movie));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -38,7 +38,7 @@ const gallery = (props) => {
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
-        onSetSelectedMovieDetails(movie);
+        onSetSelectedMovieDetails(movie.movieToInfoComponent);
         setIsViewingDetails(true);
         localStorage.setItem('id', movie.movieToDetailsComponent.id);
         localStorage.setItem('currentPage', `${currentPage}`);

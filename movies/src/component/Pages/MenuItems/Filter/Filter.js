@@ -7,8 +7,8 @@ import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import {getAllGenresUrl, reactLinks} from "../../../../utils/UrlUtils";
-import * as actions from "../../../../store/actions";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
+import {filterActions} from "../../../../store/filter";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
@@ -16,9 +16,9 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
 const filter = (props) => {
     const theme = useTheme();
-    const {tmdbApi} = useSelector(state => state.api);
+    const tmdbApi = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
-    const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
+    const onGenreIdsChange = (ids) => dispatch(filterActions.setGenreIds(ids));
 
     const [genreSelection, setGenreSelection] = useState([]);
     const [genres, setGenres] = useState([]);

@@ -48,8 +48,9 @@ const actorMovies = (props) => {
     const {match: {params: {actorId}}} = props;
     const {root, sticky, actor, movieItems} = useStyles();
 
-    const movies = useSelector(state => state.movies);
-    const {tmdbApi} = useSelector(state => state.api);
+    const movies = useSelector(state => state.collection.movies);
+    const tmdbApi = useSelector(state => state.api.tmdb);
+
     const [actorMovies, setActorMovies] = useState();
     const [moviesIds, setMoviesIds] = useState();
     const [isLoading, setIsLoading] = useState(true);

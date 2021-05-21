@@ -7,9 +7,9 @@ import {fullTitle, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
+import {feedbackActions} from "../../../../store/feedback";
 
 import {makeStyles} from "@material-ui/core/styles";
-import * as actions from "../../../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,10 +28,10 @@ const movieDetails = (props) => {
     const {match: {params: {movieId}}} = props;
     const {root} = useStyles();
 
-    const {tmdbApi, omdbApi} = useSelector(state => state.api);
-    const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
+    const tmdbApi = useSelector(state => state.api.tmdb);
+    const omdbApi = useSelector(state => state.api.omdb);
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
@@ -124,7 +124,6 @@ const movieDetails = (props) => {
                 <Info
                     tmdbDetails={movieDetails}
                     omdbDetails={omdbMovieDetails}
-                    fileDetails={selectedMovieDetails.movieToInfoComponent}
                     castDetails={cast}
                     genreDetails={genres}
                 />
