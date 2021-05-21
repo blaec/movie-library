@@ -19,12 +19,6 @@ const collectionSlice = createSlice({
         setSelectedMovie(state, action) {
             state.selectedMovie = action.payload;
         },
-        // deleteFromMoviesCollection(state, action) {
-        //     state.movies = action.payload;
-        // },
-        // deleteFromWishlistCollection(state, action) {
-        //     state.wishlist = action.payload;
-        // },
     }
 });
 
