@@ -28,10 +28,13 @@ const movieDetails = (props) => {
     const {match: {params: {movieId}}} = props;
     const {root} = useStyles();
 
-    const {tmdbApi, omdbApi} = useSelector(state => state.api);
-    const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
+    const tmdbApi = useSelector(state => state.api.tmdb);
+    const omdbApi = useSelector(state => state.api.omdb);
+    // const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
+    const selectedMovieDetails = {};
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = () => {};
+    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();

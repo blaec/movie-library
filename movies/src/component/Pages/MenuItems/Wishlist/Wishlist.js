@@ -8,10 +8,13 @@ import {movieApi} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
 
 const wishlist = () => {
-    const wishMovies = useSelector(state => state.wishlist);
+    const wishMovies = {};
+    // const wishMovies = useSelector(state => state.wishlist);
     const dispatch = useDispatch();
-    const onWishMoviesChange = (movies) => dispatch(actions.setWishlist(movies));
-    const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
+    const onWishMoviesChange = () => {};
+    // const onWishMoviesChange = (movies) => dispatch(actions.setWishlist(movies));
+    const onSetSnackbar = () => {};
+    // const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
 
     const [isLoading, setIsLoading] = useState(true);
 

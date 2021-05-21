@@ -8,9 +8,11 @@ import {movieApi} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
 
 const filteredCollection = () => {
-    const genreIds = useSelector(state => state.genreIds);
+    const genreIds = [];
+    // const genreIds = useSelector(state => state.genreIds);
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = () => {};
+    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const [filteredMovies, setFilteredMovies] = useState();
     const [isLoading, setIsLoading] = useState(true);

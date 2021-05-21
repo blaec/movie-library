@@ -7,11 +7,13 @@ import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 
 const mySnackbar = () => {
-    const snackbar = useSelector(state => state.snackbar);
+    const snackbar = {};
+    // const snackbar = useSelector(state => state.snackbar);
     const {open, message, type} = snackbar;
 
     const dispatch = useDispatch();
-    const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
+    const onSetSnackbar = () => {};
+    // const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {

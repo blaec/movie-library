@@ -25,9 +25,11 @@ const gallery = (props) => {
     let {movies} = props;
     const {root, pagination} = useStyles();
 
-    const search = useSelector(state => state.search);
+    const search = '';
+    // const search = useSelector(state => state.search);
     const dispatch = useDispatch();
-    const onSetSelectedMovieDetails = (movie) => dispatch(actions.setSelectedMovieDetails(movie));
+    // const onSetSelectedMovieDetails = (movie) => dispatch(actions.setSelectedMovieDetails(movie));
+    const onSetSelectedMovieDetails = () => {};
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);

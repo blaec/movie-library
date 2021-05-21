@@ -6,10 +6,10 @@ const initialState = {
     wishlist: {},
     selectedMovieDetails: {},
     genreIds: [],
-    api: {
-        tmdbApi: '',
-        omdbApi: ''
-    },
+    // api: {
+    //     tmdbApi: '',
+    //     omdbApi: ''
+    // },
     snackbar: {
         open: false,
         message: '',
@@ -18,7 +18,16 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    const {type: actionType, newSearch, movies, wishlist, selectedMovieDetails, genreIds, configs, snackbar} = action;
+    const {
+        type: actionType,
+        newSearch,
+        movies,
+        wishlist,
+        selectedMovieDetails,
+        genreIds,
+        // configs,
+        snackbar
+    } = action;
     switch (actionType) {
         case actionTypes.CHANGE_FILTER:
             return {
@@ -55,18 +64,18 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 genreIds: genreIds
             };
-        case actionTypes.INIT_CONFIGS:
-            const {
-                tmdb: {value: {apikey: tmdbApiKey}},
-                omdb: {value: {apikey: omdbApiKey}}
-            } = configs;
-            return {
-                ...state,
-                api: {
-                    tmdbApi: tmdbApiKey,
-                    omdbApi: omdbApiKey
-                }
-            };
+        // case actionTypes.INIT_CONFIGS:
+        //     const {
+        //         tmdb: {value: {apikey: tmdbApiKey}},
+        //         omdb: {value: {apikey: omdbApiKey}}
+        //     } = configs;
+        //     return {
+        //         ...state,
+        //         api: {
+        //             tmdbApi: tmdbApiKey,
+        //             omdbApi: omdbApiKey
+        //         }
+        //     };
         case actionTypes.SET_SNACKBAR:
             const {open, type, message} = snackbar;
             return {

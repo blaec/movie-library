@@ -19,9 +19,10 @@ import Carousel from "react-material-ui-carousel";
 
 
 const wishLoader = () => {
-    const configs = useSelector(state => state.api);
+    const tmdbApi = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = () => {};
 
     const wishTitleRef = useRef();
     const wishYearRef = useRef();
@@ -53,7 +54,7 @@ const wishLoader = () => {
         setIsLoading(true);
         const {current: {value: title}} = wishTitleRef;
         const {current: {value: year}} = wishYearRef;
-        axios.get(getSearchMovieUrl({query: title, year: year, api_key: configs.tmdbApi}))
+        axios.get(getSearchMovieUrl({query: title, year: year, api_key: tmdbApi}))
             .then(response => {
                 const {data} = response;
                 const {results} = data;

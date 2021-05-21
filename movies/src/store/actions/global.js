@@ -49,12 +49,12 @@ export const setGenreIds = (ids) => {
     }
 };
 
-export const initConfigs = (configs) => {
-    return {
-        type: actionTypes.INIT_CONFIGS,
-        configs: configs
-    }
-};
+// export const initConfigs = (configs) => {
+//     return {
+//         type: actionTypes.INIT_CONFIGS,
+//         configs: configs
+//     }
+// };
 
 export const setSnackbar = (snackbar) => {
     return {

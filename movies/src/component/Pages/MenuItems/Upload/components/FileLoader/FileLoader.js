@@ -34,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
 const fileLoader = () => {
     const {divider} = useStyles();
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onSetSnackbar = () => {};
+    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
 
     const tmdbIdRef = useRef();
     const fileNameRef = useRef();

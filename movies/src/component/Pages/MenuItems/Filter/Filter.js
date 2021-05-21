@@ -16,9 +16,10 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
 const filter = (props) => {
     const theme = useTheme();
-    const {tmdbApi} = useSelector(state => state.api);
+    const tmdbApi = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
-    const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
+    // const onGenreIdsChange = (ids) => dispatch(actions.setGenreIds(ids));
+    const onGenreIdsChange = () => {};
 
     const [genreSelection, setGenreSelection] = useState([]);
     const [genres, setGenres] = useState([]);

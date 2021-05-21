@@ -8,10 +8,13 @@ import {movieApi} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
 
 const collection = () => {
-    const movies = useSelector(state => state.movies);
+    // const movies = useSelector(state => state.movies);
+    const movies = {};
     const dispatch = useDispatch();
-    const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
-    const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    // const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
+    // const onSetSnackbar = (snackbar) => dispatch(actions.setSnackbar(snackbar));
+    const onMoviesChange = () => {};
+    const onSetSnackbar = () => {};
 
     const [isLoading, setIsLoading] = useState(true);
 
