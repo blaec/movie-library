@@ -5,9 +5,9 @@ import {Provider} from "react-redux";
 import {createStore} from "redux";
 
 import App from './App';
+import globalReducer from "./store/reducers/global";
 
 import registerServiceWorker from './registerServiceWorker';
-import globalReducer from "./store/reducers/global";
 
 const store = createStore(globalReducer);
 
