@@ -5,16 +5,14 @@ import {useDispatch, useSelector} from "react-redux";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
-import * as actions from "../../../../store/actions";
+import {feedbackActions} from "../../../../store/feedback";
+import {collectionActions} from "../../../../store/collection";
 
 const wishlist = () => {
-    const wishMovies = {};
-    // const wishMovies = useSelector(state => state.wishlist);
+    const wishMovies = useSelector(state => state.collection.wishlist);
     const dispatch = useDispatch();
-    const onWishMoviesChange = () => {};
-    // const onWishMoviesChange = (movies) => dispatch(actions.setWishlist(movies));
-    const onSetSnackbar = () => {};
-    // const onSetSnackbar = (settings) => dispatch(actions.setSnackbar(settings));
+    const onWishMoviesChange = (movies) => dispatch(collectionActions.setWishlistCollection(movies));
+    const onSetSnackbar = (settings) => dispatch(feedbackActions.setSnackbar(settings));
 
     const [isLoading, setIsLoading] = useState(true);
 

@@ -2,8 +2,8 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     // search: '',
-    movies: {},
-    wishlist: {},
+    // movies: {},
+    // wishlist: {},
     selectedMovieDetails: {},
     // genreIds: [],
     // api: {

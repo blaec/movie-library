@@ -7,14 +7,13 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
 import * as actions from "../../../../store/actions";
 import {feedbackActions} from "../../../../store/feedback";
+import {collectionActions} from "../../../../store/collection";
 
 const collection = () => {
-    // const movies = useSelector(state => state.movies);
-    const movies = {};
+    const movies = useSelector(state => state.collection.movies);
     const dispatch = useDispatch();
-    // const onMoviesChange = (movies) => dispatch(actions.setMovies(movies));
+    const onMoviesChange = (movies) => dispatch(collectionActions.setMoviesCollection(movies));
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
-    const onMoviesChange = () => {};
 
     const [isLoading, setIsLoading] = useState(true);
 
