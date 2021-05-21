@@ -1,11 +1,10 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import * as actions from "../store/actions";
+import {feedbackActions} from "../store/feedback";
 
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
-import {feedbackActions} from "../store/feedback";
 
 const mySnackbar = () => {
     const snackbar = useSelector(state => state.feedback.snackbar);

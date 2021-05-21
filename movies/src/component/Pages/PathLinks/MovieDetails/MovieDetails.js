@@ -7,10 +7,9 @@ import {fullTitle, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
+import {feedbackActions} from "../../../../store/feedback";
 
 import {makeStyles} from "@material-ui/core/styles";
-import * as actions from "../../../../store/actions";
-import {feedbackActions} from "../../../../store/feedback";
 
 const useStyles = makeStyles((theme) => ({
     root: {

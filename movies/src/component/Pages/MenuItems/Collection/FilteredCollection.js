@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
-import * as actions from "../../../../store/actions";
 import {feedbackActions} from "../../../../store/feedback";
 
 const filteredCollection = () => {

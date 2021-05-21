@@ -8,15 +8,14 @@ import WishPreview from "./WishPreview";
 import MyLinearProgress from "../MyLinearProgress";
 import axios from "../../../../../../axios-movies";
 import {getSearchMovieUrl, movieApi} from "../../../../../../utils/UrlUtils";
-import * as actions from "../../../../../../store/actions";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
+import {feedbackActions} from "../../../../../../store/feedback";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
-import {feedbackActions} from "../../../../../../store/feedback";
 
 
 const wishLoader = () => {

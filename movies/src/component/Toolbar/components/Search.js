@@ -1,13 +1,12 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import * as actions from "../../../store/actions";
+import {filterActions} from "../../../store/filter";
 
 import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
-import {filterActions} from "../../../store/filter";
 
 const useStyles = makeStyles((theme) => ({
     root: {

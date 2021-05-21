@@ -2,13 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import Movie from "./components/Movie";
-import * as actions from "../../../store/actions";
 import {fullTitle} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
+import {collectionActions} from "../../../store/collection";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
-import {collectionActions} from "../../../store/collection";
 
 const useStyles = makeStyles((theme) => ({
     root: {
