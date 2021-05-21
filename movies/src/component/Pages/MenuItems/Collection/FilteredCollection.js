@@ -9,8 +9,7 @@ import * as actions from "../../../../store/actions";
 import {feedbackActions} from "../../../../store/feedback";
 
 const filteredCollection = () => {
-    const genreIds = [];
-    // const genreIds = useSelector(state => state.genreIds);
+    const genreIds = useSelector(state => state.filter.genreIds);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 

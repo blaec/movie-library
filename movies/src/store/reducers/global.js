@@ -1,20 +1,20 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    search: '',
+    // search: '',
     movies: {},
     wishlist: {},
     selectedMovieDetails: {},
-    genreIds: [],
+    // genreIds: [],
     // api: {
     //     tmdbApi: '',
     //     omdbApi: ''
     // },
-    snackbar: {
-        open: false,
-        message: '',
-        type: 'success'
-    },
+    // snackbar: {
+    //     open: false,
+    //     message: '',
+    //     type: 'success'
+    // },
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,11 +29,11 @@ const reducer = (state = initialState, action) => {
         snackbar
     } = action;
     switch (actionType) {
-        case actionTypes.CHANGE_FILTER:
-            return {
-                ...state,
-                search: newSearch.toLowerCase()
-            };
+        // case actionTypes.CHANGE_FILTER:
+        //     return {
+        //         ...state,
+        //         search: newSearch.toLowerCase()
+        //     };
         case actionTypes.SET_MOVIES:
             return {
                 ...state,
@@ -59,11 +59,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 selectedMovieDetails: selectedMovieDetails
             };
-        case actionTypes.SET_GENRE_IDS:
-            return {
-                ...state,
-                genreIds: genreIds
-            };
+        // case actionTypes.SET_GENRE_IDS:
+        //     return {
+        //         ...state,
+        //         genreIds: genreIds
+        //     };
         // case actionTypes.INIT_CONFIGS:
         //     const {
         //         tmdb: {value: {apikey: tmdbApiKey}},
@@ -76,16 +76,16 @@ const reducer = (state = initialState, action) => {
         //             omdbApi: omdbApiKey
         //         }
         //     };
-        case actionTypes.SET_SNACKBAR:
-            const {open, type, message} = snackbar;
-            return {
-                ...state,
-                snackbar: {
-                    open: open,
-                    type: type,
-                    message: message
-                }
-            };
+        // case actionTypes.SET_SNACKBAR:
+        //     const {open, type, message} = snackbar;
+        //     return {
+        //         ...state,
+        //         snackbar: {
+        //             open: open,
+        //             type: type,
+        //             message: message
+        //         }
+        //     };
         default:
             return state;
     }

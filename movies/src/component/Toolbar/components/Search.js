@@ -7,6 +7,7 @@ import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
+import {filterActions} from "../../../store/filter";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,11 +53,9 @@ const useStyles = makeStyles((theme) => ({
 
 const search = () => {
     const {root, searchIcon, inputRoot, inputInput} = useStyles();
-    const search = '';
-    // const search = useSelector(state => state.search);
+    const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
-    const onSearchChange = () => {};
-    // const onSearchChange = (searchString) => dispatch(actions.changeSearch(searchString));
+    const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));
 
     let endAdornment = () => '';
     if (search) {
