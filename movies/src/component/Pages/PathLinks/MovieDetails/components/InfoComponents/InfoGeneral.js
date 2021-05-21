@@ -32,9 +32,7 @@ const infoGeneral = (props) => {
     } = props;
     const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
 
-    const {
-        movieToInfoComponent: {resolution, size, location} = {movieToInfoComponent: {}}
-    } = useSelector(state => state.collection.selectedMovie);
+    const {resolution, size, location} = useSelector(state => state.collection.selectedMovie);
 
     const metadata = {
         rated: NA_Safe(Rated),

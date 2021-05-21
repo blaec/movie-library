@@ -39,7 +39,7 @@ const gallery = (props) => {
 
     const handleViewMovieDetails = (movie) => {
         setScrollPosition(window.scrollY);
-        onSetSelectedMovieDetails(movie);
+        onSetSelectedMovieDetails(movie.movieToInfoComponent);
         setIsViewingDetails(true);
         localStorage.setItem('id', movie.movieToDetailsComponent.id);
         localStorage.setItem('currentPage', `${currentPage}`);
