@@ -31,8 +31,7 @@ const movieDetails = (props) => {
 
     const tmdbApi = useSelector(state => state.api.tmdb);
     const omdbApi = useSelector(state => state.api.omdb);
-    // const selectedMovieDetails = useSelector(state => state.selectedMovieDetails);
-    const selectedMovieDetails = {};
+    const selectedMovie = useSelector(state => state.collection.selectedMovie);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -127,7 +126,7 @@ const movieDetails = (props) => {
                 <Info
                     tmdbDetails={movieDetails}
                     omdbDetails={omdbMovieDetails}
-                    fileDetails={selectedMovieDetails.movieToInfoComponent}
+                    fileDetails={selectedMovie.movieToInfoComponent}
                     castDetails={cast}
                     genreDetails={genres}
                 />

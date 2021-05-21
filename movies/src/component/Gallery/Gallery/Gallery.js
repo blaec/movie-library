@@ -8,6 +8,7 @@ import {delay, grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
+import {collectionActions} from "../../../store/collection";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -27,8 +28,7 @@ const gallery = (props) => {
 
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
-    // const onSetSelectedMovieDetails = (movie) => dispatch(actions.setSelectedMovieDetails(movie));
-    const onSetSelectedMovieDetails = () => {};
+    const onSetSelectedMovieDetails = (movie) => dispatch(collectionActions.setSelectedMovie(movie));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);

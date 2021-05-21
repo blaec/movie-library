@@ -4,7 +4,7 @@ const initialState = {
     // search: '',
     // movies: {},
     // wishlist: {},
-    selectedMovieDetails: {},
+    // selectedMovieDetails: {},
     // genreIds: [],
     // api: {
     //     tmdbApi: '',
