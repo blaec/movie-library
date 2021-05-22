@@ -59,10 +59,9 @@ const actorMovies = (props) => {
         props.history.goBack();
     };
 
-    let hasData = tmdbApi.length > 0 && movies.length > 0;
     useEffect(() => {
         setIsLoading(true);
-        if (hasData) {
+        if (tmdbApi.length > 0 && movies.length > 0) {
             axios.get(getActorDetailsUrl(actorId, tmdbApi))
                 .then(response => {
                     const {data} = response;
