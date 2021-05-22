@@ -5,8 +5,9 @@ import axios from "../../../../axios-movies";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
-import {feedbackActions} from "../../../../store/feedback";
-import {collectionActions} from "../../../../store/collection";
+import {feedbackActions} from "../../../../store/feedback-slice";
+import {collectionActions} from "../../../../store/collection-slice";
+import {fetchMovies} from "../../../../store/collection-actions";
 
 const collection = () => {
     const movies = useSelector(state => state.collection.movies);
@@ -14,23 +15,7 @@ const collection = () => {
     const onMoviesChange = (movies) => dispatch(collectionActions.setMoviesCollection(movies));
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        setIsLoading(true);
-        axios.get(movieApi.get.getAllMovies)
-            .then(response => {
-                const {data} = response;
-                onMoviesChange(data)
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Found ${data.length} movies`, type: 'success'});
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `To load movies`, type: 'error'})
-            });
-    }, []);
+    const [isLoading, setIsLoading] = useState(false);
 
     let gallery = <MyLoader/>;
     if (!isLoading) {

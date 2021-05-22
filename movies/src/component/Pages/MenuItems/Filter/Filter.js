@@ -8,7 +8,7 @@ import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import {getAllGenresUrl, reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
-import {filterActions} from "../../../../store/filter";
+import {filterActions} from "../../../../store/filter-slice";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";

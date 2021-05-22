@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
-import {feedbackActions} from "../../../../store/feedback";
+import {feedbackActions} from "../../../../store/feedback-slice";
 
 const filteredCollection = () => {
     const genreIds = useSelector(state => state.filter.genreIds);

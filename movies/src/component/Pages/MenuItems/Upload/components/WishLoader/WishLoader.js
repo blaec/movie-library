@@ -10,7 +10,7 @@ import axios from "../../../../../../axios-movies";
 import {getSearchMovieUrl, movieApi} from "../../../../../../utils/UrlUtils";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
-import {feedbackActions} from "../../../../../../store/feedback";
+import {feedbackActions} from "../../../../../../store/feedback-slice";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";

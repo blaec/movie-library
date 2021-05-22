@@ -7,7 +7,7 @@ import {fullTitle, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {feedbackActions} from "../../../../store/feedback";
+import {feedbackActions} from "../../../../store/feedback-slice";
 
 import {makeStyles} from "@material-ui/core/styles";
 

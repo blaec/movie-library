@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {feedbackActions} from "../store/feedback";
+import {feedbackActions} from "../store/feedback-slice";
 
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";

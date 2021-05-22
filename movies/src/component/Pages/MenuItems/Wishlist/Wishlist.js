@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
-import {feedbackActions} from "../../../../store/feedback";
-import {collectionActions} from "../../../../store/collection";
+import {feedbackActions} from "../../../../store/feedback-slice";
+import {collectionActions} from "../../../../store/collection-slice";
 
 const wishlist = () => {
     const wishMovies = useSelector(state => state.collection.wishlist);

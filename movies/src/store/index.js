@@ -1,9 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
 
-import apiReducer from "./api";
-import feedbackReducer from "./feedback";
-import filterReducer from "./filter";
-import collectionReducer from "./collection";
+import apiReducer from "./api-slice";
+import feedbackReducer from "./feedback-slice";
+import filterReducer from "./filter-slice";
+import collectionReducer from "./collection-slice";
 
 const store = configureStore({
     reducer: {

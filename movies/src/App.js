@@ -13,7 +13,8 @@ import MovieDetails from "./component/Pages/PathLinks/MovieDetails/MovieDetails"
 import ActorMovies from "./component/Pages/PathLinks/ActorMovies/ActorMovies";
 import MyLoader from "./UI/Spinners/MyLoader";
 import {configApi, reactLinks} from "./utils/UrlUtils";
-import {apiActions} from "./store/api";
+import {apiActions} from "./store/api-slice";
+import {fetchMovies} from "./store/collection-actions";
 
 const app = () => {
     const {home, filtered, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
@@ -27,13 +28,14 @@ const app = () => {
         axios.get(configApi.get.getConfigs)
             .then(response => {
                 const {data} = response;
-                dispatch(apiActions.initConfig(data));
+                dispatch(apiActions.initC0onfig(data));
                 setIsLoading(false);
             })
             .catch(error => {
                 console.log(error);
                 setIsLoading(false);
             });
+        dispatch(fetchMovies());
     }, []);
 
     let layout = <MyLoader/>;

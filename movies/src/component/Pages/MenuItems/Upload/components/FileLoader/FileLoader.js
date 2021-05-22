@@ -11,7 +11,7 @@ import {movieApi} from "../../../../../../utils/UrlUtils";
 import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
-import {feedbackActions} from "../../../../../../store/feedback";
+import {feedbackActions} from "../../../../../../store/feedback-slice";
 
 import {
     Card,
