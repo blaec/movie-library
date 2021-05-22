@@ -8,14 +8,10 @@ const collection = () => {
     const movies = useSelector(state => state.collection.movies);
     const isLoading = useSelector(state => state.feedback.isLoading);
 
-    let gallery = <MyLoader/>;
-    if (!isLoading) {
-        gallery = <Gallery movies={movies}/>
-    }
-
     return (
         <React.Fragment>
-            {gallery}
+            {isLoading && <MyLoader/>}
+            {!isLoading && <Gallery movies={movies}/>}
         </React.Fragment>
     );
 };

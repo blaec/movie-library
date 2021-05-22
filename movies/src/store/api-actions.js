@@ -4,12 +4,13 @@ import {apiActions} from "./api-slice";
 import {feedbackActions} from "./feedback-slice";
 
 export const fetchConfigs = () => {
+    console.log(configApi.get.getConfigs);
     return async (dispatch) => {
         dispatch(feedbackActions.setIsLoading(true));
         axios.get(configApi.get.getConfigs)
             .then(response => {
                 const {data} = response;
-                dispatch(apiActions.initC0onfig(data));
+                dispatch(apiActions.initConfig(data));
                 dispatch(feedbackActions.setIsLoading(false));
             })
             .catch(error => {

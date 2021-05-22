@@ -23,9 +23,6 @@ const app = () => {
 
     useEffect(() => {
         dispatch(fetchConfigs());
-    }, []);
-
-    useEffect(() => {
         dispatch(fetchMovies());
     }, []);
 
