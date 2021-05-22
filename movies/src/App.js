@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {useDispatch} from "react-redux";
-import axios from "./axios-movies";
+import {useDispatch, useSelector} from "react-redux";
 
 import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/MenuItems/Collection/Collection";
@@ -12,29 +11,21 @@ import Filter from "./component/Pages/MenuItems/Filter/Filter";
 import MovieDetails from "./component/Pages/PathLinks/MovieDetails/MovieDetails";
 import ActorMovies from "./component/Pages/PathLinks/ActorMovies/ActorMovies";
 import MyLoader from "./UI/Spinners/MyLoader";
-import {configApi, reactLinks} from "./utils/UrlUtils";
-import {apiActions} from "./store/api-slice";
+import {reactLinks} from "./utils/UrlUtils";
 import {fetchMovies} from "./store/collection-actions";
+import {fetchConfigs} from "./store/api-actions";
 
 const app = () => {
     const {home, filtered, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
 
+    const isLoading = useSelector(state => state.feedback.isLoading);
     const dispatch = useDispatch();
 
-    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+        dispatch(fetchConfigs());
+    }, []);
 
     useEffect(() => {
-        setIsLoading(true);
-        axios.get(configApi.get.getConfigs)
-            .then(response => {
-                const {data} = response;
-                dispatch(apiActions.initC0onfig(data));
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
         dispatch(fetchMovies());
     }, []);
 

@@ -6,6 +6,7 @@ const initialState = {
         message: '',
         type: 'success'
     },
+    isLoading: false
 };
 
 const feedbackSlice = createSlice({
@@ -18,6 +19,9 @@ const feedbackSlice = createSlice({
             state.snackbar.type = type;
             state.snackbar.message = message;
         },
+        setIsLoading(state, action) {
+            state.isLoading = action.payload;
+        }
     }
 });
 

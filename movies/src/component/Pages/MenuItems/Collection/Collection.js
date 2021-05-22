@@ -1,21 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import axios from "../../../../axios-movies";
+import React from 'react';
+import {useSelector} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {movieApi} from "../../../../utils/UrlUtils";
-import {feedbackActions} from "../../../../store/feedback-slice";
-import {collectionActions} from "../../../../store/collection-slice";
-import {fetchMovies} from "../../../../store/collection-actions";
 
 const collection = () => {
     const movies = useSelector(state => state.collection.movies);
-    const dispatch = useDispatch();
-    const onMoviesChange = (movies) => dispatch(collectionActions.setMoviesCollection(movies));
-    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
-
-    const [isLoading, setIsLoading] = useState(false);
+    const isLoading = useSelector(state => state.feedback.isLoading);
 
     let gallery = <MyLoader/>;
     if (!isLoading) {
