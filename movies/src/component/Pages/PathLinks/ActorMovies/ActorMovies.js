@@ -59,20 +59,23 @@ const actorMovies = (props) => {
         props.history.goBack();
     };
 
+    let hasData = tmdbApi.length > 0 && movies.length > 0;
     useEffect(() => {
         setIsLoading(true);
-        axios.get(getActorDetailsUrl(actorId, tmdbApi))
-            .then(response => {
-                const {data} = response;
-                setActorMovies(data);
-                setMoviesIds(movies.map(movie => +movie.tmdbId));
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
-    }, []);
+        if (hasData) {
+            axios.get(getActorDetailsUrl(actorId, tmdbApi))
+                .then(response => {
+                    const {data} = response;
+                    setActorMovies(data);
+                    setMoviesIds(movies.map(movie => +movie.tmdbId));
+                    setIsLoading(false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    setIsLoading(false);
+                });
+        }
+    }, [tmdbApi, movies, actorId]);
 
     let allMovies = <MyLoader/>;
     if (!isLoading) {

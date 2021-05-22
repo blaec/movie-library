@@ -4,7 +4,6 @@ import {apiActions} from "./api-slice";
 import {feedbackActions} from "./feedback-slice";
 
 export const fetchConfigs = () => {
-    console.log(configApi.get.getConfigs);
     return async (dispatch) => {
         dispatch(feedbackActions.setIsLoading(true));
         axios.get(configApi.get.getConfigs)
