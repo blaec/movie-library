@@ -1,43 +1,36 @@
 import React, {useEffect, useState} from 'react';
-import axios from "../../../../axios-movies";
 import {useDispatch, useSelector} from "react-redux";
 
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
-import {getAllGenresUrl, reactLinks} from "../../../../utils/UrlUtils";
+import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {filterActions} from "../../../../store/filter-slice";
+import {fetchGenres} from "../../../../store/filter-actions";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
+import {isArrayEmpty, isStringEmpty} from "../../../../utils/Utils";
 
 const filter = (props) => {
+    console.log("filter");
     const theme = useTheme();
     const tmdbApi = useSelector(state => state.api.tmdb);
+    const genres = useSelector(state => state.filter.genres);
     const dispatch = useDispatch();
     const onGenreIdsChange = (ids) => dispatch(filterActions.setGenreIds(ids));
 
     const [genreSelection, setGenreSelection] = useState([]);
-    const [genres, setGenres] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const isLoading = isStringEmpty(tmdbApi);
 
     useEffect(() => {
-        // console.log("get data: " + (new Date()).getTime());
-        setIsLoading(true);
-        axios.get(getAllGenresUrl(tmdbApi))
-            .then(response => {
-                const {data: {genres}} = response;
-                setGenres(genres);
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
-    }, []);
+        if (!isLoading) {
+            dispatch(fetchGenres(tmdbApi));
+        }
+    }, [tmdbApi]);
 
     const handleChangeMultiple = (event) => {
         const {options} = event.target;
@@ -59,7 +52,6 @@ const filter = (props) => {
     };
 
     const handleGetMovies = () => {
-        setIsLoading(true);
         props.history.push(reactLinks.filtered);
     };
 
@@ -108,6 +100,7 @@ const filter = (props) => {
                             caption="Filter"
                             type="success"
                             fill="filled"
+                            disabled={isArrayEmpty(genres)}
                             onSubmit={handleGetMovies}
                         />
                     </MyButtonGrid>

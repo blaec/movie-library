@@ -2,8 +2,9 @@ import React from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
+import {isStringEmpty} from "../../../../../../utils/Utils";
 
-const validateValue = (text) => (text.trim() !== '' && Number.isInteger(+text));
+const validateValue = (text) => (!isStringEmpty(text) && Number.isInteger(+text));
 
 const fileTmdbIdInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;

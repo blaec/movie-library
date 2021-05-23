@@ -47,6 +47,14 @@ export const joinNames = (array) => {
     return array.map(val => val.name).join(', ');
 };
 
-export const isEmpty = (obj) => {
+export const isObjectEmpty = (obj) => {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
 };
+
+export const isStringEmpty = (string) => {
+    return string.trim() === '';
+};
+
+export const isArrayEmpty = (array) => {
+    return !array.length;
+}

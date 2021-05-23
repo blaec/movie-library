@@ -2,8 +2,9 @@ import React from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
+import {isStringEmpty} from "../../../../../../utils/Utils";
 
-const validateValue = (text) => text.trim() !== '';
+const validateValue = (text) => !isStringEmpty(text);
 
 const wishTitleInput = (props) => {
     const {inputRef, onSearchDisable} = props;
