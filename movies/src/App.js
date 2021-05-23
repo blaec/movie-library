@@ -11,7 +11,7 @@ import Filter from "./component/Pages/MenuItems/Filter/Filter";
 import MovieDetails from "./component/Pages/PathLinks/MovieDetails/MovieDetails";
 import ActorMovies from "./component/Pages/PathLinks/ActorMovies/ActorMovies";
 import {reactLinks} from "./utils/UrlUtils";
-import {fetchMovies} from "./store/collection-actions";
+import {fetchMovies, fetchWishlist} from "./store/collection-actions";
 import {fetchConfigs} from "./store/api-actions";
 
 const app = () => {
@@ -22,6 +22,7 @@ const app = () => {
     useEffect(() => {
         dispatch(fetchConfigs());
         dispatch(fetchMovies());
+        dispatch(fetchWishlist());
     }, []);
 
     let layout = (

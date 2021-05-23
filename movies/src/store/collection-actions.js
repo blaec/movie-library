@@ -23,5 +23,28 @@ export const fetchMovies = () => {
                     type: 'error'
                 }));
             });
-    }
+    };
+};
+
+export const fetchWishlist = () => {
+    return async (dispatch) => {
+        axios.get(movieApi.get.getAllWishMovies)
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setWishlistCollection(data));
+                dispatch(feedbackActions.setSnackbar({
+                    open: true,
+                    message: `Found ${data.length} movies`,
+                    type: 'success'
+                }));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    open: true,
+                    message: `To load movies`,
+                    type: 'error'
+                }));
+            });
+    };
 };
