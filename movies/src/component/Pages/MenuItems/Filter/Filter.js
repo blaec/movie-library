@@ -9,14 +9,13 @@ import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {filterActions} from "../../../../store/filter-slice";
 import {fetchGenres} from "../../../../store/filter-actions";
+import {isArrayEmpty, isStringEmpty} from "../../../../utils/Utils";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
-import {isArrayEmpty, isStringEmpty} from "../../../../utils/Utils";
 
 const filter = (props) => {
-    console.log("filter");
     const theme = useTheme();
     const tmdbApi = useSelector(state => state.api.tmdb);
     const genres = useSelector(state => state.filter.genres);
@@ -24,10 +23,9 @@ const filter = (props) => {
     const onGenreIdsChange = (ids) => dispatch(filterActions.setGenreIds(ids));
 
     const [genreSelection, setGenreSelection] = useState([]);
-    const isLoading = isStringEmpty(tmdbApi);
 
     useEffect(() => {
-        if (!isLoading) {
+        if (!isStringEmpty(tmdbApi)) {
             dispatch(fetchGenres(tmdbApi));
         }
     }, [tmdbApi]);
@@ -56,7 +54,7 @@ const filter = (props) => {
     };
 
     let genreFilter = <MyLoader/>;
-    if (!isLoading) {
+    if (!isArrayEmpty(genres)) {
         const genreNames = genres.flatMap(genre => genre.name);
         genreFilter =
             <Card variant="elevation">
@@ -100,7 +98,6 @@ const filter = (props) => {
                             caption="Filter"
                             type="success"
                             fill="filled"
-                            disabled={isArrayEmpty(genres)}
                             onSubmit={handleGetMovies}
                         />
                     </MyButtonGrid>
@@ -108,6 +105,7 @@ const filter = (props) => {
             </Card>;
     }
 
+    console.log(`filter: ${tmdbApi} + ${genres}`);
     return (
         <MyGrid>
             {[
