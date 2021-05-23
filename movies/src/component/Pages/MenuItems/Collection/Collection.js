@@ -3,10 +3,11 @@ import {useSelector} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
+import {isEmpty} from "../../../../utils/Utils";
 
 const collection = () => {
     const movies = useSelector(state => state.collection.movies);
-    const isLoading = useSelector(state => state.feedback.isLoading);
+    const isLoading = isEmpty(movies);
 
     return (
         <React.Fragment>

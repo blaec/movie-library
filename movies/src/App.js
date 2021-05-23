@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/MenuItems/Collection/Collection";
@@ -10,7 +10,6 @@ import Wishlist from "./component/Pages/MenuItems/Wishlist/Wishlist";
 import Filter from "./component/Pages/MenuItems/Filter/Filter";
 import MovieDetails from "./component/Pages/PathLinks/MovieDetails/MovieDetails";
 import ActorMovies from "./component/Pages/PathLinks/ActorMovies/ActorMovies";
-import MyLoader from "./UI/Spinners/MyLoader";
 import {reactLinks} from "./utils/UrlUtils";
 import {fetchMovies} from "./store/collection-actions";
 import {fetchConfigs} from "./store/api-actions";
@@ -18,7 +17,6 @@ import {fetchConfigs} from "./store/api-actions";
 const app = () => {
     const {home, filtered, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
 
-    const isLoading = useSelector(state => state.feedback.isLoading);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -26,27 +24,25 @@ const app = () => {
         dispatch(fetchMovies());
     }, []);
 
-    let layout = <MyLoader/>;
-    if (!isLoading) {
-        layout =
-            <Layout>
-                <Switch>
+    let layout = (
+        <Layout>
+            <Switch>
 
-                    {/* Menu items */}
-                    <Route path={home} exact component={Collection}/>
-                    <Route path={filtered} exact component={FilteredCollection}/>
-                    <Route path={wishlist} exact component={Wishlist}/>
-                    <Route path={filter} exact component={Filter}/>
-                    <Route path={upload} exact component={Upload}/>
+                {/* Menu items */}
+                <Route path={home} exact component={Collection}/>
+                <Route path={filtered} exact component={FilteredCollection}/>
+                <Route path={wishlist} exact component={Wishlist}/>
+                <Route path={filter} exact component={Filter}/>
+                <Route path={upload} exact component={Upload}/>
 
-                    {/* Path links */}
-                    <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
-                    <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
+                {/* Path links */}
+                <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
+                <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
 
-                    <Redirect to={home}/>
-                </Switch>
-            </Layout>;
-    }
+                <Redirect to={home}/>
+            </Switch>
+        </Layout>
+    );
 
     return (
         <React.Fragment>

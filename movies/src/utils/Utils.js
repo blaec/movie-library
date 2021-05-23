@@ -45,4 +45,8 @@ export const NA_Safe = (condition, returnVal) => {
 
 export const joinNames = (array) => {
     return array.map(val => val.name).join(', ');
-}
+};
+
+export const isEmpty = (obj) => {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+};
