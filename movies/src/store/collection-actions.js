@@ -48,3 +48,26 @@ export const fetchWishlist = () => {
             });
     };
 };
+
+export const fetchFilteredCollection = (genreIds) => {
+    return async (dispatch) => {
+        axios.post(movieApi.get.getAllByGenres, genreIds.split(","))
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setFilteredMovies(data));
+                dispatch(feedbackActions.setSnackbar({
+                    open: true,
+                    message: `Found ${data.length} movies`,
+                    type: 'success'
+                }));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    open: true,
+                    message: `To load movies`,
+                    type: 'error'
+                }));
+            });
+    };
+};

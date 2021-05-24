@@ -1,45 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import axios from "../../../../axios-movies";
-import {useDispatch} from "react-redux";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {movieApi} from "../../../../utils/UrlUtils";
-import {feedbackActions} from "../../../../store/feedback-slice";
+import {fetchFilteredCollection} from "../../../../store/collection-actions";
+import {isObjectEmpty} from "../../../../utils/Utils";
 
 const filteredCollection = (props) => {
     const {match: {params: {genreIds}}} = props;
-    const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
-    const [filteredMovies, setFilteredMovies] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+    const filteredMovies = useSelector(state => state.collection.filteredMovies);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        setIsLoading(true);
-        axios.post(movieApi.get.getAllByGenres, genreIds.split(","))
-            .then(response => {
-                const {data} = response;
-                setFilteredMovies(data);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Found ${data.length} movies`, type: 'success'});
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `To load movies`, type: 'error'})
-            });
-    }, []);
+        dispatch(fetchFilteredCollection(genreIds));
+    }, [genreIds]);
 
-
-    let gallery = <MyLoader/>;
-    if (!isLoading) {
-        gallery = <Gallery movies={filteredMovies}/>
-    }
-
+    let hasMovies = !isObjectEmpty(filteredMovies);
     return (
         <React.Fragment>
-            {gallery}
+            {!hasMovies &&  <MyLoader/>}
+            {hasMovies &&  <Gallery movies={filteredMovies}/>}
         </React.Fragment>
     );
 };
