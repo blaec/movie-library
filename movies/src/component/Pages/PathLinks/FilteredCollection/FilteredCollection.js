@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "../../../../axios-movies";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -9,8 +9,6 @@ import {feedbackActions} from "../../../../store/feedback-slice";
 
 const filteredCollection = (props) => {
     const {match: {params: {genreIds}}} = props;
-    console.log(genreIds);
-    // const genreIds = useSelector(state => state.filter.genreIds);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 

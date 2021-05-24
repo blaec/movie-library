@@ -4,7 +4,7 @@ import {useDispatch} from "react-redux";
 
 import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/MenuItems/Collection/Collection";
-import FilteredCollection from "./component/Pages/MenuItems/Collection/FilteredCollection";
+import FilteredCollection from "./component/Pages/PathLinks/FilteredCollection/FilteredCollection";
 import Upload from "./component/Pages/MenuItems/Upload/Upload";
 import Wishlist from "./component/Pages/MenuItems/Wishlist/Wishlist";
 import Filter from "./component/Pages/MenuItems/Filter/Filter";

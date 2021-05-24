@@ -7,7 +7,6 @@ import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
-import {filterActions} from "../../../../store/filter-slice";
 import {fetchGenres} from "../../../../store/filter-actions";
 import {isArrayEmpty, isStringEmpty} from "../../../../utils/Utils";
 
@@ -21,7 +20,6 @@ const filter = () => {
     const tmdbApi = useSelector(state => state.api.tmdb);
     const genres = useSelector(state => state.filter.genres);
     const dispatch = useDispatch();
-    // const onGenreIdsChange = (ids) => dispatch(filterActions.setGenreIds(ids));
 
     const [genreSelection, setGenreSelection] = useState([]);
     const [genreIds, setGenreIds] = useState([]);
