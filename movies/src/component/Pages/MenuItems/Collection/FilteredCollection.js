@@ -7,8 +7,10 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {movieApi} from "../../../../utils/UrlUtils";
 import {feedbackActions} from "../../../../store/feedback-slice";
 
-const filteredCollection = () => {
-    const genreIds = useSelector(state => state.filter.genreIds);
+const filteredCollection = (props) => {
+    const {match: {params: {genreIds}}} = props;
+    console.log(genreIds);
+    // const genreIds = useSelector(state => state.filter.genreIds);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -17,7 +19,7 @@ const filteredCollection = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.post(movieApi.get.getAllByGenres, genreIds)
+        axios.post(movieApi.get.getAllByGenres, genreIds.split(","))
             .then(response => {
                 const {data} = response;
                 setFilteredMovies(data);

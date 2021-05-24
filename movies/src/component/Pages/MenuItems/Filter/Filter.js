@@ -14,15 +14,17 @@ import {isArrayEmpty, isStringEmpty} from "../../../../utils/Utils";
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
+import {NavLink} from "react-router-dom";
 
-const filter = (props) => {
+const filter = () => {
     const theme = useTheme();
     const tmdbApi = useSelector(state => state.api.tmdb);
     const genres = useSelector(state => state.filter.genres);
     const dispatch = useDispatch();
-    const onGenreIdsChange = (ids) => dispatch(filterActions.setGenreIds(ids));
+    // const onGenreIdsChange = (ids) => dispatch(filterActions.setGenreIds(ids));
 
     const [genreSelection, setGenreSelection] = useState([]);
+    const [genreIds, setGenreIds] = useState([]);
 
     useEffect(() => {
         if (!isStringEmpty(tmdbApi)) {
@@ -41,18 +43,15 @@ const filter = (props) => {
             }
         }
         setGenreSelection(value);
-        onGenreIdsChange(ids);
+        setGenreIds(ids);
     };
 
     const handleClear = () => {
         setGenreSelection([]);
-        onGenreIdsChange([]);
+        setGenreIds([]);
     };
 
-    const handleGetMovies = () => {
-        props.history.push(reactLinks.filtered);
-    };
-
+    console.log(genreIds);
     let genreFilter = <MyLoader/>;
     if (!isArrayEmpty(genres)) {
         const genreNames = genres.flatMap(genre => genre.name);
@@ -87,6 +86,7 @@ const filter = (props) => {
                 <CardActions>
                     <MyButtonGrid>
                         <MySubmitButton
+                            disabled={isArrayEmpty(genreSelection)}
                             icon={<HighlightOffTwoToneIcon/>}
                             buttonStyles={{marginRight: 1}}
                             caption="Clear"
@@ -94,18 +94,19 @@ const filter = (props) => {
                             onSubmit={handleClear}
                         />
                         <MySubmitButton
+                            disabled={isArrayEmpty(genreSelection)}
                             icon={<SearchTwoToneIcon/>}
                             caption="Filter"
                             type="success"
                             fill="filled"
-                            onSubmit={handleGetMovies}
+                            component={NavLink}
+                            path={`${reactLinks.filterByGenreEndpoint}${genreIds}`}
                         />
                     </MyButtonGrid>
                 </CardActions>
             </Card>;
     }
 
-    console.log(`filter: ${tmdbApi} + ${genres}`);
     return (
         <MyGrid>
             {[

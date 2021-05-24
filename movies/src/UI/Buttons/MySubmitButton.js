@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mySubmitButton = (props) => {
-    let {disabled, icon, caption, type, fill, buttonStyles, onSubmit} = props;
+    let {component, path, disabled, icon, caption, type, fill, buttonStyles, onSubmit} = props;
     const {root} = useStyles(buttonStyles);
 
     type = type === undefined ? "success" : type;
@@ -30,6 +30,7 @@ const mySubmitButton = (props) => {
 
     return (
         <Button
+            component={component} to={path}
             className={root}
             variant={fillStyle[fill].variant}
             disabled={disabled}
