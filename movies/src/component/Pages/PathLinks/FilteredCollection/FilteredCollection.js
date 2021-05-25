@@ -18,13 +18,15 @@ const filteredCollection = (props) => {
     }, [genreIds]);
 
     let hasMovies = !isArrayEmpty(filteredMovies);
-    if (hasMovies) {
-        dispatch(feedbackActions.setSnackbar({
-            open: true,
-            message: `Found ${filteredMovies.length} movies`,
-            type: 'success'
-        }));
-    }
+    useEffect(() => {
+        if (hasMovies) {
+            dispatch(feedbackActions.setSnackbar({
+                open: true,
+                message: `Found ${filteredMovies.length} movies`,
+                type: 'success'
+            }));
+        }
+    }, [hasMovies])
     return (
         <React.Fragment>
             {!hasMovies &&  <MyLoader/>}

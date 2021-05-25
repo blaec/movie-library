@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
@@ -11,13 +11,15 @@ const collection = () => {
     const dispatch = useDispatch();
 
     const hasMovies = !isArrayEmpty(movies);
-    if (hasMovies) {
-        dispatch(feedbackActions.setSnackbar({
-            open: true,
-            message: `Found ${movies.length} movies`,
-            type: 'success'
-        }));
-    }
+    useEffect(() => {
+        if (hasMovies) {
+            dispatch(feedbackActions.setSnackbar({
+                open: true,
+                message: `Found ${movies.length} movies`,
+                type: 'success'
+            }));
+        }
+    }, [hasMovies])
     return (
         <React.Fragment>
             {!hasMovies && <MyLoader/>}
