@@ -5,6 +5,7 @@ import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {fetchFilteredCollection} from "../../../../store/collection-actions";
 import {isObjectEmpty} from "../../../../utils/Utils";
+import {feedbackActions} from "../../../../store/feedback-slice";
 
 const filteredCollection = (props) => {
     const {match: {params: {genreIds}}} = props;
@@ -17,6 +18,13 @@ const filteredCollection = (props) => {
     }, [genreIds]);
 
     let hasMovies = !isObjectEmpty(filteredMovies);
+    if (hasMovies) {
+        dispatch(feedbackActions.setSnackbar({
+            open: true,
+            message: `Found ${filteredMovies.length} movies`,
+            type: 'success'
+        }));
+    }
     return (
         <React.Fragment>
             {!hasMovies &&  <MyLoader/>}

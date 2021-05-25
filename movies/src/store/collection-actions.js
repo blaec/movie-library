@@ -9,11 +9,11 @@ export const fetchMovies = () => {
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setMoviesCollection(data));
-                dispatch(feedbackActions.setSnackbar({
-                    open: true,
-                    message: `Found ${data.length} movies`,
-                    type: 'success'
-                }));
+                // dispatch(feedbackActions.setSnackbar({
+                //     open: true,
+                //     message: `Found ${data.length} movies`,
+                //     type: 'success'
+                // }));
             })
             .catch(error => {
                 console.log(error);
@@ -32,11 +32,11 @@ export const fetchWishlist = () => {
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setWishlistCollection(data));
-                dispatch(feedbackActions.setSnackbar({
-                    open: true,
-                    message: `Found ${data.length} movies`,
-                    type: 'success'
-                }));
+                // dispatch(feedbackActions.setSnackbar({
+                //     open: true,
+                //     message: `Found ${data.length} movies`,
+                //     type: 'success'
+                // }));
             })
             .catch(error => {
                 console.log(error);
@@ -55,11 +55,6 @@ export const fetchFilteredCollection = (genreIds) => {
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setFilteredMovies(data));
-                dispatch(feedbackActions.setSnackbar({
-                    open: true,
-                    message: `Found ${data.length} movies`,
-                    type: 'success'
-                }));
             })
             .catch(error => {
                 console.log(error);
