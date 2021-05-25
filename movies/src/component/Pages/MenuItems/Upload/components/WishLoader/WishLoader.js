@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import MySubmitButton from "../../../../../../UI/Buttons/MySubmitButton";
@@ -7,7 +7,7 @@ import MyFormLabel from "../../../../../../UI/MyFormLabel";
 import WishPreview from "./WishPreview";
 import MyLinearProgress from "../MyLinearProgress";
 import axios from "../../../../../../axios-movies";
-import {getSearchMovieUrl, movieApi} from "../../../../../../utils/UrlUtils";
+import {movieApi} from "../../../../../../utils/UrlUtils";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
@@ -17,10 +17,14 @@ import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
 import {isArrayEmpty} from "../../../../../../utils/Utils";
+import {fetchWishMovies} from "../../../../../../store/upload-actions";
 
+let isInitial = true;
 
 const wishLoader = () => {
+    console.log("wishloader");
     const tmdbApi = useSelector(state => state.api.tmdb);
+    const wishMovies = useSelector(state => state.upload.wishMovies);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -28,7 +32,6 @@ const wishLoader = () => {
     const wishYearRef = useRef();
 
     const [selectedWishMovie, setSelectedWishMovie] = useState();
-    const [wishMovies, setWishMovies] = useState([]);
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -54,25 +57,7 @@ const wishLoader = () => {
         setIsLoading(true);
         const {current: {value: title}} = wishTitleRef;
         const {current: {value: year}} = wishYearRef;
-        axios.get(getSearchMovieUrl({query: title, year: year, api_key: tmdbApi}))
-            .then(response => {
-                const {data} = response;
-                const {results} = data;
-                let foundMovies = results;
-                setWishMovies(foundMovies);
-                setIsLoading(false);
-                if (foundMovies.length > 0) {
-                    setSelectedWishMovie(foundMovies[0]);
-                    onSetSnackbar({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
-                } else {
-                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Failed to search the movies`, type: 'error'});
-            });
+        dispatch(fetchWishMovies({query: title, year: year, api_key: tmdbApi}));
     };
 
     const handleSearchDisable = (isDisabled) => {
@@ -92,6 +77,19 @@ const wishLoader = () => {
             </Carousel>
         );
     }
+    useEffect(() => {
+        if (isInitial) {
+            isInitial = false;
+        } else {
+            setIsLoading(false);
+            if (hasResults) {
+                setSelectedWishMovie(wishMovies[0]);
+                onSetSnackbar({open: true, message: `Found ${wishMovies.length} movies`, type: 'success'});
+            } else {
+                onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
+            }
+        }
+    }, [hasResults, wishMovies])
 
     return (
         <Card variant="elevation">
