@@ -7,6 +7,7 @@ import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import {List, makeStyles, Typography} from "@material-ui/core";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
+import {isArrayEmpty, isStringEmpty} from "../../../../utils/Utils";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -61,7 +62,7 @@ const actorMovies = (props) => {
 
     useEffect(() => {
         setIsLoading(true);
-        if (tmdbApi.length > 0 && movies.length > 0) {
+        if (isStringEmpty(tmdbApi) && isArrayEmpty(movies)) {
             axios.get(getActorDetailsUrl(actorId, tmdbApi))
                 .then(response => {
                     const {data} = response;

@@ -49,7 +49,6 @@ const filter = () => {
         setGenreIds([]);
     };
 
-    console.log(genreIds);
     let genreFilter = <MyLoader/>;
     if (!isArrayEmpty(genres)) {
         const genreNames = genres.flatMap(genre => genre.name);

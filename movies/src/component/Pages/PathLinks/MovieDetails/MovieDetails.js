@@ -48,7 +48,6 @@ const movieDetails = (props) => {
     };
 
     const handleDeleteMovie = (id) => {
-        console.log(getDeleteUrl(id));
         axios.delete(getDeleteUrl(id))
             .then(response => {
                 onSetSnackbar({open: true, message: `Movie '${title}' is deleted`, type: 'success'});

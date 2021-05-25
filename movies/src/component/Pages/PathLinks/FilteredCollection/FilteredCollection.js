@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {fetchFilteredCollection} from "../../../../store/collection-actions";
-import {isObjectEmpty} from "../../../../utils/Utils";
+import {isArrayEmpty} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/feedback-slice";
 
 const filteredCollection = (props) => {
@@ -17,7 +17,7 @@ const filteredCollection = (props) => {
         dispatch(fetchFilteredCollection(genreIds));
     }, [genreIds]);
 
-    let hasMovies = !isObjectEmpty(filteredMovies);
+    let hasMovies = !isArrayEmpty(filteredMovies);
     if (hasMovies) {
         dispatch(feedbackActions.setSnackbar({
             open: true,
