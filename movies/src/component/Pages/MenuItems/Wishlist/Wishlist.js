@@ -4,15 +4,24 @@ import {useDispatch, useSelector} from "react-redux";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {isObjectEmpty} from "../../../../utils/Utils";
+import {feedbackActions} from "../../../../store/feedback-slice";
 
 const wishlist = () => {
     const wishMovies = useSelector(state => state.collection.wishlist);
-    const isLoading = isObjectEmpty(wishMovies);
+    const dispatch = useDispatch();
 
+    const hasMovies = !isObjectEmpty(wishMovies);
+    if (hasMovies) {
+        dispatch(feedbackActions.setSnackbar({
+            open: true,
+            message: `Found ${wishMovies.length} movies`,
+            type: 'success'
+        }));
+    }
     return (
         <React.Fragment>
-            {isLoading && <MyLoader/>}
-            {!isLoading && <Gallery movies={wishMovies}/>}
+            {!hasMovies && <MyLoader/>}
+            {hasMovies && <Gallery movies={wishMovies}/>}
         </React.Fragment>
     );
 };
