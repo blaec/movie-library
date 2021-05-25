@@ -16,6 +16,7 @@ import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
+import {isArrayEmpty} from "../../../../../../utils/Utils";
 
 
 const wishLoader = () => {
@@ -79,7 +80,7 @@ const wishLoader = () => {
     };
 
     let moviePreviews = <WishPreview/>;
-    let hasResults = wishMovies.length > 0;
+    let hasResults = !isArrayEmpty(wishMovies);
     if (hasResults) {
         moviePreviews = (
             <Carousel
