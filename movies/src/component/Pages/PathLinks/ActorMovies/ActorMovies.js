@@ -62,7 +62,7 @@ const actorMovies = (props) => {
 
     useEffect(() => {
         setIsLoading(true);
-        if (isStringEmpty(tmdbApi) && isArrayEmpty(movies)) {
+        if (!isStringEmpty(tmdbApi) && !isArrayEmpty(movies)) {
             axios.get(getActorDetailsUrl(actorId, tmdbApi))
                 .then(response => {
                     const {data} = response;
