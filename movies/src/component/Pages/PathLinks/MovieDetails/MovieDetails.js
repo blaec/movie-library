@@ -10,6 +10,7 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {feedbackActions} from "../../../../store/feedback-slice";
 
 import {makeStyles} from "@material-ui/core/styles";
+import {fetchMovies, fetchWishlist} from "../../../../store/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +51,8 @@ const movieDetails = (props) => {
     const handleDeleteMovie = (id) => {
         axios.delete(getDeleteUrl(id))
             .then(response => {
+                dispatch(fetchMovies());
+                dispatch(fetchWishlist());
                 onSetSnackbar({open: true, message: `Movie '${title}' is deleted`, type: 'success'});
                 handleBack();
             })

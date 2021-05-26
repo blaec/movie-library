@@ -24,6 +24,7 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import {fetchMovies} from "../../../../../../store/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -75,6 +76,7 @@ const fileLoader = () => {
                 .then(response => {
                     resetForm();
                     setIsLoading(false);
+                    dispatch(fetchMovies());
                     onSetSnackbar({
                         open: true,
                         message: `Uploading ${fileName} from ${fileLocation} folder completed successfully`,
@@ -97,6 +99,7 @@ const fileLoader = () => {
                     const {data} = response;
                     resetForm();
                     setIsLoading(false);
+                    dispatch(fetchMovies());
                     onSetSnackbar({
                         open: true,
                         message: `From ${fileLocation} folder successfully uploaded ${data} movies.`,

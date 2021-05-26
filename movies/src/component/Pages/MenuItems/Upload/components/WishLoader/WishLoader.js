@@ -18,6 +18,7 @@ import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
 import {isArrayEmpty} from "../../../../../../utils/Utils";
 import {fetchWishMovies} from "../../../../../../store/upload-actions";
+import {fetchWishlist} from "../../../../../../store/collection-actions";
 
 let isInitial = true;
 
@@ -44,6 +45,7 @@ const wishLoader = () => {
         axios.post(movieApi.post.saveWishMovie, wishMovie)
             .then(response => {
                 setIsLoading(false);
+                dispatch(fetchWishlist());
                 onSetSnackbar({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
             })
             .catch(error => {
