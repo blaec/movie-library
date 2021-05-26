@@ -80,17 +80,21 @@ public class MovieService {
      *
      * @param wishMovie wish movie object
      */
-    public void save(TmdbResult.TmdbMovie wishMovie) {
+    public boolean save(TmdbResult.TmdbMovie wishMovie) {
+        boolean isSaved = false;
         Movie newMovie = Movie.fromJson(wishMovie);
         newMovie.setType(Type.wish_list);
         try {
             Movie savedMovie = movieRepository.save(newMovie);
-            log.info("saved | {}", savedMovie.toString());
+            log.info("saved | {}", savedMovie);
+            isSaved = true;
         } catch (DataIntegrityViolationException e) {
-            log.error("this movie [{}] already exist", newMovie.toString());
+            log.error("this movie [{}] already exist", newMovie);
         } catch (Exception e) {
             log.error(wishMovie.toString(), e);
         }
+
+        return isSaved;
     }
 
     /**

@@ -92,9 +92,11 @@ public class MovieController {
     }
 
     @PostMapping("/wish")
-    public void saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
-        movieService.save(wishMovie);
+    public boolean saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
+        boolean isSaved = movieService.save(wishMovie);
         log.info("{}", wishMovie.toString());
+
+        return isSaved;
     }
 
     @DeleteMapping("/{id}")
