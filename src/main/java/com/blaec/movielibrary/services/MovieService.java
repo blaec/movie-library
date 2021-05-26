@@ -4,6 +4,7 @@ import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.to.MovieFileTo;
+import com.blaec.movielibrary.to.Response;
 import com.blaec.movielibrary.to.TmdbResult;
 import com.blaec.movielibrary.utils.MovieUtils;
 import lombok.AllArgsConstructor;
@@ -80,21 +81,23 @@ public class MovieService {
      *
      * @param wishMovie wish movie object
      */
-    public boolean save(TmdbResult.TmdbMovie wishMovie) {
-        boolean isSaved = false;
+    public Response save(TmdbResult.TmdbMovie wishMovie) {
+        Response response;
         Movie newMovie = Movie.fromJson(wishMovie);
         newMovie.setType(Type.wish_list);
         try {
             Movie savedMovie = movieRepository.save(newMovie);
             log.info("saved | {}", savedMovie);
-            isSaved = true;
+            response = Response.create(true, "successfully saved");
         } catch (DataIntegrityViolationException e) {
             log.error("this movie [{}] already exist", newMovie);
+            response = Response.create(false, "already exist");
         } catch (Exception e) {
             log.error(wishMovie.toString(), e);
+            response = Response.create(false, e.getMessage());
         }
 
-        return isSaved;
+        return response;
     }
 
     /**

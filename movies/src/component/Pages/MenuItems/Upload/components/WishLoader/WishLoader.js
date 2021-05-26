@@ -44,13 +44,13 @@ const wishLoader = () => {
         setIsLoading(true);
         axios.post(movieApi.post.saveWishMovie, wishMovie)
             .then(response => {
-                const {data : isSaved} = response;
+                const {data: {message, success}} = response;
                 setIsLoading(false);
                 dispatch(fetchWishlist());
-                if (isSaved) {
+                if (success) {
                     onSetSnackbar({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
                 } else {
-                    onSetSnackbar({open: true, message: `Failed to add movie '${wishMovie.title}' to wishlist`, type: 'error'});
+                    onSetSnackbar({open: true, message: `Failed to add movie '${wishMovie.title}' to wishlist - ${message}`, type: 'error'});
                 }
             })
             .catch(error => {
