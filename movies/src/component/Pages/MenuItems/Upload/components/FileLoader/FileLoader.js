@@ -12,6 +12,7 @@ import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
+import {fetchMovies} from "../../../../../../store/collection-actions";
 
 import {
     Card,
@@ -24,7 +25,6 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
-import {fetchMovies} from "../../../../../../store/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -72,19 +72,19 @@ const fileLoader = () => {
                 tmdbId: tmdbId,
                 fileName: fileName
             }
+            resetForm();
             axios.post(movieApi.post.uploadMovie, data)
                 .then(response => {
-                    resetForm();
+                    const {data: {success, message}} = response;
                     setIsLoading(false);
                     dispatch(fetchMovies());
                     onSetSnackbar({
                         open: true,
-                        message: `Uploading ${fileName} from ${fileLocation} folder completed successfully`,
+                        message: `Uploading ${fileName} from ${fileLocation} folder - ${message}`,
                         type: 'success'
                     });
                 })
                 .catch(error => {
-                    resetForm();
                     setIsLoading(false);
                     console.log(error);
                     onSetSnackbar({
@@ -96,13 +96,13 @@ const fileLoader = () => {
         } else {
             axios.post(UrlUtils.getScanFolderUrl(fileLocation))
                 .then(response => {
-                    const {data} = response;
+                    const {data: {success, message}} = response;
                     resetForm();
                     setIsLoading(false);
                     dispatch(fetchMovies());
                     onSetSnackbar({
                         open: true,
-                        message: `From ${fileLocation} folder successfully uploaded ${data} movies.`,
+                        message: `From ${fileLocation} folder successfully uploaded ${message} movies.`,
                         type: 'success'
                     });
                 })

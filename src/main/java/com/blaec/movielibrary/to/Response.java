@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Response {
+    // TODO for some reason React replaces isSomething to something
     private final boolean isSuccess;
     private final String message;
 
