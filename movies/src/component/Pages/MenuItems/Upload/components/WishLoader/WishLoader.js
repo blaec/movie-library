@@ -16,16 +16,16 @@ import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import Carousel from "react-material-ui-carousel";
-import {isArrayEmpty} from "../../../../../../utils/Utils";
-import {fetchWishMovies} from "../../../../../../store/upload-actions";
+import {isArrayEmpty, isObjectEmpty} from "../../../../../../utils/Utils";
+import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
 import {fetchWishlist} from "../../../../../../store/collection-actions";
 
 let isInitial = true;
 
 const wishLoader = () => {
-    console.log("wishloader");
     const tmdbApi = useSelector(state => state.api.tmdb);
     const wishMovies = useSelector(state => state.upload.wishMovies);
+    const saveResult = useSelector(state => state.upload.result);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -40,24 +40,9 @@ const wishLoader = () => {
         setSelectedWishMovie(wishMovies[current]);
     };
 
-    const handleSaveWishMovie = (wishMovie) => {
+    const handleSaveWishMovie = () => {
         setIsLoading(true);
-        axios.post(movieApi.post.saveWishMovie, wishMovie)
-            .then(response => {
-                const {data: {message, success}} = response;
-                setIsLoading(false);
-                dispatch(fetchWishlist());
-                if (success) {
-                    onSetSnackbar({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
-                } else {
-                    onSetSnackbar({open: true, message: `Failed to add movie '${wishMovie.title}' to wishlist - ${message}`, type: 'error'});
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Failed to add movie '${wishMovie.title}' to wishlist`, type: 'error'});
-            });
+        dispatch(saveWishMovie(selectedWishMovie));
     };
 
     const handleSearchWishMovie = () => {
@@ -84,6 +69,7 @@ const wishLoader = () => {
             </Carousel>
         );
     }
+
     useEffect(() => {
         if (isInitial) {
             isInitial = false;
@@ -97,6 +83,19 @@ const wishLoader = () => {
             }
         }
     }, [hasResults, wishMovies])
+
+    useEffect(() => {
+        if (selectedWishMovie && !isObjectEmpty(saveResult)) {
+            setIsLoading(false);
+            const {message, success} = saveResult;
+            const {title} = selectedWishMovie;
+            if (success) {
+                onSetSnackbar({open: true, message: `Movie '${title}' added to wishlist`, type: 'success'});
+            } else {
+                onSetSnackbar({open: true, message: `Failed to add movie '${title}' to wishlist - ${message}`, type: 'error'});
+            }
+        }
+    }, [saveResult])
 
     return (
         <Card variant="elevation">
@@ -123,7 +122,7 @@ const wishLoader = () => {
                         icon={<AddCircleTwoToneIcon/>}
                         disabled={!hasResults}
                         caption="Add"
-                        onSubmit={() => handleSaveWishMovie(selectedWishMovie)}
+                        onSubmit={handleSaveWishMovie}
                     />
                 </MyButtonGrid>
             </CardActions>
