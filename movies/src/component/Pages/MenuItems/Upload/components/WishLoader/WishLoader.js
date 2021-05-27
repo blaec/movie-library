@@ -4,21 +4,17 @@ import {useDispatch, useSelector} from "react-redux";
 import MySubmitButton from "../../../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../../../UI/MyFormLabel";
-import WishPreview from "./WishPreview";
 import MyLinearProgress from "../MyLinearProgress";
-import axios from "../../../../../../axios-movies";
-import {movieApi} from "../../../../../../utils/UrlUtils";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
+import WishPreviews from "./WishPreviews";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
+import {isArrayEmpty, isObjectEmpty} from "../../../../../../utils/Utils";
+import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
-import Carousel from "react-material-ui-carousel";
-import {isArrayEmpty, isObjectEmpty} from "../../../../../../utils/Utils";
-import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
-import {fetchWishlist} from "../../../../../../store/collection-actions";
 
 let isInitial = true;
 
@@ -35,6 +31,8 @@ const wishLoader = () => {
     const [selectedWishMovie, setSelectedWishMovie] = useState();
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+
+    let hasResults = !isArrayEmpty(wishMovies);
 
     const handleChangeSelectedWishMovie = (current) => {
         setSelectedWishMovie(wishMovies[current]);
@@ -55,20 +53,6 @@ const wishLoader = () => {
     const handleSearchDisable = (isDisabled) => {
         setIsSearchDisabled(isDisabled);
     };
-
-    let moviePreviews = <WishPreview/>;
-    let hasResults = !isArrayEmpty(wishMovies);
-    if (hasResults) {
-        moviePreviews = (
-            <Carousel
-                animation="slide"
-                autoPlay={false}
-                onChange={(active) => handleChangeSelectedWishMovie(active)}
-                navButtonsAlwaysVisible>
-                {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
-            </Carousel>
-        );
-    }
 
     useEffect(() => {
         if (isInitial) {
@@ -126,7 +110,10 @@ const wishLoader = () => {
                     />
                 </MyButtonGrid>
             </CardActions>
-            {moviePreviews}
+            <WishPreviews
+                wishMovies={wishMovies}
+                onChange={handleChangeSelectedWishMovie}
+            />
         </Card>
     );
 };
