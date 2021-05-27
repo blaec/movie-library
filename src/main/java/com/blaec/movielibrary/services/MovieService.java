@@ -58,22 +58,29 @@ public class MovieService {
      * @param movieJson json movie
      * @param movieFile file movie
      */
-    public void save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
+    public Response save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
+        Response response = Response.create(false, "null passed");
+
         if (MovieUtils.isNullSave(movieJson, movieFile.toString())) {
             Movie newMovie = Movie.of(movieJson, movieFile);
             try {
                 // FIXME not correct check
                 if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
-                    log.warn("check if it's correct | {} -x-> {}}", newMovie.toString(), movieFile.getFileName());
+                    log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
                 }
                 Movie savedMovie = movieRepository.save(newMovie);
-                log.info("saved | {}", savedMovie.toString());
+                log.info("saved | {}", savedMovie);
+                response = Response.create(true, "successfully saved");
             } catch (DataIntegrityViolationException e) {
-                log.error("this movie [{}] already exist", newMovie.toString());
+                log.error("this movie [{}] already exist", newMovie);
+                response = Response.create(false, "already exist");
             } catch (Exception e) {
                 log.error(movieFile.toString(), e);
+                response = Response.create(false, e.getMessage());
             }
         }
+
+        return response;
     }
 
     /**
