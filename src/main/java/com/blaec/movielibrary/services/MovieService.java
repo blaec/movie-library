@@ -112,20 +112,32 @@ public class MovieService {
      *
      * @param id id for deleted movie
      */
-    public void delete(Integer id) {
+    public Response delete(Integer id) {
+        Response response;
+
         try {
             Movie movie = movieRepository.findById(id).orElse(null);
             if (movie == null) {
-                log.warn("No movie with id {} exists", id);
+                String message = String.format("No movie with id %d exists", id);
+                log.warn(message);
+                response = Response.create(false, message);
             } else {
                 movieRepository.deleteById(id);
-                log.info("movie {} with id {} deleted", movie.toString(), id);
+                String message = String.format("Movie %s with id %d deleted", movie, id);
+                log.info(message);
+                response = Response.create(true, message);
             }
         } catch (IllegalArgumentException e) {
-            log.error("can't delete movie, wrong id: {}", id, e);
+            String message = String.format("Can't delete movie, wrong id: %d", id);
+            log.error(message, e);
+            response = Response.create(false, message);
         } catch (Exception e) {
-            log.error("failed deleting movie by id: {}", id, e);
+            String message = String.format("Failed deleting movie by id: %d", id);
+            log.error("Failed deleting movie by id: {}", id, e);
+            response = Response.create(false, message);
         }
+
+        return response;
     }
 
     // TODO currently not in use

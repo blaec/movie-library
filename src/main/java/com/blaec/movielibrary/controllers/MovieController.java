@@ -112,8 +112,8 @@ public class MovieController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        movieService.delete(id);
+    public Response delete(@PathVariable Integer id) {
+        return movieService.delete(id);
         // TODO return stats stats
     }
 
