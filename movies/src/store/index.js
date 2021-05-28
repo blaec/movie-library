@@ -5,6 +5,7 @@ import feedbackReducer from "./feedback-slice";
 import filterReducer from "./filter-slice";
 import collectionReducer from "./collection-slice";
 import uploadReducer from "./upload-slice";
+import detailsReducer from "./details-slice";
 
 const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ const store = configureStore({
         filter: filterReducer,
         collection: collectionReducer,
         upload: uploadReducer,
+        details: detailsReducer,
     },
 });
 
