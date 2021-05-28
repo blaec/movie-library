@@ -2,6 +2,9 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     cast: [],
+    movieTmdbDetails: {},
+    movieOmdbDetails: {},
+    imdbId: '',
 };
 
 const detailsSlice = createSlice({
@@ -10,6 +13,15 @@ const detailsSlice = createSlice({
     reducers: {
         setCast(state, action) {
             state.cast = action.payload;
+        },
+        setMovieTmdbDetails(state, action) {
+            state.movieTmdbDetails = action.payload;
+        },
+        setMovieOmdbDetails(state, action) {
+            state.movieOmdbDetails = action.payload;
+        },
+        setImdbId(state, action) {
+            state.imdbId = action.payload;
         },
     }
 });

@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import axios from "../../../../axios-movies";
 
-import {getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
 import {fullTitle, isArrayEmpty, isObjectEmpty, isStringEmpty, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
@@ -11,10 +9,10 @@ import {feedbackActions} from "../../../../store/feedback-slice";
 import {deleteMovie} from "../../../../store/collection-actions";
 import {uploadActions} from "../../../../store/upload-slice";
 import {snackbarAutoHideDuration} from "../../../../utils/Constants";
+import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../../store/details-actions";
+import {detailsActions} from "../../../../store/details-slice";
 
 import {makeStyles} from "@material-ui/core/styles";
-import {fetchCast} from "../../../../store/details-actions";
-import {detailsActions} from "../../../../store/details-slice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,17 +35,21 @@ const movieDetails = (props) => {
     const omdbApi = useSelector(state => state.api.omdb);
     const saveResult = useSelector(state => state.upload.result);
     const cast = useSelector(state => state.details.cast);
+    const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
+    const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
+    const imdbId = useSelector(state => state.details.imdbId);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
-
-    const [movieDetails, setMovieDetails] = useState({});
-    const [omdbMovieDetails, setOmdbMovieDetails] = useState({});
-    const [imdbId, setImdbId] = useState('');
 
     const handleBack = () => {
         localStorage.removeItem('id');
         props.history.goBack();
+
+        // reset all states
         dispatch(detailsActions.setCast([]));
+        dispatch(detailsActions.setMovieTmdbDetails({}));
+        dispatch(detailsActions.setMovieOmdbDetails({}));
+        dispatch(detailsActions.setImdbId(''));
     };
 
     const handleDeleteMovie = (id) => {
@@ -72,31 +74,13 @@ const movieDetails = (props) => {
 
     useEffect(() => {
         if (!isStringEmpty(movieId) && !isStringEmpty(tmdbApi)) {
-            axios.get(getMovieDetailsUrl(movieId, tmdbApi))
-                .then(response => {
-                    const {data} = response;
-                    setMovieDetails(data);
-
-                    // Get movie additional details from omdb
-                    const {imdb_id} = data;
-                    setImdbId(imdb_id);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            dispatch(fetchMovieTmdbDetails(movieId, tmdbApi));
         }
     }, [movieId, tmdbApi]);
 
     useEffect(() => {
         if (!isStringEmpty(imdbId)) {
-            axios.get(getOmdbMovieDetails(imdbId, omdbApi))
-                .then(response => {
-                    const {data} = response;
-                    setOmdbMovieDetails(data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+            dispatch(fetchMovieOmdbDetails(imdbId, omdbApi));
         }
     }, [imdbId])
 
@@ -107,10 +91,10 @@ const movieDetails = (props) => {
     }, [movieId, tmdbApi]);
 
     const hasCast = !isArrayEmpty(cast);
-    const hasMovieDetails = !isObjectEmpty(movieDetails) && !isObjectEmpty(omdbMovieDetails);
+    const hasMovieDetails = !isObjectEmpty(tmdbMovieDetails) && !isObjectEmpty(omdbMovieDetails);
     let details = <MyLoader/>
     if (hasMovieDetails && hasCast) {
-        const {title, releaseDate, genres, images: {backdrops}} = movieDetails || {};
+        const {title, releaseDate, genres, images: {backdrops}} = tmdbMovieDetails || {};
         const id = localStorage.getItem('id');
         details = (
             <div className={root}>
@@ -122,7 +106,7 @@ const movieDetails = (props) => {
                     onDelete={handleDeleteMovie}
                 />
                 <Info
-                    tmdbDetails={movieDetails}
+                    tmdbDetails={tmdbMovieDetails}
                     omdbDetails={omdbMovieDetails}
                     castDetails={cast}
                     genreDetails={joinNames(genres)}
