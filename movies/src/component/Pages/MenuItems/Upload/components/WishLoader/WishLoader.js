@@ -16,6 +16,7 @@ import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import {uploadActions} from "../../../../../../store/upload-slice";
+import {Loader} from "../../../../../../utils/Constants";
 
 let isInitial = true;
 
@@ -23,6 +24,7 @@ const wishLoader = () => {
     const tmdbApi = useSelector(state => state.api.tmdb);
     const wishMovies = useSelector(state => state.upload.wishMovies);
     const saveResult = useSelector(state => state.upload.result);
+    const loader = useSelector(state => state.upload.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -59,12 +61,14 @@ const wishLoader = () => {
         if (isInitial) {
             isInitial = false;
         } else {
-            setIsLoading(false);
-            if (hasResults) {
-                setSelectedWishMovie(wishMovies[0]);
-                onSetSnackbar({open: true, message: `Found ${wishMovies.length} movies`, type: 'success'});
-            } else {
-                onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
+            if (loader === Loader.wishMovie) {
+                setIsLoading(false);
+                if (hasResults) {
+                    setSelectedWishMovie(wishMovies[0]);
+                    onSetSnackbar({open: true, message: `Found ${wishMovies.length} movies`, type: 'success'});
+                } else {
+                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
+                }
             }
         }
     }, [hasResults, wishMovies])

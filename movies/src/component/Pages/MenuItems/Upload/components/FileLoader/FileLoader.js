@@ -23,6 +23,7 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import {Loader} from "../../../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -32,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
 
 const fileLoader = () => {
     const {divider} = useStyles();
-    const dispatch = useDispatch();
     const saveResult = useSelector(state => state.upload.result);
+    const loader = useSelector(state => state.upload.loader);
+    const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const tmdbIdRef = useRef();
@@ -62,7 +64,7 @@ const fileLoader = () => {
     };
 
     useEffect(() => {
-        if (!isObjectEmpty(saveResult)) {
+        if (!isObjectEmpty(saveResult) && loader === Loader.folderScan) {
             setIsLoading(false);
             const {message, success} = saveResult;
             let info;

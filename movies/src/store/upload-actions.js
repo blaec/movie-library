@@ -4,6 +4,7 @@ import {uploadActions} from "./upload-slice";
 import {feedbackActions} from "./feedback-slice";
 import {fetchMovies, fetchWishlist} from "./collection-actions";
 import * as UrlUtils from "../utils/UrlUtils";
+import {Loader} from "../utils/Constants";
 
 export const fetchWishMovies = (params) => {
     return async (dispatch) => {
@@ -26,6 +27,7 @@ export const fetchWishMovies = (params) => {
 
 export const saveWishMovie = (wishMovie) => {
     return async (dispatch) => {
+        dispatch(uploadActions.setLoader(Loader.wishMovie));
         axios.post(movieApi.post.saveWishMovie, wishMovie)
             .then(response => {
                 const {data} = response;
@@ -45,6 +47,7 @@ export const saveWishMovie = (wishMovie) => {
 
 export const saveSingleMovie = (movie) => {
     return async (dispatch) => {
+        dispatch(uploadActions.setLoader(Loader.folderScan));
         axios.post(movieApi.post.uploadMovie, movie)
             .then(response => {
                 const {data} = response;
@@ -64,6 +67,7 @@ export const saveSingleMovie = (movie) => {
 
 export const scanFolderAndSave = (path) => {
     return async (dispatch) => {
+        dispatch(uploadActions.setLoader(Loader.folderScan));
         axios.post(UrlUtils.getScanFolderUrl(path))
             .then(response => {
                 const {data} = response;
@@ -80,6 +84,3 @@ export const scanFolderAndSave = (path) => {
             });
     };
 };
-
-
-
