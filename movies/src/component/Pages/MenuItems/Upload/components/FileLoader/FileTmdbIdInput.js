@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
@@ -16,7 +16,10 @@ const fileTmdbIdInput = (props) => {
         isValid,
         hasError
     } = useInput(inputRef, validateValue);
-    onValid(isValid);
+
+    useEffect(() => {
+        onValid(isValid);
+    }, [isValid]);
 
     return (
         <MyTextField
