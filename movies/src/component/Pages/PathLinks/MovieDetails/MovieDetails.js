@@ -42,8 +42,6 @@ const movieDetails = (props) => {
 
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
-    const [genres, setGenres] = useState('');
-    const [backdrops, setBackdrops] = useState([]);
     const [isLoadingMovies, setIsLoadingMovies] = useState(true);
 
     const handleBack = () => {
@@ -77,12 +75,9 @@ const movieDetails = (props) => {
         axios.get(getMovieDetailsUrl(movieId, tmdbApi))
             .then(response => {
                 const {data} = response;
-                const {imdb_id, genres, images, original_title} = data;
-                const {backdrops} = images;
+                const {imdb_id} = data;
 
                 setMovieDetails(data);
-                setGenres(joinNames(genres));
-                setBackdrops(backdrops);
 
                 // Get movie additional details from omdb
                 axios.get(getOmdbMovieDetails(imdb_id, omdbApi))
@@ -110,7 +105,7 @@ const movieDetails = (props) => {
     const hasCast = !isArrayEmpty(cast);
     let details = <MyLoader/>
     if (!isLoadingMovies && hasCast) {
-        const {title, releaseDate} = movieDetails || {};
+        const {title, releaseDate, genres, images: {backdrops}} = movieDetails || {};
         const id = localStorage.getItem('id');
         details = (
             <div className={root}>
@@ -125,7 +120,7 @@ const movieDetails = (props) => {
                     tmdbDetails={movieDetails}
                     omdbDetails={omdbMovieDetails}
                     castDetails={cast}
-                    genreDetails={genres}
+                    genreDetails={joinNames(genres)}
                 />
             </div>
         );
