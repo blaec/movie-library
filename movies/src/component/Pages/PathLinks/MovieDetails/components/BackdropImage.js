@@ -1,10 +1,15 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyDelete from "../../../../../UI/Buttons/Icons/MyDelete";
 import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
-import {drawer} from "../../../../../utils/Constants";
+import {drawer, snackbarAutoHideDuration} from "../../../../../utils/Constants";
+import {deleteMovie} from "../../../../../store/collection-actions";
+import {isObjectEmpty} from "../../../../../utils/Utils";
+import {uploadActions} from "../../../../../store/upload-slice";
+import {feedbackActions} from "../../../../../store/feedback-slice";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
@@ -20,9 +25,13 @@ const useStyles = makeStyles((theme) => ({
 
 
 const backdropImage = props => {
-    const {id, backdrops, alt, onClose, onDelete} = props;
+    const {id, backdrops, alt, onClose} = props;
     const {root} = useStyles();
     const [isDeleting, setIsDeleting] = useState(false);
+
+    const saveResult = useSelector(state => state.upload.result);
+    const dispatch = useDispatch();
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8
@@ -39,6 +48,27 @@ const backdropImage = props => {
     const handleCloseDeleteDialog = () => {
         setIsDeleting(false);
     };
+
+    const handleDeleteMovie = () => {
+        setIsDeleting(true);
+        dispatch(deleteMovie(id));
+        const timeout = setTimeout(() => {
+            onClose();
+        }, snackbarAutoHideDuration / 3);
+
+        return () => {
+            clearTimeout(timeout);
+        };
+    };
+
+    useEffect(() => {
+        if (!isObjectEmpty(saveResult)) {
+            const {message, success} = saveResult;
+            const type = success ? 'success' : 'error';
+            onSetSnackbar({open: true, message: `${message}`, type: type});
+            dispatch(uploadActions.setResult({}));
+        }
+    }, [saveResult])
 
     return (
         <React.Fragment>
@@ -66,7 +96,7 @@ const backdropImage = props => {
             <DeleteDialog
                 open={isDeleting}
                 onExit={handleCloseDeleteDialog}
-                onDelete={() => onDelete(id)}
+                onDelete={handleDeleteMovie}
             />
         </React.Fragment>
     );

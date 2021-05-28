@@ -5,10 +5,6 @@ import {fullTitle, isArrayEmpty, isObjectEmpty, isStringEmpty, joinNames} from "
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {feedbackActions} from "../../../../store/feedback-slice";
-import {deleteMovie} from "../../../../store/collection-actions";
-import {uploadActions} from "../../../../store/upload-slice";
-import {snackbarAutoHideDuration} from "../../../../utils/Constants";
 import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../../store/details-actions";
 import {detailsActions} from "../../../../store/details-slice";
 
@@ -26,20 +22,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-// TODO refactor multiple axios get requests
 const movieDetails = (props) => {
     const {match: {params: {movieId}}} = props;
     const {root} = useStyles();
 
     const tmdbApi = useSelector(state => state.api.tmdb);
     const omdbApi = useSelector(state => state.api.omdb);
-    const saveResult = useSelector(state => state.upload.result);
     const cast = useSelector(state => state.details.cast);
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
     const imdbId = useSelector(state => state.details.imdbId);
     const dispatch = useDispatch();
-    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const handleBack = () => {
         localStorage.removeItem('id');
@@ -51,26 +44,6 @@ const movieDetails = (props) => {
         dispatch(detailsActions.setMovieOmdbDetails({}));
         dispatch(detailsActions.setImdbId(''));
     };
-
-    const handleDeleteMovie = (id) => {
-        dispatch(deleteMovie(id));
-        const timeout = setTimeout(() => {
-            handleBack();
-        }, snackbarAutoHideDuration / 3);
-
-        return () => {
-            clearTimeout(timeout);
-        };
-    };
-
-    useEffect(() => {
-        if (!isObjectEmpty(saveResult)) {
-            const {message, success} = saveResult;
-            const type = success ? 'success' : 'error';
-            onSetSnackbar({open: true, message: `${message}`, type: type});
-            dispatch(uploadActions.setResult({}));
-        }
-    }, [saveResult])
 
     useEffect(() => {
         if (!isStringEmpty(movieId) && !isStringEmpty(tmdbApi)) {
@@ -90,10 +63,9 @@ const movieDetails = (props) => {
         }
     }, [movieId, tmdbApi]);
 
-    const hasCast = !isArrayEmpty(cast);
-    const hasMovieDetails = !isObjectEmpty(tmdbMovieDetails) && !isObjectEmpty(omdbMovieDetails);
+    const hasDetails = !isObjectEmpty(tmdbMovieDetails) && !isObjectEmpty(omdbMovieDetails) && !isArrayEmpty(cast);
     let details = <MyLoader/>
-    if (hasMovieDetails && hasCast) {
+    if (hasDetails) {
         const {title, releaseDate, genres, images: {backdrops}} = tmdbMovieDetails || {};
         const id = localStorage.getItem('id');
         details = (
@@ -103,7 +75,6 @@ const movieDetails = (props) => {
                     alt={`${fullTitle(title, releaseDate)}`}
                     id={id}
                     onClose={handleBack}
-                    onDelete={handleDeleteMovie}
                 />
                 <Info
                     tmdbDetails={tmdbMovieDetails}
