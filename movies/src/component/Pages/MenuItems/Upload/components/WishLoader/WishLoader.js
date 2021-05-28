@@ -76,7 +76,7 @@ const wishLoader = () => {
             if (success) {
                 onSetSnackbar({open: true, message: `Movie '${title}' added to wishlist`, type: 'success'});
             } else {
-                onSetSnackbar({open: true, message: `Failed to add movie '${title}' to wishlist - ${message}`, type: 'error'});
+                onSetSnackbar({open: true, message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
             }
         }
     }, [saveResult])

@@ -70,8 +70,8 @@ public class MovieController {
             response = Response.create(false, message);
         } else {
             String message = moviesSaved == 0
-                ? "no movie saved"
-                : String.format("successfully saved %d new movies out of %d movies from folder '%s'", moviesSaved, movieFiles.size(), folder);
+                ? "No movie saved"
+                : String.format("Successfully saved %d out of %d movies from folder '%s'", moviesSaved, movieFiles.size(), folder);
             response = Response.create(moviesSaved > 0, message);
         }
 

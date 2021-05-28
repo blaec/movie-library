@@ -70,10 +70,10 @@ public class MovieService {
                 }
                 Movie savedMovie = movieRepository.save(newMovie);
                 log.info("saved | {}", savedMovie);
-                response = Response.create(true, "successfully saved");
+                response = Response.create(true, "Successfully saved");
             } catch (DataIntegrityViolationException e) {
                 log.error("this movie [{}] already exist", newMovie);
-                response = Response.create(false, "already exist");
+                response = Response.create(false, "Already exist");
             } catch (Exception e) {
                 log.error(movieFile.toString(), e);
                 response = Response.create(false, e.getMessage());
@@ -95,10 +95,10 @@ public class MovieService {
         try {
             Movie savedMovie = movieRepository.save(newMovie);
             log.info("saved | {}", savedMovie);
-            response = Response.create(true, "successfully saved");
+            response = Response.create(true, "Successfully saved");
         } catch (DataIntegrityViolationException e) {
             log.error("this movie [{}] already exist", newMovie);
-            response = Response.create(false, "already exist");
+            response = Response.create(false, "Already exist");
         } catch (Exception e) {
             log.error(wishMovie.toString(), e);
             response = Response.create(false, e.getMessage());

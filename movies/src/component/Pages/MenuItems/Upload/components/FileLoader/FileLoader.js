@@ -85,13 +85,13 @@ const fileLoader = () => {
             let type;
             if (isSingleMovieUpload) {
                 info = success
-                    ? `Uploading ${fileName} from ${fileLocation} folder - ${message}`
-                    : `Failed upload movie '${fileName}' from ${fileLocation} folder- ${message}`;
+                    ? `Uploading ${fileName} from ${fileLocation} folder: ${message}`
+                    : `Failed upload movie '${fileName}' from ${fileLocation} folder: ${message}`;
                 type = success ? 'success' : 'error';
             } else {
                 info = success
-                    ? `From ${fileLocation} folder successfully uploaded ${message} movies.`
-                    : `Failed to upload movies from ${fileLocation} folder - ${message}`;
+                    ? `${message}`
+                    : `Failed to upload movies from ${fileLocation} folder: ${message}`;
                 type = success ? 'success' : 'error';
             }
             onSetSnackbar({open: true, message: info, type: type});
