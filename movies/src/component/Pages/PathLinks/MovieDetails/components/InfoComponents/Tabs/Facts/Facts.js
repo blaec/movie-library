@@ -4,7 +4,6 @@ import {Typography} from "@material-ui/core";
 import {joinNames} from "../../../../../../../../utils/Utils";
 
 const facts = (props) => {
-    console.log(props);
     const {
         omdbDetails: {Director, Awards, Released, DVD, Title},
         tmdbDetails: {budget, revenue, production_companies, production_countries, original_language}

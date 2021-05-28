@@ -9,6 +9,8 @@ import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
+import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/upload-actions";
+import {isObjectEmpty} from "../../../../../../utils/Utils";
 
 import {
     Card,
@@ -21,8 +23,6 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
-import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/upload-actions";
-import {isObjectEmpty} from "../../../../../../utils/Utils";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -44,22 +44,6 @@ const fileLoader = () => {
     const [isTmdbIdValid, setIsTmdbIdValid] = useState(false);
     const [isFileNameValid, setIsFileNameValid] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    const resetForm = () => {
-        setFileLocation('');
-        tmdbIdRef.current.value = '';
-        fileNameRef.current.value = '';
-    };
-
-    const handleChooseLocation = (event) => {
-        setFileLocation(event.target.value);
-    };
-
-    const handleSwitchChange = () => {
-        setIsSingleMovieUpload(!isSingleMovieUpload);
-        tmdbIdRef.current.value = '';
-        fileNameRef.current.value = '';
-    };
 
     const {current: {value: tmdbId} = {value: ''}} = tmdbIdRef;
     const {current: {value: fileName} = {value: ''}} = fileNameRef;
@@ -99,6 +83,21 @@ const fileLoader = () => {
         }
     }, [saveResult])
 
+    const resetForm = () => {
+        setFileLocation('');
+        tmdbIdRef.current.value = '';
+        fileNameRef.current.value = '';
+    };
+
+    const handleChooseLocation = (event) => {
+        setFileLocation(event.target.value);
+    };
+
+    const handleSwitchChange = () => {
+        setIsSingleMovieUpload(!isSingleMovieUpload);
+        tmdbIdRef.current.value = '';
+        fileNameRef.current.value = '';
+    };
 
     const handleTmdbIdValidation = (isValid) => {
         setIsTmdbIdValid(isValid);

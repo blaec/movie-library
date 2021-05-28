@@ -17,7 +17,6 @@ const wishYearInput = (props) => {
         value: wishYear,
         handleTextFieldChange,
         handleFieldTouch,
-        isValid,
         hasError
     } = useInput(inputRef, validateValue);
 

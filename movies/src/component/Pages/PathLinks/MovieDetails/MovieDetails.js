@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../../axios-movies";
 
 import {getDeleteUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
-import {fullTitle, isStringEmpty, joinNames} from "../../../../utils/Utils";
+import {fullTitle, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
