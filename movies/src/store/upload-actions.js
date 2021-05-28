@@ -2,7 +2,8 @@ import axios from "../axios-movies";
 import {getSearchMovieUrl, movieApi} from "../utils/UrlUtils";
 import {uploadActions} from "./upload-slice";
 import {feedbackActions} from "./feedback-slice";
-import {fetchWishlist} from "./collection-actions";
+import {fetchMovies, fetchWishlist} from "./collection-actions";
+import * as UrlUtils from "../utils/UrlUtils";
 
 export const fetchWishMovies = (params) => {
     return async (dispatch) => {
@@ -25,7 +26,6 @@ export const fetchWishMovies = (params) => {
 
 export const saveWishMovie = (wishMovie) => {
     return async (dispatch) => {
-        console.log(movieApi.post.saveWishMovie);
         axios.post(movieApi.post.saveWishMovie, wishMovie)
             .then(response => {
                 const {data} = response;
@@ -42,4 +42,44 @@ export const saveWishMovie = (wishMovie) => {
             });
     };
 };
+
+export const saveSingleMovie = (movie) => {
+    return async (dispatch) => {
+        axios.post(movieApi.post.uploadMovie, movie)
+            .then(response => {
+                const {data} = response;
+                dispatch(uploadActions.setResult(data));
+                dispatch(fetchMovies());
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    open: true,
+                    message: `Failed to upload ${movie.fileName} from ${movie.fileLocation} folder`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const scanFolderAndSave = (path) => {
+    return async (dispatch) => {
+        axios.post(UrlUtils.getScanFolderUrl(path))
+            .then(response => {
+                const {data} = response;
+                dispatch(uploadActions.setResult(data));
+                dispatch(fetchMovies());
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    open: true,
+                    message: `Failed to scan folder ${path} for movies`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+
 

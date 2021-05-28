@@ -1,18 +1,14 @@
-import React, {useRef, useState} from 'react';
-import axios from "../../../../../../axios-movies";
-import {useDispatch} from "react-redux";
+import React, {useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
 import MyFormLabel from "../../../../../../UI/MyFormLabel";
 import MySubmitButton from "../../../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../../../UI/Buttons/MyButtonGrid";
 import MyLinearProgress from "../MyLinearProgress";
-import * as UrlUtils from "../../../../../../utils/UrlUtils";
-import {movieApi} from "../../../../../../utils/UrlUtils";
 import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
-import {fetchMovies} from "../../../../../../store/collection-actions";
 
 import {
     Card,
@@ -25,6 +21,8 @@ import {
     Switch
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/upload-actions";
+import {isObjectEmpty} from "../../../../../../utils/Utils";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -35,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const fileLoader = () => {
     const {divider} = useStyles();
     const dispatch = useDispatch();
+    const saveResult = useSelector(state => state.upload.result);
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const tmdbIdRef = useRef();
@@ -62,62 +61,44 @@ const fileLoader = () => {
         fileNameRef.current.value = '';
     };
 
+    const {current: {value: tmdbId} = {value: ''}} = tmdbIdRef;
+    const {current: {value: fileName} = {value: ''}} = fileNameRef;
     const handleUpload = () => {
         setIsLoading(true);
         if (isSingleMovieUpload) {
-            const {current: {value: tmdbId}} = tmdbIdRef;
-            const {current: {value: fileName}} = fileNameRef;
             let data = {
                 location: fileLocation,
                 tmdbId: tmdbId,
                 fileName: fileName
             }
-            resetForm();
-            axios.post(movieApi.post.uploadMovie, data)
-                .then(response => {
-                    const {data: {success, message}} = response;
-                    setIsLoading(false);
-                    dispatch(fetchMovies());
-                    onSetSnackbar({
-                        open: true,
-                        message: `Uploading ${fileName} from ${fileLocation} folder - ${message}`,
-                        type: 'success'
-                    });
-                })
-                .catch(error => {
-                    setIsLoading(false);
-                    console.log(error);
-                    onSetSnackbar({
-                        open: true,
-                        message: `Failed to upload ${fileName} from ${fileLocation} folder`,
-                        type: 'error'
-                    });
-                });
+            dispatch(saveSingleMovie(data));
         } else {
-            axios.post(UrlUtils.getScanFolderUrl(fileLocation))
-                .then(response => {
-                    const {data: {success, message}} = response;
-                    resetForm();
-                    setIsLoading(false);
-                    dispatch(fetchMovies());
-                    onSetSnackbar({
-                        open: true,
-                        message: `From ${fileLocation} folder successfully uploaded ${message} movies.`,
-                        type: 'success'
-                    });
-                })
-                .catch(error => {
-                    resetForm();
-                    setIsLoading(false);
-                    console.log(error);
-                    onSetSnackbar({
-                        open: true,
-                        message: `Failed to scan folder ${fileLocation} for movies`,
-                        type: 'error'
-                    });
-                });
+            dispatch(scanFolderAndSave(fileLocation));
         }
     };
+
+    useEffect(() => {
+        if (!isObjectEmpty(saveResult)) {
+            setIsLoading(false);
+            const {message, success} = saveResult;
+            let info;
+            let type;
+            if (isSingleMovieUpload) {
+                info = success
+                    ? `Uploading ${fileName} from ${fileLocation} folder - ${message}`
+                    : `Failed upload movie '${fileName}' from ${fileLocation} folder- ${message}`;
+                type = success ? 'success' : 'error';
+            } else {
+                info = success
+                    ? `From ${fileLocation} folder successfully uploaded ${message} movies.`
+                    : `Failed to upload movies from ${fileLocation} folder - ${message}`;
+                type = success ? 'success' : 'error';
+            }
+            onSetSnackbar({open: true, message: info, type: type});
+            resetForm();
+        }
+    }, [saveResult])
+
 
     const handleTmdbIdValidation = (isValid) => {
         setIsTmdbIdValid(isValid);
