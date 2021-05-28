@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../../axios-movies";
 
 import {getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
-import {fullTitle, isArrayEmpty, isObjectEmpty, joinNames} from "../../../../utils/Utils";
+import {fullTitle, isArrayEmpty, isObjectEmpty, isStringEmpty, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -43,6 +43,7 @@ const movieDetails = (props) => {
     const [movieDetails, setMovieDetails] = useState();
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
     const [isLoadingMovies, setIsLoadingMovies] = useState(true);
+    const [imdbId, setImdbId] = useState('');
 
     const handleBack = () => {
         localStorage.removeItem('id');
@@ -72,34 +73,42 @@ const movieDetails = (props) => {
 
     useEffect(() => {
         setIsLoadingMovies(true);
-        axios.get(getMovieDetailsUrl(movieId, tmdbApi))
-            .then(response => {
-                const {data} = response;
-                const {imdb_id} = data;
+        if (!isStringEmpty(movieId) && !isStringEmpty(tmdbApi)) {
+            axios.get(getMovieDetailsUrl(movieId, tmdbApi))
+                .then(response => {
+                    const {data} = response;
+                    setMovieDetails(data);
 
-                setMovieDetails(data);
-
-                // Get movie additional details from omdb
-                axios.get(getOmdbMovieDetails(imdb_id, omdbApi))
-                    .then(response => {
-                        const {data} = response;
-                        setOmdbMovieDetails(data);
-                        setIsLoadingMovies(false);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        setIsLoadingMovies(false);
-                    });
-
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoadingMovies(false);
-            });
+                    // Get movie additional details from omdb
+                    const {imdb_id} = data;
+                    setImdbId(imdb_id);
+                })
+                .catch(error => {
+                    console.log(error);
+                    setIsLoadingMovies(false);
+                });
+        }
     }, [movieId, tmdbApi]);
 
     useEffect(() => {
-        dispatch(fetchCast(movieId, tmdbApi));
+        if (!isStringEmpty(imdbId)) {
+            axios.get(getOmdbMovieDetails(imdbId, omdbApi))
+                .then(response => {
+                    const {data} = response;
+                    setOmdbMovieDetails(data);
+                    setIsLoadingMovies(false);
+                })
+                .catch(error => {
+                    console.log(error);
+                    setIsLoadingMovies(false);
+                });
+        }
+    }, [imdbId])
+
+    useEffect(() => {
+        if (!isStringEmpty(movieId) && !isStringEmpty(tmdbApi)) {
+            dispatch(fetchCast(movieId, tmdbApi));
+        }
     }, [movieId, tmdbApi]);
 
     const hasCast = !isArrayEmpty(cast);
