@@ -40,9 +40,8 @@ const movieDetails = (props) => {
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
-    const [movieDetails, setMovieDetails] = useState();
+    const [movieDetails, setMovieDetails] = useState({});
     const [omdbMovieDetails, setOmdbMovieDetails] = useState();
-    const [isLoadingMovies, setIsLoadingMovies] = useState(true);
     const [imdbId, setImdbId] = useState('');
 
     const handleBack = () => {
@@ -72,7 +71,6 @@ const movieDetails = (props) => {
     }, [saveResult])
 
     useEffect(() => {
-        setIsLoadingMovies(true);
         if (!isStringEmpty(movieId) && !isStringEmpty(tmdbApi)) {
             axios.get(getMovieDetailsUrl(movieId, tmdbApi))
                 .then(response => {
@@ -85,7 +83,6 @@ const movieDetails = (props) => {
                 })
                 .catch(error => {
                     console.log(error);
-                    setIsLoadingMovies(false);
                 });
         }
     }, [movieId, tmdbApi]);
@@ -96,11 +93,9 @@ const movieDetails = (props) => {
                 .then(response => {
                     const {data} = response;
                     setOmdbMovieDetails(data);
-                    setIsLoadingMovies(false);
                 })
                 .catch(error => {
                     console.log(error);
-                    setIsLoadingMovies(false);
                 });
         }
     }, [imdbId])
@@ -112,8 +107,9 @@ const movieDetails = (props) => {
     }, [movieId, tmdbApi]);
 
     const hasCast = !isArrayEmpty(cast);
+    const hasMovieDetails = !isObjectEmpty(movieDetails);
     let details = <MyLoader/>
-    if (!isLoadingMovies && hasCast) {
+    if (hasMovieDetails && hasCast) {
         const {title, releaseDate, genres, images: {backdrops}} = movieDetails || {};
         const id = localStorage.getItem('id');
         details = (
