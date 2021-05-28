@@ -45,7 +45,7 @@ const info = props => {
     const {
         omdbDetails,
         tmdbDetails,
-        tmdbDetails: {tagline, overview},
+        tmdbDetails: {tagline, overview} = {tmdbDetails: {}},
         castDetails,
         genreDetails
     } = props;

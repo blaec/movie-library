@@ -52,7 +52,7 @@ export const isObjectEmpty = (obj) => {
 };
 
 export const isStringEmpty = (string) => {
-    return string.trim() === '';
+    return string === undefined || string.trim() === '';
 };
 
 export const isArrayEmpty = (array) => {

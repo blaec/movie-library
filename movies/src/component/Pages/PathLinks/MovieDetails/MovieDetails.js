@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../../axios-movies";
 
 import {getDeleteUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
-import {fullTitle, joinNames} from "../../../../utils/Utils";
+import {fullTitle, isStringEmpty, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -93,7 +93,7 @@ const movieDetails = (props) => {
                 console.log(error);
                 setIsLoadingMovies(false);
             });
-    }, []);
+    }, [movieId, tmdbApi]);
 
     useEffect(() => {
         setIsLoadingCast(true);
@@ -108,11 +108,11 @@ const movieDetails = (props) => {
                 console.log(error);
                 setIsLoadingCast(false);
             });
-    }, []);
+    }, [movieId, tmdbApi]);
 
     let details = <MyLoader/>
     if (!isLoadingMovies && !isLoadingCast) {
-        const {title, releaseDate} = movieDetails;
+        const {title, releaseDate} = movieDetails || {};
         const id = localStorage.getItem('id');
         details = (
             <div className={root}>
