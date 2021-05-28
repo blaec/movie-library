@@ -15,6 +15,7 @@ import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-act
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
+import {uploadActions} from "../../../../../../store/upload-slice";
 
 let isInitial = true;
 
@@ -78,6 +79,7 @@ const wishLoader = () => {
             } else {
                 onSetSnackbar({open: true, message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
             }
+            dispatch(uploadActions.setResult({}));
         }
     }, [saveResult])
 

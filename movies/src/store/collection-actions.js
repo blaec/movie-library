@@ -1,7 +1,8 @@
 import axios from "../axios-movies";
-import {movieApi} from "../utils/UrlUtils";
+import {getDeleteUrl, movieApi} from "../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "./feedback-slice";
+import {uploadActions} from "./upload-slice";
 
 export const fetchMovies = () => {
     return async (dispatch) => {
@@ -51,6 +52,26 @@ export const fetchFilteredCollection = (genreIds) => {
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
                     message: `To load movies`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const deleteMovie = (id) => {
+    return async (dispatch) => {
+        axios.delete(getDeleteUrl(id))
+            .then(response => {
+                const {data} = response;
+                dispatch(uploadActions.setResult(data));
+                dispatch(fetchMovies());
+                dispatch(fetchWishlist());
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    open: true,
+                    message: `Failed to deleted movie with id '${id}'`,
                     type: 'error'
                 }));
             });

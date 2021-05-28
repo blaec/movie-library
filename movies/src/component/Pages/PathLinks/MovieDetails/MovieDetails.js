@@ -2,15 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "../../../../axios-movies";
 
-import {getDeleteUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
-import {fullTitle, joinNames} from "../../../../utils/Utils";
+import {getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../../utils/UrlUtils";
+import {fullTitle, isObjectEmpty, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {feedbackActions} from "../../../../store/feedback-slice";
 
 import {makeStyles} from "@material-ui/core/styles";
-import {fetchMovies, fetchWishlist} from "../../../../store/collection-actions";
+import {deleteMovie} from "../../../../store/collection-actions";
+import {uploadActions} from "../../../../store/upload-slice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -31,6 +32,7 @@ const movieDetails = (props) => {
 
     const tmdbApi = useSelector(state => state.api.tmdb);
     const omdbApi = useSelector(state => state.api.omdb);
+    const saveResult = useSelector(state => state.upload.result);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -49,20 +51,35 @@ const movieDetails = (props) => {
     };
 
     const handleDeleteMovie = (id) => {
-        axios.delete(getDeleteUrl(id))
-            .then(response => {
-                const {data: {message, success}} = response;
-                dispatch(fetchMovies());
-                dispatch(fetchWishlist());
-                onSetSnackbar({open: true, message: `${message}`, type: 'success'});
-                handleBack();
-            })
-            .catch(error => {
-                console.log(error);
-                onSetSnackbar({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
-                handleBack();
-            });
+        dispatch(deleteMovie(id));
+        // axios.delete(getDeleteUrl(id))
+        //     .then(response => {
+        //         const {data: {message, success}} = response;
+        //         dispatch(fetchMovies());
+        //         dispatch(fetchWishlist());
+        //         onSetSnackbar({open: true, message: `${message}`, type: 'success'});
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //         onSetSnackbar({open: true, message: `Failed to deleted movie with id '${id}'`, type: 'error'});
+        //     });
+        const timeout = setTimeout(() => {
+            handleBack();
+        }, 1000);
+
+        return () => {
+            clearTimeout(timeout);
+        };
     };
+
+    useEffect(() => {
+        if (!isObjectEmpty(saveResult)) {
+            const {message, success} = saveResult;
+            const type = success ? 'success' : 'error';
+            onSetSnackbar({open: true, message: `${message}`, type: type});
+            dispatch(uploadActions.setResult({}));
+        }
+    }, [saveResult])
 
     useEffect(() => {
         setIsLoadingMovies(true);
