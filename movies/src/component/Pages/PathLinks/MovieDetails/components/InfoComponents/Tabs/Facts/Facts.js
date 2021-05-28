@@ -4,9 +4,10 @@ import {Typography} from "@material-ui/core";
 import {joinNames} from "../../../../../../../../utils/Utils";
 
 const facts = (props) => {
+    console.log(props);
     const {
-        omdbDetails: {Director, Awards, Released, DVD},
-        tmdbDetails: {original_title, budget, revenue, production_companies, production_countries, original_language}
+        omdbDetails: {Director, Awards, Released, DVD, Title},
+        tmdbDetails: {budget, revenue, production_companies, production_countries, original_language}
     } = props;
 
     const formatter = new Intl.NumberFormat('en-US', {
@@ -20,8 +21,8 @@ const facts = (props) => {
 
     return (
         <Typography component="div">
-            <Fact header="Original title: "
-                  text={original_title}/>
+            <Fact header="English title: "
+                  text={Title}/>
             <Fact header="Directed By: "
                   text={Director}/>
             <Fact header="Budget: "
