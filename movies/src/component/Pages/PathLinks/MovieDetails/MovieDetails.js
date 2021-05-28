@@ -51,9 +51,10 @@ const movieDetails = (props) => {
     const handleDeleteMovie = (id) => {
         axios.delete(getDeleteUrl(id))
             .then(response => {
+                const {data: {message, success}} = response;
                 dispatch(fetchMovies());
                 dispatch(fetchWishlist());
-                onSetSnackbar({open: true, message: `Movie '${title}' is deleted`, type: 'success'});
+                onSetSnackbar({open: true, message: `${message}`, type: 'success'});
                 handleBack();
             })
             .catch(error => {
