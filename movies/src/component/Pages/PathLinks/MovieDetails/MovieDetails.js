@@ -41,7 +41,7 @@ const movieDetails = (props) => {
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
     const [movieDetails, setMovieDetails] = useState({});
-    const [omdbMovieDetails, setOmdbMovieDetails] = useState();
+    const [omdbMovieDetails, setOmdbMovieDetails] = useState({});
     const [imdbId, setImdbId] = useState('');
 
     const handleBack = () => {
@@ -107,7 +107,7 @@ const movieDetails = (props) => {
     }, [movieId, tmdbApi]);
 
     const hasCast = !isArrayEmpty(cast);
-    const hasMovieDetails = !isObjectEmpty(movieDetails);
+    const hasMovieDetails = !isObjectEmpty(movieDetails) && !isObjectEmpty(omdbMovieDetails);
     let details = <MyLoader/>
     if (hasMovieDetails && hasCast) {
         const {title, releaseDate, genres, images: {backdrops}} = movieDetails || {};
