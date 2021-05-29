@@ -12,7 +12,7 @@ import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 const menuItemsData = [
     {
         text: "Collection",
-        link: reactLinks.home,
+        link: reactLinks.collection,
         icon: <MovieFilterTwoToneIcon/>
     },
     {

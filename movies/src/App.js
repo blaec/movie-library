@@ -15,7 +15,7 @@ import {fetchMovies, fetchWishlist} from "./store/collection-actions";
 import {fetchConfigs} from "./store/api-actions";
 
 const app = () => {
-    const {home, filterByGenre, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
+    const {home, collection, filterByGenre, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
 
     const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ const app = () => {
             <Switch>
 
                 {/* Menu items */}
-                <Route path={home} exact component={Collection}/>
+                <Route path={collection} exact component={Collection}/>
                 <Route path={wishlist} exact component={Wishlist}/>
                 <Route path={filter} exact component={Filter}/>
                 <Route path={upload} exact component={Upload}/>
