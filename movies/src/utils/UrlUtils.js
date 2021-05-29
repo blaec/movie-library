@@ -1,8 +1,9 @@
 export const reactLinks = {
     home: "/",
-    filtered: "/filtered",
     wishlist: "/wishlist",
     filter: "/filter",
+    filterByGenreEndpoint: "/by-genre/",
+    filterByGenre: "/by-genre/:genreIds",
     upload: "/upload",
     movieDetailsEndpoint: "/details/movie/",
     movieDetails: "/details/movie/:movieId",

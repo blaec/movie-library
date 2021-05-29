@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     search: '',
-    genreIds: [],
+    genres: [],
 };
 
 const filterSlice = createSlice({
@@ -12,8 +12,8 @@ const filterSlice = createSlice({
         changeSearch(state, action) {
             state.search = action.payload.toLowerCase();
         },
-        setGenreIds(state, action) {
-            state.genreIds = action.payload;
+        setGenres(state, action) {
+            state.genres = action.payload;
         },
     }
 });

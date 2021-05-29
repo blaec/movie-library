@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
+import {isStringExist} from "../../../../../../utils/Utils";
 
-const validateValue = (text) => text.trim() !== '';
+const validateValue = (text) => isStringExist(text);
 
 const wishTitleInput = (props) => {
     const {inputRef, onSearchDisable} = props;
@@ -15,7 +16,10 @@ const wishTitleInput = (props) => {
         isValid,
         hasError
     } = useInput(inputRef, validateValue);
-    onSearchDisable(!isValid);
+
+    useEffect(() => {
+        onSearchDisable(!isValid);
+    }, [isValid]);
 
     return (
         <MyTextField

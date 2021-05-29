@@ -2,9 +2,10 @@ import React from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
+import {isStringExist} from "../../../../../../utils/Utils";
 
 const validateValue = (text) => (
-    text.trim() !== ''
+    isStringExist(text)
     && Number.isInteger(+text)
     && text.length === 4
 );
@@ -16,7 +17,6 @@ const wishYearInput = (props) => {
         value: wishYear,
         handleTextFieldChange,
         handleFieldTouch,
-        isValid,
         hasError
     } = useInput(inputRef, validateValue);
 

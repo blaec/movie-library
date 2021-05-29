@@ -1,7 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {feedbackActions} from "../store/feedback";
+import {feedbackActions} from "../store/feedback-slice";
+import {snackbarAutoHideDuration} from "../utils/Constants";
 
 import {Snackbar} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
@@ -28,7 +29,7 @@ const mySnackbar = () => {
                 vertical: 'bottom',
                 horizontal: 'right',
             }}
-            autoHideDuration={3000}
+            autoHideDuration={snackbarAutoHideDuration}
             onClose={handleSnackbarClose}
         >
             <Alert

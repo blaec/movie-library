@@ -3,6 +3,7 @@
  * @param releaseDate release date formatted like yyyy-mm-dd
  * @returns {string|*|string} empty string or year
  */
+
 export const releaseDateYear = (releaseDate) => {
     return releaseDate === undefined ? '' : releaseDate.split('-')[0];
 };
@@ -45,4 +46,26 @@ export const NA_Safe = (condition, returnVal) => {
 
 export const joinNames = (array) => {
     return array.map(val => val.name).join(', ');
+};
+
+export const isObjectExist = (object) => {
+    return Object.keys(object).length !== 0 || object.constructor !== Object;
+};
+
+export const isObjectsExist = (...objects) => {
+    return objects.filter(object => isObjectExist(object))
+                  .length === objects.length;
+};
+
+export const isStringExist = (string) => {
+    return string !== undefined && string.trim() !== '';
+};
+
+export const isStringsExist = (...strings) => {
+    return strings.filter(string => isStringExist(string))
+                  .length === strings.length;
+};
+
+export const isArrayExist = (array) => {
+    return array.length;
 }

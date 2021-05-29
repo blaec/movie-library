@@ -1,62 +1,49 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import axios from "./axios-movies";
 
 import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/MenuItems/Collection/Collection";
-import FilteredCollection from "./component/Pages/MenuItems/Collection/FilteredCollection";
+import FilteredCollection from "./component/Pages/PathLinks/FilteredCollection/FilteredCollection";
 import Upload from "./component/Pages/MenuItems/Upload/Upload";
 import Wishlist from "./component/Pages/MenuItems/Wishlist/Wishlist";
 import Filter from "./component/Pages/MenuItems/Filter/Filter";
 import MovieDetails from "./component/Pages/PathLinks/MovieDetails/MovieDetails";
 import ActorMovies from "./component/Pages/PathLinks/ActorMovies/ActorMovies";
-import MyLoader from "./UI/Spinners/MyLoader";
-import {configApi, reactLinks} from "./utils/UrlUtils";
-import {apiActions} from "./store/api";
+import {reactLinks} from "./utils/UrlUtils";
+import {fetchMovies, fetchWishlist} from "./store/collection-actions";
+import {fetchConfigs} from "./store/api-actions";
 
 const app = () => {
-    const {home, filtered, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
+    const {home, filterByGenre, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
 
     const dispatch = useDispatch();
 
-    const [isLoading, setIsLoading] = useState(true);
-
     useEffect(() => {
-        setIsLoading(true);
-        axios.get(configApi.get.getConfigs)
-            .then(response => {
-                const {data} = response;
-                dispatch(apiActions.initConfig(data));
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
+        dispatch(fetchConfigs());
+        dispatch(fetchMovies());
+        dispatch(fetchWishlist());
     }, []);
 
-    let layout = <MyLoader/>;
-    if (!isLoading) {
-        layout =
-            <Layout>
-                <Switch>
+    let layout = (
+        <Layout>
+            <Switch>
 
-                    {/* Menu items */}
-                    <Route path={home} exact component={Collection}/>
-                    <Route path={filtered} exact component={FilteredCollection}/>
-                    <Route path={wishlist} exact component={Wishlist}/>
-                    <Route path={filter} exact component={Filter}/>
-                    <Route path={upload} exact component={Upload}/>
+                {/* Menu items */}
+                <Route path={home} exact component={Collection}/>
+                <Route path={wishlist} exact component={Wishlist}/>
+                <Route path={filter} exact component={Filter}/>
+                <Route path={upload} exact component={Upload}/>
 
-                    {/* Path links */}
-                    <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
-                    <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
+                {/* Path links */}
+                <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
+                <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
+                <Route path={filterByGenre} exact component={props => <FilteredCollection {...props}/>}/>
 
-                    <Redirect to={home}/>
-                </Switch>
-            </Layout>;
-    }
+                <Redirect to={home}/>
+            </Switch>
+        </Layout>
+    );
 
     return (
         <React.Fragment>

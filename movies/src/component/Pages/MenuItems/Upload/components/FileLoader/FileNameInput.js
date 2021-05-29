@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
+import {isStringExist} from "../../../../../../utils/Utils";
 
-const validateValue = (text) => text.trim() !== '';
+const validateValue = (text) => isStringExist(text);
 
 const fileNameInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
@@ -15,7 +16,10 @@ const fileNameInput = (props) => {
         isValid,
         hasError
     } = useInput(inputRef, validateValue);
-    onValid(isValid);
+
+    useEffect(() => {
+        onValid(isValid);
+    }, [isValid]);
 
     return (
         <MyTextField

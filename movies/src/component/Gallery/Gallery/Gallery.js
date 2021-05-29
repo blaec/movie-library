@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Movie from "./components/Movie";
 import {fullTitle} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
-import {collectionActions} from "../../../store/collection";
+import {collectionActions} from "../../../store/collection-slice";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";

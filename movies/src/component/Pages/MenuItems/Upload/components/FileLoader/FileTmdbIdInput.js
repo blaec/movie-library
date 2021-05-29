@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
+import {isStringExist} from "../../../../../../utils/Utils";
 
-const validateValue = (text) => (text.trim() !== '' && Number.isInteger(+text));
+const validateValue = (text) => (isStringExist(text) && Number.isInteger(+text));
 
 const fileTmdbIdInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
@@ -15,7 +16,10 @@ const fileTmdbIdInput = (props) => {
         isValid,
         hasError
     } = useInput(inputRef, validateValue);
-    onValid(isValid);
+
+    useEffect(() => {
+        onValid(isValid);
+    }, [isValid]);
 
     return (
         <MyTextField

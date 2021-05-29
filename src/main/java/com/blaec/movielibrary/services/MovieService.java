@@ -4,6 +4,7 @@ import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.to.MovieFileTo;
+import com.blaec.movielibrary.to.Response;
 import com.blaec.movielibrary.to.TmdbResult;
 import com.blaec.movielibrary.utils.MovieUtils;
 import lombok.AllArgsConstructor;
@@ -57,22 +58,29 @@ public class MovieService {
      * @param movieJson json movie
      * @param movieFile file movie
      */
-    public void save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
+    public Response save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
+        Response response = Response.create(false, "null passed");
+
         if (MovieUtils.isNullSave(movieJson, movieFile.toString())) {
             Movie newMovie = Movie.of(movieJson, movieFile);
             try {
                 // FIXME not correct check
                 if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
-                    log.warn("check if it's correct | {} -x-> {}}", newMovie.toString(), movieFile.getFileName());
+                    log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
                 }
                 Movie savedMovie = movieRepository.save(newMovie);
-                log.info("saved | {}", savedMovie.toString());
+                log.info("saved | {}", savedMovie);
+                response = Response.create(true, "Successfully saved");
             } catch (DataIntegrityViolationException e) {
-                log.error("this movie [{}] already exist", newMovie.toString());
+                log.error("this movie [{}] already exist", newMovie);
+                response = Response.create(false, "Already exist");
             } catch (Exception e) {
                 log.error(movieFile.toString(), e);
+                response = Response.create(false, e.getMessage());
             }
         }
+
+        return response;
     }
 
     /**
@@ -80,17 +88,23 @@ public class MovieService {
      *
      * @param wishMovie wish movie object
      */
-    public void save(TmdbResult.TmdbMovie wishMovie) {
+    public Response save(TmdbResult.TmdbMovie wishMovie) {
+        Response response;
         Movie newMovie = Movie.fromJson(wishMovie);
         newMovie.setType(Type.wish_list);
         try {
             Movie savedMovie = movieRepository.save(newMovie);
-            log.info("saved | {}", savedMovie.toString());
+            log.info("saved | {}", savedMovie);
+            response = Response.create(true, "Successfully saved");
         } catch (DataIntegrityViolationException e) {
-            log.error("this movie [{}] already exist", newMovie.toString());
+            log.error("this movie [{}] already exist", newMovie);
+            response = Response.create(false, "Already exist");
         } catch (Exception e) {
             log.error(wishMovie.toString(), e);
+            response = Response.create(false, e.getMessage());
         }
+
+        return response;
     }
 
     /**
@@ -98,20 +112,32 @@ public class MovieService {
      *
      * @param id id for deleted movie
      */
-    public void delete(Integer id) {
+    public Response delete(Integer id) {
+        Response response;
+
         try {
             Movie movie = movieRepository.findById(id).orElse(null);
             if (movie == null) {
-                log.warn("No movie with id {} exists", id);
+                String message = String.format("No movie with id %d exists", id);
+                log.warn(message);
+                response = Response.create(false, message);
             } else {
                 movieRepository.deleteById(id);
-                log.info("movie {} with id {} deleted", movie.toString(), id);
+                String message = String.format("Movie %s with id %d deleted", movie, id);
+                log.info(message);
+                response = Response.create(true, message);
             }
         } catch (IllegalArgumentException e) {
-            log.error("can't delete movie, wrong id: {}", id, e);
+            String message = String.format("Can't delete movie, wrong id: %d", id);
+            log.error(message, e);
+            response = Response.create(false, message);
         } catch (Exception e) {
-            log.error("failed deleting movie by id: {}", id, e);
+            String message = String.format("Failed deleting movie by id: %d", id);
+            log.error("Failed deleting movie by id: {}", id, e);
+            response = Response.create(false, message);
         }
+
+        return response;
     }
 
     // TODO currently not in use

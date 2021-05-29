@@ -5,6 +5,7 @@ import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.to.MovieFileTo;
+import com.blaec.movielibrary.to.Response;
 import com.blaec.movielibrary.to.SingleFileUpload;
 import com.blaec.movielibrary.to.TmdbResult;
 import com.blaec.movielibrary.utils.FilesUtils;
@@ -43,8 +44,8 @@ public class MovieController {
     }
 
     @PostMapping("/{folder}")
-    public int scanFolder(@PathVariable String folder) {
-
+    public Response scanFolder(@PathVariable String folder) {
+        Response response;
         int moviesSaved = 0;
 
         // Get all from database
@@ -52,10 +53,6 @@ public class MovieController {
 
         // get all movie files from folder
         List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(getLocation(folder));
-        if (movieFiles.size() == 0) {
-            log.warn("Folder {} holds no movie files", folder);
-        }
-
         // Save only new movies to database
         for (MovieFileTo movieFile : movieFiles) {
             Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
@@ -67,12 +64,24 @@ public class MovieController {
                 moviesSaved++;
             }
         }
-        return moviesSaved;
+        if (movieFiles.size() == 0) {
+            String message = String.format("Folder %s holds no movie files", folder);
+            log.warn(message);
+            response = Response.create(false, message);
+        } else {
+            String message = moviesSaved == 0
+                ? "No movie saved"
+                : String.format("Successfully saved %d out of %d movies from folder '%s'", moviesSaved, movieFiles.size(), folder);
+            response = Response.create(moviesSaved > 0, message);
+        }
+
         // TODO return list of fails and stats
+        return response;
     }
 
     @PostMapping("/file")
-    public void uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
+    public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
+        Response response;
 
         // Get all files from folder, where upload movie is searched, that match upload movie file name
         // Could be more than one (files with the same name from different sub-folders)
@@ -82,24 +91,29 @@ public class MovieController {
 
         // Save if file found and there are no duplicates
         if (filteredMovieFiles.size() != 1) {
-            log.warn("Not found at all or more than one movie '{}'", uploadMovie.toString());
+            String message = "Not found at all or more than one movie found";
+            log.warn("{} '{}'", message, uploadMovie);
+            response = Response.create(false, message);
         } else {
             MovieFileTo movieFile = filteredMovieFiles.get(0);
             TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId());
-            movieService.save(movieJson, movieFile);
+            response = movieService.save(movieJson, movieFile);
         }
-        // TODO failure and stats
+
+        return response;
     }
 
     @PostMapping("/wish")
-    public void saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
-        movieService.save(wishMovie);
+    public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
+        Response response = movieService.save(wishMovie);
         log.info("{}", wishMovie.toString());
+
+        return response;
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        movieService.delete(id);
+    public Response delete(@PathVariable Integer id) {
+        return movieService.delete(id);
         // TODO return stats stats
     }
 

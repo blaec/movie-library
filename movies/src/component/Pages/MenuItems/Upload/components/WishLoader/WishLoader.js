@@ -1,25 +1,30 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import MySubmitButton from "../../../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../../../UI/MyFormLabel";
-import WishPreview from "./WishPreview";
 import MyLinearProgress from "../MyLinearProgress";
-import axios from "../../../../../../axios-movies";
-import {getSearchMovieUrl, movieApi} from "../../../../../../utils/UrlUtils";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
-import {feedbackActions} from "../../../../../../store/feedback";
+import WishPreviews from "./WishPreviews";
+import {feedbackActions} from "../../../../../../store/feedback-slice";
+import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
+import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
-import Carousel from "react-material-ui-carousel";
+import {uploadActions} from "../../../../../../store/upload-slice";
+import {Loader} from "../../../../../../utils/Constants";
 
+let isInitial = true;
 
 const wishLoader = () => {
     const tmdbApi = useSelector(state => state.api.tmdb);
+    const wishMovies = useSelector(state => state.upload.wishMovies);
+    const saveResult = useSelector(state => state.upload.result);
+    const loader = useSelector(state => state.upload.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -27,70 +32,62 @@ const wishLoader = () => {
     const wishYearRef = useRef();
 
     const [selectedWishMovie, setSelectedWishMovie] = useState();
-    const [wishMovies, setWishMovies] = useState([]);
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+
+    let hasResults = isArrayExist(wishMovies);
 
     const handleChangeSelectedWishMovie = (current) => {
         setSelectedWishMovie(wishMovies[current]);
     };
 
-    const handleSaveWishMovie = (wishMovie) => {
+    const handleSaveWishMovie = () => {
         setIsLoading(true);
-        axios.post(movieApi.post.saveWishMovie, wishMovie)
-            .then(response => {
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Movie '${wishMovie.title}' added to wishlist`, type: 'success'});
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Failed to movie '${wishMovie.title}' to wishlist`, type: 'error'});
-            });
+        dispatch(saveWishMovie(selectedWishMovie));
     };
 
     const handleSearchWishMovie = () => {
         setIsLoading(true);
         const {current: {value: title}} = wishTitleRef;
         const {current: {value: year}} = wishYearRef;
-        axios.get(getSearchMovieUrl({query: title, year: year, api_key: tmdbApi}))
-            .then(response => {
-                const {data} = response;
-                const {results} = data;
-                let foundMovies = results;
-                setWishMovies(foundMovies);
-                setIsLoading(false);
-                if (foundMovies.length > 0) {
-                    setSelectedWishMovie(foundMovies[0]);
-                    onSetSnackbar({open: true, message: `Found ${foundMovies.length} movies`, type: 'success'});
-                } else {
-                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                onSetSnackbar({open: true, message: `Failed to search the movies`, type: 'error'});
-            });
+        dispatch(fetchWishMovies({query: title, year: year, api_key: tmdbApi}));
     };
 
     const handleSearchDisable = (isDisabled) => {
         setIsSearchDisabled(isDisabled);
     };
 
-    let moviePreviews = <WishPreview/>;
-    let hasResults = wishMovies.length > 0;
-    if (hasResults) {
-        moviePreviews = (
-            <Carousel
-                animation="slide"
-                autoPlay={false}
-                onChange={(active) => handleChangeSelectedWishMovie(active)}
-                navButtonsAlwaysVisible>
-                {wishMovies.map((poster, idx) => <WishPreview key={idx} {...poster}/>)}
-            </Carousel>
-        );
-    }
+    useEffect(() => {
+        if (isInitial) {
+            isInitial = false;
+        } else {
+            setIsLoading(false);
+            if (hasResults) {
+                setSelectedWishMovie(wishMovies[0]);
+            }
+            if (loader === Loader.wishMovie) {
+                if (hasResults) {
+                    onSetSnackbar({open: true, message: `Found ${wishMovies.length} movies`, type: 'success'});
+                } else {
+                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
+                }
+            }
+        }
+    }, [hasResults, wishMovies])
+
+    useEffect(() => {
+        if (selectedWishMovie && isObjectExist(saveResult)) {
+            setIsLoading(false);
+            const {message, success} = saveResult;
+            const {title} = selectedWishMovie;
+            if (success) {
+                onSetSnackbar({open: true, message: `Movie '${title}' added to wishlist`, type: 'success'});
+            } else {
+                onSetSnackbar({open: true, message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
+            }
+            dispatch(uploadActions.setResult({}));
+        }
+    }, [saveResult])
 
     return (
         <Card variant="elevation">
@@ -117,11 +114,14 @@ const wishLoader = () => {
                         icon={<AddCircleTwoToneIcon/>}
                         disabled={!hasResults}
                         caption="Add"
-                        onSubmit={() => handleSaveWishMovie(selectedWishMovie)}
+                        onSubmit={handleSaveWishMovie}
                     />
                 </MyButtonGrid>
             </CardActions>
-            {moviePreviews}
+            <WishPreviews
+                wishMovies={wishMovies}
+                onChange={handleChangeSelectedWishMovie}
+            />
         </Card>
     );
 };

@@ -1,9 +1,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    movies: {},
-    wishlist: {},
+    movies: [],
+    wishlist: [],
     selectedMovie: {},
+    filteredMovies: [],
 };
 
 const collectionSlice = createSlice({
@@ -18,6 +19,9 @@ const collectionSlice = createSlice({
         },
         setSelectedMovie(state, action) {
             state.selectedMovie = action.payload;
+        },
+        setFilteredMovies(state, action) {
+            state.filteredMovies = action.payload;
         },
     }
 });

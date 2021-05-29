@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
-import axios from "../../../../axios-movies";
-import {getActorDetailsUrl} from "../../../../utils/UrlUtils";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
-import {List, makeStyles, Typography} from "@material-ui/core";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
+import {isArrayExist, isObjectsExist, isStringExist} from "../../../../utils/Utils";
+import {fetchActorDetails} from "../../../../store/details-actions";
+
+import {List, makeStyles, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,40 +52,29 @@ const actorMovies = (props) => {
 
     const movies = useSelector(state => state.collection.movies);
     const tmdbApi = useSelector(state => state.api.tmdb);
-
-    const [actorMovies, setActorMovies] = useState();
-    const [moviesIds, setMoviesIds] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+    const actorDetails = useSelector(state => state.details.actorDetails);
+    const dispatch = useDispatch();
 
     const handleBack = () => {
         props.history.goBack();
     };
 
     useEffect(() => {
-        setIsLoading(true);
-        axios.get(getActorDetailsUrl(actorId, tmdbApi))
-            .then(response => {
-                const {data} = response;
-                setActorMovies(data);
-                setMoviesIds(movies.map(movie => +movie.tmdbId));
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-            });
-    }, []);
+        if (isStringExist(tmdbApi)) {
+            dispatch(fetchActorDetails(actorId, tmdbApi));
+        }
+    }, [tmdbApi, actorId]);
 
+    let hasData = isObjectsExist(actorDetails, movies);
     let allMovies = <MyLoader/>;
-    if (!isLoading) {
-        const {name, credits} = actorMovies;
-        const {cast} = credits;
+    if (hasData) {
+        const {name, credits: {cast}} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
         const movieList = cast.filter(movie => {
             // skip 'Documentary' movies and movies without genres
             const {genre_ids} = movie;
             return !genre_ids.includes(99)
-                && genre_ids.length !== 0;
+                && isArrayExist(genre_ids);
         })
             .sort((a, b) => {
                 const getDate = (movie) => {
@@ -94,22 +85,27 @@ const actorMovies = (props) => {
                 };
                 return new Date(getDate(a)) < new Date(getDate(b)) ? 1 : -1;
             });
-        allMovies = <React.Fragment>
-            <div className={sticky}>
-                <MyArrowBack onClose={handleBack}/>
-                <Typography className={actor}
-                            variant="h6">
-                    {`${name} (${movieList.length})`}
-                </Typography>
-            </div>
-            <div className={movieItems}>
-                {movieList.map(movie =>
-                    <ActorMovie key={movie.id}
-                                {...movie}
-                                exist={moviesIds ? moviesIds.includes(movie.id) : false}/>)
-                }
-            </div>
-        </React.Fragment>;
+
+
+        let moviesIds = movies.map(movie => +movie.tmdbId);
+        allMovies = (
+            <React.Fragment>
+                <div className={sticky}>
+                    <MyArrowBack onClose={handleBack}/>
+                    <Typography className={actor}
+                                variant="h6">
+                        {`${name} (${movieList.length})`}
+                    </Typography>
+                </div>
+                <div className={movieItems}>
+                    {movieList.map(movie =>
+                        <ActorMovie key={movie.id}
+                                    {...movie}
+                                    exist={moviesIds.includes(movie.id)}/>)
+                    }
+                </div>
+            </React.Fragment>
+        );
     }
 
     return (

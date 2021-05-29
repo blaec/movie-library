@@ -42,4 +42,13 @@ export const grid = {
         rows: 3,
         moviesPerRow: 7
     },
-}
+};
+
+export const Loader = Object.freeze(
+    {
+        wishMovie: 1,
+        folderScan: 2
+    }
+);
+
+export const snackbarAutoHideDuration = 3000;

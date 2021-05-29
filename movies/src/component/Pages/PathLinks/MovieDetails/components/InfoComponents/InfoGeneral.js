@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
 
 const infoGeneral = (props) => {
     const {
-        omdbDetails: {Rated, imdbRating, imdbVotes},
-        tmdbDetails: {release_date, runtime, title},
+        omdbDetails: {Rated, imdbRating, imdbVotes} = {omdbDetails: {}},
+        tmdbDetails: {release_date, runtime, title} = {tmdbDetails: {}},
         genreDetails
     } = props;
     const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
