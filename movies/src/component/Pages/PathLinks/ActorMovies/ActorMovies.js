@@ -76,14 +76,13 @@ const actorMovies = (props) => {
     let hasData = !isObjectEmpty(actorDetails) && !isObjectEmpty(movies);
     let allMovies = <MyLoader/>;
     if (hasData) {
-        const {name, credits} = actorDetails;
-        const {cast} = credits;
+        const {name, credits: {cast}} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
         const movieList = cast.filter(movie => {
             // skip 'Documentary' movies and movies without genres
             const {genre_ids} = movie;
             return !genre_ids.includes(99)
-                && genre_ids.length !== 0;
+                && !isArrayEmpty(genre_ids);
         })
             .sort((a, b) => {
                 const getDate = (movie) => {
