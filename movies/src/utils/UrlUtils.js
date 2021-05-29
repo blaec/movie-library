@@ -1,5 +1,5 @@
 export const reactLinks = {
-    home: "/",
+    home: "/movies/collection",
     collection: "/movies/collection",
     wishlist: "/movies/wishlist",
     filter: "/filter",
