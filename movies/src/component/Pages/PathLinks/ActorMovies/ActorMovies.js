@@ -1,13 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
-import axios from "../../../../axios-movies";
-import {getActorDetailsUrl} from "../../../../utils/UrlUtils";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
 import {isArrayEmpty, isObjectEmpty, isStringEmpty} from "../../../../utils/Utils";
+import {fetchActorDetails} from "../../../../store/details-actions";
 
 import {List, makeStyles, Typography} from "@material-ui/core";
 
@@ -53,25 +52,18 @@ const actorMovies = (props) => {
 
     const movies = useSelector(state => state.collection.movies);
     const tmdbApi = useSelector(state => state.api.tmdb);
-
-    const [actorDetails, setActorDetails] = useState({});
+    const actorDetails = useSelector(state => state.details.actorDetails);
+    const dispatch = useDispatch();
 
     const handleBack = () => {
         props.history.goBack();
     };
 
     useEffect(() => {
-        if (!isStringEmpty(tmdbApi) && !isArrayEmpty(movies)) {
-            axios.get(getActorDetailsUrl(actorId, tmdbApi))
-                .then(response => {
-                    const {data} = response;
-                    setActorDetails(data);
-                })
-                .catch(error => {
-                    console.log(error);
-                });
+        if (!isStringEmpty(tmdbApi)) {
+            dispatch(fetchActorDetails(actorId, tmdbApi));
         }
-    }, [tmdbApi, movies, actorId]);
+    }, [tmdbApi, actorId]);
 
     let hasData = !isObjectEmpty(actorDetails) && !isObjectEmpty(movies);
     let allMovies = <MyLoader/>;
