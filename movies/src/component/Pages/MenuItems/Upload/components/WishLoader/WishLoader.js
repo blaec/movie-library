@@ -61,10 +61,12 @@ const wishLoader = () => {
         if (isInitial) {
             isInitial = false;
         } else {
+            setIsLoading(false);
+            if (hasResults) {
+                setSelectedWishMovie(wishMovies[0]);
+            }
             if (loader === Loader.wishMovie) {
-                setIsLoading(false);
                 if (hasResults) {
-                    setSelectedWishMovie(wishMovies[0]);
                     onSetSnackbar({open: true, message: `Found ${wishMovies.length} movies`, type: 'success'});
                 } else {
                     onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
