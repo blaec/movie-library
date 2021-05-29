@@ -2,10 +2,10 @@ import React from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
-import {isStringEmpty} from "../../../../../../utils/Utils";
+import {isStringExist} from "../../../../../../utils/Utils";
 
 const validateValue = (text) => (
-    !isStringEmpty(text)
+    isStringExist(text)
     && Number.isInteger(+text)
     && text.length === 4
 );

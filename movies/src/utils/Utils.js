@@ -51,8 +51,8 @@ export const isObjectEmpty = (obj) => {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
 };
 
-export const isStringEmpty = (string) => {
-    return string === undefined || string.trim() === '';
+export const isStringExist = (string) => {
+    return string !== undefined && string.trim() !== '';
 };
 
 export const isArrayEmpty = (array) => {

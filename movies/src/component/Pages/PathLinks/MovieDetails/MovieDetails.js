@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {fullTitle, isArrayEmpty, isObjectEmpty, isStringEmpty, joinNames} from "../../../../utils/Utils";
+import {fullTitle, isArrayEmpty, isObjectEmpty, isStringExist, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -46,19 +46,19 @@ const movieDetails = (props) => {
     };
 
     useEffect(() => {
-        if (!isStringEmpty(movieId) && !isStringEmpty(tmdbApi)) {
+        if (isStringExist(movieId) && isStringExist(tmdbApi)) {
             dispatch(fetchMovieTmdbDetails(movieId, tmdbApi));
         }
     }, [movieId, tmdbApi]);
 
     useEffect(() => {
-        if (!isStringEmpty(imdbId)) {
+        if (isStringExist(imdbId)) {
             dispatch(fetchMovieOmdbDetails(imdbId, omdbApi));
         }
     }, [imdbId])
 
     useEffect(() => {
-        if (!isStringEmpty(movieId) && !isStringEmpty(tmdbApi)) {
+        if (isStringExist(movieId) && isStringExist(tmdbApi)) {
             dispatch(fetchCast(movieId, tmdbApi));
         }
     }, [movieId, tmdbApi]);

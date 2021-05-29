@@ -5,7 +5,7 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
-import {isArrayEmpty, isObjectEmpty, isStringEmpty} from "../../../../utils/Utils";
+import {isArrayEmpty, isObjectEmpty, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails} from "../../../../store/details-actions";
 
 import {List, makeStyles, Typography} from "@material-ui/core";
@@ -60,7 +60,7 @@ const actorMovies = (props) => {
     };
 
     useEffect(() => {
-        if (!isStringEmpty(tmdbApi)) {
+        if (isStringExist(tmdbApi)) {
             dispatch(fetchActorDetails(actorId, tmdbApi));
         }
     }, [tmdbApi, actorId]);

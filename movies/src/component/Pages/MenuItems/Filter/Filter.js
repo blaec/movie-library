@@ -8,7 +8,7 @@ import MyFormLabel from "../../../../UI/MyFormLabel";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {fetchGenres} from "../../../../store/filter-actions";
-import {isArrayEmpty, isStringEmpty} from "../../../../utils/Utils";
+import {isArrayEmpty, isStringExist} from "../../../../utils/Utils";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
@@ -25,7 +25,7 @@ const filter = () => {
     const [genreIds, setGenreIds] = useState([]);
 
     useEffect(() => {
-        if (!isStringEmpty(tmdbApi)) {
+        if (isStringExist(tmdbApi)) {
             dispatch(fetchGenres(tmdbApi));
         }
     }, [tmdbApi]);

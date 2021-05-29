@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
-import {isStringEmpty} from "../../../../../../utils/Utils";
+import {isStringExist} from "../../../../../../utils/Utils";
 
-const validateValue = (text) => !isStringEmpty(text);
+const validateValue = (text) => isStringExist(text);
 
 const fileNameInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
