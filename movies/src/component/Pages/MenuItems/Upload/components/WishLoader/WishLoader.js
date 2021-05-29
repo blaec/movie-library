@@ -9,7 +9,7 @@ import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import WishPreviews from "./WishPreviews";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
-import {isArrayEmpty, isObjectEmpty} from "../../../../../../utils/Utils";
+import {isArrayEmpty, isObjectExist} from "../../../../../../utils/Utils";
 import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
@@ -74,7 +74,7 @@ const wishLoader = () => {
     }, [hasResults, wishMovies])
 
     useEffect(() => {
-        if (selectedWishMovie && !isObjectEmpty(saveResult)) {
+        if (selectedWishMovie && isObjectExist(saveResult)) {
             setIsLoading(false);
             const {message, success} = saveResult;
             const {title} = selectedWishMovie;

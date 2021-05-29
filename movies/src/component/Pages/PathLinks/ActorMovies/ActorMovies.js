@@ -5,7 +5,7 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
-import {isArrayEmpty, isObjectEmpty, isStringExist} from "../../../../utils/Utils";
+import {isArrayEmpty, isObjectExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails} from "../../../../store/details-actions";
 
 import {List, makeStyles, Typography} from "@material-ui/core";
@@ -65,7 +65,7 @@ const actorMovies = (props) => {
         }
     }, [tmdbApi, actorId]);
 
-    let hasData = !isObjectEmpty(actorDetails) && !isObjectEmpty(movies);
+    let hasData = isObjectExist(actorDetails) && isObjectExist(movies);
     let allMovies = <MyLoader/>;
     if (hasData) {
         const {name, credits: {cast}} = actorDetails;

@@ -47,8 +47,8 @@ export const joinNames = (array) => {
     return array.map(val => val.name).join(', ');
 };
 
-export const isObjectEmpty = (obj) => {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
+export const isObjectExist = (obj) => {
+    return Object.keys(obj).length !== 0 || obj.constructor !== Object;
 };
 
 export const isStringExist = (string) => {

@@ -10,7 +10,7 @@ import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
 import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/upload-actions";
-import {isObjectEmpty} from "../../../../../../utils/Utils";
+import {isObjectExist} from "../../../../../../utils/Utils";
 
 import {
     Card,
@@ -64,7 +64,7 @@ const fileLoader = () => {
     };
 
     useEffect(() => {
-        if (!isObjectEmpty(saveResult) && loader === Loader.folderScan) {
+        if (isObjectExist(saveResult) && loader === Loader.folderScan) {
             setIsLoading(false);
             const {message, success} = saveResult;
             let info;

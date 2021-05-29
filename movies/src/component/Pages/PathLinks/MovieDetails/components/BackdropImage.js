@@ -7,7 +7,7 @@ import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import {drawer, snackbarAutoHideDuration} from "../../../../../utils/Constants";
 import {deleteMovie} from "../../../../../store/collection-actions";
-import {isObjectEmpty} from "../../../../../utils/Utils";
+import {isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
 import {feedbackActions} from "../../../../../store/feedback-slice";
 
@@ -62,7 +62,7 @@ const backdropImage = props => {
     };
 
     useEffect(() => {
-        if (!isObjectEmpty(saveResult)) {
+        if (isObjectExist(saveResult)) {
             const {message, success} = saveResult;
             const type = success ? 'success' : 'error';
             onSetSnackbar({open: true, message: `${message}`, type: type});
