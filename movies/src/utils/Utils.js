@@ -55,6 +55,6 @@ export const isStringExist = (string) => {
     return string !== undefined && string.trim() !== '';
 };
 
-export const isArrayEmpty = (array) => {
-    return !array.length;
+export const isArrayExist = (array) => {
+    return array.length;
 }

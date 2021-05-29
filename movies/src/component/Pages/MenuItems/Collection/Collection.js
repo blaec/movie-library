@@ -3,14 +3,14 @@ import {useDispatch, useSelector} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {isArrayEmpty} from "../../../../utils/Utils";
+import {isArrayExist} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/feedback-slice";
 
 const collection = () => {
     const movies = useSelector(state => state.collection.movies);
     const dispatch = useDispatch();
 
-    const hasMovies = !isArrayEmpty(movies);
+    const hasMovies = isArrayExist(movies);
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({

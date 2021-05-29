@@ -9,7 +9,7 @@ import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import WishPreviews from "./WishPreviews";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
-import {isArrayEmpty, isObjectExist} from "../../../../../../utils/Utils";
+import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
@@ -35,7 +35,7 @@ const wishLoader = () => {
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
-    let hasResults = !isArrayEmpty(wishMovies);
+    let hasResults = isArrayExist(wishMovies);
 
     const handleChangeSelectedWishMovie = (current) => {
         setSelectedWishMovie(wishMovies[current]);

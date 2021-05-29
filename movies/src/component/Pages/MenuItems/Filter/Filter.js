@@ -8,7 +8,7 @@ import MyFormLabel from "../../../../UI/MyFormLabel";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {fetchGenres} from "../../../../store/filter-actions";
-import {isArrayEmpty, isStringExist} from "../../../../utils/Utils";
+import {isArrayExist, isStringExist} from "../../../../utils/Utils";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
@@ -50,7 +50,7 @@ const filter = () => {
     };
 
     let genreFilter = <MyLoader/>;
-    if (!isArrayEmpty(genres)) {
+    if (isArrayExist(genres)) {
         const genreNames = genres.flatMap(genre => genre.name);
         genreFilter =
             <Card variant="elevation">
@@ -83,7 +83,7 @@ const filter = () => {
                 <CardActions>
                     <MyButtonGrid>
                         <MySubmitButton
-                            disabled={isArrayEmpty(genreSelection)}
+                            disabled={!isArrayExist(genreSelection)}
                             icon={<HighlightOffTwoToneIcon/>}
                             buttonStyles={{marginRight: 1}}
                             caption="Clear"
@@ -91,7 +91,7 @@ const filter = () => {
                             onSubmit={handleClear}
                         />
                         <MySubmitButton
-                            disabled={isArrayEmpty(genreSelection)}
+                            disabled={!isArrayExist(genreSelection)}
                             icon={<SearchTwoToneIcon/>}
                             caption="Filter"
                             type="success"

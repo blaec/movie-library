@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {fullTitle, isArrayEmpty, isObjectExist, isStringExist, joinNames} from "../../../../utils/Utils";
+import {fullTitle, isArrayExist, isObjectExist, isStringExist, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -63,7 +63,7 @@ const movieDetails = (props) => {
         }
     }, [movieId, tmdbApi]);
 
-    const hasDetails = isObjectExist(tmdbMovieDetails) && isObjectExist(omdbMovieDetails) && !isArrayEmpty(cast);
+    const hasDetails = isObjectExist(tmdbMovieDetails) && isObjectExist(omdbMovieDetails) && isArrayExist(cast);
     let details = <MyLoader/>
     if (hasDetails) {
         const {title, releaseDate, genres, images: {backdrops}} = tmdbMovieDetails || {};

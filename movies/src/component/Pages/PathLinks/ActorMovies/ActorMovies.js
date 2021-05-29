@@ -5,7 +5,7 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
-import {isArrayEmpty, isObjectExist, isStringExist} from "../../../../utils/Utils";
+import {isArrayExist, isObjectExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails} from "../../../../store/details-actions";
 
 import {List, makeStyles, Typography} from "@material-ui/core";
@@ -74,7 +74,7 @@ const actorMovies = (props) => {
             // skip 'Documentary' movies and movies without genres
             const {genre_ids} = movie;
             return !genre_ids.includes(99)
-                && !isArrayEmpty(genre_ids);
+                && isArrayExist(genre_ids);
         })
             .sort((a, b) => {
                 const getDate = (movie) => {
