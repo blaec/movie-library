@@ -1,7 +1,14 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {fullTitle, isArrayExist, isObjectExist, isStringExist, joinNames} from "../../../../utils/Utils";
+import {
+    fullTitle,
+    isArrayExist,
+    isObjectsExist,
+    isStringExist,
+    isStringsExist,
+    joinNames
+} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -46,7 +53,7 @@ const movieDetails = (props) => {
     };
 
     useEffect(() => {
-        if (isStringExist(movieId) && isStringExist(tmdbApi)) {
+        if (isStringsExist(movieId, tmdbApi)) {
             dispatch(fetchMovieTmdbDetails(movieId, tmdbApi));
         }
     }, [movieId, tmdbApi]);
@@ -58,12 +65,12 @@ const movieDetails = (props) => {
     }, [imdbId])
 
     useEffect(() => {
-        if (isStringExist(movieId) && isStringExist(tmdbApi)) {
+        if (isStringsExist(movieId, tmdbApi)) {
             dispatch(fetchCast(movieId, tmdbApi));
         }
     }, [movieId, tmdbApi]);
 
-    const hasDetails = isObjectExist(tmdbMovieDetails) && isObjectExist(omdbMovieDetails) && isArrayExist(cast);
+    const hasDetails = isObjectsExist(tmdbMovieDetails, omdbMovieDetails) && isArrayExist(cast);
     let details = <MyLoader/>
     if (hasDetails) {
         const {title, releaseDate, genres, images: {backdrops}} = tmdbMovieDetails || {};
