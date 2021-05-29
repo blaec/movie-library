@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router";
 
 import {
     fullTitle,
@@ -30,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const movieDetails = (props) => {
-    const {match: {params: {movieId}}} = props;
+    const params = useParams();
+    const {movieId} = params;
     const {root} = useStyles();
 
     const tmdbApi = useSelector(state => state.api.tmdb);

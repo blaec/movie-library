@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router";
 
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
@@ -47,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actorMovies = (props) => {
-    const {match: {params: {actorId}}} = props;
+    const params = useParams();
+    const {actorId} = params;
     const {root, sticky, actor, movieItems} = useStyles();
 
     const movies = useSelector(state => state.collection.movies);
