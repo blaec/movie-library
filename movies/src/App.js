@@ -41,6 +41,9 @@ const app = () => {
                 <Route path={filterByGenre} exact component={props => <FilteredCollection {...props}/>}/>
 
                 <Redirect to={home}/>
+                {/*<Redirect to='*'>*/}
+                {/*    <404_PAGE/>*/}
+                {/*</Redirect>*/}
             </Switch>
         </Layout>
     );

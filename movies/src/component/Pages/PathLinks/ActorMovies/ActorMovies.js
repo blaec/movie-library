@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
@@ -47,8 +47,9 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const actorMovies = (props) => {
+const actorMovies = () => {
     const params = useParams();
+    const history = useHistory();
     const {actorId} = params;
     const {root, sticky, actor, movieItems} = useStyles();
 
@@ -58,7 +59,7 @@ const actorMovies = (props) => {
     const dispatch = useDispatch();
 
     const handleBack = () => {
-        props.history.goBack();
+        history.goBack();
     };
 
     useEffect(() => {
