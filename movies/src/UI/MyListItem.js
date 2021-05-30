@@ -11,16 +11,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const myListItem = (props) => {
-    console.log(props);
-    const {selected, caption, link, icon, onClick} = props;
+    const {path, caption, link, icon} = props;
     const {active} = useStyles();
 
+    const isSelected = path.includes(caption.toLowerCase());
     return (
         <ListItem
             button
-            selected={selected === caption}
+            selected={isSelected}
             component={NavLink} to={link} activeClassName={active}
-            onClick={() => onClick(caption)}
         >
             <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={caption}/>
