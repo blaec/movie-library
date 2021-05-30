@@ -1,16 +1,25 @@
 import React from 'react';
-import {ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
 
-const myListItem = (props) => {
-    const {selected, caption, link, icon, onClick} = props;
+import {ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
+const useStyles = makeStyles((theme) => ({
+    active: {
+        color: '#3f51b5',
+    },
+}));
+
+const myListItem = (props) => {
+    const {path, caption, link, icon} = props;
+    const {active} = useStyles();
+
+    const isSelected = path.includes(caption.toLowerCase());
     return (
         <ListItem
             button
-            selected={selected === caption}
-            component={NavLink} to={link}
-            onClick={() => onClick(caption)}
+            selected={isSelected}
+            component={NavLink} to={link} activeClassName={active}
         >
             <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={caption}/>

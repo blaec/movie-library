@@ -1,14 +1,15 @@
 export const reactLinks = {
-    home: "/",
-    wishlist: "/wishlist",
+    home: "/movies/collection",
+    collection: "/movies/collection",
+    wishlist: "/movies/wishlist",
     filter: "/filter",
-    filterByGenreEndpoint: "/by-genre/",
-    filterByGenre: "/by-genre/:genreIds",
+    filterByGenreEndpoint: "/movies/by-genre/",
+    filterByGenre: "/movies/by-genre/:genreIds",
     upload: "/upload",
-    movieDetailsEndpoint: "/details/movie/",
-    movieDetails: "/details/movie/:movieId",
-    actorMoviesEndpoint: "/details/actor/",
-    actorMovies: "/details/actor/:actorId",
+    movieDetailsEndpoint: "/movies/",
+    movieDetails: "/movies/:movieId",
+    actorMoviesEndpoint: "/actors/",
+    actorMovies: "/actors/:actorId",
 };
 
 let baseMovieApi = "/movies/";

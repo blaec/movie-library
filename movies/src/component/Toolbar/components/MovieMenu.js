@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {useLocation} from "react-router";
 
 import MyListItem from "../../../UI/MyListItem";
 import {reactLinks} from "../../../utils/UrlUtils";
@@ -12,7 +13,7 @@ import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 const menuItemsData = [
     {
         text: "Collection",
-        link: reactLinks.home,
+        link: reactLinks.collection,
         icon: <MovieFilterTwoToneIcon/>
     },
     {
@@ -33,22 +34,18 @@ const menuItemsData = [
 ];
 
 const movieMenu = () => {
-    const [selectedCaption, setSelectedCaption] = useState("Gallery");
-
-    const handleListItemClick = (index) => {
-        setSelectedCaption(index);
-    };
+    let location = useLocation();
 
     const menuItems = menuItemsData.map((item, index) => {
             const {text, link, icon} = item;
+            const {pathname} = location;
             return (
                 <MyListItem
                     key={index}
                     caption={text}
                     link={link}
                     icon={icon}
-                    selected={selectedCaption}
-                    onClick={handleListItemClick}
+                    path={pathname}
                 />
             );
         }

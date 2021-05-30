@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
@@ -7,8 +8,9 @@ import {fetchFilteredCollection} from "../../../../store/collection-actions";
 import {isArrayExist} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/feedback-slice";
 
-const filteredCollection = (props) => {
-    const {match: {params: {genreIds}}} = props;
+const filteredCollection = () => {
+    const params = useParams();
+    const {genreIds} = params;
 
     const filteredMovies = useSelector(state => state.collection.filteredMovies);
     const dispatch = useDispatch();

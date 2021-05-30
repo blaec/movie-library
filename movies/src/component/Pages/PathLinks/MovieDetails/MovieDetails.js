@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useHistory, useParams} from "react-router";
 
 import {
     fullTitle,
@@ -29,8 +30,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const movieDetails = (props) => {
-    const {match: {params: {movieId}}} = props;
+const movieDetails = () => {
+    const params = useParams();
+    const history = useHistory();
+    const {movieId} = params;
     const {root} = useStyles();
 
     const tmdbApi = useSelector(state => state.api.tmdb);
@@ -43,7 +46,7 @@ const movieDetails = (props) => {
 
     const handleBack = () => {
         localStorage.removeItem('id');
-        props.history.goBack();
+        history.goBack();
 
         // reset all states
         dispatch(detailsActions.setCast([]));
