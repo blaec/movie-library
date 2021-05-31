@@ -1,9 +1,10 @@
 import React from 'react';
 
-import {getImageUrl} from "../../../../../utils/UrlUtils";
+import {getImageUrl, reactLinks} from "../../../../../utils/UrlUtils";
 import {releaseDateYear} from "../../../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actorMovie = (props) => {
-    const {title, release_date, poster_path, character, exist} = props;
+    const {id, title, release_date, poster_path, character, exist} = props;
     const {actor, image, imageSize, movieExist, titleFont} = useStyles();
 
     // TODO image size hardcoded
@@ -40,6 +41,7 @@ const actorMovie = (props) => {
         <ListItem className={exist ? movieExist : null}>
             <ListItemAvatar>
                 <Paper
+                    component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${id}`}
                     elevation={3}
                     className={imageSize}
                     style={{backgroundImage: `url("${errImage}")`}}
