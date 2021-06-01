@@ -31,9 +31,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const movieDetails = () => {
-    const params = useParams();
+    const {movieId} = useParams();
     const history = useHistory();
-    const {movieId} = params;
     const {root} = useStyles();
 
     const tmdbApi = useSelector(state => state.api.tmdb);
@@ -45,7 +44,6 @@ const movieDetails = () => {
     const dispatch = useDispatch();
 
     const handleBack = () => {
-        localStorage.removeItem('id');
         history.goBack();
 
         // reset all states
@@ -77,13 +75,10 @@ const movieDetails = () => {
     let details = <MyLoader/>
     if (hasDetails) {
         const {title, releaseDate, genres, images: {backdrops}} = tmdbMovieDetails || {};
-        const id = localStorage.getItem('id');
         details = (
             <div className={root}>
                 <BackdropImage
-                    backdrops={backdrops}
-                    alt={`${fullTitle(title, releaseDate)}`}
-                    id={id}
+                    id={movieId}
                     onClose={handleBack}
                 />
                 <Info

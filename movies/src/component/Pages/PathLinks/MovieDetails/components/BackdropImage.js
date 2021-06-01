@@ -5,9 +5,10 @@ import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyDelete from "../../../../../UI/Buttons/Icons/MyDelete";
 import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
+import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import {drawer, snackbarAutoHideDuration} from "../../../../../utils/Constants";
 import {deleteMovie} from "../../../../../store/collection-actions";
-import {isObjectExist} from "../../../../../utils/Utils";
+import {fullTitle, isObjectExist, isObjectsExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
 import {feedbackActions} from "../../../../../store/feedback-slice";
 
@@ -25,11 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 
 const backdropImage = props => {
-    const {id, backdrops, alt, onClose} = props;
+    const {id, onClose} = props;
     const {root} = useStyles();
     const [isDeleting, setIsDeleting] = useState(false);
 
     const saveResult = useSelector(state => state.upload.result);
+    const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -70,6 +72,22 @@ const backdropImage = props => {
         }
     }, [saveResult])
 
+    let backdropImages = <MyLoader/>
+    if (isObjectExist(tmdbMovieDetails)) {
+        const {title, releaseDate, images: {backdrops}} = tmdbMovieDetails;
+        backdropImages = backdrops.map((backdrop, idx) => {
+            const {aspect_ratio, file_path} = backdrop;
+            return (
+                <img
+                    key={idx + 1}
+                    height={windowWidth / aspect_ratio}
+                    src={getImageUrl(file_path)}
+                    alt={`${fullTitle(title, releaseDate)}`}
+                />
+            );
+        });
+    }
+
     return (
         <React.Fragment>
             <div className={root}>
@@ -80,17 +98,7 @@ const backdropImage = props => {
                     animation="fade"
                     navButtonsAlwaysInvisible
                 >
-                    {backdrops.map((backdrop, idx) => {
-                        const {aspect_ratio, file_path} = backdrop;
-                        return (
-                            <img
-                                key={idx + 1}
-                                height={windowWidth / aspect_ratio}
-                                src={getImageUrl(file_path)}
-                                alt={alt}
-                            />
-                        );
-                    })}
+                    {backdropImages}
                 </Carousel>
             </div>
             <DeleteDialog
