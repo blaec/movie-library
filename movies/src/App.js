@@ -29,7 +29,7 @@ const app = () => {
 
     let layout = (
         <Layout>
-            <Suspense fallback={MyLoader}>
+            <Suspense fallback={<MyLoader/>}>
                 <Switch>
 
                     {/* Menu items */}
