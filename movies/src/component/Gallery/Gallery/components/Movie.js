@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const movie = props => {
-    const {poster, alt, onClick, movieToComponents, movieToComponents: {movieToDetailsComponent: {tmdbId}}} = props;
+    const {poster, alt, onClick, tmdbId} = props;
     const {root, image} = useStyles();
 
     return (
@@ -48,7 +48,7 @@ const movie = props => {
                 className={image}
                 src={getImageUrl(poster)}
                 alt={alt}
-                onClick={() => onClick({...movieToComponents})}
+                onClick={onClick}
             />
         </Paper>
     );

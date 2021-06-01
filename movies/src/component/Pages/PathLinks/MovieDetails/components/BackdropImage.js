@@ -8,7 +8,7 @@ import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import {drawer, snackbarAutoHideDuration} from "../../../../../utils/Constants";
 import {deleteMovie} from "../../../../../store/collection-actions";
-import {fullTitle, isObjectExist, isObjectsExist} from "../../../../../utils/Utils";
+import {fullTitle, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
 import {feedbackActions} from "../../../../../store/feedback-slice";
 

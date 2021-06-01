@@ -2,14 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router";
 
-import {
-    fullTitle,
-    isArrayExist,
-    isObjectsExist,
-    isStringExist,
-    isStringsExist,
-    joinNames
-} from "../../../../utils/Utils";
+import {isArrayExist, isObjectsExist, isStringExist, isStringsExist, joinNames} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -74,7 +67,7 @@ const movieDetails = () => {
     const hasDetails = isObjectsExist(tmdbMovieDetails, omdbMovieDetails) && isArrayExist(cast);
     let details = <MyLoader/>
     if (hasDetails) {
-        const {title, releaseDate, genres, images: {backdrops}} = tmdbMovieDetails || {};
+        const {genres} = tmdbMovieDetails || {};
         details = (
             <div className={root}>
                 <BackdropImage
