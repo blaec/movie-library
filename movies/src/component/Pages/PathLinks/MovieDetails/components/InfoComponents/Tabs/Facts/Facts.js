@@ -1,12 +1,24 @@
 import React from 'react';
+
 import Fact from "./Fact";
-import {Typography} from "@material-ui/core";
 import {joinNames} from "../../../../../../../../utils/Utils";
+
+import {Typography} from "@material-ui/core";
 
 const facts = (props) => {
     const {
-        omdbDetails: {Director, Awards, Released, DVD, Title},
-        tmdbDetails: {budget, revenue, production_companies, production_countries, original_language}
+        details: {
+            Director,
+            Awards,
+            Released,
+            DVD,
+            Title,
+            budget,
+            revenue,
+            production_companies,
+            production_countries,
+            original_language
+        },
     } = props;
 
     const formatter = new Intl.NumberFormat('en-US', {

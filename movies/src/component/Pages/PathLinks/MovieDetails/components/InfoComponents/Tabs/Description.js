@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const description = (props) => {
-    const {tagline, overview} = props;
+    const {details: {tagline, overview}} = props;
     const {taglineFont} = useStyles();
 
     return (

@@ -32,14 +32,14 @@ export const playTime = (totalMinutes) => {
 };
 
 /**
- * Check if condition equals N/A
+ * Check if condition equals N/A or undefined or empty string
  *
  * @param condition condition
  * @param returnVal optional - return value, if missing - returns condition
  * @returns {null|*} when condition is N/A
  */
-export const NA_Safe = (condition, returnVal) => {
-    return 'N/A' === condition
+export const isSafe = (condition, returnVal) => {
+    return condition === undefined || 'N/A' === condition || !isStringsExist(condition)
         ? null
         : returnVal || condition;
 };
@@ -67,5 +67,9 @@ export const isStringsExist = (...strings) => {
 };
 
 export const isArrayExist = (array) => {
-    return array.length;
+    return array.length > 0;
+}
+
+export const getMovieById = (movies, tmdbId) => {
+    return movies.find(movie => movie.tmdbId === tmdbId) || {};
 }

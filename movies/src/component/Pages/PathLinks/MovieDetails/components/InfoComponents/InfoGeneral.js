@@ -1,9 +1,11 @@
 import React from 'react';
+import {useSelector} from "react-redux";
 
-import {NA_Safe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
+import MyLoader from "../../../../../../UI/Spinners/MyLoader";
+import {getMovieById, isArrayExist, joinNames, isSafe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
-import {useSelector} from "react-redux";
+import {useParams} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,64 +27,71 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const infoGeneral = (props) => {
-    const {
-        omdbDetails: {Rated, imdbRating, imdbVotes} = {omdbDetails: {}},
-        tmdbDetails: {release_date, runtime, title} = {tmdbDetails: {}},
-        genreDetails
-    } = props;
+    const {details: {Rated, imdbRating, imdbVotes, release_date, runtime, title, genres} = {details: {}},} = props;
+    const {movieId} = useParams();
     const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
 
-    const {resolution, size, location} = useSelector(state => state.collection.selectedMovie);
+    const movies = useSelector(state => state.collection.movies);
 
-    const metadata = {
-        rated: NA_Safe(Rated),
-        release_date: releaseDateYear(release_date),
-        runtime: runtime !== 0
-            ? playTime(runtime)
-            : null,
-        rating: NA_Safe(imdbRating, `${imdbRating} <${imdbVotes}>`),
-        resolution: resolution || null,
-        fileSize: size
-            ? `${size}Gb`
-            : null
-    };
+    let generalInfo = <MyLoader/>
+    if (isArrayExist(movies)) {
+        let {resolution, size, location} = getMovieById(movies, movieId);
+        let metadata = {
+            rated: isSafe(Rated),
+            release_date: isSafe(releaseDateYear(release_date)),
+            runtime: runtime !== 0
+                ? playTime(runtime)
+                : null,
+            rating: isSafe(imdbRating, `${imdbRating} <${imdbVotes}>`),
+            resolution: resolution || null,
+            fileSize: size
+                ? `${size}Gb`
+                : null
+        };
+
+        generalInfo = (
+            <div className={root}>
+                <Typography component="div">
+                    <Box
+                        className={locationFont}
+                        fontSize="caption.fontSize"
+                    >
+                        {location}
+                    </Box>
+                    <Divider/>
+                    <Box
+                        className={metaFont}
+                        fontSize="subtitle2.fontSize"
+                        textAlign="center"
+                        paddingTop={1}
+                    >
+                        {Object.values(metadata)
+                            .filter(val => val !== null)
+                            .join(` | `)}
+                    </Box>
+                    <Box
+                        className={titleFont}
+                        fontSize="h4.fontSize"
+                        textAlign="center"
+                    >
+                        {title}
+                    </Box>
+                    <Box
+                        className={genreFont}
+                        fontSize="subtitle1.fontSize"
+                        textAlign="center"
+                    >
+                        {joinNames(genres)}
+                    </Box>
+                </Typography>
+            </div>
+        );
+    }
 
     return (
-        <div className={root}>
-            <Typography component="div">
-                <Box
-                    className={locationFont}
-                    fontSize="caption.fontSize"
-                >
-                    {location}
-                </Box>
-                <Divider/>
-                <Box
-                    className={metaFont}
-                    fontSize="subtitle2.fontSize"
-                    textAlign="center"
-                    paddingTop={1}
-                >
-                    {Object.values(metadata)
-                        .filter(val => val !== null)
-                        .join(` | `)}
-                </Box>
-                <Box
-                    className={titleFont}
-                    fontSize="h4.fontSize"
-                    textAlign="center"
-                >
-                    {title}
-                </Box>
-                <Box
-                    className={genreFont}
-                    fontSize="subtitle1.fontSize"
-                    textAlign="center"
-                >
-                    {genreDetails}
-                </Box>
-            </Typography>
-        </div>
+        <React.Fragment>
+            {generalInfo}
+        </React.Fragment>
     );
 };
 

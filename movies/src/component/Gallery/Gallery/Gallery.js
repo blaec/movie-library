@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 import Movie from "./components/Movie";
 import {fullTitle} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
-import {collectionActions} from "../../../store/collection-slice";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
@@ -26,8 +25,6 @@ const gallery = (props) => {
     const {root, pagination} = useStyles();
 
     const search = useSelector(state => state.filter.search);
-    const dispatch = useDispatch();
-    const onSetSelectedMovieDetails = (movie) => dispatch(collectionActions.setSelectedMovie(movie));
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -36,11 +33,9 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
 
-    const handleViewMovieDetails = (movie) => {
+    const handleViewMovieDetails = () => {
         setScrollPosition(window.scrollY);
-        onSetSelectedMovieDetails(movie.movieToInfoComponent);
         setIsViewingDetails(true);
-        localStorage.setItem('id', movie.movieToDetailsComponent.id);
         localStorage.setItem('currentPage', `${currentPage}`);
     };
 
@@ -89,25 +84,14 @@ const gallery = (props) => {
         <React.Fragment>
             <div className={root}>
                 {moviesOnCurrentPage.map(movie => {
-                        const {id, tmdbId, type, posterPath, title, releaseDate, resolution, size, location} = movie;
+                        const {id, tmdbId, posterPath, title, releaseDate} = movie;
                         return (
                             <Movie
                                 key={id}
+                                tmdbId={tmdbId}
                                 poster={posterPath}
                                 alt={`${fullTitle(title, releaseDate)}`}
                                 onClick={handleViewMovieDetails}
-                                movieToComponents={{
-                                    type: type,
-                                    movieToDetailsComponent: {
-                                        id: id,
-                                        tmdbId: tmdbId,
-                                    },
-                                    movieToInfoComponent: {
-                                        resolution: resolution,
-                                        size: size,
-                                        location: location
-                                    }
-                                }}
                             />
                         )
                     }
