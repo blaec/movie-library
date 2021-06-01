@@ -2,10 +2,9 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router";
 
-import {isArrayExist, isObjectsExist, isStringExist, isStringsExist, joinNames} from "../../../../utils/Utils";
+import {isStringExist, isStringsExist} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
-import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../../store/details-actions";
 import {detailsActions} from "../../../../store/details-slice";
 
@@ -30,9 +29,6 @@ const movieDetails = () => {
 
     const tmdbApi = useSelector(state => state.api.tmdb);
     const omdbApi = useSelector(state => state.api.omdb);
-    const cast = useSelector(state => state.details.cast);
-    const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
-    const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
     const imdbId = useSelector(state => state.details.imdbId);
     const dispatch = useDispatch();
 
@@ -64,30 +60,14 @@ const movieDetails = () => {
         }
     }, [movieId, tmdbApi]);
 
-    const hasDetails = isObjectsExist(tmdbMovieDetails, omdbMovieDetails) && isArrayExist(cast);
-    let details = <MyLoader/>
-    if (hasDetails) {
-        const {genres} = tmdbMovieDetails || {};
-        details = (
-            <div className={root}>
-                <BackdropImage
-                    id={movieId}
-                    onClose={handleBack}
-                />
-                <Info
-                    tmdbDetails={tmdbMovieDetails}
-                    omdbDetails={omdbMovieDetails}
-                    castDetails={cast}
-                    genreDetails={joinNames(genres)}
-                />
-            </div>
-        );
-    }
-
     return (
-        <React.Fragment>
-            {details}
-        </React.Fragment>
+        <div className={root}>
+            <BackdropImage
+                id={movieId}
+                onClose={handleBack}
+            />
+            <Info/>
+        </div>
     );
 };
 

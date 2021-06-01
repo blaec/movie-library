@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useSelector} from "react-redux";
 
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import Description from "./InfoComponents/Tabs/Description";
@@ -6,10 +7,9 @@ import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import Facts from "./InfoComponents/Tabs/Facts/Facts";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
 import * as PropTypes from "prop-types";
+import {isArrayExist, isObjectsExist} from "../../../../../utils/Utils";
 
 import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
-import {useSelector} from "react-redux";
-import {isArrayExist, isObjectsExist, joinNames} from "../../../../../utils/Utils";
 
 const TabPanel = (props) => {
     const {children, value, index, ...other} = props;
@@ -44,12 +44,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const info = props => {
-    const {
-        omdbDetails,
-        tmdbDetails,
-        castDetails
-    } = props;
+const info = () => {
     const {root, tabsBackground} = useStyles();
     const [tabSelected, setTabSelected] = useState(0);
 
