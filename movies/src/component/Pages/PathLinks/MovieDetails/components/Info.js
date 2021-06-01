@@ -83,7 +83,7 @@ const info = props => {
                         <Description details={tmdbMovieDetails}/>
                     </TabPanel>
                     <TabPanel value={tabSelected} index={1}>
-                        <Cast castDetails={castDetails}/>
+                        <Cast details={cast}/>
                     </TabPanel>
                     <TabPanel value={tabSelected} index={2}>
                         <Facts omdbDetails={omdbDetails}
