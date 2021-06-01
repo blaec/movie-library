@@ -48,7 +48,6 @@ const info = props => {
     const {
         omdbDetails,
         tmdbDetails,
-        tmdbDetails: {tagline, overview} = {tmdbDetails: {}},
         castDetails
     } = props;
     const {root, tabsBackground} = useStyles();
@@ -81,8 +80,7 @@ const info = props => {
                         </Tabs>
                     </Paper>
                     <TabPanel value={tabSelected} index={0}>
-                        <Description tagline={tagline}
-                                     overview={overview}/>
+                        <Description details={tmdbMovieDetails}/>
                     </TabPanel>
                     <TabPanel value={tabSelected} index={1}>
                         <Cast castDetails={castDetails}/>
