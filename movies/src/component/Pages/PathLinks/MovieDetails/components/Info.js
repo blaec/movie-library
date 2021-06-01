@@ -86,8 +86,7 @@ const info = props => {
                         <Cast details={cast}/>
                     </TabPanel>
                     <TabPanel value={tabSelected} index={2}>
-                        <Facts omdbDetails={omdbDetails}
-                               tmdbDetails={tmdbDetails}/>
+                        <Facts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
                     </TabPanel>
                 </div>
             </React.Fragment>

@@ -5,8 +5,18 @@ import {joinNames} from "../../../../../../../../utils/Utils";
 
 const facts = (props) => {
     const {
-        omdbDetails: {Director, Awards, Released, DVD, Title},
-        tmdbDetails: {budget, revenue, production_companies, production_countries, original_language}
+        details: {
+            Director,
+            Awards,
+            Released,
+            DVD,
+            Title,
+            budget,
+            revenue,
+            production_companies,
+            production_countries,
+            original_language
+        },
     } = props;
 
     const formatter = new Intl.NumberFormat('en-US', {
