@@ -33,6 +33,7 @@ const movieDetails = () => {
     const dispatch = useDispatch();
 
     const handleBack = () => {
+        localStorage.removeItem('id')
         history.goBack();
     };
     useEffect(() => {
@@ -59,10 +60,7 @@ const movieDetails = () => {
 
     return (
         <div className={root}>
-            <BackdropImage
-                id={movieId}
-                onClose={handleBack}
-            />
+            <BackdropImage onClose={handleBack}/>
             <Info/>
         </div>
     );

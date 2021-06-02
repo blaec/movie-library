@@ -1,7 +1,6 @@
 package com.blaec.movielibrary.controllers;
 
 import com.blaec.movielibrary.configs.UploadConfigs;
-import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.to.MovieFileTo;
@@ -43,7 +42,7 @@ public class MovieController {
         return MovieUtils.sortByTitleAndYear(movieService.getAllByGenres(genreIds));
     }
 
-    @PostMapping("/{folder}")
+    @PostMapping("/upload/{folder}")
     public Response scanFolder(@PathVariable String folder) {
         Response response;
         int moviesSaved = 0;
@@ -52,7 +51,7 @@ public class MovieController {
         Iterable<Movie> dbMovies = movieService.getAll();
 
         // get all movie files from folder
-        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(getLocation(folder));
+        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
         // Save only new movies to database
         for (MovieFileTo movieFile : movieFiles) {
             Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
@@ -79,13 +78,13 @@ public class MovieController {
         return response;
     }
 
-    @PostMapping("/file")
+    @PostMapping("/upload/file")
     public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
         Response response;
 
         // Get all files from folder, where upload movie is searched, that match upload movie file name
         // Could be more than one (files with the same name from different sub-folders)
-        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(getLocation(uploadMovie.getLocation())).stream()
+        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(uploadMovie.getLocation(), uploadConfigs)).stream()
                 .filter(movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName()))
                 .collect(Collectors.toList());
 
@@ -103,7 +102,7 @@ public class MovieController {
         return response;
     }
 
-    @PostMapping("/wish")
+    @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         Response response = movieService.save(wishMovie);
         log.info("{}", wishMovie.toString());
@@ -111,25 +110,9 @@ public class MovieController {
         return response;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Response delete(@PathVariable Integer id) {
         return movieService.delete(id);
         // TODO return stats stats
-    }
-
-    /**
-     * Get movies location
-     *
-     * @param folder folder name
-     * @return location or empty string if folder argument is incorrect
-     */
-    private String getLocation(String folder) {
-        String location = "";
-        try {
-            location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
-        } catch (IllegalArgumentException e) {
-            log.error("No location found by folder {}", folder, e);
-        }
-        return location;
     }
 }
