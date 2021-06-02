@@ -34,13 +34,10 @@ const movieDetails = () => {
 
     const handleBack = () => {
         history.goBack();
-
-        // reset all states
-        dispatch(detailsActions.setCast([]));
-        dispatch(detailsActions.setMovieTmdbDetails({}));
-        dispatch(detailsActions.setMovieOmdbDetails({}));
-        dispatch(detailsActions.setImdbId(''));
     };
+    useEffect(() => {
+        dispatch(detailsActions.resetAll());
+    }, [])
 
     useEffect(() => {
         if (isStringsExist(movieId, tmdbApi)) {
