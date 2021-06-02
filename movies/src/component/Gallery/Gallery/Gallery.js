@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 
 import Movie from "./components/Movie";
-import {fullTitle} from "../../../utils/Utils";
+import {fullTitle, isStringsExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -71,6 +71,11 @@ const gallery = (props) => {
             let moviesPerPage = structure.rows * structure.moviesPerRow;
             setMoviesPerPage(moviesPerPage);
             setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
+
+            // reset current page when search is used
+            if (isStringsExist(search)) {
+                setCurrentPage(1);
+            }
         }, delay.search);
 
         return () => {
