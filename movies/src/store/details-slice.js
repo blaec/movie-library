@@ -27,6 +27,13 @@ const detailsSlice = createSlice({
         setImdbId(state, action) {
             state.imdbId = action.payload;
         },
+        resetAll(state, action) {
+            state.cast = [];
+            state.movieTmdbDetails = {};
+            state.movieOmdbDetails = {};
+            state.actorDetails = {};
+            state.imdbId = '';
+        }
     }
 });
 

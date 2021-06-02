@@ -58,7 +58,7 @@ export const isObjectsExist = (...objects) => {
 };
 
 export const isStringExist = (string) => {
-    return string !== undefined && string.trim() !== '';
+    return string !== undefined && string !== null && string.trim() !== '';
 };
 
 export const isStringsExist = (...strings) => {
