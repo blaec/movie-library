@@ -34,11 +34,10 @@ const menuItemsData = [
 ];
 
 const movieMenu = () => {
-    let location = useLocation();
+    const {pathname} = useLocation();
 
     const menuItems = menuItemsData.map((item, index) => {
             const {text, link, icon} = item;
-            const {pathname} = location;
             return (
                 <MyListItem
                     key={index}
