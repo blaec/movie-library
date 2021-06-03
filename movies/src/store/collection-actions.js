@@ -15,7 +15,7 @@ export const fetchMovies = () => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `To load movies`,
+                    message: `${error} | Failed to load movies`,
                     type: 'error'
                 }));
             });
@@ -33,7 +33,7 @@ export const fetchWishlist = () => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `To load movies`,
+                    message: `${error} | Failed to load wishlist`,
                     type: 'error'
                 }));
             });
@@ -51,7 +51,7 @@ export const fetchFilteredCollection = (genreIds) => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `To load movies`,
+                    message: `${error} | Failed to load filtered movie list`,
                     type: 'error'
                 }));
             });
@@ -71,7 +71,7 @@ export const deleteMovie = (id) => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `Failed to deleted movie with id '${id}'`,
+                    message: `${error} | Failed to deleted movie with id '${id}'`,
                     type: 'error'
                 }));
             });

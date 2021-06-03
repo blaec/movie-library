@@ -20,12 +20,12 @@ export const movieApi = {
         getAllByGenres: `${baseMovieApi}filter`,
     },
     post: {
-        saveWishMovie: `${baseMovieApi}wish`,
-        uploadMovie: `${baseMovieApi}file`,
-        scanFolder: baseMovieApi,
+        saveWishMovie: `${baseMovieApi}upload/wish`,
+        uploadMovie: `${baseMovieApi}upload/file`,
+        scanFolder: `${baseMovieApi}upload/`,
     },
     delete: {
-        delete: baseMovieApi,
+        delete: `${baseMovieApi}delete/`,
     },
 };
 

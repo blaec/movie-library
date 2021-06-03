@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const backdropImage = props => {
-    const {id, onClose} = props;
+    const {onClose} = props;
     const {root} = useStyles();
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -34,6 +34,8 @@ const backdropImage = props => {
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
+
+    let id = +localStorage.getItem('id');
 
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8

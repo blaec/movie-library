@@ -18,7 +18,7 @@ export const fetchWishMovies = (params) => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `Failed to search the movies`,
+                    message: `${error} | Failed to search the movies`,
                     type: 'error'
                 }));
             });
@@ -38,7 +38,7 @@ export const saveWishMovie = (wishMovie) => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `Failed to add movie '${wishMovie.title}' to wishlist`,
+                    message: `${error} | Failed to add movie '${wishMovie.title}' to wishlist`,
                     type: 'error'
                 }));
             });
@@ -58,7 +58,7 @@ export const saveSingleMovie = (movie) => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `Failed to upload ${movie.fileName} from ${movie.fileLocation} folder`,
+                    message: `${error} | Failed to upload ${movie.fileName} from ${movie.fileLocation} folder`,
                     type: 'error'
                 }));
             });
@@ -78,7 +78,7 @@ export const scanFolderAndSave = (path) => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     open: true,
-                    message: `Failed to scan folder ${path} for movies`,
+                    message: `${error} | Failed to scan folder ${path} for movies`,
                     type: 'error'
                 }));
             });

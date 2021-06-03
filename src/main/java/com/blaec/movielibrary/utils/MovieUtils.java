@@ -1,5 +1,7 @@
 package com.blaec.movielibrary.utils;
 
+import com.blaec.movielibrary.configs.UploadConfigs;
+import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.to.TmdbResult;
@@ -50,5 +52,21 @@ public class MovieUtils {
             result = false;
         }
         return result;
+    }
+
+    /**
+     * Get movies location
+     *
+     * @param folder folder name
+     * @return location or empty string if folder argument is incorrect
+     */
+    public static String getLocation(String folder, UploadConfigs uploadConfigs) {
+        String location = "";
+        try {
+            location = ScanFolders.valueOf(folder).getLocation(uploadConfigs);
+        } catch (IllegalArgumentException e) {
+            log.error("No location found by folder {}", folder, e);
+        }
+        return location;
     }
 }
