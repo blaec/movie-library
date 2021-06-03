@@ -12,6 +12,8 @@ export const reactLinks = {
     actorMovies: "/actors/:actorId",
 };
 
+export const searchable = [reactLinks.collection, reactLinks.wishlist];
+
 let baseMovieApi = "/movies/";
 export const movieApi = {
     get: {

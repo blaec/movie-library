@@ -3,14 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 
 import {filterActions} from "../../../store/filter-slice";
-import {reactLinks} from "../../../utils/UrlUtils";
+import {searchable} from "../../../utils/UrlUtils";
 
 import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
-
-const searchable = [reactLinks.collection, reactLinks.wishlist];
 
 const useStyles = makeStyles((theme) => ({
     root: visible => {
