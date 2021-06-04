@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         position: 'absolute',
         top: '5px',
-        right: '50px',
+        right: '60px',
         padding: '5px',
         color: 'green',
         backgroundColor: 'rgba(255,255,255,0.7)',
