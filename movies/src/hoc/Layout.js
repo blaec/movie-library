@@ -5,7 +5,7 @@ import Toolbar from "../component/Toolbar/Toolbar";
 import {drawer, toolbarHeight} from "../utils/Constants";
 
 import {makeStyles} from "@material-ui/core/styles";
-import {Collapse, CssBaseline, Slide, Zoom} from "@material-ui/core";
+import {Collapse, CssBaseline} from "@material-ui/core";
 import {SnackbarProvider} from "notistack";
 
 const useStyles = makeStyles((theme) => ({
