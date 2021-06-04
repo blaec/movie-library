@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import Movie from "./components/Movie";
 import {fullTitle, isStringsExist} from "../../../utils/Utils";
@@ -7,6 +7,7 @@ import {delay, grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
+import {feedbackActions} from "../../../store/feedback-slice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,6 +26,7 @@ const gallery = (props) => {
     const {root, pagination} = useStyles();
 
     const search = useSelector(state => state.filter.search);
+    const dispatch = useDispatch();
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [moviesPerPage, setMoviesPerPage] = useState(0);
@@ -66,6 +68,12 @@ const gallery = (props) => {
             // filter movies using Search...
             const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
             setDisplayedMovieList(filteredMovies);
+            if (filteredMovies.length < movies.length) {
+                dispatch(feedbackActions.setSnackbar({
+                    message: `Filter result: ${filteredMovies.length} movies`,
+                    type: 'info'
+                }));
+            }
 
             // set gallery pagination structure
             const structure = Object.values(grid).filter(grid => grid.resolution < windowWidth).slice(-1).pop();
