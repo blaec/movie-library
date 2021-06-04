@@ -23,7 +23,6 @@ const filteredCollection = () => {
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
-                open: true,
                 message: `Found ${filteredMovies.length} movies`,
                 type: 'success'
             }));

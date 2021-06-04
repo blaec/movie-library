@@ -17,7 +17,6 @@ export const fetchWishMovies = (params) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to search the movies`,
                     type: 'error'
                 }));
@@ -37,7 +36,6 @@ export const saveWishMovie = (wishMovie) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to add movie '${wishMovie.title}' to wishlist`,
                     type: 'error'
                 }));
@@ -57,7 +55,6 @@ export const saveSingleMovie = (movie) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to upload ${movie.fileName} from ${movie.fileLocation} folder`,
                     type: 'error'
                 }));
@@ -77,7 +74,6 @@ export const scanFolderAndSave = (path) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to scan folder ${path} for movies`,
                     type: 'error'
                 }));

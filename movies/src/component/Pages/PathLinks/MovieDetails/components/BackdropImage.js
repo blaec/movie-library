@@ -69,7 +69,7 @@ const backdropImage = props => {
         if (isObjectExist(saveResult)) {
             const {message, success} = saveResult;
             const type = success ? 'success' : 'error';
-            onSetSnackbar({open: true, message: `${message}`, type: type});
+            onSetSnackbar({message: `${message}`, type: type});
             dispatch(uploadActions.setResult({}));
         }
     }, [saveResult])

@@ -17,11 +17,6 @@ const useGallery = (movies) => {
     useEffect(() => {
         if (hasMovies) {
             enqueueSnackbar(`Found ${collection.length} movies`, {variant: 'info'});
-            // dispatch(feedbackActions.setSnackbar({
-            //     open: true,
-            //     message: `Found ${collection.length} movies`,
-            //     type: 'success'
-            // }));
         }
     }, [hasMovies])
     return (
