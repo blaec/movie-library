@@ -67,7 +67,7 @@ const wishLoader = () => {
             }
             if (loader === Loader.wishMovie) {
                 if (hasResults) {
-                    onSetSnackbar({message: `Found ${wishMovies.length} movies`, type: 'success'});
+                    onSetSnackbar({message: `Found ${wishMovies.length} movies`, type: 'info'});
                 } else {
                     onSetSnackbar({message: `Nothing found`, type: 'warning'});
                 }

@@ -9,11 +9,9 @@ const mySnackbar = () => {
     const {message, type} = useSelector(state => state.feedback.snackbar);
     const {enqueueSnackbar} = useSnackbar();
 
-    useEffect(() => {
-        if (isStringExist(message)) {
-            enqueueSnackbar(message, {variant: type});
-        }
-    }, [message, type])
+    if (isStringExist(message)) {
+        enqueueSnackbar(message, {variant: type});
+    }
 
     return null;
 };

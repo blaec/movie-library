@@ -8,6 +8,7 @@ import {Loader} from "../utils/Constants";
 
 export const fetchWishMovies = (params) => {
     return async (dispatch) => {
+        dispatch(uploadActions.setLoader(Loader.wishMovie));
         axios.get(getSearchMovieUrl(params))
             .then(response => {
                 const {data} = response;
