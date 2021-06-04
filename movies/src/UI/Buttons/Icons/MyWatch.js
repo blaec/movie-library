@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const myWatch = (props) => {
-    const {onDelete} = props;
+    const {onAddToWatch} = props;
     const {root} = useStyles();
 
     return (
         <VisibilityTwoToneIcon
             className={root}
             fontSize="large"
-            onClick={onDelete}/>
+            onClick={onAddToWatch}/>
     );
 };
 

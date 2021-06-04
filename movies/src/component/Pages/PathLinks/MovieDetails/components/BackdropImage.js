@@ -9,12 +9,13 @@ import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import {drawer} from "../../../../../utils/Constants";
 import {deleteMovie} from "../../../../../store/collection-actions";
-import {fullTitle, isObjectExist} from "../../../../../utils/Utils";
+import {fullTitle, getMovieById, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
 import {feedbackActions} from "../../../../../store/feedback-slice";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
+import {saveWishMovie} from "../../../../../store/upload-actions";
 
 const TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
@@ -59,6 +60,14 @@ const backdropImage = props => {
         dispatch(deleteMovie(id));
     };
 
+    const handleAddToWatchMovie = () => {
+        let watchMovie = {
+            ...tmdbMovieDetails,
+            genre_ids: tmdbMovieDetails.genres.map(genre => genre.id)
+        };
+        dispatch(saveWishMovie(watchMovie));
+    };
+
     useEffect(() => {
         if (isObjectExist(saveResult)) {
             const {message, success} = saveResult;
@@ -90,7 +99,7 @@ const backdropImage = props => {
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
                 <MyDelete onDelete={handleDeletedMovie}/>
-                <MyWatch onDelete={handleDeletedMovie}/>
+                <MyWatch onAddToWatch={handleAddToWatchMovie}/>
                 <Carousel
                     timeout={TIMEOUT}
                     animation="fade"
