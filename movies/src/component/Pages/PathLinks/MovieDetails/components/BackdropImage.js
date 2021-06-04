@@ -3,17 +3,19 @@ import {useDispatch, useSelector} from "react-redux";
 
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyDelete from "../../../../../UI/Buttons/Icons/MyDelete";
+import MyWatch from "../../../../../UI/Buttons/Icons/MyWatch";
 import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import {drawer} from "../../../../../utils/Constants";
 import {deleteMovie} from "../../../../../store/collection-actions";
-import {fullTitle, isObjectExist} from "../../../../../utils/Utils";
+import {fullTitle, getMovieById, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
 import {feedbackActions} from "../../../../../store/feedback-slice";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
+import {saveWishMovie} from "../../../../../store/upload-actions";
 
 const TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
@@ -58,13 +60,31 @@ const backdropImage = props => {
         dispatch(deleteMovie(id));
     };
 
+    const handleAddToWatchMovie = () => {
+        let watchMovie = {
+            ...tmdbMovieDetails,
+            genre_ids: tmdbMovieDetails.genres.map(genre => genre.id)
+        };
+        dispatch(saveWishMovie(watchMovie));
+    };
+
     useEffect(() => {
         if (isObjectExist(saveResult)) {
             const {message, success} = saveResult;
-            const type = success ? 'success' : 'error';
-            onSetSnackbar({message: `${message}`, type: type});
-            dispatch(uploadActions.setResult({}));
-            onClose();
+            if (isDeleting) {
+                const type = success ? 'success' : 'error';
+                onSetSnackbar({message, type});
+                dispatch(uploadActions.setResult({}));
+                onClose();
+            } else {
+                const {title} = tmdbMovieDetails;
+                if (success) {
+                    onSetSnackbar({message: `Movie '${title}' added to wishlist`, type: 'success'});
+                } else {
+                    onSetSnackbar({message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
+                }
+                dispatch(uploadActions.setResult({}));
+            }
         }
     }, [saveResult])
 
@@ -89,6 +109,7 @@ const backdropImage = props => {
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
                 <MyDelete onDelete={handleDeletedMovie}/>
+                <MyWatch onAddToWatch={handleAddToWatchMovie}/>
                 <Carousel
                     timeout={TIMEOUT}
                     animation="fade"

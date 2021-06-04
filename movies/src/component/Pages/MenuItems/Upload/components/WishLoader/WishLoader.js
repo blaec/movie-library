@@ -40,7 +40,7 @@ const wishLoader = () => {
     const handleChangeSelectedWishMovie = (current) => {
         setSelectedWishMovie(wishMovies[current]);
     };
-
+    console.log(wishMovies);
     const handleSaveWishMovie = () => {
         setIsLoading(true);
         dispatch(saveWishMovie(selectedWishMovie));

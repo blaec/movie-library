@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
         color: 'red',
         backgroundColor: 'rgba(255,255,255,0.7)',
         borderRadius: '50%',
+        cursor: 'pointer',
         zIndex: 1,
     }
 }));
