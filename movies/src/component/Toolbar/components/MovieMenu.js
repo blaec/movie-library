@@ -51,10 +51,10 @@ const settingsItemsData = [
         icon: <UpdateTwoToneIcon/>
     },
 ];
-const newsItemsData = [
+const infoItemsData = [
     {
         text: "Now Playing",
-        link: reactLinks.upload,
+        link: reactLinks.nowPlaying,
         icon: <PlayCircleFilledWhiteTwoToneIcon/>
     },
 ];
@@ -68,7 +68,7 @@ const movieMenu = () => {
             <Divider/>
             {getMenuItemsBlock(settingsItemsData, pathname)}
             <Divider/>
-            {getMenuItemsBlock(newsItemsData, pathname)}
+            {getMenuItemsBlock(infoItemsData, pathname)}
         </List>
     )
 };

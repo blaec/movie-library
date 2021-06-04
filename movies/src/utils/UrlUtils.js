@@ -10,6 +10,7 @@ export const reactLinks = {
     movieDetails: "/movies/:movieId",
     actorMoviesEndpoint: "/actors/",
     actorMovies: "/actors/:actorId",
+    nowPlaying: "/info/now-playing"
 };
 
 export const isSearchable = (pathname) => {
