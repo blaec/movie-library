@@ -61,8 +61,10 @@ const backdropImage = props => {
     };
 
     const handleAddToWatchMovie = () => {
-        let watchMovie = {
+        const {original_title} = tmdbMovieDetails;
+        const watchMovie = {
             ...tmdbMovieDetails,
+            title: original_title,
             genre_ids: tmdbMovieDetails.genres.map(genre => genre.id)
         };
         dispatch(saveWishMovie(watchMovie));
