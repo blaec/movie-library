@@ -73,3 +73,12 @@ export const isArrayExist = (array) => {
 export const getMovieById = (movies, tmdbId) => {
     return movies.find(movie => movie.tmdbId === tmdbId) || {};
 };
+
+/**
+ * Strip supplied string from spaces and dashes
+ * @param str string before change
+ * @returns string without spaces and dashes
+ */
+export const stripString = (str) => {
+    return str.replace(/\s/g, '').replace(/-/g, '').toLowerCase();
+};

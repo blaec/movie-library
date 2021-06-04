@@ -1,6 +1,8 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 
+import {stripString} from "../utils/Utils";
+
 import {ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -14,7 +16,8 @@ const myListItem = (props) => {
     const {path, caption, link, icon} = props;
     const {active} = useStyles();
 
-    const isSelected = path.includes(caption.toLowerCase());
+    const isSelected = stripString(path).includes(stripString(caption));
+
     return (
         <ListItem
             button
