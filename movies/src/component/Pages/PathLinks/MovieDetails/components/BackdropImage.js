@@ -71,10 +71,20 @@ const backdropImage = props => {
     useEffect(() => {
         if (isObjectExist(saveResult)) {
             const {message, success} = saveResult;
-            const type = success ? 'success' : 'error';
-            onSetSnackbar({message: `${message}`, type: type});
-            dispatch(uploadActions.setResult({}));
-            onClose();
+            if (isDeleting) {
+                const type = success ? 'success' : 'error';
+                onSetSnackbar({message: `${message}`, type: type});
+                dispatch(uploadActions.setResult({}));
+                onClose();
+            } else {
+                const {title} = tmdbMovieDetails;
+                if (success) {
+                    onSetSnackbar({message: `Movie '${title}' added to wishlist`, type: 'success'});
+                } else {
+                    onSetSnackbar({message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
+                }
+            }
+
         }
     }, [saveResult])
 
