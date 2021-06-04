@@ -30,6 +30,7 @@ const layout = props => {
                 horizontal: 'right',
             }}
             TransitionComponent={Collapse}
+            autoHideDuration={3000}
         >
             <CssBaseline/>
             <Toolbar/>
