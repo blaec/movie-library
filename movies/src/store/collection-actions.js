@@ -1,5 +1,5 @@
 import axios from "../axios-movies";
-import {getDeleteUrl, getNowPlayingUrl, movieApi} from "../utils/UrlUtils";
+import {getDeleteUrl, getNowPlayingUrl, getUpcomingUrl, movieApi} from "../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "./feedback-slice";
 import {uploadActions} from "./upload-slice";
@@ -90,6 +90,33 @@ export const fetchNowPlaying = (tmdbApi) => {
                     };
                 });
                 dispatch(collectionActions.setNowPlaying(nowPlayingMovies));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to now playing movies`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const fetchUpcoming = (tmdbApi) => {
+    return async (dispatch) => {
+        axios.get(getUpcomingUrl(tmdbApi))
+            .then(response => {
+                const {data: {results}} = response;
+                const upcoming = results.map(movie => {
+                    const {id, poster_path, title, release_date} = movie;
+                    return {
+                        id: id + new Date().getTime(),
+                        tmdbId: id,
+                        posterPath: poster_path,
+                        title,
+                        releaseDate: release_date
+                    };
+                });
+                dispatch(collectionActions.setUpcoming(upcoming));
             })
             .catch(error => {
                 console.log(error);
