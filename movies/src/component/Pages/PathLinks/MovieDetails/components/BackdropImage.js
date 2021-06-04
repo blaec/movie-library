@@ -73,7 +73,7 @@ const backdropImage = props => {
             const {message, success} = saveResult;
             if (isDeleting) {
                 const type = success ? 'success' : 'error';
-                onSetSnackbar({message: `${message}`, type: type});
+                onSetSnackbar({message, type});
                 dispatch(uploadActions.setResult({}));
                 onClose();
             } else {
@@ -83,8 +83,8 @@ const backdropImage = props => {
                 } else {
                     onSetSnackbar({message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
                 }
+                dispatch(uploadActions.setResult({}));
             }
-
         }
     }, [saveResult])
 
