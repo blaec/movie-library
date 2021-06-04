@@ -12,7 +12,10 @@ export const reactLinks = {
     actorMovies: "/actors/:actorId",
 };
 
-export const searchable = [reactLinks.collection, reactLinks.wishlist];
+export const isSearchable = (pathname) => {
+    const searchable = [reactLinks.collection, reactLinks.wishlist, reactLinks.filterByGenreEndpoint];
+    return searchable.filter(url => pathname.startsWith(url)).length === 1;
+};
 
 let baseMovieApi = "/movies/";
 export const movieApi = {

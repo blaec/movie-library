@@ -68,8 +68,8 @@ export const isStringsExist = (...strings) => {
 
 export const isArrayExist = (array) => {
     return array.length > 0;
-}
+};
 
 export const getMovieById = (movies, tmdbId) => {
     return movies.find(movie => movie.tmdbId === tmdbId) || {};
-}
+};

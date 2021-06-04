@@ -67,9 +67,9 @@ const wishLoader = () => {
             }
             if (loader === Loader.wishMovie) {
                 if (hasResults) {
-                    onSetSnackbar({open: true, message: `Found ${wishMovies.length} movies`, type: 'success'});
+                    onSetSnackbar({message: `Found ${wishMovies.length} movies`, type: 'info'});
                 } else {
-                    onSetSnackbar({open: true, message: `Nothing found`, type: 'warning'});
+                    onSetSnackbar({message: `Nothing found`, type: 'warning'});
                 }
             }
         }
@@ -81,9 +81,9 @@ const wishLoader = () => {
             const {message, success} = saveResult;
             const {title} = selectedWishMovie;
             if (success) {
-                onSetSnackbar({open: true, message: `Movie '${title}' added to wishlist`, type: 'success'});
+                onSetSnackbar({message: `Movie '${title}' added to wishlist`, type: 'success'});
             } else {
-                onSetSnackbar({open: true, message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
+                onSetSnackbar({message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
             }
             dispatch(uploadActions.setResult({}));
         }

@@ -5,7 +5,8 @@ import Toolbar from "../component/Toolbar/Toolbar";
 import {drawer, toolbarHeight} from "../utils/Constants";
 
 import {makeStyles} from "@material-ui/core/styles";
-import {CssBaseline} from "@material-ui/core";
+import {Collapse, CssBaseline} from "@material-ui/core";
+import {SnackbarProvider} from "notistack";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,14 +23,21 @@ const layout = props => {
     const {root} = useStyles();
 
     return (
-        <React.Fragment>
+        <SnackbarProvider
+            maxSnack={3}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            TransitionComponent={Collapse}
+        >
             <CssBaseline/>
             <Toolbar/>
             <MySnackbar/>
             <main className={root}>
                 {children}
             </main>
-        </React.Fragment>
+        </SnackbarProvider>
     );
 };
 

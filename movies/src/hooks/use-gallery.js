@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import {isArrayExist} from "../utils/Utils";
-import {feedbackActions} from "../store/feedback-slice";
 import MyLoader from "../UI/Spinners/MyLoader";
 import Gallery from "../component/Gallery/Gallery/Gallery";
+import {feedbackActions} from "../store/feedback-slice";
 
 const useGallery = (movies) => {
     const collection = useSelector(state => state.collection[movies]);
@@ -14,9 +14,8 @@ const useGallery = (movies) => {
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
-                open: true,
                 message: `Found ${collection.length} movies`,
-                type: 'success'
+                type: 'info'
             }));
         }
     }, [hasMovies])

@@ -80,7 +80,7 @@ const fileLoader = () => {
                     : `Failed to upload movies from ${fileLocation} folder: ${message}`;
                 type = success ? 'success' : 'error';
             }
-            onSetSnackbar({open: true, message: info, type: type});
+            onSetSnackbar({message: info, type: type});
             resetForm();
         }
     }, [saveResult])

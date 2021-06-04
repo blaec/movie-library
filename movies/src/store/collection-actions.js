@@ -14,7 +14,6 @@ export const fetchMovies = () => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to load movies`,
                     type: 'error'
                 }));
@@ -32,7 +31,6 @@ export const fetchWishlist = () => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to load wishlist`,
                     type: 'error'
                 }));
@@ -50,7 +48,6 @@ export const fetchFilteredCollection = (genreIds) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to load filtered movie list`,
                     type: 'error'
                 }));
@@ -70,7 +67,6 @@ export const deleteMovie = (id) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    open: true,
                     message: `${error} | Failed to deleted movie with id '${id}'`,
                     type: 'error'
                 }));

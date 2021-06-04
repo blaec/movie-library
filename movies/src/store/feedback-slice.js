@@ -2,9 +2,9 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     snackbar: {
-        open: false,
         message: '',
-        type: 'success'
+        type: 'success',
+        uniqueId: 0,
     },
     isLoading: false
 };
@@ -14,10 +14,10 @@ const feedbackSlice = createSlice({
     initialState,
     reducers: {
         setSnackbar(state, action) {
-            const {open, type, message} = action.payload;
-            state.snackbar.open = open;
+            const {type, message} = action.payload;
             state.snackbar.type = type;
             state.snackbar.message = message;
+            state.snackbar.uniqueId = new Date().getTime();
         },
         setIsLoading(state, action) {
             state.isLoading = action.payload;

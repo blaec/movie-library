@@ -50,5 +50,3 @@ export const Loader = Object.freeze(
         folderScan: 2
     }
 );
-
-export const snackbarAutoHideDuration = 3000;

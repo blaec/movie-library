@@ -1,47 +1,21 @@
-import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from 'react';
+import {useSelector} from "react-redux";
 
-import {feedbackActions} from "../store/feedback-slice";
-import {snackbarAutoHideDuration} from "../utils/Constants";
+import {isStringExist} from "../utils/Utils";
 
-import {Snackbar} from "@material-ui/core";
-import {Alert} from "@material-ui/lab";
+import {useSnackbar} from "notistack";
 
 const mySnackbar = () => {
-    const snackbar = useSelector(state => state.feedback.snackbar);
-    const {open, message, type} = snackbar;
+    const {message, type, uniqueId} = useSelector(state => state.feedback.snackbar);
+    const {enqueueSnackbar} = useSnackbar();
 
-    const dispatch = useDispatch();
-    const onSetSnackbar = (settings) => dispatch(feedbackActions.setSnackbar(settings));
-
-    const handleSnackbarClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
+    useEffect(() => {
+        if (isStringExist(message)) {
+            enqueueSnackbar(message, {variant: type});
         }
+    }, [uniqueId]);
 
-        onSetSnackbar({open: false, type: type, message: message});
-    };
-
-    return (
-        <Snackbar
-            open={open}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            autoHideDuration={snackbarAutoHideDuration}
-            onClose={handleSnackbarClose}
-        >
-            <Alert
-                onClose={handleSnackbarClose}
-                elevation={6}
-                variant='filled'
-                severity={type}
-            >
-                {message}
-            </Alert>
-        </Snackbar>
-    );
+    return null;
 };
 
 export default mySnackbar;

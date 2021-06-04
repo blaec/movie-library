@@ -8,6 +8,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^0.21.1",
+    "notistack": "^1.0.9",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-material-ui-carousel": "^2.2.1",
