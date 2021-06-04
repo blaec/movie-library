@@ -113,13 +113,16 @@ const gallery = (props) => {
                     }
                 )}
             </div>
-            <Pagination
-                className={pagination}
-                page={currentPage}
-                count={totalPages}
-                variant="outlined"
-                color="primary"
-                onChange={handlePageChange}/>
+            {
+                isArrayExist(displayedMovieList) &&
+                <Pagination
+                    className={pagination}
+                    page={currentPage}
+                    count={totalPages}
+                    variant="outlined"
+                    color="primary"
+                    onChange={handlePageChange}/>
+            }
         </React.Fragment>
     );
 
