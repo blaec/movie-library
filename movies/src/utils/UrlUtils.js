@@ -45,6 +45,11 @@ export const getMovieDetailsUrl = (id, tmdbApi) => {
     return `${url_endpoints.tmdb.movies.getDetails}${id}?${getParamsFrom(params)}`
 };
 
+export const getNowPlayingUrl = (tmdbApi) => {
+    const params = {...{api_key: tmdbApi}};
+    return `${url_endpoints.tmdb.movies.getNowPlaying}?${getParamsFrom(params)}`
+};
+
 export const getOmdbMovieDetails = (imdbId, omdbApi) => {
     return `${url_endpoints.omdb.movie}${imdbId}&apikey=${omdbApi}`
 };
@@ -110,6 +115,7 @@ const url_endpoints = {
         },
         movies: {
             getDetails: 'https://api.themoviedb.org/3/movie/',
+            getNowPlaying: 'https://api.themoviedb.org/3/movie/now_playing'
         },
         search: {
             getDetails: 'https://api.themoviedb.org/3/search/movie'
