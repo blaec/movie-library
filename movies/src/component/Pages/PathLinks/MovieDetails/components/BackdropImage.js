@@ -6,7 +6,7 @@ import MyDelete from "../../../../../UI/Buttons/Icons/MyDelete";
 import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
-import {drawer, snackbarAutoHideDuration} from "../../../../../utils/Constants";
+import {drawer} from "../../../../../utils/Constants";
 import {deleteMovie} from "../../../../../store/collection-actions";
 import {fullTitle, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
@@ -56,13 +56,6 @@ const backdropImage = props => {
     const handleDeleteMovie = () => {
         setIsDeleting(true);
         dispatch(deleteMovie(id));
-        const timeout = setTimeout(() => {
-            onClose();
-        }, snackbarAutoHideDuration / 3);
-
-        return () => {
-            clearTimeout(timeout);
-        };
     };
 
     useEffect(() => {
@@ -71,6 +64,7 @@ const backdropImage = props => {
             const type = success ? 'success' : 'error';
             onSetSnackbar({message: `${message}`, type: type});
             dispatch(uploadActions.setResult({}));
+            onClose();
         }
     }, [saveResult])
 
