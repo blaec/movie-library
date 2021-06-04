@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import Movie from "./components/Movie";
-import {fullTitle, isStringsExist} from "../../../utils/Utils";
+import {fullTitle, isArrayExist, isStringsExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -69,10 +69,11 @@ const gallery = (props) => {
             const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
             setDisplayedMovieList(filteredMovies);
             if (filteredMovies.length < movies.length) {
-                dispatch(feedbackActions.setSnackbar({
-                    message: `Filter result: ${filteredMovies.length} movies`,
-                    type: 'info'
-                }));
+                const message = isArrayExist(filteredMovies)
+                    ? `Filter result: ${filteredMovies.length} movies`
+                    : `Nothing found`;
+                const type = isArrayExist(filteredMovies) ? 'info' : 'warning';
+                dispatch(feedbackActions.setSnackbar({message, type}));
             }
 
             // set gallery pagination structure
