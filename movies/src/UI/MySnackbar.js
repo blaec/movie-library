@@ -6,12 +6,14 @@ import {isStringExist} from "../utils/Utils";
 import {useSnackbar} from "notistack";
 
 const mySnackbar = () => {
-    const {message, type} = useSelector(state => state.feedback.snackbar);
+    const {message, type, uniqueId} = useSelector(state => state.feedback.snackbar);
     const {enqueueSnackbar} = useSnackbar();
 
-    if (isStringExist(message)) {
-        enqueueSnackbar(message, {variant: type});
-    }
+    useEffect(() => {
+        if (isStringExist(message)) {
+            enqueueSnackbar(message, {variant: type});
+        }
+    }, [uniqueId]);
 
     return null;
 };
