@@ -1,20 +1,21 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+
 import {isStringExist} from "../../../../utils/Utils";
-import {fetchUpcoming} from "../../../../store/collection-actions";
+import {fetchAnticipated} from "../../../../store/collection-actions";
 import useGallery from "../../../../hooks/use-gallery";
 
-const upcoming = () => {
+const anticipated = () => {
     const tmdbApi = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (isStringExist(tmdbApi)) {
-            dispatch(fetchUpcoming(tmdbApi));
+            dispatch(fetchAnticipated(tmdbApi));
         }
     }, [tmdbApi]);
 
-    return useGallery("upcoming");
+    return useGallery("anticipated");
 };
 
-export default upcoming;
+export default anticipated;

@@ -59,8 +59,8 @@ const infoItemsData = [
         icon: <PlayCircleFilledWhiteTwoToneIcon/>
     },
     {
-        text: "Upcoming",
-        link: reactLinks.upcoming,
+        text: "Anticipated",
+        link: reactLinks.anticipated,
         icon: <HourglassFullTwoToneIcon/>
     },
 ];

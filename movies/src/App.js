@@ -16,7 +16,7 @@ const MovieDetails = React.lazy(() => import('./component/Pages/PathLinks/MovieD
 const ActorMovies = React.lazy(() => import('./component/Pages/PathLinks/ActorMovies/ActorMovies'));
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
 const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
-const Upcoming = React.lazy(() => import('./component/Pages/MenuItems/Upcoming/Upcoming'));
+const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
 
 const app = () => {
     const {
@@ -29,7 +29,7 @@ const app = () => {
         movieDetails,
         actorMovies,
         nowPlaying,
-        upcoming
+        anticipated
     } = reactLinks;
 
     const dispatch = useDispatch();
@@ -51,7 +51,7 @@ const app = () => {
                     <Route path={filter} exact component={Filter}/>
                     <Route path={upload} exact component={Upload}/>
                     <Route path={nowPlaying} exact component={NowPlaying}/>
-                    <Route path={upcoming} exact component={Upcoming}/>
+                    <Route path={anticipated} exact component={Anticipated}/>
 
                     {/* Path links */}
                     <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>

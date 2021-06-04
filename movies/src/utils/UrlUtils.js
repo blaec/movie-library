@@ -11,7 +11,7 @@ export const reactLinks = {
     actorMoviesEndpoint: "/actors/",
     actorMovies: "/actors/:actorId",
     nowPlaying: "/info/now-playing",
-    upcoming: "/info/upcoming",
+    anticipated: "/info/anticipated",
 };
 
 export const isSearchable = (pathname) => {
@@ -51,10 +51,16 @@ export const getNowPlayingUrl = (tmdbApi, showPage = 1) => {
     const params = {...{api_key: tmdbApi, page: showPage}};
     return `${url_endpoints.tmdb.movies.getNowPlaying}?${getParamsFrom(params)}`
 };
-1
-export const getUpcomingUrl = (tmdbApi, showPage = 1) => {
-    const params = {...{api_key: tmdbApi, page: showPage}};
-    return `${url_endpoints.tmdb.movies.upcoming}?${getParamsFrom(params)}`
+
+export const getAnticipatedUrl = (tmdbApi, showPage = 1) => {
+    let now = new Date();
+    let year = now.getFullYear();
+    let month = now.getMonth();
+    let day = now.getDate();
+    let from = new Date(year, month + 4, day).toISOString().split('T')[0];
+    let to = new Date(year + 2, month + 4, day).toISOString().split('T')[0];
+    const params = {...{api_key: tmdbApi, page: showPage, 'release_date.gte': from, 'release_date.lte': to}};
+    return `${url_endpoints.tmdb.movies.anticipated}?${getParamsFrom(params)}`
 };
 
 export const getOmdbMovieDetails = (imdbId, omdbApi) => {
@@ -123,7 +129,7 @@ const url_endpoints = {
         movies: {
             getDetails: 'https://api.themoviedb.org/3/movie/',
             getNowPlaying: 'https://api.themoviedb.org/3/movie/now_playing',
-            upcoming: 'https://api.themoviedb.org/3/movie/upcoming',
+            anticipated: 'https://api.themoviedb.org/3/discover/movie',
         },
         search: {
             getDetails: 'https://api.themoviedb.org/3/search/movie',

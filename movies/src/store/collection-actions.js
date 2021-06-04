@@ -1,5 +1,5 @@
 import axios from "../axios-movies";
-import {getDeleteUrl, getNowPlayingUrl, getUpcomingUrl, movieApi} from "../utils/UrlUtils";
+import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi} from "../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "./feedback-slice";
 import {uploadActions} from "./upload-slice";
@@ -101,12 +101,12 @@ export const fetchNowPlaying = (tmdbApi) => {
     };
 };
 
-export const fetchUpcoming = (tmdbApi) => {
+export const fetchAnticipated = (tmdbApi) => {
     return async (dispatch) => {
-        axios.get(getUpcomingUrl(tmdbApi))
+        axios.get(getAnticipatedUrl(tmdbApi))
             .then(response => {
                 const {data: {results}} = response;
-                const upcoming = results.map(movie => {
+                const anticipated = results.map(movie => {
                     const {id, poster_path, title, release_date} = movie;
                     return {
                         id: id + new Date().getTime(),
@@ -116,7 +116,7 @@ export const fetchUpcoming = (tmdbApi) => {
                         releaseDate: release_date
                     };
                 });
-                dispatch(collectionActions.setUpcoming(upcoming));
+                dispatch(collectionActions.setAnticipated(anticipated));
             })
             .catch(error => {
                 console.log(error);
