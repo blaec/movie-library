@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 
 import {filterActions} from "../../../store/filter-slice";
-import {searchable} from "../../../utils/UrlUtils";
+import {isSearchable} from "../../../utils/UrlUtils";
 
 import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 
 const search = () => {
     const {pathname} = useLocation();
-    const {root, searchIcon, inputRoot, inputInput} = useStyles(searchable.includes(pathname));
+    const {root, searchIcon, inputRoot, inputInput} = useStyles(isSearchable(pathname))
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));

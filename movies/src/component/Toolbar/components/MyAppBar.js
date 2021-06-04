@@ -3,7 +3,7 @@ import {useLocation} from "react-router";
 
 import Search from "./Search";
 import {drawer} from "../../../utils/Constants";
-import {searchable} from "../../../utils/UrlUtils";
+import {isSearchable} from "../../../utils/UrlUtils";
 
 import {AppBar, IconButton, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 const myAppBar = (props) => {
     const {onDrawerToggle} = props;
     const {pathname} = useLocation();
-    const {root, drawer, menuButton} = useStyles(searchable.includes(pathname));
+    const {root, drawer, menuButton} = useStyles(isSearchable(pathname));
 
     return (
         <AppBar
