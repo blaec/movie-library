@@ -4,6 +4,7 @@ const initialState = {
     movies: [],
     wishlist: [],
     filteredMovies: [],
+    nowPlaying: [],
 };
 
 const collectionSlice = createSlice({
@@ -18,6 +19,9 @@ const collectionSlice = createSlice({
         },
         setFilteredMovies(state, action) {
             state.filteredMovies = action.payload;
+        },
+        setNowPlaying(state, action) {
+            state.nowPlaying = action.payload;
         },
     }
 });
