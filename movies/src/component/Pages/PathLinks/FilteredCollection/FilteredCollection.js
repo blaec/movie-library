@@ -24,7 +24,7 @@ const filteredCollection = () => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
                 message: `Found ${filteredMovies.length} movies`,
-                type: 'success'
+                type: 'info'
             }));
         }
     }, [hasMovies])
