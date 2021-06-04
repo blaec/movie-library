@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyDelete from "../../../../../UI/Buttons/Icons/MyDelete";
+import MyWatch from "../../../../../UI/Buttons/Icons/MyWatch";
 import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
@@ -89,6 +90,7 @@ const backdropImage = props => {
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
                 <MyDelete onDelete={handleDeletedMovie}/>
+                <MyWatch onDelete={handleDeletedMovie}/>
                 <Carousel
                     timeout={TIMEOUT}
                     animation="fade"

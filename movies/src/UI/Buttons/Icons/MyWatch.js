@@ -1,15 +1,15 @@
 import React from 'react';
-
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {makeStyles} from "@material-ui/core/styles";
+import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
+import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'absolute',
         top: '5px',
-        left: '5px',
+        right: '50px',
         padding: '5px',
-        color: '#696969',
+        color: 'green',
         backgroundColor: 'rgba(255,255,255,0.7)',
         borderRadius: '50%',
         cursor: 'pointer',
@@ -17,16 +17,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const myArrowBack = (props) => {
-    const {onClose} = props;
+const myWatch = (props) => {
+    const {onDelete} = props;
     const {root} = useStyles();
 
     return (
-        <ArrowBackIcon
+        <VisibilityTwoToneIcon
             className={root}
             fontSize="large"
-            onClick={onClose}/>
+            onClick={onDelete}/>
     );
 };
 
-export default myArrowBack;
+export default myWatch;
