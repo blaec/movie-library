@@ -1,5 +1,5 @@
 import axios from "../axios-movies";
-import {getDeleteUrl, movieApi} from "../utils/UrlUtils";
+import {getDeleteUrl, getNowPlayingUrl, movieApi} from "../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "./feedback-slice";
 import {uploadActions} from "./upload-slice";
@@ -68,6 +68,33 @@ export const deleteMovie = (id) => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to deleted movie with id '${id}'`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const fetchNowPlaying = (tmdbApi) => {
+    return async (dispatch) => {
+        axios.get(getNowPlayingUrl(tmdbApi))
+            .then(response => {
+                const {data: {results}} = response;
+                const nowPlayingMovies = results.map(movie => {
+                    const {id, poster_path, title, release_date} = movie;
+                    return {
+                        id: id + new Date().getTime(),
+                        tmdbId: id,
+                        posterPath: poster_path,
+                        title,
+                        releaseDate: release_date
+                    };
+                });
+                dispatch(collectionActions.setNowPlaying(nowPlayingMovies));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to now playing movies`,
                     type: 'error'
                 }));
             });

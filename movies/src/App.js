@@ -15,9 +15,10 @@ const Upload = React.lazy(() => import('./component/Pages/MenuItems/Upload/Uploa
 const MovieDetails = React.lazy(() => import('./component/Pages/PathLinks/MovieDetails/MovieDetails'));
 const ActorMovies = React.lazy(() => import('./component/Pages/PathLinks/ActorMovies/ActorMovies'));
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
+const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
 
 const app = () => {
-    const {home, collection, filterByGenre, wishlist, filter, upload, movieDetails, actorMovies} = reactLinks;
+    const {home, collection, filterByGenre, wishlist, filter, upload, movieDetails, actorMovies, nowPlaying} = reactLinks;
 
     const dispatch = useDispatch();
 
@@ -37,6 +38,7 @@ const app = () => {
                     <Route path={wishlist} exact component={Wishlist}/>
                     <Route path={filter} exact component={Filter}/>
                     <Route path={upload} exact component={Upload}/>
+                    <Route path={nowPlaying} exact component={NowPlaying}/>
 
                     {/* Path links */}
                     <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
