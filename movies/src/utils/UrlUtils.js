@@ -1,3 +1,5 @@
+import {getFutureDate} from "./Utils";
+
 export const reactLinks = {
     home: "/movies/collection",
     collection: "/movies/collection",
@@ -53,13 +55,14 @@ export const getNowPlayingUrl = (tmdbApi, showPage = 1) => {
 };
 
 export const getAnticipatedUrl = (tmdbApi, showPage = 1) => {
-    let now = new Date();
-    let year = now.getFullYear();
-    let month = now.getMonth();
-    let day = now.getDate();
-    let from = new Date(year, month + 4, day).toISOString().split('T')[0];
-    let to = new Date(year + 2, month + 4, day).toISOString().split('T')[0];
-    const params = {...{api_key: tmdbApi, page: showPage, 'release_date.gte': from, 'release_date.lte': to}};
+    const params = {
+        ...{
+            api_key: tmdbApi,
+            page: showPage,
+            'release_date.gte': getFutureDate(0, 6),
+            'release_date.lte': getFutureDate(2, 6)
+        }
+    };
     return `${url_endpoints.tmdb.movies.anticipated}?${getParamsFrom(params)}`
 };
 
