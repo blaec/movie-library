@@ -92,8 +92,9 @@ const backdropImage = props => {
         }
     }, [saveResult]);
 
+    let hasMovieDetails = isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails);
     useEffect(() => {
-        if (isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails)) {
+        if (hasMovieDetails) {
             const {id} = tmdbMovieDetails;
             setIsInCollection(isMovieInCollection(movies.concat(wishlist), id));
         }
@@ -119,11 +120,14 @@ const backdropImage = props => {
         <React.Fragment>
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
-                <MyControlIcon
-                    isInCollection={isInCollection}
-                    onAddToWatch={handleAddToWatchMovie}
-                    onDelete={handleDeletedMovie}
-                />
+                {
+                    hasMovieDetails &&
+                    <MyControlIcon
+                        isInCollection={isInCollection}
+                        onAddToWatch={handleAddToWatchMovie}
+                        onDelete={handleDeletedMovie}
+                    />
+                }
                 <Carousel
                     timeout={CAROUSEL_TIMEOUT}
                     animation="fade"
