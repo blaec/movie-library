@@ -1,7 +1,6 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
-import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,7 +21,7 @@ const myWatch = (props) => {
     const {root} = useStyles();
 
     return (
-        <VisibilityTwoToneIcon
+        <FavoriteTwoToneIcon
             className={root}
             fontSize="large"
             onClick={onAddToWatch}/>
