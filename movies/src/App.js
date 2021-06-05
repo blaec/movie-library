@@ -11,6 +11,7 @@ import {fetchConfigs} from "./store/api-actions";
 import {isArrayExist} from "./utils/Utils";
 import {collectionActions} from "./store/collection-slice";
 
+const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
 const Filter = React.lazy(() => import('./component/Pages/MenuItems/Filter/Filter'));
 const Upload = React.lazy(() => import('./component/Pages/MenuItems/Upload/Upload'));
@@ -24,6 +25,7 @@ const app = () => {
     const {
         home,
         collection,
+        newMovies,
         filterByGenre,
         wishlist,
         filter,
@@ -57,6 +59,7 @@ const app = () => {
 
                     {/* Menu items */}
                     <Route path={collection} exact component={Collection}/>
+                    <Route path={newMovies} exact component={NewMovies}/>
                     <Route path={wishlist} exact component={Wishlist}/>
                     <Route path={filter} exact component={Filter}/>
                     <Route path={upload} exact component={Upload}/>

@@ -3,6 +3,7 @@ import {getFutureDate} from "./Utils";
 export const reactLinks = {
     home: "/movies/collection",
     collection: "/movies/collection",
+    newMovies: "/movies/new-movies",
     wishlist: "/movies/wishlist",
     filter: "/filter",
     filterByGenreEndpoint: "/movies/by-genre/",

@@ -6,6 +6,7 @@ import {reactLinks} from "../../../utils/UrlUtils";
 
 import {Divider, List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
+import MovieCreationTwoToneIcon from '@material-ui/icons/MovieCreationTwoTone';
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
@@ -33,6 +34,11 @@ const mainItemsData = [
         text: "Collection",
         link: reactLinks.collection,
         icon: <MovieFilterTwoToneIcon/>
+    },
+    {
+        text: "New Movies",
+        link: reactLinks.newMovies,
+        icon: <MovieCreationTwoToneIcon/>
     },
     {
         text: "Wishlist",
