@@ -3,6 +3,7 @@ import {getFutureDate} from "./Utils";
 export const reactLinks = {
     home: "/movies/collection",
     collection: "/movies/collection",
+    newMovies: "/movies/new-movies",
     wishlist: "/movies/wishlist",
     filter: "/filter",
     filterByGenreEndpoint: "/movies/by-genre/",
@@ -17,7 +18,8 @@ export const reactLinks = {
 };
 
 export const isSearchable = (pathname) => {
-    const searchable = [reactLinks.collection, reactLinks.wishlist, reactLinks.filterByGenreEndpoint];
+    const {collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated} = reactLinks;
+    const searchable = [collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated];
     return searchable.filter(url => pathname.startsWith(url)).length === 1;
 };
 

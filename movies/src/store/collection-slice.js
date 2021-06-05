@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     movies: [],
+    newMovies: [],
     wishlist: [],
     filteredMovies: [],
     nowPlaying: [],
@@ -14,6 +15,9 @@ const collectionSlice = createSlice({
     reducers: {
         setMoviesCollection(state, action) {
             state.movies = action.payload;
+        },
+        setNewMoviesCollection(state, action) {
+            state.newMovies = action.payload;
         },
         setWishlistCollection(state, action) {
             state.wishlist = action.payload;

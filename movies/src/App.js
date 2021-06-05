@@ -1,6 +1,6 @@
-import React, {useEffect, Suspense} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/MenuItems/Collection/Collection";
@@ -8,7 +8,10 @@ import MyLoader from "./UI/Spinners/MyLoader";
 import {reactLinks} from "./utils/UrlUtils";
 import {fetchMovies, fetchWishlist} from "./store/collection-actions";
 import {fetchConfigs} from "./store/api-actions";
+import {isArrayExist} from "./utils/Utils";
+import {collectionActions} from "./store/collection-slice";
 
+const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
 const Filter = React.lazy(() => import('./component/Pages/MenuItems/Filter/Filter'));
 const Upload = React.lazy(() => import('./component/Pages/MenuItems/Upload/Upload'));
@@ -22,6 +25,7 @@ const app = () => {
     const {
         home,
         collection,
+        newMovies,
         filterByGenre,
         wishlist,
         filter,
@@ -32,6 +36,7 @@ const app = () => {
         anticipated
     } = reactLinks;
 
+    const movies = useSelector(state => state.collection.movies);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -40,6 +45,13 @@ const app = () => {
         dispatch(fetchWishlist());
     }, []);
 
+    useEffect(() => {
+        if (isArrayExist(movies)) {
+            const newMovies = movies.filter(movie => movie.location.includes("d_music"));
+            dispatch(collectionActions.setNewMoviesCollection(newMovies));
+        }
+    }, [movies])
+
     let layout = (
         <Layout>
             <Suspense fallback={<MyLoader/>}>
@@ -47,6 +59,7 @@ const app = () => {
 
                     {/* Menu items */}
                     <Route path={collection} exact component={Collection}/>
+                    <Route path={newMovies} exact component={NewMovies}/>
                     <Route path={wishlist} exact component={Wishlist}/>
                     <Route path={filter} exact component={Filter}/>
                     <Route path={upload} exact component={Upload}/>

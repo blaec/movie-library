@@ -89,4 +89,8 @@ export const getFutureDate = (addYear, addMonth = 0, addDay = 0) => {
     const month = now.getMonth();
     const day = now.getDate();
     return new Date(year + addYear, month + addMonth, day + addDay).toISOString().split('T')[0];
-}
+};
+
+export const getNewMovies = () => {
+
+};

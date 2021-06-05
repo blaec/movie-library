@@ -6,6 +6,7 @@ import {reactLinks} from "../../../utils/UrlUtils";
 
 import {Divider, List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
+import MovieCreationTwoToneIcon from '@material-ui/icons/MovieCreationTwoTone';
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
@@ -35,14 +36,19 @@ const mainItemsData = [
         icon: <MovieFilterTwoToneIcon/>
     },
     {
-        text: "Wishlist",
-        link: reactLinks.wishlist,
-        icon: <FavoriteTwoToneIcon/>
+        text: "New Movies",
+        link: reactLinks.newMovies,
+        icon: <MovieCreationTwoToneIcon/>
     },
     {
         text: "Filter",
         link: reactLinks.filter,
         icon: <SearchTwoToneIcon/>
+    },
+    {
+        text: "Wishlist",
+        link: reactLinks.wishlist,
+        icon: <FavoriteTwoToneIcon/>
     },
 ];
 const settingsItemsData = [
@@ -72,9 +78,9 @@ const movieMenu = () => {
         <List>
             {getMenuItemsBlock(mainItemsData, pathname)}
             <Divider/>
-            {getMenuItemsBlock(settingsItemsData, pathname)}
-            <Divider/>
             {getMenuItemsBlock(infoItemsData, pathname)}
+            <Divider/>
+            {getMenuItemsBlock(settingsItemsData, pathname)}
         </List>
     )
 };
