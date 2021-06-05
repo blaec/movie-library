@@ -21,22 +21,25 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const myWatch = (props) => {
-    const {isInCollection, onAddToWatch} = props;
+const myControlIcon = (props) => {
+    const {isInCollection, onAddToWatch, onDelete} = props;
     const {root} = useStyles(isInCollection);
+
+    const iconButton = isInCollection
+        ? <DeleteTwoToneIcon
+            className={root}
+            fontSize="large"
+            onClick={onDelete}/>
+        : <FavoriteTwoToneIcon
+            className={root}
+            fontSize="large"
+            onClick={onAddToWatch}/>;
 
     return (
         <React.Fragment>
-            {!isInCollection && <FavoriteTwoToneIcon
-                className={root}
-                fontSize="large"
-                onClick={onAddToWatch}/>}
-            {isInCollection && <DeleteTwoToneIcon
-                className={root}
-                fontSize="large"
-                onClick={onAddToWatch}/>}
+            {iconButton}
         </React.Fragment>
     );
 };
 
-export default myWatch;
+export default myControlIcon;
