@@ -17,7 +17,7 @@ export const fetchMovies = () => {
                     message: `${error} | Failed to load movies`,
                     type: 'error'
                 }));
-            });0
+            });
     };
 };
 
