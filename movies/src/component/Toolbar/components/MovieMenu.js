@@ -41,14 +41,14 @@ const mainItemsData = [
         icon: <MovieCreationTwoToneIcon/>
     },
     {
-        text: "Wishlist",
-        link: reactLinks.wishlist,
-        icon: <FavoriteTwoToneIcon/>
-    },
-    {
         text: "Filter",
         link: reactLinks.filter,
         icon: <SearchTwoToneIcon/>
+    },
+    {
+        text: "Wishlist",
+        link: reactLinks.wishlist,
+        icon: <FavoriteTwoToneIcon/>
     },
 ];
 const settingsItemsData = [
@@ -78,9 +78,9 @@ const movieMenu = () => {
         <List>
             {getMenuItemsBlock(mainItemsData, pathname)}
             <Divider/>
-            {getMenuItemsBlock(settingsItemsData, pathname)}
-            <Divider/>
             {getMenuItemsBlock(infoItemsData, pathname)}
+            <Divider/>
+            {getMenuItemsBlock(settingsItemsData, pathname)}
         </List>
     )
 };
