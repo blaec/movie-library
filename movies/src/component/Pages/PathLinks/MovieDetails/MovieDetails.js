@@ -36,9 +36,6 @@ const movieDetails = () => {
         localStorage.removeItem('id')
         history.goBack();
     };
-    useEffect(() => {
-        dispatch(detailsActions.resetAll());
-    }, [])
 
     useEffect(() => {
         if (isStringsExist(movieId, tmdbApi)) {

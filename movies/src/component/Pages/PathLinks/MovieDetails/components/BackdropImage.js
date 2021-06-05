@@ -97,7 +97,7 @@ const backdropImage = props => {
             const {id} = tmdbMovieDetails;
             setIsInCollection(isMovieInCollection(movies.concat(wishlist), id));
         }
-    }, [movies, wishlist, tmdbMovieDetails])
+    }, [movies, wishlist, tmdbMovieDetails]);
 
     let backdropImages = <MyLoader/>
     if (isObjectExist(tmdbMovieDetails)) {
