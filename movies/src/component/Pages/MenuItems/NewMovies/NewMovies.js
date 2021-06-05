@@ -1,11 +1,9 @@
 import React from 'react';
 
+import useGallery from "../../../../hooks/use-gallery";
+
 const newMovies = () => {
-    return (
-        <div>
-            <p>NEW MOVIES</p>
-        </div>
-    );
+    return useGallery("newMovies");
 };
 
 export default newMovies;
