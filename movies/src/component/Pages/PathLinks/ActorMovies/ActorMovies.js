@@ -6,7 +6,7 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
-import {isArrayExist, isObjectsExist, isStringExist} from "../../../../utils/Utils";
+import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails} from "../../../../store/details-actions";
 
 import {List, makeStyles, Typography} from "@material-ui/core";
@@ -89,8 +89,6 @@ const actorMovies = () => {
                 return new Date(getDate(a)) < new Date(getDate(b)) ? 1 : -1;
             });
 
-
-        let moviesIds = movies.map(movie => +movie.tmdbId);
         allMovies = (
             <React.Fragment>
                 <div className={sticky}>
@@ -104,7 +102,7 @@ const actorMovies = () => {
                     {movieList.map(movie =>
                         <ActorMovie key={movie.id}
                                     {...movie}
-                                    exist={moviesIds.includes(movie.id)}/>)
+                                    exist={isMovieInCollection(movies, movie.id)}/>)
                     }
                 </div>
             </React.Fragment>
