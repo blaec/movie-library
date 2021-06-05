@@ -10,6 +10,7 @@ import {fetchMovies, fetchWishlist} from "./store/collection-actions";
 import {fetchConfigs} from "./store/api-actions";
 import {isArrayExist} from "./utils/Utils";
 import {collectionActions} from "./store/collection-slice";
+import {detailsActions} from "./store/details-slice";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
@@ -67,7 +68,10 @@ const app = () => {
                     <Route path={anticipated} exact component={Anticipated}/>
 
                     {/* Path links */}
-                    <Route path={movieDetails} exact component={props => <MovieDetails {...props}/>}/>
+                    <Route path={movieDetails} exact component={props => {
+                        dispatch(detailsActions.resetAll());
+                        return <MovieDetails {...props}/>
+                    }}/>
                     <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
                     <Route path={filterByGenre} exact component={props => <FilteredCollection {...props}/>}/>
 

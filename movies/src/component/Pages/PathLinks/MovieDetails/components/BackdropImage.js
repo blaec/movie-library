@@ -2,8 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
-import MyDelete from "../../../../../UI/Buttons/Icons/MyDelete";
-import MyWatch from "../../../../../UI/Buttons/Icons/MyWatch";
+import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
@@ -17,7 +16,7 @@ import {saveWishMovie} from "../../../../../store/upload-actions";
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
 
-const TIMEOUT = 300;
+const CAROUSEL_TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
 
 const useStyles = makeStyles((theme) => ({
@@ -93,12 +92,13 @@ const backdropImage = props => {
         }
     }, [saveResult]);
 
+    let hasMovieDetails = isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails);
     useEffect(() => {
-        if (isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails)) {
+        if (hasMovieDetails) {
             const {id} = tmdbMovieDetails;
             setIsInCollection(isMovieInCollection(movies.concat(wishlist), id));
         }
-    }, [movies, wishlist, tmdbMovieDetails])
+    }, [movies, wishlist, tmdbMovieDetails]);
 
     let backdropImages = <MyLoader/>
     if (isObjectExist(tmdbMovieDetails)) {
@@ -120,16 +120,16 @@ const backdropImage = props => {
         <React.Fragment>
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
-                <MyWatch
-                    disabled={isInCollection}
-                    onAddToWatch={handleAddToWatchMovie}
-                />
-                <MyDelete
-                    disabled={!isInCollection}
-                    onDelete={handleDeletedMovie}
-                />
+                {
+                    hasMovieDetails &&
+                    <MyControlIcon
+                        isInCollection={isInCollection}
+                        onAddToWatch={handleAddToWatchMovie}
+                        onDelete={handleDeletedMovie}
+                    />
+                }
                 <Carousel
-                    timeout={TIMEOUT}
+                    timeout={CAROUSEL_TIMEOUT}
                     animation="fade"
                     navButtonsAlwaysInvisible
                 >
