@@ -1,3 +1,5 @@
+import {getFutureDate} from "./Utils";
+
 export const reactLinks = {
     home: "/movies/collection",
     collection: "/movies/collection",
@@ -10,7 +12,8 @@ export const reactLinks = {
     movieDetails: "/movies/:movieId",
     actorMoviesEndpoint: "/actors/",
     actorMovies: "/actors/:actorId",
-    nowPlaying: "/info/now-playing"
+    nowPlaying: "/info/now-playing",
+    anticipated: "/info/anticipated",
 };
 
 export const isSearchable = (pathname) => {
@@ -46,9 +49,21 @@ export const getMovieDetailsUrl = (id, tmdbApi) => {
     return `${url_endpoints.tmdb.movies.getDetails}${id}?${getParamsFrom(params)}`
 };
 
-export const getNowPlayingUrl = (tmdbApi) => {
-    const params = {...{api_key: tmdbApi}};
+export const getNowPlayingUrl = (tmdbApi, showPage = 1) => {
+    const params = {...{api_key: tmdbApi, page: showPage}};
     return `${url_endpoints.tmdb.movies.getNowPlaying}?${getParamsFrom(params)}`
+};
+
+export const getAnticipatedUrl = (tmdbApi, showPage = 1) => {
+    const params = {
+        ...{
+            api_key: tmdbApi,
+            page: showPage,
+            'release_date.gte': getFutureDate(0, 6),
+            'release_date.lte': getFutureDate(2, 6)
+        }
+    };
+    return `${url_endpoints.tmdb.movies.anticipated}?${getParamsFrom(params)}`
 };
 
 export const getOmdbMovieDetails = (imdbId, omdbApi) => {
@@ -112,20 +127,21 @@ const url_endpoints = {
     // used original tmdb-api menu structure
     tmdb: {
         gettingStarted: {
-            images: 'http://image.tmdb.org/t/p/original'
+            images: 'http://image.tmdb.org/t/p/original',
         },
         movies: {
             getDetails: 'https://api.themoviedb.org/3/movie/',
-            getNowPlaying: 'https://api.themoviedb.org/3/movie/now_playing'
+            getNowPlaying: 'https://api.themoviedb.org/3/movie/now_playing',
+            anticipated: 'https://api.themoviedb.org/3/discover/movie',
         },
         search: {
-            getDetails: 'https://api.themoviedb.org/3/search/movie'
+            getDetails: 'https://api.themoviedb.org/3/search/movie',
         },
         genres: {
-            getMovieList: 'https://api.themoviedb.org/3/genre/movie/list'
+            getMovieList: 'https://api.themoviedb.org/3/genre/movie/list',
         },
         people: {
-            getDetails: 'https://api.themoviedb.org/3/person/'
+            getDetails: 'https://api.themoviedb.org/3/person/',
         },
     },
     omdb: {

@@ -10,6 +10,7 @@ import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
+import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
     return  itemsData.map((item, index) => {
@@ -56,6 +57,11 @@ const infoItemsData = [
         text: "Now Playing",
         link: reactLinks.nowPlaying,
         icon: <PlayCircleFilledWhiteTwoToneIcon/>
+    },
+    {
+        text: "Anticipated",
+        link: reactLinks.anticipated,
+        icon: <HourglassFullTwoToneIcon/>
     },
 ];
 

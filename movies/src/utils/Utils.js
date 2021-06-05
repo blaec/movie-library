@@ -82,3 +82,11 @@ export const getMovieById = (movies, tmdbId) => {
 export const stripString = (str) => {
     return str.replace(/\s/g, '').replace(/-/g, '').toLowerCase();
 };
+
+export const getFutureDate = (addYear, addMonth = 0, addDay = 0) => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth();
+    const day = now.getDate();
+    return new Date(year + addYear, month + addMonth, day + addDay).toISOString().split('T')[0];
+}

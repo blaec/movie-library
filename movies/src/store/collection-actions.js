@@ -1,5 +1,5 @@
 import axios from "../axios-movies";
-import {getDeleteUrl, getNowPlayingUrl, movieApi} from "../utils/UrlUtils";
+import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi} from "../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "./feedback-slice";
 import {uploadActions} from "./upload-slice";
@@ -17,7 +17,7 @@ export const fetchMovies = () => {
                     message: `${error} | Failed to load movies`,
                     type: 'error'
                 }));
-            });
+            });0
     };
 };
 
@@ -76,27 +76,37 @@ export const deleteMovie = (id) => {
 
 export const fetchNowPlaying = (tmdbApi) => {
     return async (dispatch) => {
-        axios.get(getNowPlayingUrl(tmdbApi))
-            .then(response => {
-                const {data: {results}} = response;
-                const nowPlayingMovies = results.map(movie => {
-                    const {id, poster_path, title, release_date} = movie;
-                    return {
-                        id: id + new Date().getTime(),
-                        tmdbId: id,
-                        posterPath: poster_path,
-                        title,
-                        releaseDate: release_date
-                    };
-                });
-                dispatch(collectionActions.setNowPlaying(nowPlayingMovies));
-            })
-            .catch(error => {
-                console.log(error);
-                dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to now playing movies`,
-                    type: 'error'
-                }));
+        fetchByPage(dispatch, getNowPlayingUrl(tmdbApi), "setNowPlaying", "Failed getting now playing movies");
+    }
+};
+
+export const fetchAnticipated = (tmdbApi) => {
+    return async (dispatch) => {
+        fetchByPage(dispatch, getAnticipatedUrl(tmdbApi), "setAnticipated", "Failed getting anticipated movies");
+    }
+};
+
+const fetchByPage = (dispatch, url, fetchType, errMessage) => {
+    axios.get(url)
+        .then(response => {
+            const {data: {results}} = response;
+            const movies = results.map(movie => {
+                const {id, poster_path, title, release_date} = movie;
+                return {
+                    id: id + new Date().getTime(),
+                    tmdbId: id,
+                    posterPath: poster_path,
+                    title,
+                    releaseDate: release_date
+                };
             });
-    };
+            dispatch(collectionActions[fetchType](movies));
+        })
+        .catch(error => {
+            console.log(error);
+            dispatch(feedbackActions.setSnackbar({
+                message: `${error} | ${errMessage}`,
+                type: 'error'
+            }));
+        });
 };
