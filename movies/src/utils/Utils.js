@@ -70,6 +70,11 @@ export const isArrayExist = (array) => {
     return array.length > 0;
 };
 
+export const isArraysExist = (...arrays) => {
+    return arrays.filter(array => isArrayExist(array))
+        .length === arrays.length;
+};
+
 export const getMovieById = (movies, tmdbId) => {
     return movies.find(movie => movie.tmdbId === tmdbId) || {};
 };
