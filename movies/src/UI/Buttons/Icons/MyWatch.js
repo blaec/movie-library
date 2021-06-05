@@ -1,28 +1,33 @@
 import React from 'react';
 import {makeStyles} from "@material-ui/core/styles";
-import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
-import VisibilityTwoToneIcon from '@material-ui/icons/VisibilityTwoTone';
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        position: 'absolute',
-        top: '5px',
-        right: '60px',
-        padding: '5px',
-        color: 'green',
-        backgroundColor: 'rgba(255,255,255,0.7)',
-        borderRadius: '50%',
-        cursor: 'pointer',
-        zIndex: 1,
+    root: disabled => {
+        const opacity = disabled ? '33%' : '100%';
+        const pointerEvents = disabled ? 'none' : null;
+        return {
+            pointerEvents,
+            opacity,
+            position: 'absolute',
+            top: '5px',
+            right: '60px',
+            padding: '5px',
+            color: 'green',
+            backgroundColor: 'rgba(255,255,255,0.7)',
+            borderRadius: '50%',
+            cursor: 'pointer',
+            zIndex: 1,
+        };
     }
 }));
 
 const myWatch = (props) => {
-    const {onAddToWatch} = props;
-    const {root} = useStyles();
+    const {disabled, onAddToWatch} = props;
+    const {root} = useStyles(disabled);
 
     return (
-        <VisibilityTwoToneIcon
+        <FavoriteTwoToneIcon
             className={root}
             fontSize="large"
             onClick={onAddToWatch}/>

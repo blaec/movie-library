@@ -8,14 +8,14 @@ import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import {drawer} from "../../../../../utils/Constants";
-import {deleteMovie} from "../../../../../store/collection-actions";
-import {fullTitle, getMovieById, isObjectExist} from "../../../../../utils/Utils";
+import {fullTitle, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
 import {feedbackActions} from "../../../../../store/feedback-slice";
+import {deleteMovie} from "../../../../../store/collection-actions";
+import {saveWishMovie} from "../../../../../store/upload-actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
-import {saveWishMovie} from "../../../../../store/upload-actions";
 
 const TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
@@ -31,9 +31,12 @@ const backdropImage = props => {
     const {onClose} = props;
     const {root} = useStyles();
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isInCollection, setIsInCollection] = useState(false);
 
     const saveResult = useSelector(state => state.upload.result);
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
+    const movies = useSelector(state => state.collection.movies);
+    const wishlist = useSelector(state => state.collection.wishlist);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -88,7 +91,14 @@ const backdropImage = props => {
                 dispatch(uploadActions.setResult({}));
             }
         }
-    }, [saveResult])
+    }, [saveResult]);
+
+    useEffect(() => {
+        if (isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails)) {
+            const {id} = tmdbMovieDetails;
+            setIsInCollection(isMovieInCollection(movies.concat(wishlist), id));
+        }
+    }, [movies, wishlist, tmdbMovieDetails])
 
     let backdropImages = <MyLoader/>
     if (isObjectExist(tmdbMovieDetails)) {
@@ -110,8 +120,14 @@ const backdropImage = props => {
         <React.Fragment>
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
-                <MyDelete onDelete={handleDeletedMovie}/>
-                <MyWatch onAddToWatch={handleAddToWatchMovie}/>
+                <MyWatch
+                    disabled={isInCollection}
+                    onAddToWatch={handleAddToWatchMovie}
+                />
+                <MyDelete
+                    disabled={!isInCollection}
+                    onDelete={handleDeletedMovie}
+                />
                 <Carousel
                     timeout={TIMEOUT}
                     animation="fade"

@@ -70,6 +70,11 @@ export const isArrayExist = (array) => {
     return array.length > 0;
 };
 
+export const isArraysExist = (...arrays) => {
+    return arrays.filter(array => isArrayExist(array))
+        .length === arrays.length;
+};
+
 export const getMovieById = (movies, tmdbId) => {
     return movies.find(movie => movie.tmdbId === tmdbId) || {};
 };
@@ -91,6 +96,6 @@ export const getFutureDate = (addYear, addMonth = 0, addDay = 0) => {
     return new Date(year + addYear, month + addMonth, day + addDay).toISOString().split('T')[0];
 };
 
-export const getNewMovies = () => {
-
+export const isMovieInCollection = (collection, id) => {
+    return collection.map(movie => +movie.tmdbId).includes(id);
 };
