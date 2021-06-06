@@ -44,8 +44,6 @@ public class MovieController {
 
     @PostMapping("/upload/{folder}")
     public Response scanFolder(@PathVariable String folder) {
-        Response response;
-        int moviesSaved = 0;
 
         // Get all from database
         Iterable<Movie> dbMovies = movieService.getAll();
@@ -53,25 +51,38 @@ public class MovieController {
         // get all movie files from folder
         List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
         // Save only new movies to database
+        int successCount = 0;
+        int failCount = 0;
         for (MovieFileTo movieFile : movieFiles) {
             Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
             if (dbMovie != null) {
                 // TODO temporarily commented
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
             } else {
-                movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
-                moviesSaved++;
+                Response saveResult = movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
+                if (saveResult.isSuccess()) {
+                    successCount++;
+                } else {
+                    failCount++;
+                }
             }
         }
+
+        Response response;
         if (movieFiles.size() == 0) {
             String message = String.format("Folder %s holds no movie files", folder);
             log.warn(message);
             response = Response.create(false, message);
         } else {
-            String message = moviesSaved == 0
-                ? "No movie saved"
-                : String.format("Successfully saved %d out of %d movies from folder '%s'", moviesSaved, movieFiles.size(), folder);
-            response = Response.create(moviesSaved > 0, message);
+            String message = "No movie saved";
+            if (successCount > 0 && failCount > 0) {
+                message = String.format("Successfully saved %d and failed %d out of %d movies from folder '%s'", successCount, failCount, movieFiles.size(), folder);
+            } else if (successCount > 0) {
+                message = String.format("Successfully saved %d out of %d movies from folder '%s'", successCount, movieFiles.size(), folder);
+            } else if (failCount > 0) {
+                message = String.format("All failed %d out of %d movies from folder '%s'", failCount, movieFiles.size(), folder);
+            }
+            response = Response.create(successCount > 0, message);
         }
 
         // TODO return list of fails and stats
