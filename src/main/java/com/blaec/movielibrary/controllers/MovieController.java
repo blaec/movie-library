@@ -91,7 +91,8 @@ public class MovieController {
 
     @PostMapping("/upload/file")
     public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
-        Response response;
+        String message = "Not found at all or more than one movie found";
+        Response.Builder responseBuilder = Response.Builder.create(message);
 
         // Get all files from folder, where upload movie is searched, that match upload movie file name
         // Could be more than one (files with the same name from different sub-folders)
@@ -101,16 +102,15 @@ public class MovieController {
 
         // Save if file found and there are no duplicates
         if (filteredMovieFiles.size() != 1) {
-            String message = "Not found at all or more than one movie found";
             log.warn("{} '{}'", message, uploadMovie);
-            response = Response.create(false, message);
+            responseBuilder.setFail();
         } else {
             MovieFileTo movieFile = filteredMovieFiles.get(0);
             TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId());
-            response = movieService.save(movieJson, movieFile).build();
+            responseBuilder = movieService.save(movieJson, movieFile);
         }
 
-        return response;
+        return responseBuilder.build();
     }
 
     @PostMapping("/upload/wish")
