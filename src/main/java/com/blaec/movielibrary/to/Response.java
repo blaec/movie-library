@@ -33,15 +33,22 @@ public class Response {
     public static class Builder{
         private Integer id;
         private String title;
-        private boolean isSuccess;
+        private boolean isSuccess = true;
         private String message;
 
         private Builder(){
-            this.isSuccess = true;
+        }
+
+        private Builder(String message){
+            this.message = message;
         }
 
         public static Builder create() {
             return new Builder();
+        }
+
+        public static Builder create(String message) {
+            return new Builder(message);
         }
 
         public Builder setFail() {

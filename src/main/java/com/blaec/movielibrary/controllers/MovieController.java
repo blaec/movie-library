@@ -59,7 +59,7 @@ public class MovieController {
                 // TODO temporarily commented
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
             } else {
-                Response saveResult = movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
+                Response saveResult = movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile).build();
                 if (saveResult.isSuccess()) {
                     successCount++;
                 } else {
@@ -107,7 +107,7 @@ public class MovieController {
         } else {
             MovieFileTo movieFile = filteredMovieFiles.get(0);
             TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId());
-            response = movieService.save(movieJson, movieFile);
+            response = movieService.save(movieJson, movieFile).build();
         }
 
         return response;

@@ -58,29 +58,19 @@ public class MovieService {
      * @param movieJson json movie
      * @param movieFile file movie
      */
-    public Response save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
-        Response response = Response.create(false, "null passed");
+    public Response.Builder save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
+        Response.Builder responseBuilder = Response.Builder.create("null passed");
 
-        if (MovieUtils.isNullSave(movieJson, movieFile.toString())) {
+        if (MovieUtils.isNullSafe(movieJson, movieFile.toString())) {
             Movie newMovie = Movie.of(movieJson, movieFile);
-            try {
-                // FIXME not correct check
-                if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
-                    log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
-                }
-                Movie savedMovie = movieRepository.save(newMovie);
-                log.info("saved | {}", savedMovie);
-                response = Response.create(true, "Successfully saved");
-            } catch (DataIntegrityViolationException e) {
-                log.error("this movie [{}] already exist", newMovie);
-                response = Response.create(false, "Already exist");
-            } catch (Exception e) {
-                log.error(movieFile.toString(), e);
-                response = Response.create(false, e.getMessage());
+            // FIXME not correct check
+            if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
+                log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
             }
+            responseBuilder = trySave(responseBuilder, newMovie);
         }
 
-        return response;
+        return responseBuilder;
     }
 
     /**
@@ -92,6 +82,11 @@ public class MovieService {
         Response.Builder responseBuilder = Response.Builder.create();
         Movie newMovie = Movie.fromJson(wishMovie);
         newMovie.setType(Type.wish_list);
+
+        return trySave(responseBuilder, newMovie).build();
+    }
+
+    private Response.Builder trySave(Response.Builder responseBuilder, Movie newMovie) {
         try {
             Movie savedMovie = movieRepository.save(newMovie);
             log.info("saved | {}", savedMovie);
@@ -100,12 +95,13 @@ public class MovieService {
             log.error("this movie [{}] already exist", newMovie);
             responseBuilder.setMovie(newMovie).setFail().setMessage("Already exist");
         } catch (Exception e) {
-            log.error(wishMovie.toString(), e);
+            log.error(newMovie.toString(), e);
             responseBuilder.setMovie(newMovie).setFail().setMessage(e.getMessage());
         }
 
-        return responseBuilder.build();
+        return responseBuilder;
     }
+
 
     /**
      * Delete movie from db
