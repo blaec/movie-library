@@ -14,22 +14,6 @@ public class Response {
     private final boolean isSuccess;
     private final String message;
 
-    public static Response create(Integer id, String title, boolean isSuccess, String message) {
-        return new Response(id, title, isSuccess, message);
-    }
-
-    public static Response create(boolean isSuccess, String message) {
-        return new Response(null, null, isSuccess, message);
-    }
-
-    public static Response create(String title, boolean isSuccess, String message) {
-        return new Response(null, title, isSuccess, message);
-    }
-
-    public static Response create(Movie movie, boolean isSuccess, String message) {
-        return new Response(movie.getId(), movie.getTitle(), isSuccess, message);
-    }
-
     public static class Builder{
         private Integer id;
         private String title;
