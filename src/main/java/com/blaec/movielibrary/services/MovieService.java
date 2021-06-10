@@ -89,22 +89,22 @@ public class MovieService {
      * @param wishMovie wish movie object
      */
     public Response save(TmdbResult.TmdbMovie wishMovie) {
-        Response response;
+        Response.Builder responseBuilder = Response.Builder.create();
         Movie newMovie = Movie.fromJson(wishMovie);
         newMovie.setType(Type.wish_list);
         try {
             Movie savedMovie = movieRepository.save(newMovie);
             log.info("saved | {}", savedMovie);
-            response = Response.create(true, "Successfully saved");
+            responseBuilder.setMovie(savedMovie).setMessage("Successfully saved");
         } catch (DataIntegrityViolationException e) {
             log.error("this movie [{}] already exist", newMovie);
-            response = Response.create(false, "Already exist");
+            responseBuilder.setMovie(newMovie).setFail().setMessage("Already exist");
         } catch (Exception e) {
             log.error(wishMovie.toString(), e);
-            response = Response.create(false, e.getMessage());
+            responseBuilder.setMovie(newMovie).setFail().setMessage(e.getMessage());
         }
 
-        return response;
+        return responseBuilder.build();
     }
 
     /**
