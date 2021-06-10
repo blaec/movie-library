@@ -109,31 +109,31 @@ public class MovieService {
      * @param id id for deleted movie
      */
     public Response delete(Integer id) {
-        Response response;
+        Response.Builder responseBuilder = Response.Builder.create();
 
         try {
             Movie movie = movieRepository.findById(id).orElse(null);
             if (movie == null) {
                 String message = String.format("No movie with id %d exists", id);
                 log.warn(message);
-                response = Response.create(false, message);
+                responseBuilder.setFail().setMessage(message);
             } else {
                 movieRepository.deleteById(id);
                 String message = String.format("Movie %s with id %d deleted", movie, id);
                 log.info(message);
-                response = Response.create(true, message);
+                responseBuilder.setMessage(message);
             }
         } catch (IllegalArgumentException e) {
             String message = String.format("Can't delete movie, wrong id: %d", id);
             log.error(message, e);
-            response = Response.create(false, message);
+            responseBuilder.setFail().setMessage(message);
         } catch (Exception e) {
             String message = String.format("Failed deleting movie by id: %d", id);
             log.error("Failed deleting movie by id: {}", id, e);
-            response = Response.create(false, message);
+            responseBuilder.setFail().setMessage(message);
         }
 
-        return response;
+        return responseBuilder.build();
     }
 
     // TODO currently not in use
