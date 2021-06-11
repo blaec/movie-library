@@ -52,8 +52,8 @@ public class Movie{
     @Column(name="frame_rate")
     private Integer frameRate;
 
-    @Column(name="created_date")
-    @NonNull private LocalDate createdDate = LocalDate.now();
+    @Column(name="creation_date")
+    @NonNull private LocalDate creationDate = LocalDate.now();
 
     /**
      * Creates Wish-Movie object from Movie Json Object
