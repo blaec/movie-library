@@ -44,7 +44,7 @@ public class Movie{
 
     @Column(name="file_name")
     @NonNull private String fileName;
-    private Double size;
+    private Double size = 0d;
     private String location;
     private String description;
 
