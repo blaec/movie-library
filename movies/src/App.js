@@ -21,6 +21,7 @@ const ActorMovies = React.lazy(() => import('./component/Pages/PathLinks/ActorMo
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
 const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
 const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
+const History = React.lazy(() => import('./component/Pages/MenuItems/History'));
 
 const app = () => {
     const {
@@ -34,7 +35,8 @@ const app = () => {
         movieDetails,
         actorMovies,
         nowPlaying,
-        anticipated
+        anticipated,
+        history,
     } = reactLinks;
 
     const movies = useSelector(state => state.collection.movies);
@@ -66,6 +68,7 @@ const app = () => {
                     <Route path={upload} exact component={Upload}/>
                     <Route path={nowPlaying} exact component={NowPlaying}/>
                     <Route path={anticipated} exact component={Anticipated}/>
+                    <Route path={history} exact component={History}/>
 
                     {/* Path links */}
                     <Route path={movieDetails} exact component={props => {
