@@ -10,7 +10,7 @@ import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/feedback-slice";
 import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/upload-actions";
-import {isObjectExist} from "../../../../../../utils/Utils";
+import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 
 import {
     Card,
@@ -24,6 +24,7 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import {Loader} from "../../../../../../utils/Constants";
+import {uploadActions} from "../../../../../../store/upload-slice";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -34,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const fileLoader = () => {
     const {divider} = useStyles();
     const saveResult = useSelector(state => state.upload.result);
+    const saveResults = useSelector(state => state.upload.results);
     const loader = useSelector(state => state.upload.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
@@ -66,29 +68,48 @@ const fileLoader = () => {
     useEffect(() => {
         if (isObjectExist(saveResult) && loader === Loader.folderScan) {
             setIsLoading(false);
-            const {message, success} = saveResult;
-            let info;
-            let type;
-            if (isSingleMovieUpload) {
-                info = success
-                    ? `Uploading ${fileName} from ${fileLocation} folder: ${message}`
-                    : `Failed upload movie '${fileName}' from ${fileLocation} folder: ${message}`;
-                type = success ? 'success' : 'error';
-            } else {
-                info = success
-                    ? `${message}`
-                    : `Failed to upload movies from ${fileLocation} folder: ${message}`;
-                type = success ? 'success' : 'error';
-            }
+            const {title, message, success} = saveResult;
+            let info = success
+                ? `Uploading ${fileName} from ${fileLocation} folder: ${message} as ${title}`
+                : `Failed upload movie '${fileName}' from ${fileLocation} folder: ${message}`;
+            let type = success ? 'success' : 'error';
             onSetSnackbar({message: info, type: type});
             resetForm();
         }
     }, [saveResult])
 
+    useEffect(() => {
+        if (isArrayExist(saveResults) && loader === Loader.folderScan) {
+            setIsLoading(false);
+            let resultCount = saveResults.length;
+            let alreadyExistCount = saveResults.filter(result => result.message === 'already exist').length
+            let successCount = saveResults.filter(result => result.success).length;
+            let failCount = saveResults.filter(result => !result.success).length - alreadyExistCount;
+
+            let type = 'error';
+            let info = `Failed to upload movies from ${fileLocation}`;
+            if (alreadyExistCount === resultCount) {
+                type = 'info';
+                info = `No new movie found in ${fileLocation}`;
+            } else if (successCount > 0 && failCount > 0) {
+                type = 'warn';
+                info = `Successfully uploaded ${successCount} movies and ${failCount} failed from ${fileLocation}`;
+            } else if (successCount > 0) {
+                type = 'success';
+                info = `Successfully uploaded ${successCount} movies from ${fileLocation}`;
+            }
+
+            onSetSnackbar({message: info, type: type});
+            resetForm();
+        }
+    }, [saveResults])
+
     const resetForm = () => {
         setFileLocation('');
         tmdbIdRef.current.value = '';
         fileNameRef.current.value = '';
+        dispatch(uploadActions.setResult({}));
+        dispatch(uploadActions.setResults([]));
     };
 
     const handleChooseLocation = (event) => {

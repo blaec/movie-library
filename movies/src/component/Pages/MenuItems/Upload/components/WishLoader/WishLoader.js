@@ -40,7 +40,6 @@ const wishLoader = () => {
     const handleChangeSelectedWishMovie = (current) => {
         setSelectedWishMovie(wishMovies[current]);
     };
-    console.log(wishMovies);
     const handleSaveWishMovie = () => {
         setIsLoading(true);
         dispatch(saveWishMovie(selectedWishMovie));
@@ -78,8 +77,7 @@ const wishLoader = () => {
     useEffect(() => {
         if (selectedWishMovie && isObjectExist(saveResult)) {
             setIsLoading(false);
-            const {message, success} = saveResult;
-            const {title} = selectedWishMovie;
+            const {title, message, success} = saveResult;
             if (success) {
                 onSetSnackbar({message: `Movie '${title}' added to wishlist`, type: 'success'});
             } else {

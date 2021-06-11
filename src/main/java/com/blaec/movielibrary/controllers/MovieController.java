@@ -59,7 +59,7 @@ public class MovieController {
             if (dbMovie != null) {
                 // TODO temporarily commented
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
-                responses.add(Response.Builder.create().setMovie(dbMovie).setFail().setMessage("aready exist").build());
+                responses.add(Response.Builder.create().setMovie(dbMovie).setFail().setMessage("already exist").build());
             } else {
                 responses.add(movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile).build());
             }
