@@ -59,7 +59,7 @@ public class MovieService {
      * @param movieFile file movie
      */
     public Response.Builder save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
-        Response.Builder responseBuilder = Response.Builder.create("null passed");
+        Response.Builder responseBuilder = Response.Builder.create("passed null json object");
 
         if (MovieUtils.isNullSafe(movieJson, movieFile.toString())) {
             Movie newMovie = Movie.of(movieJson, movieFile);
@@ -80,8 +80,7 @@ public class MovieService {
      */
     public Response save(TmdbResult.TmdbMovie wishMovie) {
         Response.Builder responseBuilder = Response.Builder.create();
-        Movie newMovie = Movie.fromJson(wishMovie);
-        newMovie.setType(Type.wish_list);
+        Movie newMovie = Movie.fromJson(wishMovie).assignType(Type.wish_list);
 
         return trySave(responseBuilder, newMovie).build();
     }
@@ -101,7 +100,6 @@ public class MovieService {
 
         return responseBuilder;
     }
-
 
     /**
      * Delete movie from db
