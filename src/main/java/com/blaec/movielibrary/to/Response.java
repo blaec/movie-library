@@ -10,12 +10,14 @@ import lombok.Getter;
 public class Response {
     // TODO for some reason React replaces isSomething to something
     private final Integer id;
+    private final String tmbdId;
     private final String title;
     private final boolean isSuccess;
     private final String message;
 
     public static class Builder{
         private Integer id;
+        private String tmbdId;
         private String title;
         private boolean isSuccess = true;
         private String message;
@@ -35,6 +37,18 @@ public class Response {
             return new Builder(message);
         }
 
+        public Builder setMovie(Movie movie) {
+            this.id = movie.getId();
+            this.tmbdId = movie.getTmdbId();
+            this.title = movie.getTitle();
+            return this;
+        }
+
+        public Builder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
         public Builder setFail() {
             this.isSuccess = false;
             return this;
@@ -45,14 +59,8 @@ public class Response {
             return this;
         }
 
-        public Builder setMovie(Movie movie) {
-            this.id = movie.getId();
-            this.title = movie.getTitle();
-            return this;
-        }
-
         public Response build() {
-            return new Response(id, title, isSuccess, message);
+            return new Response(id, tmbdId, title, isSuccess, message);
         }
     }
 }

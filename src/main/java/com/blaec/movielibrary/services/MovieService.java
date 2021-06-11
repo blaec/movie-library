@@ -114,21 +114,21 @@ public class MovieService {
             if (movie == null) {
                 String message = String.format("No movie with id %d exists", id);
                 log.warn(message);
-                responseBuilder.setFail().setMessage(message);
+                responseBuilder.setId(id).setFail().setMessage(message);
             } else {
                 movieRepository.deleteById(id);
                 String message = String.format("Movie %s with id %d deleted", movie, id);
                 log.info(message);
-                responseBuilder.setMessage(message);
+                responseBuilder.setMovie(movie).setMessage(message);
             }
         } catch (IllegalArgumentException e) {
             String message = String.format("Can't delete movie, wrong id: %d", id);
             log.error(message, e);
-            responseBuilder.setFail().setMessage(message);
+            responseBuilder.setId(id).setFail().setMessage(message);
         } catch (Exception e) {
             String message = String.format("Failed deleting movie by id: %d", id);
             log.error("Failed deleting movie by id: {}", id, e);
-            responseBuilder.setFail().setMessage(message);
+            responseBuilder.setId(id).setFail().setMessage(message);
         }
 
         return responseBuilder.build();
