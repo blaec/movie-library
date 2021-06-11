@@ -21,3 +21,7 @@ CREATE TABLE movies_genres
     FOREIGN KEY (genres_id) REFERENCES genres (id)
 );
 ALTER TABLE movies DROP COLUMN genres;
+
+-- 2021-06-11
+ALTER TABLE movies
+    ADD COLUMN created_date DATE DEFAULT (CURRENT_DATE);
