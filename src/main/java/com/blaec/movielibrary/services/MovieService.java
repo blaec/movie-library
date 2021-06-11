@@ -34,8 +34,13 @@ public class MovieService {
         return movieRepository.findAllByType(Type.movie);
     }
 
+    /**
+     * Get all movies added to gallery for the last 7 days sorted by creation date in descending order
+     *
+     * @return Iterable<Movie> list
+     */
     public Iterable<Movie> getLastSaved() {
-        return movieRepository.findAllWithCreationDateAfter(LocalDate.now().minusDays(1));
+        return movieRepository.findAllByCreationDateAfterOrderByCreationDateDesc(LocalDate.now().minusDays(7));
     }
 
     /**
