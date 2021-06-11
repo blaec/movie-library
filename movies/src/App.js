@@ -21,7 +21,7 @@ const ActorMovies = React.lazy(() => import('./component/Pages/PathLinks/ActorMo
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
 const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
 const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
-const History = React.lazy(() => import('./component/Pages/MenuItems/History'));
+const History = React.lazy(() => import('./component/Pages/MenuItems/History/History'));
 
 const app = () => {
     const {

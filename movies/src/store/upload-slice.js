@@ -5,6 +5,7 @@ const initialState = {
     result: {},
     results: [],
     loader: 0,
+    history: [],
 };
 
 const uploadSlice = createSlice({
@@ -22,6 +23,9 @@ const uploadSlice = createSlice({
         },
         setLoader(state, action) {
             state.loader = action.payload;
+        },
+        setHistory(state, action) {
+            state.history = action.payload;
         },
     }
 });
