@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,44 +44,34 @@ public class MovieController {
     }
 
     @PostMapping("/upload/{folder}")
-    public Response scanFolder(@PathVariable String folder) {
-        Response response;
-        int moviesSaved = 0;
+    public Iterable<Response> scanFolder(@PathVariable String folder) {
+        List<Response> responses = new ArrayList<>();
 
         // Get all from database
         Iterable<Movie> dbMovies = movieService.getAll();
 
         // get all movie files from folder
         List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
+
         // Save only new movies to database
         for (MovieFileTo movieFile : movieFiles) {
             Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
             if (dbMovie != null) {
                 // TODO temporarily commented
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
+                responses.add(Response.Builder.create().setMovie(dbMovie).setFail().setMessage("already exist").build());
             } else {
-                movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile);
-                moviesSaved++;
+                responses.add(movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile).build());
             }
         }
-        if (movieFiles.size() == 0) {
-            String message = String.format("Folder %s holds no movie files", folder);
-            log.warn(message);
-            response = Response.create(false, message);
-        } else {
-            String message = moviesSaved == 0
-                ? "No movie saved"
-                : String.format("Successfully saved %d out of %d movies from folder '%s'", moviesSaved, movieFiles.size(), folder);
-            response = Response.create(moviesSaved > 0, message);
-        }
 
-        // TODO return list of fails and stats
-        return response;
+        return responses;
     }
 
     @PostMapping("/upload/file")
     public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
-        Response response;
+        String message = "Not found at all or more than one movie found";
+        Response.Builder responseBuilder = Response.Builder.create(message);
 
         // Get all files from folder, where upload movie is searched, that match upload movie file name
         // Could be more than one (files with the same name from different sub-folders)
@@ -90,16 +81,15 @@ public class MovieController {
 
         // Save if file found and there are no duplicates
         if (filteredMovieFiles.size() != 1) {
-            String message = "Not found at all or more than one movie found";
             log.warn("{} '{}'", message, uploadMovie);
-            response = Response.create(false, message);
+            responseBuilder.setFail();
         } else {
             MovieFileTo movieFile = filteredMovieFiles.get(0);
             TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId());
-            response = movieService.save(movieJson, movieFile);
+            responseBuilder = movieService.save(movieJson, movieFile);
         }
 
-        return response;
+        return responseBuilder.build();
     }
 
     @PostMapping("/upload/wish")
@@ -113,6 +103,5 @@ public class MovieController {
     @DeleteMapping("/delete/{id}")
     public Response delete(@PathVariable Integer id) {
         return movieService.delete(id);
-        // TODO return stats stats
     }
 }

@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
     wishMovies: [],
     result: {},
+    results: [],
     loader: 0,
 };
 
@@ -15,6 +16,9 @@ const uploadSlice = createSlice({
         },
         setResult(state, action) {
             state.result = action.payload;
+        },
+        setResults(state, action) {
+            state.results = action.payload;
         },
         setLoader(state, action) {
             state.loader = action.payload;

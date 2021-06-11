@@ -45,7 +45,7 @@ public class MovieUtils {
                 .findFirst().orElse(null);
     }
 
-    public static boolean isNullSave(TmdbResult.TmdbMovie movieJson, String logDetails) {
+    public static boolean isNullSafe(TmdbResult.TmdbMovie movieJson, String logDetails) {
         boolean result = true;
         if (movieJson == null) {
             log.warn("no movie found in tmdb | {}", logDetails);

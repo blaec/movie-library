@@ -44,7 +44,7 @@ public class Movie{
 
     @Column(name="file_name")
     @NonNull private String fileName;
-    private Double size;
+    private Double size = 0d;
     private String location;
     private String description;
 
@@ -58,10 +58,7 @@ public class Movie{
      * @return Movie object with type <b>wish_list</b>
      */
     public static Movie from(TmdbResult.TmdbMovie movieJsonTo) {
-        Movie movie = fromJson(movieJsonTo);
-        movie.setType(Type.wish_list);
-
-        return movie;
+        return fromJson(movieJsonTo).assignType(Type.wish_list);
     }
 
     /**
@@ -104,6 +101,11 @@ public class Movie{
         movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;
+    }
+
+    public Movie assignType(Type type) {
+        this.type = type;
+        return this;
     }
 
     public void setConvertedGenres(List<TmdbResult.Genre> genres) {

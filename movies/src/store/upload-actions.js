@@ -69,7 +69,7 @@ export const scanFolderAndSave = (path) => {
         axios.post(UrlUtils.getScanFolderUrl(path))
             .then(response => {
                 const {data} = response;
-                dispatch(uploadActions.setResult(data));
+                dispatch(uploadActions.setResults(data));
                 dispatch(fetchMovies());
             })
             .catch(error => {
