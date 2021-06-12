@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchUploadHistory} from "../../../../store/upload-actions";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {isArrayExist} from "../../../../utils/Utils";
+import TablePaginationActions from "./TablePaginationActions";
 
 import {
     makeStyles,
@@ -12,8 +13,11 @@ import {
     TableBody,
     TableCell,
     TableContainer,
+    TableFooter,
     TableHead,
-    TableRow, Typography,
+    TablePagination,
+    TableRow,
+    Typography,
     withStyles
 } from "@material-ui/core";
 
@@ -50,13 +54,26 @@ const useStyles = makeStyles((theme) => ({
 const history = () => {
     const {caption, table} = useStyles();
 
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
     const uploadHistory = useSelector(state => state.upload.history);
     const dispatch = useDispatch();
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
 
     useEffect(() => {
         dispatch(fetchUploadHistory());
     }, []);
 
+    console.log(`${page * rowsPerPage} / ${page * rowsPerPage + rowsPerPage}`);
     let historyTable = <MyLoader/>;
     if (isArrayExist(uploadHistory)) {
         historyTable = (
@@ -71,7 +88,7 @@ const history = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {uploadHistory.map((movie) => {
+                        {uploadHistory.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((movie) => {
                             const {id, title, type, size, creationDate} = movie;
                             return (
                                 <StyledTableRow key={id}>
@@ -83,6 +100,24 @@ const history = () => {
                             );
                         })}
                     </TableBody>
+                    <TableFooter>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                                colSpan={3}
+                                count={uploadHistory.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                SelectProps={{
+                                    inputProps: { 'aria-label': 'rows per page' },
+                                    native: true,
+                                }}
+                                onChangePage={handleChangePage}
+                                onChangeRowsPerPage={handleChangeRowsPerPage}
+                                ActionsComponent={TablePaginationActions}
+                            />
+                        </TableRow>
+                    </TableFooter>
                 </Table>
             </TableContainer>
         );
