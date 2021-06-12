@@ -20,8 +20,10 @@ import {
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.text.secondary,
         color: theme.palette.common.white,
+        fontWeight: 700,
+        fontSize: 15,
     },
     body: {
         fontSize: 14,
