@@ -13,7 +13,7 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow,
+    TableRow, Typography,
     withStyles
 } from "@material-ui/core";
 
@@ -37,8 +37,8 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        marginTop: theme.spacing(3),
+    caption: {
+        padding: theme.spacing(3, 0, 1, 1),
     },
     table: {
         minWidth: 650,
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const history = () => {
-    const {root, table} = useStyles();
+    const {caption, table} = useStyles();
 
     const uploadHistory = useSelector(state => state.upload.history);
     const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const history = () => {
     let historyTable = <MyLoader/>;
     if (isArrayExist(uploadHistory)) {
         historyTable = (
-            <TableContainer className={root} component={Paper}>
+            <TableContainer component={Paper}>
                 <Table className={table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -88,7 +88,13 @@ const history = () => {
 
     return (
         <React.Fragment>
-            <p>Upload history for the last 7 days:</p>
+            <Typography
+                className={caption}
+                variant='h6'
+                color='primary'
+            >
+                Upload history for the last 7 days:
+            </Typography>
             {historyTable}
         </React.Fragment>
     );
