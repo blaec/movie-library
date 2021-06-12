@@ -8,10 +8,11 @@ import {Divider, List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
 import MovieCreationTwoToneIcon from '@material-ui/icons/MovieCreationTwoTone';
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
-import UpdateTwoToneIcon from "@material-ui/icons/UpdateTwoTone";
+import PublishTwoToneIcon from '@material-ui/icons/PublishTwoTone';
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
 import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
+import HistoryTwoToneIcon from '@material-ui/icons/HistoryTwoTone';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
     return  itemsData.map((item, index) => {
@@ -51,13 +52,6 @@ const mainItemsData = [
         icon: <FavoriteTwoToneIcon/>
     },
 ];
-const settingsItemsData = [
-    {
-        text: "Upload",
-        link: reactLinks.upload,
-        icon: <UpdateTwoToneIcon/>
-    },
-];
 const infoItemsData = [
     {
         text: "Now Playing",
@@ -68,6 +62,18 @@ const infoItemsData = [
         text: "Anticipated",
         link: reactLinks.anticipated,
         icon: <HourglassFullTwoToneIcon/>
+    },
+];
+const settingsItemsData = [
+    {
+        text: "Upload",
+        link: reactLinks.upload,
+        icon: <PublishTwoToneIcon/>
+    },
+    {
+        text: "History",
+        link: reactLinks.history,
+        icon: <HistoryTwoToneIcon/>
     },
 ];
 

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Slf4j
@@ -31,6 +32,15 @@ public class MovieService {
      */
     public Iterable<Movie> getAllMovies() {
         return movieRepository.findAllByType(Type.movie);
+    }
+
+    /**
+     * Get all movies added to gallery for the last 7 days sorted by creation date in descending order
+     *
+     * @return Iterable<Movie> list
+     */
+    public Iterable<Movie> getLastSaved() {
+        return movieRepository.findAllByCreationDateAfterOrderByCreationDateDesc(LocalDate.now().minusDays(7));
     }
 
     /**

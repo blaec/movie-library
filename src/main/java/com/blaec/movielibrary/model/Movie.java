@@ -8,6 +8,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,6 +51,9 @@ public class Movie{
 
     @Column(name="frame_rate")
     private Integer frameRate;
+
+    @Column(name="creation_date")
+    @NonNull private LocalDate creationDate = LocalDate.now();
 
     /**
      * Creates Wish-Movie object from Movie Json Object

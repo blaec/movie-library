@@ -38,6 +38,11 @@ public class MovieController {
         return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
     }
 
+    @GetMapping("/stats/last-saved")
+    public Iterable<Movie> getLastSaved() {
+        return movieService.getLastSaved();
+    }
+
     @PostMapping("/filter")
     public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
         return MovieUtils.sortByTitleAndYear(movieService.getAllByGenres(genreIds));
