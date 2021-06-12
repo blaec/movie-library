@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import {lighten, makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,7 +13,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -51,14 +50,14 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
-    { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
-    { id: 'size', numeric: true, disablePadding: false, label: 'Size (Gb)' },
-    { id: 'creationDate', numeric: true, disablePadding: false, label: 'Creation date' },
+    {id: 'title', numeric: false, disablePadding: true, label: 'Title'},
+    {id: 'type', numeric: false, disablePadding: false, label: 'Type'},
+    {id: 'size', numeric: true, disablePadding: false, label: 'Size (Gb)'},
+    {id: 'creationDate', numeric: true, disablePadding: false, label: 'Creation date'},
 ];
 
 function EnhancedTableHead(props) {
-    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -124,7 +123,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
-    const { numSelected } = props;
+    const {numSelected} = props;
 
     return (
         <Toolbar
@@ -145,13 +144,13 @@ const EnhancedTableToolbar = (props) => {
             {numSelected > 0 ? (
                 <Tooltip title="Delete">
                     <IconButton aria-label="delete">
-                        <DeleteIcon />
+                        <DeleteIcon/>
                     </IconButton>
                 </Tooltip>
             ) : (
                 <Tooltip title="Filter list">
                     <IconButton aria-label="filter list">
-                        <FilterListIcon />
+                        <FilterListIcon/>
                     </IconButton>
                 </Tooltip>
             )}
@@ -285,7 +284,7 @@ export default function history() {
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar numSelected={selected.length}/>
                 <TableContainer className={classes.container}>
                     <Table
                         className={classes.table}
@@ -330,8 +329,8 @@ export default function history() {
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                    <StyledTableCell colSpan={6} />
+                                <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
+                                    <StyledTableCell colSpan={6}/>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -348,7 +347,7 @@ export default function history() {
                 />
             </Paper>
             <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense} />}
+                control={<Switch checked={dense} onChange={handleChangeDense}/>}
                 label="Dense padding"
             />
         </div>
