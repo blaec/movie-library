@@ -24,7 +24,7 @@ import {
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-        backgroundColor: theme.palette.text.secondary,
+        backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,
         fontWeight: 700,
         fontSize: 15,
@@ -49,10 +49,16 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
     },
+    container: {
+        maxHeight: 440,
+    },
+    paper: {
+        margin: theme.spacing(0, 1, 0, 1)
+    }
 }));
 
 const history = () => {
-    const {caption, table} = useStyles();
+    const {caption, table, container, paper} = useStyles();
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -77,11 +83,12 @@ const history = () => {
     let historyTable = <MyLoader/>;
     if (isArrayExist(uploadHistory)) {
         historyTable = (
-            <TableContainer component={Paper}>
-                <Table className={table} aria-label="simple table">
+            <Paper className={paper}>
+            <TableContainer className={container}>
+                <Table className={table} stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell>Title</StyledTableCell>
+                            <StyledTableCell align="left">Title</StyledTableCell>
                             <StyledTableCell align="left">Type</StyledTableCell>
                             <StyledTableCell align="left">Size&nbsp;(Gb)</StyledTableCell>
                             <StyledTableCell align="left">Creation date</StyledTableCell>
@@ -100,26 +107,23 @@ const history = () => {
                             );
                         })}
                     </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 25, 50, 100]}
-                                colSpan={3}
-                                count={uploadHistory.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                SelectProps={{
-                                    inputProps: { 'aria-label': 'rows per page' },
-                                    native: true,
-                                }}
-                                onChangePage={handleChangePage}
-                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                                ActionsComponent={TablePaginationActions}
-                            />
-                        </TableRow>
-                    </TableFooter>
                 </Table>
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                colSpan={3}
+                count={uploadHistory.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                    inputProps: { 'aria-label': 'rows per page' },
+                    native: true,
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+            />
+        </Paper>
         );
     }
 
