@@ -1,12 +1,9 @@
 package com.blaec.movielibrary.to;
 
 import com.blaec.movielibrary.model.Movie;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Response {
     // TODO for some reason React replaces isSomething to something
     private final Integer id;
@@ -14,6 +11,14 @@ public class Response {
     private final String title;
     private final boolean isSuccess;
     private final String message;
+
+    private Response(Builder builder) {
+        this.id = builder.id;
+        this.tmbdId = builder.tmbdId;
+        this.title = builder.title;
+        this.isSuccess = builder.isSuccess;
+        this.message = builder.message;
+    }
 
     public static class Builder{
         private Integer id;
@@ -60,7 +65,7 @@ public class Response {
         }
 
         public Response build() {
-            return new Response(id, tmbdId, title, isSuccess, message);
+            return new Response(this);
         }
     }
 }
