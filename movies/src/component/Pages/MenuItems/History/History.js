@@ -51,7 +51,7 @@ function stableSort(array, comparator) {
 
 const headCells = [
     {id: 'title', numeric: false, disablePadding: true, label: 'Title'},
-    {id: 'type', numeric: false, disablePadding: false, label: 'Type'},
+    {id: 'type', numeric: true, disablePadding: false, label: 'Type'},
     {id: 'size', numeric: true, disablePadding: false, label: 'Size (Gb)'},
     {id: 'creationDate', numeric: true, disablePadding: false, label: 'Creation date'},
 ];
@@ -73,6 +73,7 @@ function EnhancedTableHead(props) {
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
                         <TableSortLabel
+                            style={{marginLeft:'16px'}}
                             active={orderBy === headCell.id}
                             direction={orderBy === headCell.id ? order : 'asc'}
                             onClick={createSortHandler(headCell.id)}
@@ -167,7 +168,6 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     paper: {
-        // width: '100%',
         margin: theme.spacing(2, 2, 2, 2),
     },
     table: {
@@ -201,13 +201,13 @@ const StyledTableCell = withStyles((theme) => ({
     },
     body: {
         fontSize: 14,
+        paddingLeft: theme.spacing(2),
     },
 }))(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
         '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
         },
     },
 }))(TableRow);
