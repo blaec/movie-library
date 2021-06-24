@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {getImageUrl, reactLinks} from "../../../../../utils/UrlUtils";
-import {releaseDateYear} from "../../../../../utils/Utils";
+import {isStringExist, releaseDateYear} from "../../../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
@@ -34,7 +34,7 @@ const actorMovie = (props) => {
     // TODO image size hardcoded
     let errImage = `https://via.placeholder.com/80x120.png?text=${title.substring(0, 1)}`;
     let characterText = null;
-    if (character.length > 0) {
+    if (isStringExist(character)) {
         characterText = ` — as ${character}`;
     }
     return (
