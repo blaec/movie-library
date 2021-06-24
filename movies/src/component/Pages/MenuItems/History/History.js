@@ -22,6 +22,8 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchUploadHistory} from "../../../../store/upload-actions";
 import {withStyles} from "@material-ui/core";
+import {NavLink} from "react-router-dom";
+import {reactLinks} from "../../../../utils/UrlUtils";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -318,8 +320,15 @@ export default function history() {
                                             tabIndex={-1}
                                             key={row.id}
                                             selected={isItemSelected}
+                                            style={{textDecoration:'none'}}
+                                            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${row.tmdbId}`}
                                         >
-                                            <StyledTableCell component="th" id={labelId} scope="row" padding="none">
+                                            <StyledTableCell
+                                                component="th"
+                                                id={labelId}
+                                                scope="row"
+                                                padding="none"
+                                            >
                                                 {row.title}
                                             </StyledTableCell>
                                             <StyledTableCell align="right">{row.type}</StyledTableCell>
