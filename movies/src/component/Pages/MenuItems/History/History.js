@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function history() {
+const history = () => {
     const classes = useStyles();
 
     const uploadHistory = useSelector(state => state.upload.history);
@@ -182,3 +182,5 @@ export default function history() {
         </div>
     );
 }
+
+export default history;
