@@ -5,8 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 
 export const StyledTableRow = withStyles((theme) => ({
     root: {
-        '&:nth-of-type(odd)': {
-        },
+        '&:nth-of-type(odd)': {},
     },
 }))(TableRow);
 
@@ -17,6 +16,5 @@ export const StyledTableCell = withStyles((theme) => ({
     },
     body: {
         fontSize: 14,
-        paddingLeft: theme.spacing(2),
     },
 }))(TableCell);

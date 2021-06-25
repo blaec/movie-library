@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         margin: theme.spacing(0, 2, 2, 2),
-        padding: theme.spacing(0, 2, 2, 2),
     },
     container: {
         maxHeight: 470,
@@ -47,14 +46,14 @@ const history = () => {
         dispatch(fetchUploadHistory());
     }, []);
 
-    const [order, setOrder] = React.useState('asc');
+    const [order, setOrder] = React.useState('desc');
     const [orderBy, setOrderBy] = React.useState('creationDate');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
@@ -105,9 +104,7 @@ const history = () => {
                     <Table
                         className={table}
                         stickyHeader
-                        aria-labelledby="tableTitle"
                         size={dense ? 'small' : 'medium'}
-                        aria-label="enhanced table"
                     >
                         <EnhancedTableHead
                             order={order}
@@ -137,7 +134,7 @@ const history = () => {
                                                 component="th"
                                                 id={labelId}
                                                 scope="row"
-                                                padding="none"
+                                                // padding="none"
                                             >
                                                 {row.title}
                                             </StyledTableCell>
