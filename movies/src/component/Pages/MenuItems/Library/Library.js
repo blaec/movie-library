@@ -17,6 +17,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import {fullTitle} from "../../../../utils/Utils";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -106,7 +107,7 @@ const library = () => {
                             {stableSort(library, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, (1 + page) * rowsPerPage)
                                 .map(row => {
-                                    const {id, tmdbId, title, type, size, creationDate} = row;
+                                    const {id, tmdbId, title, releaseDate, type, size, creationDate} = row;
 
                                     return (
                                         <StyledTableRow
@@ -114,9 +115,9 @@ const library = () => {
                                             hover
                                             onClick={() => handleDisplayMovie(tmdbId)}
                                         >
-                                            <StyledTableCell>{title}</StyledTableCell>
+                                            <StyledTableCell>{fullTitle(title, releaseDate)}</StyledTableCell>
                                             <StyledTableCell align="right">{type}</StyledTableCell>
-                                            <StyledTableCell align="right">{size}</StyledTableCell>
+                                            <StyledTableCell align="right">{(size || 0).toFixed(2)}</StyledTableCell>
                                             <StyledTableCell align="right">{creationDate}</StyledTableCell>
                                         </StyledTableRow>
                                     );
