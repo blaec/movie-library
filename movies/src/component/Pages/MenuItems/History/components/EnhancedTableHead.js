@@ -1,9 +1,9 @@
+import React from "react";
+
+import {StyledTableCell, StyledTableRow} from "../History";
+
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import PropTypes from "prop-types";
-import React from "react";
-import filter from "../../Filter/Filter";
-import {StyledTableCell, StyledTableRow} from "../History";
 
 const headCells = [
     {
@@ -33,7 +33,7 @@ const headCells = [
 ];
 
 const enhancedTableHead = (props) => {
-    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
+    const {classes, order, orderBy, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -67,15 +67,5 @@ const enhancedTableHead = (props) => {
         </TableHead>
     );
 }
-
-enhancedTableHead.propTypes = {
-    classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
 
 export default enhancedTableHead;
