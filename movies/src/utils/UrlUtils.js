@@ -30,6 +30,7 @@ export const movieApi = {
         getAllMovies: `${baseMovieApi}gallery`,
         getAllWishMovies: `${baseMovieApi}wishlist`,
         getAllByGenres: `${baseMovieApi}filter`,
+        getAll: `${baseMovieApi}library`,
     },
     post: {
         saveWishMovie: `${baseMovieApi}upload/wish`,

@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router";
-
-import {fetchUploadHistory} from "../../../../store/upload-actions";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import {getComparator, stableSort} from "../../../../utils/SortUtils";
 import EnhancedTableHead from "./components/EnhancedTableHead";
 import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements";
 import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
+import {fetchLibrary} from "../../../../store/collection-actions";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -43,7 +42,12 @@ const library = () => {
     const {root, paper, table, container, switchElement} = useStyles();
     const history = useHistory();
 
-    const movies = useSelector(state => state.collection.movies);
+    const library = useSelector(state => state.collection.library);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchLibrary());
+    }, []);
 
     const [order, setOrder] = React.useState('desc');
     const [orderBy, setOrderBy] = React.useState('creationDate');
@@ -74,7 +78,7 @@ const library = () => {
         history.push(`${reactLinks.movieDetailsEndpoint}${tmdbId}`);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, movies.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, library.length - page * rowsPerPage);
     const denseSwitch = (
         <Switch
             className={switchElement}
@@ -99,7 +103,7 @@ const library = () => {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {stableSort(movies, getComparator(order, orderBy))
+                            {stableSort(library, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, (1 + page) * rowsPerPage)
                                 .map(row => {
                                     const {id, tmdbId, title, type, size, creationDate} = row;
@@ -128,7 +132,7 @@ const library = () => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25, 50, 100]}
                     component="div"
-                    count={movies.length}
+                    count={library.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
