@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {NavLink} from "react-router-dom";
+import {useHistory} from "react-router";
 
 import {fetchUploadHistory} from "../../../../store/upload-actions";
 import {reactLinks} from "../../../../utils/UrlUtils";
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const history = () => {
     const {root, paper, table, container, switchElement} = useStyles();
+    const history = useHistory();
 
     // const uploadHistory = useSelector(state => state.collection.movies);
     const uploadHistory = useSelector(state => state.upload.history);
@@ -75,6 +76,10 @@ const history = () => {
         setDense(event.target.checked);
     };
 
+    const handleDisplayMovie = (tmdbId) => {
+        history.push(`${reactLinks.movieDetailsEndpoint}${tmdbId}`);
+    };
+
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, uploadHistory.length - page * rowsPerPage);
     const denseSwitch = (
         <Switch
@@ -102,14 +107,14 @@ const history = () => {
                         <TableBody>
                             {stableSort(uploadHistory, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, (1 + page) * rowsPerPage)
-                                .map((row, index) => {
+                                .map(row => {
                                     const {id, tmdbId, title, type, size, creationDate} = row;
 
                                     return (
                                         <StyledTableRow
                                             key={id}
                                             hover
-                                            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}
+                                            onClick={() => handleDisplayMovie(tmdbId)}
                                         >
                                             <StyledTableCell>{title}</StyledTableCell>
                                             <StyledTableCell align="right">{type}</StyledTableCell>

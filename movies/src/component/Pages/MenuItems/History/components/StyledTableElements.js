@@ -6,7 +6,7 @@ import TableRow from "@material-ui/core/TableRow";
 export const StyledTableRow = withStyles((theme) => ({
     root: {
         '&:nth-of-type(odd)': {},
-        textDecoration: 'none',
+        cursor: 'pointer',
     },
 }))(TableRow);
 
