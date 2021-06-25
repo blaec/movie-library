@@ -19,6 +19,7 @@ import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         paddingTop: theme.spacing(2),
@@ -33,10 +34,13 @@ const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 750,
     },
+    switchElement: {
+        marginLeft: theme.spacing(2),
+    }
 }));
 
 const history = () => {
-    const {root, paper, table, container} = useStyles();
+    const {root, paper, table, container, switchElement} = useStyles();
 
     const uploadHistory = useSelector(state => state.collection.movies);
     // const uploadHistory = useSelector(state => state.upload.history);
@@ -48,7 +52,6 @@ const history = () => {
 
     const [order, setOrder] = React.useState('desc');
     const [orderBy, setOrderBy] = React.useState('creationDate');
-    const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -57,26 +60,6 @@ const history = () => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
-    };
-
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1),
-            );
-        }
-
-        setSelected(newSelected);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -92,9 +75,14 @@ const history = () => {
         setDense(event.target.checked);
     };
 
-    const isSelected = (name) => selected.indexOf(name) !== -1;
-
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, uploadHistory.length - page * rowsPerPage);
+    const denseSwitch = (
+        <Switch
+            className={switchElement}
+            checked={dense}
+            onChange={handleChangeDense}
+        />
+    );
 
     return (
         <div className={root}>
@@ -113,47 +101,33 @@ const history = () => {
                         />
                         <TableBody>
                             {stableSort(uploadHistory, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .slice(page * rowsPerPage, (1 + page) * rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                    const {id, tmdbId, title, type, size, creationDate} = row;
 
                                     return (
                                         <StyledTableRow
+                                            key={id}
                                             hover
-                                            onClick={(event) => handleClick(event, row.id)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row.id}
-                                            selected={isItemSelected}
-                                            style={{textDecoration:'none'}}
-                                            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${row.tmdbId}`}
+                                            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}
                                         >
-                                            <StyledTableCell
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                // padding="none"
-                                            >
-                                                {row.title}
-                                            </StyledTableCell>
-                                            <StyledTableCell align="right">{row.type}</StyledTableCell>
-                                            <StyledTableCell align="right">{row.size}</StyledTableCell>
-                                            <StyledTableCell align="right">{row.creationDate}</StyledTableCell>
+                                            <StyledTableCell>{title}</StyledTableCell>
+                                            <StyledTableCell align="right">{type}</StyledTableCell>
+                                            <StyledTableCell align="right">{size}</StyledTableCell>
+                                            <StyledTableCell align="right">{creationDate}</StyledTableCell>
                                         </StyledTableRow>
                                     );
                                 })}
                             {emptyRows > 0 && (
                                 <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
-                                    <StyledTableCell colSpan={6}/>
+                                    <StyledTableCell colSpan={4}/>
                                 </TableRow>
                             )}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[5, 10, 25, 50, 100]}
                     component="div"
                     count={uploadHistory.length}
                     rowsPerPage={rowsPerPage}
@@ -162,7 +136,7 @@ const history = () => {
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
                 <FormControlLabel
-                    control={<Switch checked={dense} onChange={handleChangeDense}/>}
+                    control={denseSwitch}
                     label="Dense padding"
                 />
             </Paper>
