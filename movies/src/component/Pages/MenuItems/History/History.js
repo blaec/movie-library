@@ -25,59 +25,8 @@ import {withStyles} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import {getComparator, stableSort} from "../../../../utils/SortUtils";
+import EnhancedTableHead from "./components/EnhancedTableHead";
 
-const headCells = [
-    {id: 'title', numeric: false, disablePadding: true, label: 'Title'},
-    {id: 'type', numeric: true, disablePadding: false, label: 'Type'},
-    {id: 'size', numeric: true, disablePadding: false, label: 'Size (Gb)'},
-    {id: 'creationDate', numeric: true, disablePadding: false, label: 'Creation date'},
-];
-
-function EnhancedTableHead(props) {
-    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    return (
-        <TableHead>
-            <StyledTableRow>
-                {headCells.map((headCell) => (
-                    <StyledTableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'default'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            style={{marginLeft:'16px'}}
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-                            ) : null}
-                        </TableSortLabel>
-                    </StyledTableCell>
-                ))}
-            </StyledTableRow>
-        </TableHead>
-    );
-}
-
-EnhancedTableHead.propTypes = {
-    classes: PropTypes.object.isRequired,
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -169,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const StyledTableCell = withStyles((theme) => ({
+export const StyledTableCell = withStyles((theme) => ({
     head: {
         // backgroundColor: theme.palette.common.black,
         // color: theme.palette.common.white,
@@ -182,7 +131,7 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
+export const StyledTableRow = withStyles((theme) => ({
     root: {
         '&:nth-of-type(odd)': {
         },
