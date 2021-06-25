@@ -81,20 +81,3 @@ export const scanFolderAndSave = (path) => {
             });
     };
 };
-
-export const fetchUploadHistory = () => {
-    return async (dispatch) => {
-        axios.get(movieApi.get.getLastSaved)
-            .then(response => {
-                const {data} = response;
-                dispatch(uploadActions.setHistory(data));
-            })
-            .catch(error => {
-                console.log(error);
-                dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to fetch latest upload history`,
-                    type: 'error'
-                }));
-            });
-    };
-};

@@ -15,7 +15,7 @@ export const reactLinks = {
     actorMovies: "/actors/:actorId",
     nowPlaying: "/info/now-playing",
     anticipated: "/info/anticipated",
-    history: "/stats/history",
+    library: "/stats/library",
 };
 
 export const isSearchable = (pathname) => {
@@ -30,7 +30,6 @@ export const movieApi = {
         getAllMovies: `${baseMovieApi}gallery`,
         getAllWishMovies: `${baseMovieApi}wishlist`,
         getAllByGenres: `${baseMovieApi}filter`,
-        getLastSaved: `${baseMovieApi}stats/last-saved`,
     },
     post: {
         saveWishMovie: `${baseMovieApi}upload/wish`,

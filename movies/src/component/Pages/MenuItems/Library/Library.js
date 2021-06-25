@@ -39,17 +39,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const history = () => {
+const library = () => {
     const {root, paper, table, container, switchElement} = useStyles();
     const history = useHistory();
 
-    // const uploadHistory = useSelector(state => state.collection.movies);
-    const uploadHistory = useSelector(state => state.upload.history);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchUploadHistory());
-    }, []);
+    const movies = useSelector(state => state.collection.movies);
 
     const [order, setOrder] = React.useState('desc');
     const [orderBy, setOrderBy] = React.useState('creationDate');
@@ -80,7 +74,7 @@ const history = () => {
         history.push(`${reactLinks.movieDetailsEndpoint}${tmdbId}`);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, uploadHistory.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, movies.length - page * rowsPerPage);
     const denseSwitch = (
         <Switch
             className={switchElement}
@@ -105,7 +99,7 @@ const history = () => {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {stableSort(uploadHistory, getComparator(order, orderBy))
+                            {stableSort(movies, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, (1 + page) * rowsPerPage)
                                 .map(row => {
                                     const {id, tmdbId, title, type, size, creationDate} = row;
@@ -134,7 +128,7 @@ const history = () => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25, 50, 100]}
                     component="div"
-                    count={uploadHistory.length}
+                    count={movies.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
@@ -149,4 +143,4 @@ const history = () => {
     );
 }
 
-export default history;
+export default library;
