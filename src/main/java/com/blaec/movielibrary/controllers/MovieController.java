@@ -28,6 +28,11 @@ public class MovieController {
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
 
+    @GetMapping("/library")
+    public Iterable<Movie> getAll() {
+        return movieService.getAll();
+    }
+
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
         return MovieUtils.sortByTitleAndYear(movieService.getAllMovies());
