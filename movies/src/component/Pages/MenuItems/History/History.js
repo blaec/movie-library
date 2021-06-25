@@ -100,7 +100,7 @@ const history = () => {
     return (
         <div className={root}>
             <Paper className={paper}>
-                <EnhancedTableToolbar numSelected={selected.length}/>
+                <EnhancedTableToolbar/>
                 <TableContainer className={container}>
                     <Table
                         className={table}
