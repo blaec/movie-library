@@ -110,3 +110,20 @@ const fetchByPage = (dispatch, url, fetchType, errMessage) => {
             }));
         });
 };
+
+export const fetchLibrary = () => {
+    return async (dispatch) => {
+        axios.get(movieApi.get.getAll)
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setLibrary(data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to load entire library`,
+                    type: 'error'
+                }));
+            });
+    };
+};

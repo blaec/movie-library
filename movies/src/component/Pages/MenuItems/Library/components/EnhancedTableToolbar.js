@@ -21,7 +21,7 @@ const enhancedTableToolbar = () => {
                 color="primary"
                 variant="h5"
             >
-                Last week's upload history
+                Movie Library
             </Typography>
         </Toolbar>
     );

@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router";
-
-import {fetchUploadHistory} from "../../../../store/upload-actions";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import {getComparator, stableSort} from "../../../../utils/SortUtils";
 import EnhancedTableHead from "./components/EnhancedTableHead";
 import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements";
 import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
+import {fetchLibrary} from "../../../../store/collection-actions";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -18,6 +17,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import {fullTitle} from "../../../../utils/Utils";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -39,16 +39,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const history = () => {
+const library = () => {
     const {root, paper, table, container, switchElement} = useStyles();
     const history = useHistory();
 
-    // const uploadHistory = useSelector(state => state.collection.movies);
-    const uploadHistory = useSelector(state => state.upload.history);
+    const library = useSelector(state => state.collection.library);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchUploadHistory());
+        dispatch(fetchLibrary());
     }, []);
 
     const [order, setOrder] = React.useState('desc');
@@ -80,7 +79,7 @@ const history = () => {
         history.push(`${reactLinks.movieDetailsEndpoint}${tmdbId}`);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, uploadHistory.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, library.length - page * rowsPerPage);
     const denseSwitch = (
         <Switch
             className={switchElement}
@@ -105,10 +104,10 @@ const history = () => {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {stableSort(uploadHistory, getComparator(order, orderBy))
+                            {stableSort(library, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, (1 + page) * rowsPerPage)
                                 .map(row => {
-                                    const {id, tmdbId, title, type, size, creationDate} = row;
+                                    const {id, tmdbId, title, releaseDate, type, size, creationDate} = row;
 
                                     return (
                                         <StyledTableRow
@@ -116,9 +115,9 @@ const history = () => {
                                             hover
                                             onClick={() => handleDisplayMovie(tmdbId)}
                                         >
-                                            <StyledTableCell>{title}</StyledTableCell>
+                                            <StyledTableCell>{fullTitle(title, releaseDate)}</StyledTableCell>
                                             <StyledTableCell align="right">{type}</StyledTableCell>
-                                            <StyledTableCell align="right">{size}</StyledTableCell>
+                                            <StyledTableCell align="right">{(size || 0).toFixed(2)}</StyledTableCell>
                                             <StyledTableCell align="right">{creationDate}</StyledTableCell>
                                         </StyledTableRow>
                                     );
@@ -134,7 +133,7 @@ const history = () => {
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25, 50, 100]}
                     component="div"
-                    count={uploadHistory.length}
+                    count={library.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
@@ -149,4 +148,4 @@ const history = () => {
     );
 }
 
-export default history;
+export default library;

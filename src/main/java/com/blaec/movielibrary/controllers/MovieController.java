@@ -28,6 +28,11 @@ public class MovieController {
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
 
+    @GetMapping("/library")
+    public Iterable<Movie> getAll() {
+        return movieService.getAll();
+    }
+
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
         return MovieUtils.sortByTitleAndYear(movieService.getAllMovies());
@@ -36,11 +41,6 @@ public class MovieController {
     @GetMapping("/wishlist")
     public Iterable<Movie> getAllWishMovies() {
         return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
-    }
-
-    @GetMapping("/stats/last-saved")
-    public Iterable<Movie> getLastSaved() {
-        return movieService.getLastSaved();
     }
 
     @PostMapping("/filter")
