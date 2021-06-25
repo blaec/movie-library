@@ -42,8 +42,8 @@ const useStyles = makeStyles((theme) => ({
 const history = () => {
     const {root, paper, table, container, switchElement} = useStyles();
 
-    const uploadHistory = useSelector(state => state.collection.movies);
-    // const uploadHistory = useSelector(state => state.upload.history);
+    // const uploadHistory = useSelector(state => state.collection.movies);
+    const uploadHistory = useSelector(state => state.upload.history);
     const dispatch = useDispatch();
 
     useEffect(() => {
