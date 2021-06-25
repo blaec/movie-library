@@ -3,6 +3,7 @@ import React from "react";
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {StyledTableCell, StyledTableRow} from "./StyledTableElements";
+import {makeStyles} from "@material-ui/core/styles";
 
 const headCells = [
     {
@@ -31,8 +32,24 @@ const headCells = [
     },
 ];
 
+const useStyles = makeStyles((theme) => ({
+    visuallyHidden: {
+        border: 0,
+        clip: 'rect(0 0 0 0)',
+        height: 1,
+        margin: -1,
+        overflow: 'hidden',
+        padding: 0,
+        position: 'absolute',
+        top: 20,
+        width: 1,
+    },
+}));
+
+
 const enhancedTableHead = (props) => {
-    const {classes, order, orderBy, onRequestSort} = props;
+    const {order, orderBy, onRequestSort} = props;
+    const {visuallyHidden} = useStyles();
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -59,7 +76,7 @@ const enhancedTableHead = (props) => {
                                 {
                                     orderBy === id
                                         ? (
-                                            <span className={classes.visuallyHidden}>
+                                            <span className={visuallyHidden}>
                                               {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                                             </span>
                                         )

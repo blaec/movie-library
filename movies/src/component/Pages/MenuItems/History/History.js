@@ -1,4 +1,14 @@
 import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {NavLink} from "react-router-dom";
+
+import {fetchUploadHistory} from "../../../../store/upload-actions";
+import {reactLinks} from "../../../../utils/UrlUtils";
+import {getComparator, stableSort} from "../../../../utils/SortUtils";
+import EnhancedTableHead from "./components/EnhancedTableHead";
+import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements";
+import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
+
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,48 +18,29 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import {useDispatch, useSelector} from "react-redux";
-import {fetchUploadHistory} from "../../../../store/upload-actions";
-import {NavLink} from "react-router-dom";
-import {reactLinks} from "../../../../utils/UrlUtils";
-import {getComparator, stableSort} from "../../../../utils/SortUtils";
-import EnhancedTableHead from "./components/EnhancedTableHead";
-import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements";
-import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
+        paddingTop: theme.spacing(2),
         width: '100%',
     },
     paper: {
-        margin: theme.spacing(2, 2, 2, 2),
+        margin: theme.spacing(0, 2, 2, 2),
+        padding: theme.spacing(0, 2, 2, 2),
+    },
+    container: {
+        maxHeight: 470,
     },
     table: {
         minWidth: 750,
     },
-    visuallyHidden: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: 1,
-        margin: -1,
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        top: 20,
-        width: 1,
-    },
-    tableCell: {
-        margin: theme.spacing(0, 1, 0, 1),
-    },
-    container: {
-        maxHeight: 440,
-    },
 }));
 
 const history = () => {
-    const classes = useStyles();
+    const {root, paper, table, container} = useStyles();
 
-    const uploadHistory = useSelector(state => state.upload.history);
+    const uploadHistory = useSelector(state => state.collection.movies);
+    // const uploadHistory = useSelector(state => state.upload.history);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -57,7 +48,7 @@ const history = () => {
     }, []);
 
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('creationDate');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -107,19 +98,18 @@ const history = () => {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, uploadHistory.length - page * rowsPerPage);
 
     return (
-        <div className={classes.root}>
-            <Paper className={classes.paper}>
+        <div className={root}>
+            <Paper className={paper}>
                 <EnhancedTableToolbar numSelected={selected.length}/>
-                <TableContainer className={classes.container}>
+                <TableContainer className={container}>
                     <Table
-                        className={classes.table}
+                        className={table}
                         stickyHeader
                         aria-labelledby="tableTitle"
                         size={dense ? 'small' : 'medium'}
                         aria-label="enhanced table"
                     >
                         <EnhancedTableHead
-                            classes={classes}
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
@@ -174,11 +164,11 @@ const history = () => {
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
+                <FormControlLabel
+                    control={<Switch checked={dense} onChange={handleChangeDense}/>}
+                    label="Dense padding"
+                />
             </Paper>
-            <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense}/>}
-                label="Dense padding"
-            />
         </div>
     );
 }
