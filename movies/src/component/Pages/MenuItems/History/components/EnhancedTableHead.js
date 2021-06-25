@@ -1,10 +1,8 @@
 import React from "react";
 
-import StyledTableCell from "./StyledTableCell";
-import StyledTableRow from "./StyledTableRow";
-
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
+import {StyledTableCell, StyledTableRow} from "./StyledTableElements";
 
 const headCells = [
     {

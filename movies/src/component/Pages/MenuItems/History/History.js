@@ -24,8 +24,7 @@ import {NavLink} from "react-router-dom";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import {getComparator, stableSort} from "../../../../utils/SortUtils";
 import EnhancedTableHead from "./components/EnhancedTableHead";
-import StyledTableCell from "./components/StyledTableCell";
-import StyledTableRow from "./components/StyledTableRow";
+import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements";
 
 
 const useToolbarStyles = makeStyles((theme) => ({

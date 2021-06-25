@@ -1,7 +1,8 @@
 import {withStyles} from "@material-ui/core";
 import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
 
-const styledTableCell = withStyles((theme) => ({
+export const StyledTableCell = withStyles((theme) => ({
     head: {
         // backgroundColor: theme.palette.common.black,
         // color: theme.palette.common.white,
@@ -14,4 +15,9 @@ const styledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-export default styledTableCell;
+export const StyledTableRow = withStyles((theme) => ({
+    root: {
+        '&:nth-of-type(odd)': {
+        },
+    },
+}))(TableRow);
