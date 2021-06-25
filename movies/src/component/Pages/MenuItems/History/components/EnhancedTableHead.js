@@ -40,28 +40,35 @@ const enhancedTableHead = (props) => {
     return (
         <TableHead>
             <StyledTableRow>
-                {headCells.map((headCell) => (
-                    <StyledTableCell
-                        key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'default'}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                    >
-                        <TableSortLabel
-                            style={{marginLeft:'16px'}}
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
+                {headCells.map((headCell) => {
+                    const {id, numeric, disablePadding, label} = headCell;
+                    return (
+                        <StyledTableCell
+                            key={id}
+                            align={numeric ? 'right' : 'left'}
+                            padding={disablePadding ? 'none' : 'default'}
+                            sortDirection={orderBy === id ? order : false}
                         >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-                            ) : null}
-                        </TableSortLabel>
-                    </StyledTableCell>
-                ))}
+                            <TableSortLabel
+                                style={{marginLeft: '16px'}}
+                                active={orderBy === id}
+                                direction={orderBy === id ? order : 'asc'}
+                                onClick={createSortHandler(id)}
+                            >
+                                {label}
+                                {
+                                    orderBy === id
+                                        ? (
+                                            <span className={classes.visuallyHidden}>
+                                              {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                            </span>
+                                        )
+                                        : null
+                                }
+                            </TableSortLabel>
+                        </StyledTableCell>
+                    )
+                })}
             </StyledTableRow>
         </TableHead>
     );
