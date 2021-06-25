@@ -24,6 +24,8 @@ import {NavLink} from "react-router-dom";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import {getComparator, stableSort} from "../../../../utils/SortUtils";
 import EnhancedTableHead from "./components/EnhancedTableHead";
+import StyledTableCell from "./components/StyledTableCell";
+import StyledTableRow from "./components/StyledTableRow";
 
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -115,26 +117,6 @@ const useStyles = makeStyles((theme) => ({
         maxHeight: 440,
     },
 }));
-
-export const StyledTableCell = withStyles((theme) => ({
-    head: {
-        // backgroundColor: theme.palette.common.black,
-        // color: theme.palette.common.white,
-        fontWeight: 700,
-        fontSize: 15,
-    },
-    body: {
-        fontSize: 14,
-        paddingLeft: theme.spacing(2),
-    },
-}))(TableCell);
-
-export const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-        },
-    },
-}))(TableRow);
 
 export default function history() {
     const classes = useStyles();
