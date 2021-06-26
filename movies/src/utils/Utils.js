@@ -75,7 +75,7 @@ export const isArraysExist = (...arrays) => {
         .length === arrays.length;
 };
 
-export const getMovieById = (movies, tmdbId) => {
+export const getMovieByTmdbId = (movies, tmdbId) => {
     return movies.find(movie => movie.tmdbId === tmdbId) || {};
 };
 
