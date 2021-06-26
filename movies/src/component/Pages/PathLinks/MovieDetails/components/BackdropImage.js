@@ -12,10 +12,10 @@ import {uploadActions} from "../../../../../store/state/upload/upload-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
 import {saveWishMovie} from "../../../../../store/state/upload/upload-actions";
-import {selectedMovieId} from "../../../../../store/localStorage/actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
+import {useParams} from "react-router";
 
 const CAROUSEL_TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const backdropImage = props => {
     const {onClose} = props;
     const {root} = useStyles();
+    const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
 
@@ -39,8 +40,6 @@ const backdropImage = props => {
     const wishlist = useSelector(state => state.collection.wishlist);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
-
-    let id = selectedMovieId().getNumeric();
 
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8
@@ -60,7 +59,7 @@ const backdropImage = props => {
 
     const handleDeleteMovie = () => {
         setIsDeleting(true);
-        dispatch(deleteMovie(id));
+        dispatch(deleteMovie(movieTmdbId));
     };
 
     const handleAddToWatchMovie = () => {

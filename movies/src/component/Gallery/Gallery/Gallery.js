@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Movie from "./components/Movie";
 import {fullTitle, isArrayExist, isStringsExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
-import {selectedMovieId, selectedPage} from "../../../store/localStorage/actions";
+import {selectedPage} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -40,7 +40,6 @@ const gallery = (props) => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
         selectedPage(`${currentPage}`).set();
-        selectedMovieId(`${id}`).set();
     };
 
     const handlePageChange = (event, page) => {

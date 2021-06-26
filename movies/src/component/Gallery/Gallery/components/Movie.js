@@ -42,7 +42,6 @@ const movie = props => {
     return (
         <Paper
             className={root}
-            // TODO need to save selectedMovieId to delete correct movie
             component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}
         >
             <img
