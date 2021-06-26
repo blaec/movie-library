@@ -6,6 +6,7 @@ const initialState = {
     movieOmdbDetails: {},
     actorDetails: {},
     imdbId: '',
+    trailers: [],
 };
 
 const detailsSlice = createSlice({
@@ -33,7 +34,10 @@ const detailsSlice = createSlice({
             state.movieOmdbDetails = {};
             state.actorDetails = {};
             state.imdbId = '';
-        }
+        },
+        setTrailers(state, action) {
+            state.trailers = action.payload;
+        },
     }
 });
 
