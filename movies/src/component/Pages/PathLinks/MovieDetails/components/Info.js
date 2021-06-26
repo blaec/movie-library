@@ -72,6 +72,7 @@ const info = () => {
                             <Tab label="Description"/>
                             <Tab label="Cast"/>
                             <Tab label="Facts"/>
+                            <Tab label="Trailers"/>
                         </Tabs>
                     </Paper>
                     <TabPanel value={tabSelected} index={0}>
@@ -82,6 +83,9 @@ const info = () => {
                     </TabPanel>
                     <TabPanel value={tabSelected} index={2}>
                         <Facts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
+                    </TabPanel>
+                    <TabPanel value={tabSelected} index={3}>
+                        trailers
                     </TabPanel>
                 </div>
             </React.Fragment>
