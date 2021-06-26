@@ -23,13 +23,16 @@ const MOBILE_WIN_WIDTH = 600;
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
+    },
+    image: {
+        objectFit: 'scale-down',
     }
 }));
 
 
 const backdropImage = props => {
     const {onClose} = props;
-    const {root} = useStyles();
+    const {root, image} = useStyles();
     const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
@@ -114,7 +117,7 @@ const backdropImage = props => {
             return (
                 <img
                     key={idx + 1}
-                    style={{objectFit: 'scale-down'}}
+                    className={image}
                     height={windowWidth / aspect_ratio}
                     width='100%'
                     src={getImageUrl(file_path)}
