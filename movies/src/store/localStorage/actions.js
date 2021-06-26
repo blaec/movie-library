@@ -3,6 +3,7 @@ const keys = Object.freeze(
         id: 'id',
         currentPage: 'current-page',
         densePadding: 'dense-padding',
+        rowsPerPage: 'rows-per-page',
     }
 );
 
@@ -26,4 +27,8 @@ export const selectedMovieId = (valueToSet) => {
 
 export const tableDensePadding = (valueToSet) => {
     return callers(keys.densePadding, valueToSet);
+};
+
+export const tableRowsPerPage = (valueToSet) => {
+    return callers(keys.rowsPerPage, valueToSet);
 };
