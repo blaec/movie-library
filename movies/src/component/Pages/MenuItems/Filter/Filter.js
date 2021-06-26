@@ -7,7 +7,7 @@ import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
-import {fetchGenres} from "../../../../store/filter-actions";
+import {fetchGenres} from "../../../../store/state/filter/filter-actions";
 import {isArrayExist, isStringExist} from "../../../../utils/Utils";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
