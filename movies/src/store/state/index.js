@@ -1,11 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
 
-import apiReducer from "./api-slice";
-import feedbackReducer from "./feedback-slice";
-import filterReducer from "./filter-slice";
-import collectionReducer from "./collection-slice";
-import uploadReducer from "./upload-slice";
-import detailsReducer from "./details-slice";
+import apiReducer from "./api/api-slice";
+import feedbackReducer from "./feedback/feedback-slice";
+import filterReducer from "./filter/filter-slice";
+import collectionReducer from "./collection/collection-slice";
+import uploadReducer from "./upload/upload-slice";
+import detailsReducer from "./details/details-slice";
 
 const store = configureStore({
     reducer: {

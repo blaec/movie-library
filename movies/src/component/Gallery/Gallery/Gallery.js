@@ -4,10 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import Movie from "./components/Movie";
 import {fullTitle, isArrayExist, isStringsExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
+import {selectedMovieId, selectedPage} from "../../../store/localStorage/actions";
+import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
-import {feedbackActions} from "../../../store/feedback-slice";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,12 +39,12 @@ const gallery = (props) => {
     const handleViewMovieDetails = (id) => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
-        localStorage.setItem('currentPage', `${currentPage}`);
-        localStorage.setItem('id', `${id}`);
+        selectedPage(`${currentPage}`).set();
+        selectedMovieId(`${id}`).set();
     };
 
     const handlePageChange = (event, page) => {
-        localStorage.removeItem('currentPage');
+        selectedPage().remove();
         setCurrentPage(page);
     };
 
@@ -54,10 +55,10 @@ const gallery = (props) => {
     }, [isViewingDetails, scrollPosition]);
 
     useEffect(() => {
-        let page = +localStorage.getItem('currentPage');
+        let page = selectedPage().getNumeric();
         if (page !== 0) {
             setCurrentPage(page);
-            localStorage.removeItem('currentPage')
+            selectedPage().remove();
         }
     }, []);
 

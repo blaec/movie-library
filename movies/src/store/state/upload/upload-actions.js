@@ -1,10 +1,10 @@
-import axios from "../axios-movies";
-import {getSearchMovieUrl, movieApi} from "../utils/UrlUtils";
+import axios from "../../../axios-movies";
+import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
 import {uploadActions} from "./upload-slice";
-import {feedbackActions} from "./feedback-slice";
-import {fetchMovies, fetchWishlist} from "./collection-actions";
-import * as UrlUtils from "../utils/UrlUtils";
-import {Loader} from "../utils/Constants";
+import {feedbackActions} from "../feedback/feedback-slice";
+import {fetchMovies, fetchWishlist} from "../collection/collection-actions";
+import * as UrlUtils from "../../../utils/UrlUtils";
+import {Loader} from "../../../utils/Constants";
 
 export const fetchWishMovies = (params) => {
     return async (dispatch) => {

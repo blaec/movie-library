@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {fetchNowPlaying} from "../../../../store/collection-actions";
+import {fetchNowPlaying} from "../../../../store/state/collection/collection-actions";
 import {isStringExist} from "../../../../utils/Utils";
 import useGallery from "../../../../hooks/use-gallery";
 

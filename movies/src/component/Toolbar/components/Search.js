@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 
-import {filterActions} from "../../../store/filter-slice";
+import {filterActions} from "../../../store/state/filter/filter-slice";
 import {isSearchable} from "../../../utils/UrlUtils";
 
 import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";

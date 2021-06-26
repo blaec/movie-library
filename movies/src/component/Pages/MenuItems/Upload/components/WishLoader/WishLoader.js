@@ -8,14 +8,14 @@ import MyLinearProgress from "../MyLinearProgress";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import WishPreviews from "./WishPreviews";
-import {feedbackActions} from "../../../../../../store/feedback-slice";
+import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
-import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
+import {fetchWishMovies, saveWishMovie} from "../../../../../../store/state/upload/upload-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
-import {uploadActions} from "../../../../../../store/upload-slice";
+import {uploadActions} from "../../../../../../store/state/upload/upload-slice";
 import {Loader} from "../../../../../../utils/Constants";
 
 let isInitial = true;

@@ -8,8 +8,8 @@ import MyLinearProgress from "../MyLinearProgress";
 import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
-import {feedbackActions} from "../../../../../../store/feedback-slice";
-import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/upload-actions";
+import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
+import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/upload/upload-actions";
 import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 
 import {
@@ -24,7 +24,7 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import {Loader} from "../../../../../../utils/Constants";
-import {uploadActions} from "../../../../../../store/upload-slice";
+import {uploadActions} from "../../../../../../store/state/upload/upload-slice";
 
 const useStyles = makeStyles((theme) => ({
     divider: {

@@ -6,11 +6,11 @@ import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/MenuItems/Collection/Collection";
 import MyLoader from "./UI/Spinners/MyLoader";
 import {reactLinks} from "./utils/UrlUtils";
-import {fetchMovies, fetchWishlist} from "./store/collection-actions";
-import {fetchConfigs} from "./store/api-actions";
+import {fetchMovies, fetchWishlist} from "./store/state/collection/collection-actions";
+import {fetchConfigs} from "./store/state/api/api-actions";
 import {isArrayExist} from "./utils/Utils";
-import {collectionActions} from "./store/collection-slice";
-import {detailsActions} from "./store/details-slice";
+import {collectionActions} from "./store/state/collection/collection-slice";
+import {detailsActions} from "./store/state/details/details-slice";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));

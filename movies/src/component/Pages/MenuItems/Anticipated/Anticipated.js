@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import {isStringExist} from "../../../../utils/Utils";
-import {fetchAnticipated} from "../../../../store/collection-actions";
+import {fetchAnticipated} from "../../../../store/state/collection/collection-actions";
 import useGallery from "../../../../hooks/use-gallery";
 
 const anticipated = () => {

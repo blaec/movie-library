@@ -7,7 +7,7 @@ import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
 import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
-import {fetchActorDetails} from "../../../../store/details-actions";
+import {fetchActorDetails} from "../../../../store/state/details/details-actions";
 
 import {List, makeStyles, Typography} from "@material-ui/core";
 

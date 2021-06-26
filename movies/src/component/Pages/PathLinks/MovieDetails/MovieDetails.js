@@ -5,7 +5,8 @@ import {useHistory, useParams} from "react-router";
 import {isStringExist, isStringsExist} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
-import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../../store/details-actions";
+import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../../store/state/details/details-actions";
+import {selectedMovieId} from "../../../../store/localStorage/actions";
 
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -32,7 +33,7 @@ const movieDetails = () => {
     const dispatch = useDispatch();
 
     const handleBack = () => {
-        localStorage.removeItem('id')
+        selectedMovieId().remove();
         history.goBack();
     };
 

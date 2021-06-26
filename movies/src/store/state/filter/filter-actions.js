@@ -1,5 +1,5 @@
-import axios from "../axios-movies";
-import {getAllGenresUrl} from "../utils/UrlUtils";
+import axios from "../../../axios-movies";
+import {getAllGenresUrl} from "../../../utils/UrlUtils";
 import {filterActions} from "./filter-slice";
 
 export const fetchGenres = (tmdbApi) => {

@@ -1,5 +1,5 @@
-import axios from "../axios-movies";
-import {configApi} from "../utils/UrlUtils";
+import axios from "../../../axios-movies";
+import {configApi} from "../../../utils/UrlUtils";
 import {apiActions} from "./api-slice";
 
 export const fetchConfigs = () => {
