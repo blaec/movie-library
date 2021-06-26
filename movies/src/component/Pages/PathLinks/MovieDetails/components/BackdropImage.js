@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router";
 
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
@@ -15,7 +16,6 @@ import {saveWishMovie} from "../../../../../store/state/upload/upload-actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
-import {useParams} from "react-router";
 
 const CAROUSEL_TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
@@ -111,16 +111,22 @@ const backdropImage = props => {
             : [{
                 aspect_ratio: 16 / 9,
                 file_path: poster_path
+
             }];
         backdropImages = backdropsData.map((backdrop, idx) => {
             const {aspect_ratio, file_path} = backdrop;
+            const height = parseInt(windowWidth / aspect_ratio, 0);
+            const width = parseInt(windowWidth, 0);
+            const path = file_path !== null
+                ? getImageUrl(file_path)
+                : `https://via.placeholder.com/${width}x${height}.png?text=${title}`;
             return (
                 <img
                     key={idx + 1}
                     className={image}
-                    height={windowWidth / aspect_ratio}
+                    height={height}
                     width='100%'
-                    src={getImageUrl(file_path)}
+                    src={path}
                     alt={`${fullTitle(title, releaseDate)}`}
                 />
             );
