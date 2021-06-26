@@ -12,6 +12,7 @@ import {uploadActions} from "../../../../../store/state/upload/upload-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
 import {saveWishMovie} from "../../../../../store/state/upload/upload-actions";
+import {selectedMovieId} from "../../../../../store/localStorage/actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
@@ -39,7 +40,7 @@ const backdropImage = props => {
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
-    let id = +localStorage.getItem('id');
+    let id = selectedMovieId.get();
 
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8
