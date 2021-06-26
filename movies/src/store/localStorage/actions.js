@@ -13,29 +13,20 @@ const globalFunctions = (key) => ({
     remove: () => localStorage.removeItem(key),
 });
 
-export const selectedPage = () => {
-    let key = keys.currentPage;
-    return {
-        set: globalFunctions(key).set,
-        get: globalFunctions(key).getNumeric,
-        remove: globalFunctions(key).remove,
-    };
+export const selectedPage = {
+    set: globalFunctions(keys.currentPage).set,
+    get: globalFunctions(keys.currentPage).getNumeric,
+    remove: globalFunctions(keys.currentPage).remove,
+}
+
+export const tableDensePadding = {
+    set: globalFunctions(keys.densePadding).set,
+    get: globalFunctions(keys.densePadding).getBoolean,
+    remove: globalFunctions(keys.densePadding).remove,
 };
 
-export const tableDensePadding = () => {
-    let key = keys.densePadding;
-    return {
-        set: globalFunctions(key).set,
-        get: globalFunctions(key).getBoolean,
-        remove: globalFunctions(key).remove,
-    };
-};
-
-export const tableRowsPerPage = () => {
-    let key = keys.rowsPerPage;
-    return {
-        set:globalFunctions(key).set,
-        get: globalFunctions(key).getNumeric,
-        remove: globalFunctions(key).remove,
-    };
+export const tableRowsPerPage = {
+    set: globalFunctions(key).set,
+    get: globalFunctions(key).getNumeric,
+    remove: globalFunctions(key).remove,
 };
