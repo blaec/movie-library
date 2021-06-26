@@ -104,31 +104,32 @@ public class MovieService {
     /**
      * Delete movie from db
      *
-     * @param id id for deleted movie
+     * @param tmdbId tmdbId for deleted movie
      */
-    public Response delete(Integer id) {
+    public Response delete(String tmdbId) {
         Response.Builder responseBuilder = Response.Builder.create();
 
         try {
-            Movie movie = movieRepository.findById(id).orElse(null);
+            Movie movie = movieRepository.findByTmdbId(tmdbId);
             if (movie == null) {
-                String message = String.format("No movie with id %d exists", id);
+                String message = String.format("No movie with tmdbId %s exists", tmdbId);
                 log.warn(message);
-                responseBuilder.setId(id).setFail().setMessage(message);
+                responseBuilder.setTmdbId(tmdbId).setFail().setMessage(message);
             } else {
+                int id = movie.getId();
                 movieRepository.deleteById(id);
                 String message = String.format("Movie %s with id %d deleted", movie, id);
                 log.info(message);
                 responseBuilder.setMovie(movie).setMessage(message);
             }
         } catch (IllegalArgumentException e) {
-            String message = String.format("Can't delete movie, wrong id: %d", id);
+            String message = String.format("Can't delete movie, wrong tmdbId: %s", tmdbId);
             log.error(message, e);
-            responseBuilder.setId(id).setFail().setMessage(message);
+            responseBuilder.setTmdbId(tmdbId).setFail().setMessage(message);
         } catch (Exception e) {
-            String message = String.format("Failed deleting movie by id: %d", id);
-            log.error("Failed deleting movie by id: {}", id, e);
-            responseBuilder.setId(id).setFail().setMessage(message);
+            String message = String.format("Failed deleting movie by tmdbId: %s", tmdbId);
+            log.error("Failed deleting movie by tmdbId: {}", tmdbId, e);
+            responseBuilder.setTmdbId(tmdbId).setFail().setMessage(message);
         }
 
         return responseBuilder.build();
