@@ -114,7 +114,9 @@ const backdropImage = props => {
             return (
                 <img
                     key={idx + 1}
+                    style={{objectFit: 'scale-down'}}
                     height={windowWidth / aspect_ratio}
+                    width='100%'
                     src={getImageUrl(file_path)}
                     alt={`${fullTitle(title, releaseDate)}`}
                 />
