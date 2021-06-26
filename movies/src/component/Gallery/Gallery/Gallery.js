@@ -36,14 +36,14 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
 
-    const handleViewMovieDetails = (id) => {
+    const handleViewMovieDetails = () => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
-        selectedPage(`${currentPage}`).set();
+        selectedPage.set(`${currentPage}`);
     };
 
     const handlePageChange = (event, page) => {
-        selectedPage().remove();
+        selectedPage.remove();
         setCurrentPage(page);
     };
 
@@ -54,10 +54,10 @@ const gallery = (props) => {
     }, [isViewingDetails, scrollPosition]);
 
     useEffect(() => {
-        let page = selectedPage().getNumeric();
+        let page = selectedPage.get();
         if (page !== 0) {
             setCurrentPage(page);
-            selectedPage().remove();
+            selectedPage.remove();
         }
     }, []);
 
@@ -103,7 +103,6 @@ const gallery = (props) => {
                         return (
                             <Movie
                                 key={id}
-                                id={id}
                                 tmdbId={tmdbId}
                                 poster={posterPath}
                                 alt={`${fullTitle(title, releaseDate)}`}
