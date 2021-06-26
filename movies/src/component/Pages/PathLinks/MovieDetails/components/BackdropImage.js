@@ -40,7 +40,7 @@ const backdropImage = props => {
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
-    let id = selectedMovieId.get();
+    let id = selectedMovieId().get();
 
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8

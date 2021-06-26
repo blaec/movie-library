@@ -15,13 +15,9 @@ const callers = (key, value) => ({
 });
 
 export const selectedPage = (valueToSet) => {
-    let key = storeKeys.currentPage;
-    return callers(key, valueToSet);
+    return callers(storeKeys.currentPage, valueToSet);
 };
 
-export const selectedMovieId =
-    {
-        set: (val) => localStorage.setItem(storeKeys.id, val),
-        get: () => +localStorage.getItem(storeKeys.id),
-        remove: () => localStorage.removeItem(storeKeys.id),
-    };
+export const selectedMovieId = (valueToSet) => {
+    return callers(storeKeys.id, valueToSet);
+};

@@ -33,7 +33,7 @@ const movieDetails = () => {
     const dispatch = useDispatch();
 
     const handleBack = () => {
-        selectedMovieId.remove();
+        selectedMovieId().remove();
         history.goBack();
     };
 

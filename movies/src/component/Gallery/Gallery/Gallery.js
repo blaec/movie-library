@@ -39,9 +39,8 @@ const gallery = (props) => {
     const handleViewMovieDetails = (id) => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
-        selectedPage().set();
         selectedPage(`${currentPage}`).set();
-        selectedMovieId.set(`${id}`);
+        selectedMovieId(`${id}`).set();
     };
 
     const handlePageChange = (event, page) => {
