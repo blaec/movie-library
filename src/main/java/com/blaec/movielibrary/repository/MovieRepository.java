@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Set;
 
 public interface MovieRepository extends CrudRepository<Movie, Integer> {
-//    Movie findByImdbId(String imdbId);
+    Movie findByTmdbId(String tmdbId);
 
     Iterable<Movie> findAllByType(Type type);
 

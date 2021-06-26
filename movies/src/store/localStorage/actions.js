@@ -1,6 +1,5 @@
 const keys = Object.freeze(
     {
-        movieDeleteId: 'movie-delete-id',
         currentPage: 'current-page',
         densePadding: 'dense-padding',
         rowsPerPage: 'rows-per-page',
@@ -19,10 +18,6 @@ const callers = (key, value) => ({
 
 export const selectedPage = (valueToSet) => {
     return callers(keys.currentPage, valueToSet);
-};
-
-export const selectedMovieId = (valueToSet) => {
-    return callers(keys.movieDeleteId, valueToSet);
 };
 
 export const tableDensePadding = (valueToSet) => {

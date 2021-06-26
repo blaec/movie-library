@@ -10,7 +10,7 @@ export const reactLinks = {
     filterByGenre: "/movies/by-genre/:genreIds",
     upload: "/upload",
     movieDetailsEndpoint: "/movies/",
-    movieDetails: "/movies/:movieId",
+    movieDetails: "/movies/:movieTmdbId",
     actorMoviesEndpoint: "/actors/",
     actorMovies: "/actors/:actorId",
     nowPlaying: "/info/now-playing",
@@ -93,8 +93,8 @@ export const getAllGenresUrl = (tmdbApi) => {
     return `${url_endpoints.tmdb.genres.getMovieList}?${getParamsFrom(params)}`
 };
 
-export const getDeleteUrl = (id) => {
-    return `${movieApi.delete.delete}${id}`
+export const getDeleteUrl = (tmdbId) => {
+    return `${movieApi.delete.delete}${tmdbId}`
 };
 
 export const getScanFolderUrl = (fileLocation) => {

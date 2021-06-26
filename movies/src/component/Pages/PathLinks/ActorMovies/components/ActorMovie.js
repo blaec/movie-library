@@ -41,7 +41,6 @@ const actorMovie = (props) => {
         <ListItem className={exist ? movieExist : null}>
             <ListItemAvatar>
                 <Paper
-                    // TODO need to save selectedMovieId to delete correct movie
                     component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${id}`}
                     elevation={3}
                     className={imageSize}

@@ -54,6 +54,11 @@ public class Response {
             return this;
         }
 
+        public Builder setTmdbId(String tmbdId) {
+            this.tmbdId = tmbdId;
+            return this;
+        }
+
         public Builder setFail() {
             this.isSuccess = false;
             return this;

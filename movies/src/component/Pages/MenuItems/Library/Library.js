@@ -8,7 +8,7 @@ import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements"
 import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
 import {fetchLibrary} from "../../../../store/state/collection/collection-actions";
 import {fullTitle} from "../../../../utils/Utils";
-import {selectedMovieId, tableDensePadding, tableRowsPerPage} from "../../../../store/localStorage/actions";
+import {tableDensePadding, tableRowsPerPage} from "../../../../store/localStorage/actions";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -79,7 +79,6 @@ const library = () => {
     };
 
     const handleDisplayMovie = (id, tmdbId) => {
-        selectedMovieId(`${id}`).set();
         history.push(`${reactLinks.movieDetailsEndpoint}${tmdbId}`);
     };
 

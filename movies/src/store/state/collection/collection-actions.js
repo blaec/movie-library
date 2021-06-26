@@ -55,9 +55,9 @@ export const fetchFilteredCollection = (genreIds) => {
     };
 };
 
-export const deleteMovie = (id) => {
+export const deleteMovie = (tmdbId) => {
     return async (dispatch) => {
-        axios.delete(getDeleteUrl(id))
+        axios.delete(getDeleteUrl(tmdbId))
             .then(response => {
                 const {data} = response;
                 dispatch(uploadActions.setResult(data));
@@ -67,7 +67,7 @@ export const deleteMovie = (id) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to deleted movie with id '${id}'`,
+                    message: `${error} | Failed to deleted movie with tmdbId '${tmdbId}'`,
                     type: 'error'
                 }));
             });

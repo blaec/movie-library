@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector} from "react-redux";
 
 import MyLoader from "../../../../../../UI/Spinners/MyLoader";
-import {getMovieById, isArrayExist, joinNames, isSafe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
+import {getMovieByTmdbId, isArrayExist, joinNames, isSafe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 import {useParams} from "react-router";
@@ -28,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
 
 const infoGeneral = (props) => {
     const {details: {Rated, imdbRating, imdbVotes, release_date, runtime, title, genres} = {details: {}},} = props;
-    const {movieId} = useParams();
+    const {movieTmdbId} = useParams();
     const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
 
     const movies = useSelector(state => state.collection.movies);
 
     let generalInfo = <MyLoader/>
     if (isArrayExist(movies)) {
-        let {resolution, size, location} = getMovieById(movies, movieId);
+        let {resolution, size, location} = getMovieByTmdbId(movies, movieTmdbId);
         let metadata = {
             rated: isSafe(Rated),
             release_date: isSafe(releaseDateYear(release_date)),

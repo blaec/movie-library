@@ -105,8 +105,8 @@ public class MovieController {
         return response;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public Response delete(@PathVariable Integer id) {
-        return movieService.delete(id);
+    @DeleteMapping("/delete/{tmdbId}")
+    public Response delete(@PathVariable String tmdbId) {
+        return movieService.delete(tmdbId);
     }
 }
