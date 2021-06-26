@@ -5,6 +5,7 @@ import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import Description from "./InfoComponents/Tabs/Description";
 import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import Facts from "./InfoComponents/Tabs/Facts/Facts";
+import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
 import * as PropTypes from "prop-types";
 import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
@@ -85,7 +86,7 @@ const info = () => {
                         <Facts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
                     </TabPanel>
                     <TabPanel value={tabSelected} index={3}>
-                        trailers
+                        <Trailers/>
                     </TabPanel>
                 </div>
             </React.Fragment>
