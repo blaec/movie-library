@@ -8,6 +8,7 @@ import {delay, grid} from "../../../utils/Constants";
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
+import {getCurrentPage, removeCurrentPage, saveCurrentPage} from "../../../store/localStorage/actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,12 +39,12 @@ const gallery = (props) => {
     const handleViewMovieDetails = (id) => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
-        localStorage.setItem('currentPage', `${currentPage}`);
+        saveCurrentPage(`${currentPage}`);
         localStorage.setItem('id', `${id}`);
     };
 
     const handlePageChange = (event, page) => {
-        localStorage.removeItem('currentPage');
+        removeCurrentPage();
         setCurrentPage(page);
     };
 
@@ -54,10 +55,10 @@ const gallery = (props) => {
     }, [isViewingDetails, scrollPosition]);
 
     useEffect(() => {
-        let page = +localStorage.getItem('currentPage');
+        let page = getCurrentPage();
         if (page !== 0) {
             setCurrentPage(page);
-            localStorage.removeItem('currentPage')
+            removeCurrentPage();
         }
     }, []);
 
