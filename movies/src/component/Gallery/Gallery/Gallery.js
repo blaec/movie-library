@@ -39,12 +39,13 @@ const gallery = (props) => {
     const handleViewMovieDetails = (id) => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
-        selectedPage.set(`${currentPage}`);
+        selectedPage().set();
+        selectedPage(`${currentPage}`).set();
         selectedMovieId.set(`${id}`);
     };
 
     const handlePageChange = (event, page) => {
-        selectedPage.remove();
+        selectedPage().remove();
         setCurrentPage(page);
     };
 
@@ -55,10 +56,10 @@ const gallery = (props) => {
     }, [isViewingDetails, scrollPosition]);
 
     useEffect(() => {
-        let page = selectedPage.get();
+        let page = selectedPage().get();
         if (page !== 0) {
             setCurrentPage(page);
-            selectedPage.remove();
+            selectedPage().remove();
         }
     }, []);
 
