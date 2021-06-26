@@ -54,8 +54,8 @@ const library = () => {
     const [order, setOrder] = React.useState('desc');
     const [orderBy, setOrderBy] = React.useState('creationDate');
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(tableDensePadding().getBoolean());
-    const [rowsPerPage, setRowsPerPage] = React.useState(tableRowsPerPage().getNumeric() || 5);
+    const [dense, setDense] = React.useState(tableDensePadding().get());
+    const [rowsPerPage, setRowsPerPage] = React.useState(tableRowsPerPage().get() || 5);
 
     const handleRequestSort = (property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -69,13 +69,13 @@ const library = () => {
 
     const handleChangeRowsPerPage = (event) => {
         tableRowsPerPage(parseInt(event.target.value, 10)).set();
-        setRowsPerPage(tableRowsPerPage().getNumeric());
+        setRowsPerPage(tableRowsPerPage().get());
         setPage(0);
     };
 
     const handleChangeDense = (event) => {
         tableDensePadding(event.target.checked).set();
-        setDense(tableDensePadding().getBoolean());
+        setDense(tableDensePadding().get());
     };
 
     const handleDisplayMovie = (id, tmdbId) => {

@@ -6,7 +6,7 @@ const keys = Object.freeze(
     }
 );
 
-const callers = (key, value) => ({
+const globalFunctions = (key, value) => ({
     set: () => {
         if (value === undefined) alert(`Value to set '${key}' into localStorage is missing.`);
         return localStorage.setItem(key, value)
@@ -17,13 +17,28 @@ const callers = (key, value) => ({
 });
 
 export const selectedPage = (valueToSet) => {
-    return callers(keys.currentPage, valueToSet);
+    let key = keys.currentPage;
+    return {
+        set: globalFunctions(key, valueToSet).set,
+        get: globalFunctions(key, valueToSet).getNumeric,
+        remove: globalFunctions(key, valueToSet).remove,
+    };
 };
 
 export const tableDensePadding = (valueToSet) => {
-    return callers(keys.densePadding, valueToSet);
+    let key = keys.densePadding;
+    return {
+        set: globalFunctions(key, valueToSet).set,
+        get: globalFunctions(key, valueToSet).getBoolean(),
+        remove: globalFunctions(key, valueToSet).remove,
+    };
 };
 
 export const tableRowsPerPage = (valueToSet) => {
-    return callers(keys.rowsPerPage, valueToSet);
+    let key = keys.rowsPerPage;
+    return {
+        set: globalFunctions(key, valueToSet).set,
+        get: globalFunctions(key, valueToSet).getNumeric,
+        remove: globalFunctions(key, valueToSet).remove,
+    };
 };
