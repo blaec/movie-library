@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const description = (props) => {
-    const {details: {tagline, overview}} = props;
+    const {details: {tagline, overview, Plot}} = props;
     const {taglineFont} = useStyles();
 
     return (
@@ -25,7 +25,7 @@ const description = (props) => {
                 {tagline}
             </Typography>
             <Typography variant='body1'>
-                {overview}
+                {overview || Plot}
             </Typography>
         </React.Fragment>
     );

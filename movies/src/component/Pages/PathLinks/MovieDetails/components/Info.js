@@ -75,7 +75,7 @@ const info = () => {
                         </Tabs>
                     </Paper>
                     <TabPanel value={tabSelected} index={0}>
-                        <Description details={tmdbMovieDetails}/>
+                        <Description details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
                     </TabPanel>
                     <TabPanel value={tabSelected} index={1}>
                         <Cast details={cast}/>
