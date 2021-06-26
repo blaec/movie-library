@@ -18,6 +18,7 @@ import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import {fullTitle} from "../../../../utils/Utils";
+import {tableDensePadding} from "../../../../store/localStorage/actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +54,7 @@ const library = () => {
     const [order, setOrder] = React.useState('desc');
     const [orderBy, setOrderBy] = React.useState('creationDate');
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
+    const [dense, setDense] = React.useState(tableDensePadding().getBoolean());
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const handleRequestSort = (property) => {
@@ -72,7 +73,8 @@ const library = () => {
     };
 
     const handleChangeDense = (event) => {
-        setDense(event.target.checked);
+        tableDensePadding(event.target.checked).set();
+        setDense(tableDensePadding().getBoolean());
     };
 
     const handleDisplayMovie = (tmdbId) => {

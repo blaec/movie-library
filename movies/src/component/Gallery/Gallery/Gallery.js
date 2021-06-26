@@ -55,7 +55,7 @@ const gallery = (props) => {
     }, [isViewingDetails, scrollPosition]);
 
     useEffect(() => {
-        let page = selectedPage().get();
+        let page = selectedPage().getNumeric();
         if (page !== 0) {
             setCurrentPage(page);
             selectedPage().remove();
