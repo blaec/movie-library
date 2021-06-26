@@ -2,7 +2,7 @@ import axios from "../axios-movies";
 import {getSearchMovieUrl, movieApi} from "../utils/UrlUtils";
 import {uploadActions} from "./upload-slice";
 import {feedbackActions} from "./state/feedback/feedback-slice";
-import {fetchMovies, fetchWishlist} from "./collection-actions";
+import {fetchMovies, fetchWishlist} from "./state/collection/collection-actions";
 import * as UrlUtils from "../utils/UrlUtils";
 import {Loader} from "../utils/Constants";
 

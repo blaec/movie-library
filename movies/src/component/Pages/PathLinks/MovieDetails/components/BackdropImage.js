@@ -10,7 +10,7 @@ import {drawer} from "../../../../../utils/Constants";
 import {fullTitle, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
-import {deleteMovie} from "../../../../../store/collection-actions";
+import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
 import {saveWishMovie} from "../../../../../store/upload-actions";
 
 import Carousel from "react-material-ui-carousel";

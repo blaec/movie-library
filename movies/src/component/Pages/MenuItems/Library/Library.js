@@ -6,7 +6,7 @@ import {getComparator, stableSort} from "../../../../utils/SortUtils";
 import EnhancedTableHead from "./components/EnhancedTableHead";
 import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements";
 import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
-import {fetchLibrary} from "../../../../store/collection-actions";
+import {fetchLibrary} from "../../../../store/state/collection/collection-actions";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

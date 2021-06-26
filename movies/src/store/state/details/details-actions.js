@@ -1,5 +1,5 @@
-import axios from "../axios-movies";
-import {getActorDetailsUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../utils/UrlUtils";
+import axios from "../../../axios-movies";
+import {getActorDetailsUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
 import {detailsActions} from "./details-slice";
 
 export const fetchCast = (movieId, tmdbApi) => {

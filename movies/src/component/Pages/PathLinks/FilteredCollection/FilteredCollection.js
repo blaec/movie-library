@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {fetchFilteredCollection} from "../../../../store/collection-actions";
+import {fetchFilteredCollection} from "../../../../store/state/collection/collection-actions";
 import {isArrayExist} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/state/feedback/feedback-slice";
 
