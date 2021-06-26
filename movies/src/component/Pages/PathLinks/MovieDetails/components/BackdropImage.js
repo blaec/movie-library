@@ -102,8 +102,14 @@ const backdropImage = props => {
 
     let backdropImages = <MyLoader/>
     if (isObjectExist(tmdbMovieDetails)) {
-        const {title, releaseDate, images: {backdrops}} = tmdbMovieDetails;
-        backdropImages = backdrops.map((backdrop, idx) => {
+        const {title, releaseDate, images: {backdrops}, poster_path} = tmdbMovieDetails;
+        const backdropsData = isArraysExist(backdrops)
+            ? backdrops
+            : [{
+                aspect_ratio: 16 / 9,
+                file_path: poster_path
+            }];
+        backdropImages = backdropsData.map((backdrop, idx) => {
             const {aspect_ratio, file_path} = backdrop;
             return (
                 <img
