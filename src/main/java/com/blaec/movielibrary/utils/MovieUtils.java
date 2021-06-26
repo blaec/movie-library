@@ -22,12 +22,7 @@ public class MovieUtils {
      */
     public static Iterable<Movie> sortByTitleAndYear(Iterable<Movie> movies) {
         return StreamSupport.stream(movies.spliterator(), false).sorted(Comparator
-                .comparing((Movie m) ->
-                        m.getTitle().startsWith("The ")
-                                ? m.getTitle().replace("The ", "")
-                                : m.getTitle().startsWith("A ")
-                                ? m.getTitle().replace("A ", "")
-                                : m.getTitle())
+                .comparing((Movie movie) -> movie.getTitle().replaceAll("The |A ", ""))
                 .thenComparing(Movie::getReleaseDate))
                 .collect(Collectors.toList());
     }
