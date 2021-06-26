@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {isArrayExist} from "../utils/Utils";
 import MyLoader from "../UI/Spinners/MyLoader";
 import Gallery from "../component/Gallery/Gallery/Gallery";
-import {feedbackActions} from "../store/feedback-slice";
+import {feedbackActions} from "../store/state/feedback/feedback-slice";
 
 const useGallery = (movies) => {
     const collection = useSelector(state => state.collection[movies]);

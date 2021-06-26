@@ -7,7 +7,7 @@ import {delay, grid} from "../../../utils/Constants";
 
 import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
-import {feedbackActions} from "../../../store/feedback-slice";
+import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 
 const useStyles = makeStyles((theme) => ({
     root: {

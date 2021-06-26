@@ -8,7 +8,7 @@ import MyLinearProgress from "../MyLinearProgress";
 import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
-import {feedbackActions} from "../../../../../../store/feedback-slice";
+import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/upload-actions";
 import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 

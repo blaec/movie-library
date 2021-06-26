@@ -1,7 +1,7 @@
 import {configureStore} from "@reduxjs/toolkit";
 
 import apiReducer from "./api-slice";
-import feedbackReducer from "./feedback-slice";
+import feedbackReducer from "./state/feedback/feedback-slice";
 import filterReducer from "./filter-slice";
 import collectionReducer from "./collection-slice";
 import uploadReducer from "./upload-slice";

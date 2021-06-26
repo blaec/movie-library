@@ -1,7 +1,7 @@
 import axios from "../axios-movies";
 import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi} from "../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
-import {feedbackActions} from "./feedback-slice";
+import {feedbackActions} from "./state/feedback/feedback-slice";
 import {uploadActions} from "./upload-slice";
 
 export const fetchMovies = () => {

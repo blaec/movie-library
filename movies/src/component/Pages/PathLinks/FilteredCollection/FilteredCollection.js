@@ -6,7 +6,7 @@ import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {fetchFilteredCollection} from "../../../../store/collection-actions";
 import {isArrayExist} from "../../../../utils/Utils";
-import {feedbackActions} from "../../../../store/feedback-slice";
+import {feedbackActions} from "../../../../store/state/feedback/feedback-slice";
 
 const filteredCollection = () => {
     const params = useParams();

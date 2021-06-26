@@ -8,7 +8,7 @@ import MyLinearProgress from "../MyLinearProgress";
 import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import WishPreviews from "./WishPreviews";
-import {feedbackActions} from "../../../../../../store/feedback-slice";
+import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 import {fetchWishMovies, saveWishMovie} from "../../../../../../store/upload-actions";
 

@@ -9,7 +9,7 @@ import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import {drawer} from "../../../../../utils/Constants";
 import {fullTitle, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/upload-slice";
-import {feedbackActions} from "../../../../../store/feedback-slice";
+import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/collection-actions";
 import {saveWishMovie} from "../../../../../store/upload-actions";
 
