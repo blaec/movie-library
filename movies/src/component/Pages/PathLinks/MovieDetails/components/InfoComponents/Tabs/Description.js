@@ -27,6 +27,15 @@ const description = (props) => {
             <Typography variant='body1'>
                 {overview || Plot || `No description available`}
             </Typography>
+            <iframe
+                width="100%"
+                height="480"
+                src={`https://www.youtube.com/embed/YLE85olJjp8`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Embedded youtube"
+            />
         </React.Fragment>
     );
 };
