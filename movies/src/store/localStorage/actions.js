@@ -6,39 +6,36 @@ const keys = Object.freeze(
     }
 );
 
-const globalFunctions = (key, value) => ({
-    set: () => {
-        if (value === undefined) alert(`Value to set '${key}' into localStorage is missing.`);
-        return localStorage.setItem(key, value)
-    },
+const globalFunctions = (key) => ({
+    set: (value) => localStorage.setItem(key, value),
     getNumeric: () => +localStorage.getItem(key),
     getBoolean: () => localStorage.getItem(key) === 'true',
     remove: () => localStorage.removeItem(key),
 });
 
-export const selectedPage = (valueToSet) => {
+export const selectedPage = () => {
     let key = keys.currentPage;
     return {
-        set: globalFunctions(key, valueToSet).set,
-        get: globalFunctions(key, valueToSet).getNumeric,
-        remove: globalFunctions(key, valueToSet).remove,
+        set: (valueToSet) => globalFunctions(key).set(valueToSet),
+        get: globalFunctions(key).getNumeric,
+        remove: globalFunctions(key).remove,
     };
 };
 
-export const tableDensePadding = (valueToSet) => {
+export const tableDensePadding = () => {
     let key = keys.densePadding;
     return {
-        set: globalFunctions(key, valueToSet).set,
-        get: globalFunctions(key, valueToSet).getBoolean(),
-        remove: globalFunctions(key, valueToSet).remove,
+        set: (valueToSet) => globalFunctions(key).set(valueToSet),
+        get: globalFunctions(key).getBoolean,
+        remove: globalFunctions(key).remove,
     };
 };
 
-export const tableRowsPerPage = (valueToSet) => {
+export const tableRowsPerPage = () => {
     let key = keys.rowsPerPage;
     return {
-        set: globalFunctions(key, valueToSet).set,
-        get: globalFunctions(key, valueToSet).getNumeric,
-        remove: globalFunctions(key, valueToSet).remove,
+        set: (valueToSet) => globalFunctions(key).set(valueToSet),
+        get: globalFunctions(key).getNumeric,
+        remove: globalFunctions(key).remove,
     };
 };

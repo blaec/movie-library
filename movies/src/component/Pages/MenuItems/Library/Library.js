@@ -68,13 +68,13 @@ const library = () => {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        tableRowsPerPage(parseInt(event.target.value, 10)).set();
+        tableRowsPerPage().set(parseInt(event.target.value, 10));
         setRowsPerPage(tableRowsPerPage().get());
         setPage(0);
     };
 
     const handleChangeDense = (event) => {
-        tableDensePadding(event.target.checked).set();
+        tableDensePadding().set(event.target.checked);
         setDense(tableDensePadding().get());
     };
 

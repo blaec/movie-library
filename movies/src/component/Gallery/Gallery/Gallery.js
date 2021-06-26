@@ -36,10 +36,10 @@ const gallery = (props) => {
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
 
-    const handleViewMovieDetails = (id) => {
+    const handleViewMovieDetails = () => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
-        selectedPage(`${currentPage}`).set();
+        selectedPage().set(`${currentPage}`);
     };
 
     const handlePageChange = (event, page) => {
@@ -103,7 +103,6 @@ const gallery = (props) => {
                         return (
                             <Movie
                                 key={id}
-                                id={id}
                                 tmdbId={tmdbId}
                                 poster={posterPath}
                                 alt={`${fullTitle(title, releaseDate)}`}
