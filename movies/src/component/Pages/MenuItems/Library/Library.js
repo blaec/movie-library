@@ -7,6 +7,8 @@ import EnhancedTableHead from "./components/EnhancedTableHead";
 import {StyledTableCell, StyledTableRow} from "./components/StyledTableElements";
 import EnhancedTableToolbar from "./components/EnhancedTableToolbar";
 import {fetchLibrary} from "../../../../store/state/collection/collection-actions";
+import {fullTitle} from "../../../../utils/Utils";
+import {selectedMovieId, tableDensePadding, tableRowsPerPage} from "../../../../store/localStorage/actions";
 
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -17,8 +19,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import {fullTitle} from "../../../../utils/Utils";
-import {tableDensePadding, tableRowsPerPage} from "../../../../store/localStorage/actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +78,8 @@ const library = () => {
         setDense(tableDensePadding().getBoolean());
     };
 
-    const handleDisplayMovie = (tmdbId) => {
+    const handleDisplayMovie = (id, tmdbId) => {
+        selectedMovieId(`${id}`).set();
         history.push(`${reactLinks.movieDetailsEndpoint}${tmdbId}`);
     };
 
@@ -116,7 +117,7 @@ const library = () => {
                                         <StyledTableRow
                                             key={id}
                                             hover
-                                            onClick={() => handleDisplayMovie(tmdbId)}
+                                            onClick={() => handleDisplayMovie(id, tmdbId)}
                                         >
                                             <StyledTableCell>{fullTitle(title, releaseDate)}</StyledTableCell>
                                             <StyledTableCell align="right">{type}</StyledTableCell>
