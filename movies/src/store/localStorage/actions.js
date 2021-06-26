@@ -26,7 +26,7 @@ export const tableDensePadding = {
 };
 
 export const tableRowsPerPage = {
-    set: globalFunctions(key).set,
-    get: globalFunctions(key).getNumeric,
-    remove: globalFunctions(key).remove,
+    set: globalFunctions(keys.rowsPerPage).set,
+    get: globalFunctions(keys.rowsPerPage).getNumeric,
+    remove: globalFunctions(keys.rowsPerPage).remove,
 };
