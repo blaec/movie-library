@@ -25,7 +25,7 @@ const description = (props) => {
                 {tagline}
             </Typography>
             <Typography variant='body1'>
-                {overview || Plot}
+                {overview || Plot || `No description available`}
             </Typography>
         </React.Fragment>
     );
