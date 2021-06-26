@@ -16,7 +16,7 @@ const globalFunctions = (key) => ({
 export const selectedPage = () => {
     let key = keys.currentPage;
     return {
-        set: (valueToSet) => globalFunctions(key).set(valueToSet),
+        set: globalFunctions(key).set,
         get: globalFunctions(key).getNumeric,
         remove: globalFunctions(key).remove,
     };
@@ -25,7 +25,7 @@ export const selectedPage = () => {
 export const tableDensePadding = () => {
     let key = keys.densePadding;
     return {
-        set: (valueToSet) => globalFunctions(key).set(valueToSet),
+        set: globalFunctions(key).set,
         get: globalFunctions(key).getBoolean,
         remove: globalFunctions(key).remove,
     };
@@ -34,7 +34,7 @@ export const tableDensePadding = () => {
 export const tableRowsPerPage = () => {
     let key = keys.rowsPerPage;
     return {
-        set: (valueToSet) => globalFunctions(key).set(valueToSet),
+        set:globalFunctions(key).set,
         get: globalFunctions(key).getNumeric,
         remove: globalFunctions(key).remove,
     };
