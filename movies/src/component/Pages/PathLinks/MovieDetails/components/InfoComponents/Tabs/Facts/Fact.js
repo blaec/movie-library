@@ -16,8 +16,8 @@ const fact = props => {
     const {header, text} = props;
     const {headerFont, textFont} = useStyles();
 
-    return (
-        <React.Fragment>
+    const fact = text
+        ? (
             <Box>
                 <Typography className={headerFont}
                             display='inline'
@@ -30,6 +30,11 @@ const fact = props => {
                     {text}
                 </Typography>
             </Box>
+        )
+        : null;
+    return (
+        <React.Fragment>
+            {fact}
         </React.Fragment>
     );
 };

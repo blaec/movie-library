@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router";
 
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
@@ -15,7 +16,6 @@ import {saveWishMovie} from "../../../../../store/state/upload/upload-actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
-import {useParams} from "react-router";
 
 const CAROUSEL_TIMEOUT = 300;
 const MOBILE_WIN_WIDTH = 600;
@@ -23,13 +23,16 @@ const MOBILE_WIN_WIDTH = 600;
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'relative',
+    },
+    image: {
+        objectFit: 'scale-down',
     }
 }));
 
 
 const backdropImage = props => {
     const {onClose} = props;
-    const {root} = useStyles();
+    const {root, image} = useStyles();
     const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
@@ -102,14 +105,28 @@ const backdropImage = props => {
 
     let backdropImages = <MyLoader/>
     if (isObjectExist(tmdbMovieDetails)) {
-        const {title, releaseDate, images: {backdrops}} = tmdbMovieDetails;
-        backdropImages = backdrops.map((backdrop, idx) => {
+        const {title, releaseDate, images: {backdrops}, poster_path} = tmdbMovieDetails;
+        const backdropsData = isArraysExist(backdrops)
+            ? backdrops
+            : [{
+                aspect_ratio: 16 / 9,
+                file_path: poster_path
+
+            }];
+        backdropImages = backdropsData.map((backdrop, idx) => {
             const {aspect_ratio, file_path} = backdrop;
+            const height = parseInt(windowWidth / aspect_ratio, 0);
+            const width = parseInt(windowWidth, 0);
+            const path = file_path !== null
+                ? getImageUrl(file_path)
+                : `https://via.placeholder.com/${width}x${height}.png?text=${title}`;
             return (
                 <img
                     key={idx + 1}
-                    height={windowWidth / aspect_ratio}
-                    src={getImageUrl(file_path)}
+                    className={image}
+                    height={height}
+                    width='100%'
+                    src={path}
                     alt={`${fullTitle(title, releaseDate)}`}
                 />
             );

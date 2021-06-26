@@ -7,7 +7,7 @@ import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import Facts from "./InfoComponents/Tabs/Facts/Facts";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
 import * as PropTypes from "prop-types";
-import {isArrayExist, isObjectsExist} from "../../../../../utils/Utils";
+import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
 
 import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
@@ -56,7 +56,7 @@ const info = () => {
         setTabSelected(newValue);
     };
 
-    const hasDetails = isObjectsExist(tmdbMovieDetails, omdbMovieDetails) && isArrayExist(cast);
+    const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails)) && isArrayExist(cast);
     let info = <MyLoader/>
     if (hasDetails) {
         info = (
