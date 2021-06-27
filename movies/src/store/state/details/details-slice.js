@@ -34,6 +34,7 @@ const detailsSlice = createSlice({
             state.movieOmdbDetails = {};
             state.actorDetails = {};
             state.imdbId = '';
+            state.trailers = [];
         },
         setTrailers(state, action) {
             state.trailers = action.payload;
