@@ -1,5 +1,11 @@
 import axios from "../../../axios-movies";
-import {getActorDetailsUrl, getMovieCreditsUrl, getMovieDetailsUrl, getOmdbMovieDetails} from "../../../utils/UrlUtils";
+import {
+    getActorDetailsUrl,
+    getMovieCreditsUrl,
+    getMovieDetailsUrl,
+    getOmdbMovieDetails,
+    getTrailersUrl
+} from "../../../utils/UrlUtils";
 import {detailsActions} from "./details-slice";
 
 export const fetchCast = (movieId, tmdbApi) => {
@@ -50,6 +56,19 @@ export const fetchActorDetails = (actorId, tmdbApi) => {
             .then(response => {
                 const {data} = response;
                 dispatch(detailsActions.setActorDetails(data));
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+
+export const fetchTrailers = (tmdbId, tmdbApi) => {
+    return async (dispatch) => {
+        axios.get(getTrailersUrl(tmdbId, tmdbApi))
+            .then(response => {
+                const {data: {results}} = response;
+                dispatch(detailsActions.setTrailers(results));
             })
             .catch(error => {
                 console.log(error);

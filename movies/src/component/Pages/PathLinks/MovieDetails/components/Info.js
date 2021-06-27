@@ -5,6 +5,7 @@ import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import Description from "./InfoComponents/Tabs/Description";
 import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import Facts from "./InfoComponents/Tabs/Facts/Facts";
+import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
 import * as PropTypes from "prop-types";
 import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
@@ -72,6 +73,7 @@ const info = () => {
                             <Tab label="Description"/>
                             <Tab label="Cast"/>
                             <Tab label="Facts"/>
+                            <Tab label="Trailers"/>
                         </Tabs>
                     </Paper>
                     <TabPanel value={tabSelected} index={0}>
@@ -82,6 +84,9 @@ const info = () => {
                     </TabPanel>
                     <TabPanel value={tabSelected} index={2}>
                         <Facts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
+                    </TabPanel>
+                    <TabPanel value={tabSelected} index={3}>
+                        <Trailers/>
                     </TabPanel>
                 </div>
             </React.Fragment>

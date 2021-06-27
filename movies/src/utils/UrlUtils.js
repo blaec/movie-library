@@ -107,6 +107,10 @@ export const getActorDetailsUrl = (actorId, tmdbApi) => {
     return `${url_endpoints.tmdb.people.getDetails}${actorId}?${getParamsFrom(params)}`
 };
 
+export const getTrailersUrl = (tmdbId, tmdbApi) => {
+    return `https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${tmdbApi}`
+}
+
 const getParamsFrom = (obj) => {
     return Object.entries(obj).map(([key, val]) => `${key}=${val}`).join('&');
 };
