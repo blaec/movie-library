@@ -22,7 +22,6 @@ const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/
 const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
 const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
 const Library = React.lazy(() => import('./component/Pages/MenuItems/Library/Library'));
-const Stats = React.lazy(() => import('./component/Pages/MenuItems/Stats/Stats'));
 
 const app = () => {
     const {
@@ -38,7 +37,6 @@ const app = () => {
         nowPlaying,
         anticipated,
         library,
-        stats,
     } = reactLinks;
 
     const movies = useSelector(state => state.collection.movies);
@@ -71,7 +69,6 @@ const app = () => {
                     <Route path={nowPlaying} exact component={NowPlaying}/>
                     <Route path={anticipated} exact component={Anticipated}/>
                     <Route path={library} exact component={Library}/>
-                    <Route path={stats} exact component={Stats}/>
 
                     {/* Path links */}
                     <Route path={movieDetails} exact component={props => {

@@ -13,7 +13,6 @@ import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
 import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
 import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
-import SaveTwoToneIcon from '@material-ui/icons/SaveTwoTone';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
     return  itemsData.map((item, index) => {
@@ -75,11 +74,6 @@ const settingsItemsData = [
         text: "Library",
         link: reactLinks.library,
         icon: <StorageTwoToneIcon/>
-    },
-    {
-        text: "Stats",
-        link: reactLinks.stats,
-        icon: <SaveTwoToneIcon/>
     },
 ];
 

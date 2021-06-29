@@ -16,7 +16,6 @@ export const reactLinks = {
     nowPlaying: "/info/now-playing",
     anticipated: "/info/anticipated",
     library: "/stats/library",
-    stats: "/stats/stats",
 };
 
 export const isSearchable = (pathname) => {
