@@ -16,9 +16,9 @@ const useStyles = makeStyles({
     },
 });
 
-function createData(name, data, loc) {
+const createData = (name, data, loc) => {
     let moviesByLocation = data.filter(movie => movie.location.includes(loc));
-    let count = moviesByLocation.length;
+    let count = moviesByLocation.length.toFixed(0).toLocaleString();
     let size = moviesByLocation.reduce(((sum, movie) => sum + movie.size), 0);
     return { name, count, size };
 }
