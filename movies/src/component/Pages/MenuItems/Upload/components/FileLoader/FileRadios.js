@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from "react-redux";
 
 import {isArrayExist} from "../../../../../../utils/Utils";
+import RadioLabel from "./RadioLabel";
 
 import {FormControlLabel, makeStyles, Radio, RadioGroup} from "@material-ui/core";
 
@@ -38,13 +39,13 @@ const fileRadios = (props) => {
     }
 
     const radios = movieLocations.map(location => {
-            const {key, label, count, size} = location;
+            const {key} = location;
             return (
                 <FormControlLabel
                     key={key}
                     value={key}
                     control={<Radio color="primary"/>}
-                    label={`${label} (${count} | ${size}Gb)`}
+                    label={<RadioLabel data={location}/>}
                 />
             );
         }
