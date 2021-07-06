@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useLocation} from "react-router";
 
 import Movie from "./components/Movie";
 import {fullTitle, isArrayExist, isStringsExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
-import {selectedPage} from "../../../store/localStorage/actions";
+import {lastLocation, selectedPage} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 
 import Pagination from '@material-ui/lab/Pagination';
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 const gallery = (props) => {
     let {movies} = props;
     const {root, pagination} = useStyles();
+    const {pathname} = useLocation();
 
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
@@ -40,6 +42,7 @@ const gallery = (props) => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
         selectedPage.set(`${currentPage}`);
+        lastLocation.set(pathname);
     };
 
     const handlePageChange = (event, page) => {
@@ -54,10 +57,12 @@ const gallery = (props) => {
     }, [isViewingDetails, scrollPosition]);
 
     useEffect(() => {
-        let page = selectedPage.get();
-        if (page !== 0) {
+        const page = selectedPage.get();
+        const previousPathname = lastLocation.get();
+        if (page !== 0 && previousPathname === pathname) {
             setCurrentPage(page);
             selectedPage.remove();
+            lastLocation.remove();
         }
     }, []);
 
