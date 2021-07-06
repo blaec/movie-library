@@ -40,7 +40,7 @@ public class MovieController {
 
     @GetMapping("/wishlist")
     public Iterable<Movie> getAllWishMovies() {
-        return MovieUtils.sortByTitleAndYear(movieService.getAllWishMovies());
+        return MovieUtils.sortByReleaseYear(movieService.getAllWishMovies());
     }
 
     @PostMapping("/filter")

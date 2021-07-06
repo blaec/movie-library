@@ -21,9 +21,22 @@ public class MovieUtils {
      * @return sorted list
      */
     public static Iterable<Movie> sortByTitleAndYear(Iterable<Movie> movies) {
-        return StreamSupport.stream(movies.spliterator(), false).sorted(Comparator
-                .comparing((Movie movie) -> movie.getTitle().replaceAll("The |A ", ""))
-                .thenComparing(Movie::getReleaseDate))
+        return StreamSupport.stream(movies.spliterator(), false)
+                .sorted(Comparator
+                    .comparing((Movie movie) -> movie.getTitle().replaceAll("The |A ", ""))
+                    .thenComparing(Movie::getReleaseDate))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Sort movie list by release year
+     *
+     * @param movies list of movies to sort
+     * @return sorted list
+     */
+    public static Iterable<Movie> sortByReleaseYear(Iterable<Movie> movies) {
+        return StreamSupport.stream(movies.spliterator(), false)
+                .sorted(Comparator.comparing(Movie::getReleaseDate))
                 .collect(Collectors.toList());
     }
 
