@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {NavLink} from "react-router-dom";
 
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
@@ -9,11 +10,11 @@ import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {fetchGenres} from "../../../../store/state/filter/filter-actions";
 import {isArrayExist, isStringExist} from "../../../../utils/Utils";
+import {collectionActions} from "../../../../store/state/collection/collection-slice";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
 import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
 import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
-import {NavLink} from "react-router-dom";
 
 const filter = () => {
     const theme = useTheme();
@@ -27,6 +28,7 @@ const filter = () => {
     useEffect(() => {
         if (isStringExist(tmdbApi)) {
             dispatch(fetchGenres(tmdbApi));
+            dispatch(collectionActions.resetFilteredMovies());
         }
     }, [tmdbApi]);
 

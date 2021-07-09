@@ -1,6 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, Suspense} from 'react';
 import {useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
+
+import MyResponse from "../../../../UI/MyResponse";
 
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -12,14 +14,14 @@ const filteredCollection = () => {
     const params = useParams();
     const {genreIds} = params;
 
-    const filteredMovies = useSelector(state => state.collection.filteredMovies);
+    const {data: filteredMovies, hasResult} = useSelector(state => state.collection.filteredMovies);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchFilteredCollection(genreIds));
     }, [genreIds]);
 
-    let hasMovies = isArrayExist(filteredMovies);
+    let hasMovies = hasResult && isArrayExist(filteredMovies);
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
@@ -27,12 +29,13 @@ const filteredCollection = () => {
                 type: 'info'
             }));
         }
-    }, [hasMovies])
+    }, [hasMovies]);
+
     return (
-        <React.Fragment>
-            {!hasMovies &&  <MyLoader/>}
+        <Suspense fallback={<MyLoader/>}>
+            {hasResult && !hasMovies &&  <MyResponse message="Nothing matched the request!"/>}
             {hasMovies &&  <Gallery movies={filteredMovies}/>}
-        </React.Fragment>
+        </Suspense>
     );
 };
 
