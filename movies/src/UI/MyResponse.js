@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {makeStyles} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 
@@ -13,10 +14,10 @@ const useStyles = makeStyles((theme) => ({
 
 const myResponse = (props) => {
     const{message} = props;
-    const classes = useStyles();
+    const {root} = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className={root}>
             <Alert severity="warning">{message}</Alert>
         </div>
     );

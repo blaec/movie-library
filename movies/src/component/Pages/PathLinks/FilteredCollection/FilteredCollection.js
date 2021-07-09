@@ -3,7 +3,6 @@ import {useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 
 import MyResponse from "../../../../UI/MyResponse";
-
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {fetchFilteredCollection} from "../../../../store/state/collection/collection-actions";
@@ -33,7 +32,7 @@ const filteredCollection = () => {
 
     return (
         <Suspense fallback={<MyLoader/>}>
-            {hasResult && !hasMovies &&  <MyResponse message="Nothing matched the request!"/>}
+            {hasResult && !hasMovies && <MyResponse message="Nothing matches the request! Please, choose another movie genre."/>}
             {hasMovies &&  <Gallery movies={filteredMovies}/>}
         </Suspense>
     );
