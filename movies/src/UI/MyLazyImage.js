@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React from "react";
 import LazyLoad from "react-lazyload";
 
 import MyLoader from "./Spinners/MyLoader";
@@ -19,47 +19,17 @@ const useStyles = makeStyles((theme) => ({
         height: '100%',
         objectFit: 'fill',
     },
-    placeholder: {
-        display: "flex",
-        justifyContent: 'center',
-        alignItems: 'center',
-
-    },
-    "@keyframes loadingAnimation": {
-        "0%": {
-            backgroundColor: '#fff',
-        },
-        "50%": {
-            backgroundColor: '#ccc',
-        },
-        "100%": {
-            backgroundColor: '#fff',
-        }
-    },
 }));
 
 const myLazyImage = (props) => {
     const {src, alt, onClick} = props;
-    const {imageWrapper, placeholder, styledImage} = useStyles();
-    const refPlaceholder = useRef();
-
-    const removePlaceholder = () => {
-        refPlaceholder.current.remove();
-    };
+    const {imageWrapper, styledImage} = useStyles();
 
     return (
         <div className={imageWrapper}>
-            <div
-                className={placeholder}
-                ref={refPlaceholder}
-            >
-                <MyLoader/>
-            </div>
-            <LazyLoad>
+            <LazyLoad offset={200}>
                 <img
                     className={styledImage}
-                    onLoad={removePlaceholder}
-                    onError={removePlaceholder}
                     src={src}
                     alt={alt}
                     onClick={onClick}
