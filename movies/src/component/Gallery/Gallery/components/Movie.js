@@ -47,9 +47,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 const movie = props => {
-    const {poster, alt, onClick, tmdbId} = props;
-    const {root, image} = useStyles(window.innerWidth);
-    console.log(window.innerWidth);
+    const {poster, alt, onClick, tmdbId, root} = props;
+    // const {root, image} = useStyles(window.innerWidth);
 
     return (
         <Paper

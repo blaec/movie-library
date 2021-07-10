@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 
 import Movie from "./components/Movie";
-import {fullTitle, isArrayExist, isStringsExist} from "../../../utils/Utils";
+import {drawerWidth, fullTitle, isArrayExist, isStringsExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
 import {lastLocation, selectedPage} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
@@ -21,11 +21,41 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center',
         margin: '10px 0',
     },
+    grid: screenWidth => {
+        const imagesSpaceWidthPerHeightRatio = (screenWidth - drawerWidth(window.innerWidth)) * 1.5;
+        return {
+            [theme.breakpoints.up(grid.g2.resolution)]: {
+                width: `calc(100% / ${grid.g2.moviesPerRow})`,
+                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g2.moviesPerRow})`,
+            },
+            [theme.breakpoints.up(grid.g3.resolution)]: {
+                width: `calc(100% / ${grid.g3.moviesPerRow})`,
+                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g3.moviesPerRow})`,
+            },
+            [theme.breakpoints.up(grid.g4.resolution)]: {
+                width: `calc(100% / ${grid.g4.moviesPerRow})`,
+                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g4.moviesPerRow})`,
+            },
+            [theme.breakpoints.up(grid.g5.resolution)]: {
+                width: `calc(100% / ${grid.g5.moviesPerRow})`,
+                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g5.moviesPerRow})`,
+            },
+            [theme.breakpoints.up(grid.g6.resolution)]: {
+                width: `calc(100% / ${grid.g6.moviesPerRow})`,
+                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g6.moviesPerRow})`,
+            },
+            [theme.breakpoints.up(grid.g7.resolution)]: {
+                width: `calc(100% / ${grid.g7.moviesPerRow})`,
+                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g7.moviesPerRow})`,
+            },
+        }
+    },
 }));
+
 
 const gallery = (props) => {
     let {movies} = props;
-    const {root, pagination} = useStyles();
+    const {root, pagination, grid} = useStyles(window.innerWidth);
     const {pathname} = useLocation();
 
     const search = useSelector(state => state.filter.search);
@@ -83,9 +113,9 @@ const gallery = (props) => {
 
             // set gallery pagination structure
             const structure = Object.values(grid).filter(grid => grid.resolution < windowWidth).slice(-1).pop();
-            let moviesPerPage = structure.rows * structure.moviesPerRow;
-            setMoviesPerPage(moviesPerPage);
-            setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
+            // let moviesPerPage = structure.rows * structure.moviesPerRow;
+            // setMoviesPerPage(moviesPerPage);
+            // setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
 
             // reset current page when search is used
             if (isStringsExist(search)) {
@@ -99,16 +129,17 @@ const gallery = (props) => {
     }, [search, windowWidth, movies]);
 
     const lastMovieOnCurrentPage = currentPage * moviesPerPage;
-    const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
+    // const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
     let myGallery = (
         <React.Fragment>
             <div className={root}>
-                {moviesOnCurrentPage.map(movie => {
+                {displayedMovieList.map(movie => {
                         const {id, tmdbId, posterPath, title, releaseDate} = movie;
                         return (
                             <Movie
                                 key={id}
                                 tmdbId={tmdbId}
+                                root={grid}
                                 poster={posterPath}
                                 alt={`${fullTitle(title, releaseDate)}`}
                                 onClick={handleViewMovieDetails}
@@ -117,16 +148,16 @@ const gallery = (props) => {
                     }
                 )}
             </div>
-            {
-                isArrayExist(displayedMovieList) &&
-                <Pagination
-                    className={pagination}
-                    page={currentPage}
-                    count={totalPages}
-                    variant="outlined"
-                    color="primary"
-                    onChange={handlePageChange}/>
-            }
+            {/*{*/}
+            {/*    isArrayExist(displayedMovieList) &&*/}
+            {/*    <Pagination*/}
+            {/*        className={pagination}*/}
+            {/*        page={currentPage}*/}
+            {/*        count={totalPages}*/}
+            {/*        variant="outlined"*/}
+            {/*        color="primary"*/}
+            {/*        onChange={handlePageChange}/>*/}
+            {/*}*/}
         </React.Fragment>
     );
 
