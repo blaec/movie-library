@@ -15,9 +15,9 @@ const movie = props => {
         >
             <MyLazyImage
                 // className={image}
-                src={getImageUrl(poster)}
+                src={getImageUrl(poster, false)}
                 alt={alt}
-                // onClick={onClick}
+                onClick={onClick}
             />
         </Paper>
     );

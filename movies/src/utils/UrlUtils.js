@@ -79,8 +79,11 @@ export const getMovieCreditsUrl = (id, tmdbApi) => {
     return `${url_endpoints.tmdb.movies.getDetails}${id}/credits?${getParamsFrom(params)}`
 };
 
-export const getImageUrl = (path) => {
-    return `${url_endpoints.tmdb.gettingStarted.images}${path}`
+export const getImageUrl = (path, isOriginal = true) => {
+    let endPoint = isOriginal
+        ? `${(url_endpoints.tmdb.gettingStarted.images)}`
+        : `${(url_endpoints.tmdb.gettingStarted.imagesSmall)}`;
+    return `${endPoint}${path}`
 };
 
 export const getSearchMovieUrl = (props) => {
@@ -135,6 +138,7 @@ const url_endpoints = {
     // used original tmdb-api menu structure
     tmdb: {
         gettingStarted: {
+            imagesSmall: 'http://image.tmdb.org/t/p/w500',
             images: 'http://image.tmdb.org/t/p/original',
         },
         movies: {

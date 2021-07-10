@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef} from "react";
 import styled, { keyframes } from "styled-components";
 import LazyLoad from "react-lazyload";
 
@@ -37,8 +37,9 @@ const StyledImage = styled.img`
   object-fit: contain;
 `;
 
-const myLazyImage = ({ src, alt }) => {
-    const refPlaceholder = React.useRef();
+const myLazyImage = (props) => {
+    const {src, alt, onClick} = props;
+    const refPlaceholder = useRef();
 
     const removePlaceholder = () => {
         refPlaceholder.current.remove();
@@ -53,6 +54,7 @@ const myLazyImage = ({ src, alt }) => {
                     onError={removePlaceholder}
                     src={src}
                     alt={alt}
+                    onClick={onClick}
                 />
             </LazyLoad>
         </ImageWrapper>

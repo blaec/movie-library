@@ -5,7 +5,7 @@ import {useLocation} from "react-router";
 import Movie from "./components/Movie";
 import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
-import {lastLocation} from "../../../store/localStorage/actions";
+import {lastLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -56,21 +56,27 @@ const gallery = (props) => {
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
     const [isViewingDetails, setIsViewingDetails] = useState(false);
-    const [scrollPosition, setScrollPosition] = useState();
 
     const handleViewMovieDetails = () => {
-        setScrollPosition(window.scrollY);
+        scrollPosition.set(window.scrollY);
         setIsViewingDetails(true);
         lastLocation.set(pathname);
     };
 
     useEffect(() => {
-        if (!isViewingDetails) {
-            window.scrollBy(0, scrollPosition);
-        }
-    }, [isViewingDetails, scrollPosition]);
+        const previousPathname = lastLocation.get();
+        if (!isViewingDetails && previousPathname === pathname) {
+            const identifier = setTimeout(() => {
+                window.scrollBy({top: scrollPosition.get(), left: 0, behavior: 'smooth'});
+                scrollPosition.remove();
+            }, delay.search*2);
 
-    const windowWidth = window.innerWidth;
+            return () => {
+                clearTimeout(identifier);
+            };
+        }
+    }, [isViewingDetails]);
+
     useEffect(() => {
         const identifier = setTimeout(() => {
 
@@ -89,9 +95,8 @@ const gallery = (props) => {
         return () => {
             clearTimeout(identifier);
         };
-    }, [search, windowWidth, movies]);
+    }, [search, movies]);
 
-    console.log(displayedMovieList);
     return (
         <div className={root}>
             {displayedMovieList.map(movie => {
