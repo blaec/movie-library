@@ -1,6 +1,8 @@
 import React, {useRef} from "react";
 import LazyLoad from "react-lazyload";
 
+import MyLoader from "./Spinners/MyLoader";
+
 import {makeStyles} from "@material-ui/core/styles";
 
 
@@ -18,12 +20,10 @@ const useStyles = makeStyles((theme) => ({
         objectFit: 'fill',
     },
     placeholder: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0,
-        animation: `$loadingAnimation 1s infinite`,
+        display: "flex",
+        justifyContent: 'center',
+        alignItems: 'center',
+
     },
     "@keyframes loadingAnimation": {
         "0%": {
@@ -49,7 +49,12 @@ const myLazyImage = (props) => {
 
     return (
         <div className={imageWrapper}>
-            <div className={placeholder} ref={refPlaceholder} />
+            <div
+                className={placeholder}
+                ref={refPlaceholder}
+            >
+                <MyLoader/>
+            </div>
             <LazyLoad>
                 <img
                     className={styledImage}
