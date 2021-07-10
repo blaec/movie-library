@@ -7,8 +7,7 @@ import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import {getImageUrl} from "../../../../../utils/UrlUtils";
 import DeleteDialog from "./DeleteDialog";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
-import {drawer} from "../../../../../utils/Constants";
-import {fullTitle, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
+import {drawerWidth, fullTitle, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {uploadActions} from "../../../../../store/state/upload/upload-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
@@ -18,7 +17,6 @@ import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
 
 const CAROUSEL_TIMEOUT = 300;
-const MOBILE_WIN_WIDTH = 600;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -47,10 +45,7 @@ const backdropImage = props => {
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8
         : 1;
-    const drawerWidth = window.innerWidth > MOBILE_WIN_WIDTH
-        ? drawer.width
-        : 0;
-    const windowWidth = (window.innerWidth - drawerWidth) * marginBorders;
+    const windowWidth = (window.innerWidth - drawerWidth(window.innerWidth)) * marginBorders;
 
     const handleDeletedMovie = () => {
         setIsDeleting(true);

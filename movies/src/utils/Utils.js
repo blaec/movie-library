@@ -1,3 +1,5 @@
+import {drawer, mobile} from "./Constants";
+
 /**
  * Extract year from release date, release date could be undefined
  * @param releaseDate release date formatted like yyyy-mm-dd
@@ -98,4 +100,10 @@ export const getFutureDate = (addYear, addMonth = 0, addDay = 0) => {
 
 export const isMovieInCollection = (collection, id) => {
     return collection.map(movie => +movie.tmdbId).includes(id);
+};
+
+export const drawerWidth = (innerWidth) => {
+    return innerWidth > mobile.windowWidth
+        ? drawer.width
+        : 0;
 };
