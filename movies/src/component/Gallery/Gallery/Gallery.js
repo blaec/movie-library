@@ -55,32 +55,29 @@ const gallery = (props) => {
     const dispatch = useDispatch();
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
-    const [isViewingDetails, setIsViewingDetails] = useState(false);
 
     const handleViewMovieDetails = () => {
         scrollPosition.set(window.scrollY);
-        setIsViewingDetails(true);
         lastLocation.set(pathname);
     };
 
     useEffect(() => {
         const previousPathname = lastLocation.get();
-        if (!isViewingDetails && previousPathname === pathname) {
+        if (previousPathname === pathname) {
             const identifier = setTimeout(() => {
                 window.scrollBy({top: scrollPosition.get(), left: 0, behavior: 'smooth'});
                 scrollPosition.remove();
-            }, delay.search*2);
+                lastLocation.remove();
+            }, delay.search * 1.5);
 
             return () => {
                 clearTimeout(identifier);
             };
         }
-    }, [isViewingDetails]);
+    }, []);
 
     useEffect(() => {
         const identifier = setTimeout(() => {
-
-            // filter movies using Search...
             const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
             setDisplayedMovieList(filteredMovies);
             if (filteredMovies.length < movies.length) {
