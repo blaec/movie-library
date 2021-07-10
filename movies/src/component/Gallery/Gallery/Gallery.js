@@ -3,23 +3,16 @@ import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 
 import Movie from "./components/Movie";
-import {drawerWidth, fullTitle, isArrayExist, isStringsExist} from "../../../utils/Utils";
+import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
-import {lastLocation, selectedPage} from "../../../store/localStorage/actions";
+import {lastLocation} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
-
-import Pagination from '@material-ui/lab/Pagination';
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-    },
-    pagination: {
-        display: 'flex',
-        justifyContent: 'center',
-        margin: '10px 0',
     },
     grid: screenWidth => {
         const imagesSpaceWidthPerHeightRatio = (screenWidth - drawerWidth(window.innerWidth)) * 1.5;
@@ -55,29 +48,20 @@ const useStyles = makeStyles((theme) => ({
 
 const gallery = (props) => {
     let {movies} = props;
-    const {root, pagination, grid} = useStyles(window.innerWidth);
+    const {root, grid} = useStyles(document.body.clientWidth);
     const {pathname} = useLocation();
 
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
-    const [moviesPerPage, setMoviesPerPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
     const [isViewingDetails, setIsViewingDetails] = useState(false);
     const [scrollPosition, setScrollPosition] = useState();
 
     const handleViewMovieDetails = () => {
         setScrollPosition(window.scrollY);
         setIsViewingDetails(true);
-        selectedPage.set(`${currentPage}`);
         lastLocation.set(pathname);
-    };
-
-    const handlePageChange = (event, page) => {
-        selectedPage.remove();
-        setCurrentPage(page);
     };
 
     useEffect(() => {
@@ -85,16 +69,6 @@ const gallery = (props) => {
             window.scrollBy(0, scrollPosition);
         }
     }, [isViewingDetails, scrollPosition]);
-
-    useEffect(() => {
-        const page = selectedPage.get();
-        const previousPathname = lastLocation.get();
-        if (page !== 0 && previousPathname === pathname) {
-            setCurrentPage(page);
-            selectedPage.remove();
-            lastLocation.remove();
-        }
-    }, []);
 
     const windowWidth = window.innerWidth;
     useEffect(() => {
@@ -110,17 +84,6 @@ const gallery = (props) => {
                 const type = isArrayExist(filteredMovies) ? 'info' : 'warning';
                 dispatch(feedbackActions.setSnackbar({message, type}));
             }
-
-            // set gallery pagination structure
-            const structure = Object.values(grid).filter(grid => grid.resolution < windowWidth).slice(-1).pop();
-            // let moviesPerPage = structure.rows * structure.moviesPerRow;
-            // setMoviesPerPage(moviesPerPage);
-            // setTotalPages(Math.ceil(filteredMovies.length / moviesPerPage));
-
-            // reset current page when search is used
-            if (isStringsExist(search)) {
-                setCurrentPage(1);
-            }
         }, delay.search);
 
         return () => {
@@ -128,43 +91,24 @@ const gallery = (props) => {
         };
     }, [search, windowWidth, movies]);
 
-    const lastMovieOnCurrentPage = currentPage * moviesPerPage;
-    // const moviesOnCurrentPage = displayedMovieList.slice(lastMovieOnCurrentPage - moviesPerPage, lastMovieOnCurrentPage);
-    let myGallery = (
-        <React.Fragment>
-            <div className={root}>
-                {displayedMovieList.map(movie => {
-                        const {id, tmdbId, posterPath, title, releaseDate} = movie;
-                        return (
-                            <Movie
-                                key={id}
-                                tmdbId={tmdbId}
-                                root={grid}
-                                poster={posterPath}
-                                alt={`${fullTitle(title, releaseDate)}`}
-                                onClick={handleViewMovieDetails}
-                            />
-                        )
-                    }
-                )}
-            </div>
-            {/*{*/}
-            {/*    isArrayExist(displayedMovieList) &&*/}
-            {/*    <Pagination*/}
-            {/*        className={pagination}*/}
-            {/*        page={currentPage}*/}
-            {/*        count={totalPages}*/}
-            {/*        variant="outlined"*/}
-            {/*        color="primary"*/}
-            {/*        onChange={handlePageChange}/>*/}
-            {/*}*/}
-        </React.Fragment>
-    );
-
+    console.log(displayedMovieList);
     return (
-        <React.Fragment>
-            {myGallery}
-        </React.Fragment>
+        <div className={root}>
+            {displayedMovieList.map(movie => {
+                    const {id, tmdbId, posterPath, title, releaseDate} = movie;
+                    return (
+                        <Movie
+                            key={id}
+                            root={grid}
+                            tmdbId={tmdbId}
+                            poster={posterPath}
+                            alt={`${fullTitle(title, releaseDate)}`}
+                            onClick={handleViewMovieDetails}
+                        />
+                    )
+                }
+            )}
+        </div>
     );
 };
 
