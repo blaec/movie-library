@@ -1,8 +1,6 @@
 import React from "react";
 import LazyLoad from "react-lazyload";
 
-import MyLoader from "./Spinners/MyLoader";
-
 import {makeStyles} from "@material-ui/core/styles";
 
 
@@ -27,7 +25,10 @@ const myLazyImage = (props) => {
 
     return (
         <div className={imageWrapper}>
-            <LazyLoad offset={200}>
+            <LazyLoad
+                once
+                offset={200}
+            >
                 <img
                     className={styledImage}
                     src={src}

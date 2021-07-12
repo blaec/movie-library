@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
+import {forceCheck} from "react-lazyload";
 
 import Movie from "./components/Movie";
 import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
@@ -86,6 +87,9 @@ const gallery = (props) => {
                     : `Nothing found`;
                 const type = isArrayExist(filteredMovies) ? 'info' : 'warning';
                 dispatch(feedbackActions.setSnackbar({message, type}));
+
+                // Manually trigger checking for elements in viewport.
+                forceCheck();
             }
         }, delay.search);
 
