@@ -79,11 +79,11 @@ export const getMovieCreditsUrl = (id, tmdbApi) => {
     return `${url_endpoints.tmdb.movies.getDetails}${id}/credits?${getParamsFrom(params)}`
 };
 
-export const getImageUrl = (path, isOriginal = true) => {
-    let endPoint = isOriginal
-        ? `${(url_endpoints.tmdb.gettingStarted.images)}`
-        : `${(url_endpoints.tmdb.gettingStarted.imagesSmall)}`;
-    return `${endPoint}${path}`
+export const getImageUrl = (path, posterSize = posterSizes.original) => {
+    let size = Object.values(posterSizes).includes(posterSize)
+        ? `${posterSize}`
+        : `${posterSizes.original}`;
+    return `${(url_endpoints.tmdb.gettingStarted.images)}${size}${path}`
 };
 
 export const getSearchMovieUrl = (props) => {
@@ -125,21 +125,20 @@ const settings = {
 };
 
 // https://api.themoviedb.org/3/configuration?api_key=
-// "poster_sizes": [
-//     "w92",
-//     "w154",
-//     "w185",
-//     "w342",
-//     "w500",
-//     "w780",
-//     "original"
-// ]
+export const posterSizes = Object.freeze({
+    w92: "w92",
+    w154: "w154",
+    w185: "w185",
+    w342: "w342",
+    w500: "w500",
+    w780: "w780",
+    original: "original",
+});
 const url_endpoints = {
     // used original tmdb-api menu structure
     tmdb: {
         gettingStarted: {
-            imagesSmall: 'http://image.tmdb.org/t/p/w500',
-            images: 'http://image.tmdb.org/t/p/original',
+            images: 'http://image.tmdb.org/t/p/',
         },
         movies: {
             getDetails: 'https://api.themoviedb.org/3/movie/',

@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 
-import {getImageUrl, reactLinks} from "../../../../utils/UrlUtils";
+import {getImageUrl, posterSizes, reactLinks} from "../../../../utils/UrlUtils";
 import MyLazyImage from "../../../../UI/MyLazyImage";
 
 import {Paper} from "@material-ui/core";
@@ -15,7 +15,7 @@ const movie = props => {
             component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}
         >
             <MyLazyImage
-                src={getImageUrl(poster, false)}
+                src={getImageUrl(poster, posterSizes.w500)}
                 alt={alt}
                 onClick={onClick}
             />
