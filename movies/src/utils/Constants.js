@@ -2,6 +2,10 @@ export const drawer = {
     width: 180,
 };
 
+export const mobile = {
+    windowWidth: 600,
+};
+
 export const delay = {
     search: 500,
 };

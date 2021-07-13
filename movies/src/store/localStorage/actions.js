@@ -1,6 +1,6 @@
 const keys = Object.freeze(
     {
-        currentPage: 'current-page',
+        scrollPosition: 'scroll-position',
         densePadding: 'dense-padding',
         rowsPerPage: 'rows-per-page',
         lastLocation: 'last-location',
@@ -15,10 +15,10 @@ const globalFunctions = (key) => ({
     remove: () => localStorage.removeItem(key),
 });
 
-export const selectedPage = {
-    set: globalFunctions(keys.currentPage).set,
-    get: globalFunctions(keys.currentPage).getNumeric,
-    remove: globalFunctions(keys.currentPage).remove,
+export const scrollPosition = {
+    set: globalFunctions(keys.scrollPosition).set,
+    get: globalFunctions(keys.scrollPosition).getNumeric,
+    remove: globalFunctions(keys.scrollPosition).remove,
 }
 
 export const tableDensePadding = {
