@@ -78,6 +78,7 @@ const gallery = (props) => {
     }, []);
 
     useEffect(() => {
+        console.log("use effect");
         const identifier = setTimeout(() => {
             const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
             setDisplayedMovieList(filteredMovies);
@@ -90,8 +91,9 @@ const gallery = (props) => {
 
                 // Manually trigger checking for elements in viewport.
                 forceCheck();
+                console.log("forceCheck");
             }
-        }, delay.search);
+        }, 1);
 
         return () => {
             clearTimeout(identifier);

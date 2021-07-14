@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 
@@ -9,6 +9,8 @@ import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
+import {delay} from "../../../utils/Constants";
+import {forceCheck} from "react-lazyload";
 
 const useStyles = makeStyles((theme) => ({
     root: visible => {
@@ -59,15 +61,26 @@ const useStyles = makeStyles((theme) => ({
 const search = () => {
     const {pathname} = useLocation();
     const {root, searchIcon, inputRoot, inputInput} = useStyles(isSearchable(pathname))
+    const [searchTerm, setSearchTerm] = useState('')
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            console.log(searchTerm)
+            onSearchChange(searchTerm);
+        }, delay.search)
+
+        return () => clearTimeout(delayDebounceFn)
+    }, [searchTerm])
+
 
     let endAdornment = () => '';
     if (search) {
         endAdornment = () =>
             <InputAdornment position="end">
-                <IconButton onClick={() => onSearchChange('')}>
+                <IconButton onClick={() => setSearchTerm('')}>
                     <ClearIcon fontSize="small"/>
                 </IconButton>
             </InputAdornment>;
@@ -80,12 +93,12 @@ const search = () => {
             </div>
             <InputBase
                 placeholder="Search..."
-                onChange={event => onSearchChange(event.target.value)}
+                onChange={event => setSearchTerm(event.target.value)}
                 classes={{
                     root: inputRoot,
                     input: inputInput,
                 }}
-                value={search}
+                value={searchTerm}
                 endAdornment={endAdornment()}
             />
         </div>
