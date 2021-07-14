@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 
 import {filterActions} from "../../../store/state/filter/filter-slice";
 import {isSearchable} from "../../../utils/UrlUtils";
+import {delay} from "../../../utils/Constants";
 
 import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -59,15 +60,26 @@ const useStyles = makeStyles((theme) => ({
 const search = () => {
     const {pathname} = useLocation();
     const {root, searchIcon, inputRoot, inputInput} = useStyles(isSearchable(pathname))
+    const [searchTerm, setSearchTerm] = useState('');
+
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));
+
+    useEffect(() => {
+        const identifier = setTimeout(() => {
+            onSearchChange(searchTerm);
+        }, delay.search)
+
+        return () => clearTimeout(identifier)
+    }, [searchTerm])
+
 
     let endAdornment = () => '';
     if (search) {
         endAdornment = () =>
             <InputAdornment position="end">
-                <IconButton onClick={() => onSearchChange('')}>
+                <IconButton onClick={() => setSearchTerm('')}>
                     <ClearIcon fontSize="small"/>
                 </IconButton>
             </InputAdornment>;
@@ -80,12 +92,12 @@ const search = () => {
             </div>
             <InputBase
                 placeholder="Search..."
-                onChange={event => onSearchChange(event.target.value)}
+                onChange={event => setSearchTerm(event.target.value)}
                 classes={{
                     root: inputRoot,
                     input: inputInput,
                 }}
-                value={search}
+                value={searchTerm}
                 endAdornment={endAdornment()}
             />
         </div>
