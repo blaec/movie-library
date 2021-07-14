@@ -8,6 +8,7 @@ import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
 import {delay, grid} from "../../../utils/Constants";
 import {lastLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
+
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +79,7 @@ const gallery = (props) => {
     }, []);
 
     useEffect(() => {
-        console.log("use effect");
+        // For some reason forceCheck() only works inside timeout even with timeout = 0
         const identifier = setTimeout(() => {
             const filteredMovies = Object.values(movies).filter(movie => movie.title.toLowerCase().includes(search));
             setDisplayedMovieList(filteredMovies);
@@ -91,13 +92,10 @@ const gallery = (props) => {
 
                 // Manually trigger checking for elements in viewport.
                 forceCheck();
-                console.log("forceCheck");
             }
-        }, 1);
+        }, 0);
 
-        return () => {
-            clearTimeout(identifier);
-        };
+        return () => clearTimeout(identifier);
     }, [search, movies]);
 
     return (

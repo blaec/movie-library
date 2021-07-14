@@ -4,13 +4,12 @@ import {useLocation} from "react-router";
 
 import {filterActions} from "../../../store/state/filter/filter-slice";
 import {isSearchable} from "../../../utils/UrlUtils";
+import {delay} from "../../../utils/Constants";
 
 import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
-import {delay} from "../../../utils/Constants";
-import {forceCheck} from "react-lazyload";
 
 const useStyles = makeStyles((theme) => ({
     root: visible => {
@@ -61,18 +60,18 @@ const useStyles = makeStyles((theme) => ({
 const search = () => {
     const {pathname} = useLocation();
     const {root, searchIcon, inputRoot, inputInput} = useStyles(isSearchable(pathname))
-    const [searchTerm, setSearchTerm] = useState('')
+    const [searchTerm, setSearchTerm] = useState('');
+
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));
 
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            console.log(searchTerm)
+        const identifier = setTimeout(() => {
             onSearchChange(searchTerm);
         }, delay.search)
 
-        return () => clearTimeout(delayDebounceFn)
+        return () => clearTimeout(identifier)
     }, [searchTerm])
 
 
