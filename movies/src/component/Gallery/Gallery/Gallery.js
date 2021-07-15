@@ -5,7 +5,7 @@ import {forceCheck} from "react-lazyload";
 
 import Movie from "./components/Movie";
 import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
-import {delay, grid} from "../../../utils/Constants";
+import {grid} from "../../../utils/Constants";
 import {lastLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 
@@ -67,10 +67,10 @@ const gallery = (props) => {
         const previousPathname = lastLocation.get();
         if (previousPathname === pathname) {
             const identifier = setTimeout(() => {
-                window.scrollBy({top: scrollPosition.get(), left: 0, behavior: 'smooth'});
+                window.scrollBy({top: scrollPosition.get(), left: 0, behavior: 'auto'});
                 scrollPosition.remove();
                 lastLocation.remove();
-            }, delay.search * 1.5);
+            }, 2);
 
             return () => {
                 clearTimeout(identifier);
