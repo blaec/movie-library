@@ -9,6 +9,7 @@ export const fetchMovies = () => {
         axios.get(movieApi.get.getAllMovies)
             .then(response => {
                 const {data} = response;
+                console.log("fetchMovies");
                 dispatch(collectionActions.setMoviesCollection(data));
             })
             .catch(error => {
@@ -62,6 +63,7 @@ export const deleteMovie = (tmdbId) => {
             .then(response => {
                 const {data} = response;
                 dispatch(uploadActions.setResult(data));
+                console.log("fetchMovies from deleteMovie");
                 dispatch(fetchMovies());
                 dispatch(fetchWishlist());
             })
