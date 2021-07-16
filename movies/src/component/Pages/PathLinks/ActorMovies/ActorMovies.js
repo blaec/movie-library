@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
         position: 'fixed',
         backgroundColor: '#5c6bc0',
         width: '100%',
-        height: 45,
+        height: 50,
         color: 'white',
         [`@media (orientation:landscape)`]: {
             width: `calc(80% - ${drawer.width * .8}px)`,
