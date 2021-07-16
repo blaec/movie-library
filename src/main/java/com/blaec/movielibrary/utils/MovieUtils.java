@@ -13,6 +13,9 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 public class MovieUtils {
+    private MovieUtils() {
+        throw new AssertionError();
+    }
 
     /**
      * Sort movie list by title and than by release date, skip 'the' and 'a' in title
