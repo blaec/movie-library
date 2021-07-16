@@ -37,7 +37,7 @@ const images = () => {
             const height = parseInt(windowWidth / aspect_ratio, 0);
             const width = parseInt(windowWidth, 0);
             const path = file_path !== null
-                ? getImageUrl(file_path, posterSizes.w780)
+                ? getImageUrl(file_path)
                 : `https://via.placeholder.com/${width}x${height}.png?text=${title}`;
             return (
                 <img
