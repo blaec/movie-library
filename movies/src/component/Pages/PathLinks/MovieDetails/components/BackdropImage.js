@@ -15,7 +15,8 @@ import {saveWishMovie} from "../../../../../store/state/upload/upload-actions";
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
 
-const CAROUSEL_TIMEOUT = 300;
+const FADE_TIMEOUT = 500;
+const INTERVAL = 3000;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -111,8 +112,9 @@ const backdropImage = props => {
                     />
                 }
                 <Carousel
-                    timeout={CAROUSEL_TIMEOUT}
-                    animation="slide"
+                    timeout={FADE_TIMEOUT}
+                    animation="fade"
+                    interval={INTERVAL}
                     navButtonsAlwaysInvisible
                 >
                     {images()}
