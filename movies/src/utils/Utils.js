@@ -47,7 +47,7 @@ export const isSafe = (condition, returnVal) => {
 };
 
 export const joinNames = (array) => {
-    return array.map(val => val.name).join(', ');
+    return array === undefined ? '' : array.map(val => val.name).join(', ');
 };
 
 export const isObjectExist = (object) => {
