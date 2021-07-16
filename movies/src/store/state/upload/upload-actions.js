@@ -51,7 +51,6 @@ export const saveSingleMovie = (movie) => {
             .then(response => {
                 const {data} = response;
                 dispatch(uploadActions.setResult(data));
-                console.log("fetchMovies from saveSingleMovie");
                 dispatch(fetchMovies());
             })
             .catch(error => {
@@ -71,7 +70,6 @@ export const scanFolderAndSave = (path) => {
             .then(response => {
                 const {data} = response;
                 dispatch(uploadActions.setResults(data));
-                console.log("fetchMovies from scanFolderAndSave");
                 dispatch(fetchMovies());
             })
             .catch(error => {

@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 const images = () => {
     const {root} = useStyles();
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
-    console.log("render images");
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8
         : 1;
@@ -25,7 +24,6 @@ const images = () => {
 
     let backdropImages = <MyLoader/>
     if (isObjectExist(tmdbMovieDetails)) {
-        console.log(`isObjectExist(tmdbMovieDetails) ${new Date().getTime()}`);
         const {title, releaseDate, images: {backdrops}, poster_path} = tmdbMovieDetails;
         const backdropsData = isArraysExist(backdrops)
             ? backdrops

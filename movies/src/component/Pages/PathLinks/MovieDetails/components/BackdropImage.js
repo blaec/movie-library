@@ -39,26 +39,21 @@ const backdropImage = props => {
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
-    console.log(`render ${new Date().getTime()}`);
 
     const handleDeletedMovie = () => {
-        console.log(`handleDeletedMovie`);
         setIsDeleting(true);
     };
 
     const handleCloseDeleteDialog = () => {
-        console.log(`handleCloseDeleteDialog`);
         setIsDeleting(false);
     };
 
     const handleDeleteMovie = () => {
-        console.log(`handleDeleteMovie`);
         setIsDeleting(true);
         dispatch(deleteMovie(movieTmdbId));
     };
 
     const handleAddToWatchMovie = () => {
-        console.log(`handleAddToWatchMovie`);
         const {original_title} = tmdbMovieDetails;
         const watchMovie = {
             ...tmdbMovieDetails,
@@ -70,7 +65,6 @@ const backdropImage = props => {
 
     useEffect(() => {
         if (isObjectExist(saveResult)) {
-            console.log(`useEffect [saveResult] ${new Date().getTime()}`);
             const {message, success} = saveResult;
             if (isDeleting) {
                 const type = success ? 'success' : 'error';
@@ -92,7 +86,6 @@ const backdropImage = props => {
     let hasMovieDetails = isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails);
     useEffect(() => {
         if (hasMovieDetails) {
-            console.log(`useEffect [movies, wishlist, tmdbMovieDetails] ${new Date().getTime()}`);
             const {id} = tmdbMovieDetails;
             setIsInCollection(isMovieInCollection(movies.concat(wishlist), id));
         }
