@@ -36,6 +36,10 @@ const movieDetails = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [window.scrollY]);
+
+    useEffect(() => {
         if (isStringsExist(movieTmdbId, tmdbApi)) {
             dispatch(fetchMovieTmdbDetails(movieTmdbId, tmdbApi));
         }

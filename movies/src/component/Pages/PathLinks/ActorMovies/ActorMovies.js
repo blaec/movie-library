@@ -63,6 +63,10 @@ const actorMovies = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [window.scrollY]);
+
+    useEffect(() => {
         if (isStringExist(tmdbApi)) {
             dispatch(fetchActorDetails(actorId, tmdbApi));
         }
