@@ -92,6 +92,7 @@ const actorMovies = () => {
                 };
                 return new Date(getDate(a)) < new Date(getDate(b)) ? 1 : -1;
             });
+        const moviesInCollection = movieList.filter(movie => isMovieInCollection(movies, movie.id));
 
         allMovies = (
             <React.Fragment>
@@ -99,14 +100,14 @@ const actorMovies = () => {
                     <MyArrowBack onClose={handleBack}/>
                     <Typography className={actor}
                                 variant="h6">
-                        {`${name} (${movieList.length})`}
+                        {`${name} (${moviesInCollection.length}/${movieList.length})`}
                     </Typography>
                 </div>
                 <div className={movieItems}>
                     {movieList.map(movie =>
                         <ActorMovie key={movie.id}
                                     {...movie}
-                                    exist={isMovieInCollection(movies, movie.id)}/>)
+                                    exist={moviesInCollection.includes(movie)}/>)
                     }
                 </div>
             </React.Fragment>
