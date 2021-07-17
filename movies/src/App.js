@@ -9,6 +9,8 @@ import {reactLinks} from "./utils/UrlUtils";
 import {fetchMovies, fetchWishlist} from "./store/state/collection/collection-actions";
 import {fetchConfigs} from "./store/state/api/api-actions";
 import {detailsActions} from "./store/state/details/details-slice";
+import {useLocation} from "react-router";
+import {currentLocation, previousLocation} from "./store/localStorage/actions";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
@@ -22,6 +24,7 @@ const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticip
 const Library = React.lazy(() => import('./component/Pages/MenuItems/Library/Library'));
 
 const app = () => {
+    const {pathname} = useLocation();
     const {
         home,
         collection,
@@ -39,12 +42,14 @@ const app = () => {
 
     const dispatch = useDispatch();
 
+    previousLocation.set(currentLocation.get());
+    currentLocation.set(pathname);
+
     useEffect(() => {
         dispatch(fetchConfigs());
         dispatch(fetchMovies());
         dispatch(fetchWishlist());
     }, []);
-
 
     let layout = (
         <Layout>

@@ -4,6 +4,8 @@ const keys = Object.freeze(
         scrollLocation: 'scroll-location',
         densePadding: 'dense-padding',
         rowsPerPage: 'rows-per-page',
+        currentLocation: 'current-location',
+        previousLocation: 'previous-location',
     }
 );
 
@@ -21,6 +23,12 @@ export const scrollPosition = {
     remove: globalFunctions(keys.scrollPosition).remove,
 }
 
+export const scrollLocation = {
+    set: globalFunctions(keys.scrollLocation).set,
+    get: globalFunctions(keys.scrollLocation).get,
+    remove: globalFunctions(keys.scrollLocation).remove,
+};
+
 export const tableDensePadding = {
     set: globalFunctions(keys.densePadding).set,
     get: globalFunctions(keys.densePadding).getBoolean,
@@ -33,8 +41,14 @@ export const tableRowsPerPage = {
     remove: globalFunctions(keys.rowsPerPage).remove,
 };
 
-export const scrollLocation = {
-    set: globalFunctions(keys.scrollLocation).set,
-    get: globalFunctions(keys.scrollLocation).get,
-    remove: globalFunctions(keys.scrollLocation).remove,
+export const currentLocation = {
+    set: globalFunctions(keys.currentLocation).set,
+    get: globalFunctions(keys.currentLocation).get,
+    remove: globalFunctions(keys.currentLocation).remove,
+};
+
+export const previousLocation = {
+    set: globalFunctions(keys.previousLocation).set,
+    get: globalFunctions(keys.previousLocation).get,
+    remove: globalFunctions(keys.previousLocation).remove,
 };
