@@ -44,11 +44,9 @@ export const tableRowsPerPage = {
 export const currentLocation = {
     set: globalFunctions(keys.currentLocation).set,
     get: globalFunctions(keys.currentLocation).get,
-    remove: globalFunctions(keys.currentLocation).remove,
 };
 
 export const previousLocation = {
     set: globalFunctions(keys.previousLocation).set,
     get: globalFunctions(keys.previousLocation).get,
-    remove: globalFunctions(keys.previousLocation).remove,
 };
