@@ -8,8 +8,11 @@ import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
 import {grid} from "../../../utils/Constants";
 import {scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
+import ScrollTop from "./components/ScrollTop";
 
 import {makeStyles} from "@material-ui/core/styles";
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {Fab} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -99,22 +102,29 @@ const gallery = (props) => {
     }, [search, movies]);
 
     return (
-        <div className={root}>
-            {displayedMovieList.map(movie => {
-                    const {id, tmdbId, posterPath, title, releaseDate} = movie;
-                    return (
-                        <Movie
-                            key={id}
-                            root={grid}
-                            tmdbId={tmdbId}
-                            poster={posterPath}
-                            alt={`${fullTitle(title, releaseDate)}`}
-                            onClick={handleViewMovieDetails}
-                        />
-                    )
-                }
-            )}
-        </div>
+        <React.Fragment>
+            <div className={root}>
+                {displayedMovieList.map(movie => {
+                        const {id, tmdbId, posterPath, title, releaseDate} = movie;
+                        return (
+                            <Movie
+                                key={id}
+                                root={grid}
+                                tmdbId={tmdbId}
+                                poster={posterPath}
+                                alt={`${fullTitle(title, releaseDate)}`}
+                                onClick={handleViewMovieDetails}
+                            />
+                        )
+                    }
+                )}
+            </div>
+            <ScrollTop {...props}>
+                <Fab size="small">
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </ScrollTop>
+        </React.Fragment>
     );
 };
 
