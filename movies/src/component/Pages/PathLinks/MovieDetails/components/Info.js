@@ -74,11 +74,13 @@ const info = () => {
                 <InfoGeneral details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
                 <div className={`${root} ${tabsBackground}`}>
                     <Paper square className={tabsBackground}>
-                        <Tabs value={tabSelected}
-                              onChange={handleChange}
-                              indicatorColor="primary"
-                              textColor="primary"
-                              variant="fullWidth">
+                        <Tabs
+                            value={tabSelected}
+                            onChange={handleChange}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="fullWidth"
+                        >
                             <Tab label="Description"/>
                             <Tab label="Cast"/>
                             <Tab label="Trailers"/>

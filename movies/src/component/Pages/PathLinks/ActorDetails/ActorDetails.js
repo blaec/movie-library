@@ -1,21 +1,35 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router";
 
+
+import ActorMovie from "./components/ActorMovie";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
-import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
-import {
-    isArrayExist,
-    isMovieInCast,
-    isMovieInCollection,
-    isObjectsExist,
-    isStringExist
-} from "../../../../utils/Utils";
+import {isArrayExist, isMovieInCast, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails} from "../../../../store/state/details/details-actions";
 
-import {List, makeStyles, Typography} from "@material-ui/core";
+import {Box, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
+import * as PropTypes from "prop-types";
+
+const TabPanel = (props) => {
+    const {children, value, index, ...other} = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    {children}
+                </Box>
+            )}
+        </div>
+    );
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,16 +50,16 @@ const useStyles = makeStyles((theme) => ({
     sticky: {
         marginTop: -10,
         zIndex: 2,
-        position: 'fixed',
+        // position: 'fixed',
         backgroundColor: '#5c6bc0',
-        width: '100%',
+        // width: '100%',
         height: 50,
         color: 'white',
         [`@media (orientation:landscape)`]: {
-            width: `calc(80% - ${drawer.width * .8}px)`,
+            // width: `calc(80% - ${drawer.width * .8}px)`,
         },
         [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
-            width: `calc(50% - ${drawer.width * .5}px)`,
+            // width: `calc(50% - ${drawer.width * .5}px)`,
         },
     },
     movieItems: {
@@ -59,6 +73,8 @@ const actorDetails = () => {
     const {actorId} = params;
     const {root, sticky, actor, movieItems} = useStyles();
 
+    const [tabSelected, setTabSelected] = useState(0);
+
     const movies = useSelector(state => state.collection.movies);
     const tmdbApi = useSelector(state => state.api.tmdb);
     const actorDetails = useSelector(state => state.details.actorDetails);
@@ -66,6 +82,10 @@ const actorDetails = () => {
 
     const handleBack = () => {
         history.goBack();
+    };
+
+    const handleChange = (event, newValue) => {
+        setTabSelected(newValue);
     };
 
     useEffect(() => {
@@ -104,7 +124,7 @@ const actorDetails = () => {
             .reduce(((sum, movie) => sum + movie.size), 0);
 
         allMovies = (
-            <React.Fragment>
+            <div className={root}>
                 <div className={sticky}>
                     <MyArrowBack onClose={handleBack}/>
                     <Typography className={actor}
@@ -113,20 +133,41 @@ const actorDetails = () => {
                     </Typography>
                 </div>
                 <div className={movieItems}>
-                    {movieList.map(movie =>
-                        <ActorMovie key={movie.id}
-                                    {...movie}
-                                    exist={moviesInCollection.includes(movie)}/>)
-                    }
+                    <Paper square>
+                        <Tabs
+                            value={tabSelected}
+                            onChange={handleChange}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="fullWidth"
+                        >
+                            <Tab label="Info"/>
+                            <Tab label="Movies"/>
+                        </Tabs>
+                    </Paper>
+                    <TabPanel value={tabSelected} index={0}>
+                        INFO
+                    </TabPanel>
+                    <TabPanel value={tabSelected} index={1}>
+                        <List className={root}>
+                            <div className={movieItems}>
+                                {movieList.map(movie =>
+                                    <ActorMovie key={movie.id}
+                                                {...movie}
+                                                exist={moviesInCollection.includes(movie)}/>)
+                                }
+                            </div>
+                        </List>
+                    </TabPanel>
                 </div>
-            </React.Fragment>
+            </div>
         );
     }
 
     return (
-        <List className={root}>
+        <React.Fragment>
             {allMovies}
-        </List>
+        </React.Fragment>
     );
 };
 
