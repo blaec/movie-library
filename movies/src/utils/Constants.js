@@ -54,3 +54,12 @@ export const Loader = Object.freeze(
         folderScan: 2
     }
 );
+
+export const MovieTab = Object.freeze(
+    {
+        description: 0,
+        cast: 1,
+        trailers: 2,
+        facts: 3,
+    }
+);

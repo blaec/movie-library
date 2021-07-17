@@ -6,7 +6,7 @@ import {forceCheck} from "react-lazyload";
 import Movie from "./components/Movie";
 import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
 import {grid} from "../../../utils/Constants";
-import {lastLocation, scrollPosition} from "../../../store/localStorage/actions";
+import {scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 
 import {makeStyles} from "@material-ui/core/styles";
@@ -60,16 +60,16 @@ const gallery = (props) => {
 
     const handleViewMovieDetails = () => {
         scrollPosition.set(window.scrollY);
-        lastLocation.set(pathname);
+        scrollLocation.set(pathname);
     };
 
     useEffect(() => {
-        const previousPathname = lastLocation.get();
+        const previousPathname = scrollLocation.get();
         if (previousPathname === pathname) {
             const identifier = setTimeout(() => {
                 window.scrollBy({top: scrollPosition.get(), left: 0, behavior: 'auto'});
                 scrollPosition.remove();
-                lastLocation.remove();
+                scrollLocation.remove();
             }, 2);
 
             return () => {

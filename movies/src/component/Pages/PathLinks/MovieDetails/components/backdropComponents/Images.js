@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 
 import MyLoader from "../../../../../../UI/Spinners/MyLoader";
 import {drawerWidth, fullTitle, isArraysExist, isObjectExist} from "../../../../../../utils/Utils";
-import {getImageUrl, posterSizes} from "../../../../../../utils/UrlUtils";
+import {getImageUrl} from "../../../../../../utils/UrlUtils";
 
 import {makeStyles} from "@material-ui/core/styles";
 
