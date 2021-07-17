@@ -149,7 +149,7 @@ const actorDetails = () => {
                         INFO
                     </TabPanel>
                     <TabPanel value={tabSelected} index={1}>
-                        <List className={root}>
+                        <List>
                             <div className={movieItems}>
                                 {movieList.map(movie =>
                                     <ActorMovie key={movie.id}
