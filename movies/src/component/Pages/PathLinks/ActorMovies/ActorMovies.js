@@ -6,7 +6,13 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import ActorMovie from "./components/ActorMovie";
 import {drawer} from "../../../../utils/Constants";
-import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
+import {
+    isArrayExist,
+    isMovieInCast,
+    isMovieInCollection,
+    isObjectsExist,
+    isStringExist
+} from "../../../../utils/Utils";
 import {fetchActorDetails} from "../../../../store/state/details/details-actions";
 
 import {List, makeStyles, Typography} from "@material-ui/core";
@@ -93,6 +99,9 @@ const actorMovies = () => {
                 return new Date(getDate(a)) < new Date(getDate(b)) ? 1 : -1;
             });
         const moviesInCollection = movieList.filter(movie => isMovieInCollection(movies, movie.id));
+        const moviesSize = movies
+            .filter(movie => isMovieInCast(moviesInCollection, movie.tmdbId))
+            .reduce(((sum, movie) => sum + movie.size), 0);
 
         allMovies = (
             <React.Fragment>
@@ -100,7 +109,7 @@ const actorMovies = () => {
                     <MyArrowBack onClose={handleBack}/>
                     <Typography className={actor}
                                 variant="h6">
-                        {`${name} (${moviesInCollection.length}/${movieList.length})`}
+                        {`${name} (${moviesInCollection.length}/${movieList.length}) - ${moviesSize.toFixed(0)}Gb`}
                     </Typography>
                 </div>
                 <div className={movieItems}>
