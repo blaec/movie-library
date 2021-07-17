@@ -17,7 +17,7 @@ const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/W
 const Filter = React.lazy(() => import('./component/Pages/MenuItems/Filter/Filter'));
 const Upload = React.lazy(() => import('./component/Pages/MenuItems/Upload/Upload'));
 const MovieDetails = React.lazy(() => import('./component/Pages/PathLinks/MovieDetails/MovieDetails'));
-const ActorMovies = React.lazy(() => import('./component/Pages/PathLinks/ActorMovies/ActorMovies'));
+const ActorDetails = React.lazy(() => import('./component/Pages/PathLinks/ActorDetails/ActorDetails'));
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
 const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
 const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
@@ -34,7 +34,7 @@ const app = () => {
         filter,
         upload,
         movieDetails,
-        actorMovies,
+        actorDetails,
         nowPlaying,
         anticipated,
         library,
@@ -73,7 +73,7 @@ const app = () => {
                         }, []);
                         return <MovieDetails {...props}/>
                     }}/>
-                    <Route path={actorMovies} exact component={props => <ActorMovies {...props}/>}/>
+                    <Route path={actorDetails} exact component={props => <ActorDetails {...props}/>}/>
                     <Route path={filterByGenre} exact component={props => <FilteredCollection {...props}/>}/>
 
                     <Redirect to={home}/>

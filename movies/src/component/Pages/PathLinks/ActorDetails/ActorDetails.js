@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const actorMovies = () => {
+const actorDetails = () => {
     const params = useParams();
     const history = useHistory();
     const {actorId} = params;
@@ -130,4 +130,4 @@ const actorMovies = () => {
     );
 };
 
-export default actorMovies;
+export default actorDetails;

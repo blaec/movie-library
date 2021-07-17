@@ -61,7 +61,7 @@ const info = () => {
     };
 
     useEffect(() => {
-        if (previousLocation.get().includes(reactLinks.actorMoviesEndpoint)) {
+        if (previousLocation.get().includes(reactLinks.actorDetailsEndpoint)) {
             setTabSelected(MovieTab.cast);
         }
     }, []);
