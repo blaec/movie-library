@@ -8,8 +8,7 @@ import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
 import {grid} from "../../../utils/Constants";
 import {scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
-import ScrollToTopButton from "./components/ScrollToTopButton";
-import ScrollTop from "./components/ScrollToTopButton";
+import ScrollTop from "./components/ScrollTop";
 
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
@@ -121,7 +120,7 @@ const gallery = (props) => {
                 )}
             </div>
             <ScrollTop {...props}>
-                <Fab color="secondary" size="small" aria-label="scroll back to top">
+                <Fab size="small">
                     <KeyboardArrowUpIcon />
                 </Fab>
             </ScrollTop>
