@@ -102,6 +102,10 @@ export const isMovieInCollection = (collection, id) => {
     return collection.map(movie => +movie.tmdbId).includes(id);
 };
 
+export const isMovieInCast = (collection, tmdbId) => {
+    return collection.map(movie => +movie.id).includes(+tmdbId);
+};
+
 export const drawerWidth = (innerWidth) => {
     return innerWidth > mobile.windowWidth
         ? drawer.width
