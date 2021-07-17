@@ -1,41 +1,87 @@
 import React from 'react';
-import {Button} from "@material-ui/core";
+import {Button, IconButton, useScrollTrigger, Zoom} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
-import {scrollPosition} from "../../../../store/localStorage/actions";
+
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        // display: 'none',
         position: 'fixed',
-        bottom: '20px',
-        right: '30px',
-        zIndex: '99',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
     },
 }));
 
-const scrollToTopButton = () => {
-    const {root} = useStyles();
+function scrollTop(props) {
+    const { children, window } = props;
+    const classes = useStyles();
+    // Note that you normally won't need to set the window ref as useScrollTrigger
+    // will default to window.
+    // This is only being set here because the demo is in an iframe.
+    const trigger = useScrollTrigger({
+        target: window ? window() : undefined,
+        disableHysteresis: true,
+        threshold: 100,
+    });
 
-    const handleOnTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+    const handleClick = (event) => {
+        const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
+
+        if (anchor) {
+            anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     };
 
-
     return (
-        <div>
-            <Button
-                className={root}
-                color='primary'
-                variant='contained'
-                onClick={handleOnTop}
-            >
-                Scroll To Top
-            </Button>
-        </div>
+        <Zoom in={trigger}>
+            <div onClick={handleClick} role="presentation" className={classes.root}>
+                {children}
+            </div>
+        </Zoom>
     );
-};
+}
 
-export default scrollToTopButton;
+// const useStyles = makeStyles((theme) => ({
+//     button: {
+//         // display: 'none',
+//         position: 'fixed',
+//         bottom: '20px',
+//         right: '20px',
+//         zIndex: '99',
+//         backgroundColor: 'rgba(255,255,255,0.7)',
+//         color: theme.palette.primary.main,
+//         "&:hover": {
+//             "& .MuiSvgIcon-root":{
+//                 color: theme.palette.primary.light,
+//                 backgroundColor: 'rgba(255,255,255,0.7)',
+//             }
+//         },
+//     },
+// }));
+//
+// const scrollToTopButton = () => {
+//     const {button} = useStyles();
+//
+//     const handleOnTop = () => {
+//         window.scrollTo({
+//             top: 0,
+//             behavior: 'smooth'
+//         });
+//     };
+//
+//
+//     return (
+//         <div>
+//             <IconButton
+//                 className={button}
+//                 color='primary'
+//                 onClick={handleOnTop}
+//             >
+//                 <ExpandLessIcon/>
+//             </IconButton>
+//         </div>
+//     );
+// };
+
+export default scrollTop;

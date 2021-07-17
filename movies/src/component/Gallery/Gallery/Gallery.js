@@ -9,8 +9,11 @@ import {grid} from "../../../utils/Constants";
 import {scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+import ScrollTop from "./components/ScrollToTopButton";
 
 import {makeStyles} from "@material-ui/core/styles";
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {Fab} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -101,7 +104,6 @@ const gallery = (props) => {
 
     return (
         <React.Fragment>
-            <ScrollToTopButton/>
             <div className={root}>
                 {displayedMovieList.map(movie => {
                         const {id, tmdbId, posterPath, title, releaseDate} = movie;
@@ -118,6 +120,11 @@ const gallery = (props) => {
                     }
                 )}
             </div>
+            <ScrollTop {...props}>
+                <Fab color="secondary" size="small" aria-label="scroll back to top">
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </ScrollTop>
         </React.Fragment>
     );
 };
