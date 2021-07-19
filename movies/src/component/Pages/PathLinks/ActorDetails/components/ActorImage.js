@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
         height: 'inherit',
         display: 'flex',
         alignItems: 'center',
-        paddingLeft: theme.spacing(6),
+        // paddingLeft: theme.spacing(6),
     },
     sticky: {
         display: 'flex',

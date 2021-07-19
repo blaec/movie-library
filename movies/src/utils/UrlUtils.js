@@ -176,6 +176,7 @@ const caption_year_params = {
 };
 
 const actor_details_params = {
-    append_to_response: 'credits'
+    append_to_response: 'credits',
+    // language: settings.language
 };
 

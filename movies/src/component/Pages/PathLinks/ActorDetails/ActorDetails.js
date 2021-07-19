@@ -82,7 +82,7 @@ const actorDetails = () => {
     let movieList = [];
     let moviesInCollection = [];
     if (hasData) {
-        const {credits: {cast}} = actorDetails;
+        const {credits: {cast}, biography} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
         movieList = cast.filter(movie => {
             // skip 'Documentary' movies and movies without genres
@@ -116,7 +116,7 @@ const actorDetails = () => {
                     </Tabs>
                 </Paper>
                 <TabPanel value={tabSelected} index={0}>
-                    INFO
+                    {biography}
                 </TabPanel>
                 <TabPanel value={tabSelected} index={1}>
                     <List>
