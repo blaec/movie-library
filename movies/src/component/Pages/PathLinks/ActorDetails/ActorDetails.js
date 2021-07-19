@@ -43,6 +43,13 @@ const useStyles = makeStyles((theme) => ({
     },
     movieItems: {
         marginTop: 40,
+    },
+    customBox: {
+        display: "-webkit-box",
+        boxOrient: "vertical",
+        lineClamp: 3,
+        // wordBreak: "break-all",
+        overflow: "hidden"
     }
 }));
 
@@ -50,8 +57,9 @@ const actorDetails = () => {
     const params = useParams();
     const history = useHistory();
     const {actorId} = params;
-    const {root, movieItems} = useStyles();
+    const {root, movieItems, customBox} = useStyles();
 
+    const [isEllipsis, setIsEllipsis] = useState(customBox);
     const [tabSelected, setTabSelected] = useState(0);
 
     const movies = useSelector(state => state.collection.movies);
@@ -65,6 +73,10 @@ const actorDetails = () => {
 
     const handleChange = (event, newValue) => {
         setTabSelected(newValue);
+    };
+
+    const handleViewBiography = () => {
+        setIsEllipsis(isEllipsis === undefined ? customBox : undefined);
     };
 
     useEffect(() => {
@@ -116,7 +128,9 @@ const actorDetails = () => {
                     </Tabs>
                 </Paper>
                 <TabPanel value={tabSelected} index={0}>
-                    {biography}
+                    <Box className={isEllipsis} onClick={handleViewBiography}>
+                        {biography}
+                    </Box>
                 </TabPanel>
                 <TabPanel value={tabSelected} index={1}>
                     <List>
