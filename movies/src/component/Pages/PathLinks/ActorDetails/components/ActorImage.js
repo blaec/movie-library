@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(6),
     },
     sticky: {
-        marginTop: -10,
+        display: 'flex',
+        // marginTop: -10,
         zIndex: 2,
-        // position: 'fixed',
         backgroundColor: '#5c6bc0',
         // width: '100%',
         height: 50,
