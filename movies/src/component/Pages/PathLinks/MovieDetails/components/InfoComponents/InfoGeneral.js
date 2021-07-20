@@ -2,7 +2,7 @@ import React from 'react';
 import {useSelector} from "react-redux";
 
 import MyLoader from "../../../../../../UI/Spinners/MyLoader";
-import {getMovieByTmdbId, isArrayExist, joinNames, isSafe, playTime, releaseDateYear} from "../../../../../../utils/Utils";
+import {getMovieByTmdbId, isArrayExist, joinNames, isSafe, playTime, fullYear} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 import {useParams} from "react-router";
@@ -38,7 +38,7 @@ const infoGeneral = (props) => {
         let {resolution, size, location} = getMovieByTmdbId(movies, movieTmdbId);
         let metadata = {
             rated: isSafe(Rated),
-            release_date: isSafe(releaseDateYear(release_date)),
+            release_date: isSafe(fullYear(release_date)),
             runtime: runtime !== 0
                 ? playTime(runtime)
                 : null,

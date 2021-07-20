@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {getImageUrl, reactLinks} from "../../../../../utils/UrlUtils";
-import {isStringExist, releaseDateYear} from "../../../../../utils/Utils";
+import {isStringExist, fullYear} from "../../../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
@@ -62,7 +62,7 @@ const actorMovie = (props) => {
                     fontWeight="fontWeightLight"
                     color="text.secondary"
                 >
-                    {releaseDateYear(release_date)}
+                    {fullYear(release_date)}
                 </Box>
                 <Box
                     className={titleFont}

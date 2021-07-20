@@ -133,7 +133,7 @@ const actorDetails = () => {
                     </List>
                 </TabPanel>
                 <TabPanel value={tabSelected} index={2}>
-                    <Facts/>
+                    <Facts details={actorDetails}/>
                 </TabPanel>
             </div>
         );

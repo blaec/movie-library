@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Box, Typography} from "@material-ui/core";
+import {Box, Link, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const fact = props => {
-    const {header, text} = props;
+    const {header, text, homepage} = props;
     const {headerFont, textFont} = useStyles();
 
-    const fact = text
+    const fact = text || homepage
         ? (
             <Box>
                 <Typography className={headerFont}
@@ -29,6 +29,9 @@ const fact = props => {
                             variant='subtitle1'>
                     {text}
                 </Typography>
+                <Link href={homepage} target="_blank">
+                    {homepage}
+                </Link>
             </Box>
         )
         : null;
