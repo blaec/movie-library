@@ -10,7 +10,7 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
 import {drawer} from "../../../../utils/Constants";
 import {isArrayExist, isMovieInCast, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
-import {fetchActorDetails} from "../../../../store/state/details/details-actions";
+import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 
 import {Box, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
 import * as PropTypes from "prop-types";
@@ -76,6 +76,7 @@ const actorDetails = () => {
     useEffect(() => {
         if (isStringExist(tmdbApi)) {
             dispatch(fetchActorDetails(actorId, tmdbApi));
+            dispatch(fetchActorImages(actorId, tmdbApi));
         }
     }, [tmdbApi, actorId]);
 

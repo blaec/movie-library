@@ -110,6 +110,12 @@ export const getActorDetailsUrl = (actorId, tmdbApi) => {
     return `${url_endpoints.tmdb.people.getDetails}${actorId}?${getParamsFrom(params)}`
 };
 
+// https://api.themoviedb.org/3/person/{person_id}/images?api_key=<<api_key>>
+export const getActorImagesUrl = (actorId, tmdbApi) => {
+    const params = {...actor_details_params, ...{api_key: tmdbApi}};
+    return `${url_endpoints.tmdb.people.getDetails}${actorId}/images?${getParamsFrom(params)}`
+};
+
 export const getTrailersUrl = (tmdbId, tmdbApi) => {
     return `https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${tmdbApi}`
 }

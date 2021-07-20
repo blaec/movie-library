@@ -1,6 +1,6 @@
 import axios from "../../../axios-movies";
 import {
-    getActorDetailsUrl,
+    getActorDetailsUrl, getActorImagesUrl,
     getMovieCreditsUrl,
     getMovieDetailsUrl,
     getOmdbMovieDetails,
@@ -69,6 +69,19 @@ export const fetchTrailers = (tmdbId, tmdbApi) => {
             .then(response => {
                 const {data: {results}} = response;
                 dispatch(detailsActions.setTrailers(results));
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+};
+
+export const fetchActorImages = (actorId, tmdbApi) => {
+    return async (dispatch) => {
+        axios.get(getActorImagesUrl(actorId, tmdbApi))
+            .then(response => {
+                const {data : {profiles}} = response;
+                dispatch(detailsActions.setActorImages(profiles));
             })
             .catch(error => {
                 console.log(error);
