@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router";
 
+import Facts from "./components/Facts";
+import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
@@ -44,22 +46,14 @@ const useStyles = makeStyles((theme) => ({
     movieItems: {
         marginTop: 40,
     },
-    customBox: {
-        display: "-webkit-box",
-        boxOrient: "vertical",
-        lineClamp: 3,
-        // wordBreak: "break-all",
-        overflow: "hidden"
-    }
 }));
 
 const actorDetails = () => {
     const params = useParams();
     const history = useHistory();
     const {actorId} = params;
-    const {root, movieItems, customBox} = useStyles();
+    const {root, movieItems} = useStyles();
 
-    const [isEllipsis, setIsEllipsis] = useState(customBox);
     const [tabSelected, setTabSelected] = useState(0);
 
     const movies = useSelector(state => state.collection.movies);
@@ -73,10 +67,6 @@ const actorDetails = () => {
 
     const handleChange = (event, newValue) => {
         setTabSelected(newValue);
-    };
-
-    const handleViewBiography = () => {
-        setIsEllipsis(isEllipsis === undefined ? customBox : undefined);
     };
 
     useEffect(() => {
@@ -125,12 +115,11 @@ const actorDetails = () => {
                     >
                         <Tab label="Info"/>
                         <Tab label="Movies"/>
+                        <Tab label="Facts"/>
                     </Tabs>
                 </Paper>
                 <TabPanel value={tabSelected} index={0}>
-                    <Box className={isEllipsis} onClick={handleViewBiography}>
-                        {biography}
-                    </Box>
+                    <Biography biography={biography}/>
                 </TabPanel>
                 <TabPanel value={tabSelected} index={1}>
                     <List>
@@ -142,6 +131,9 @@ const actorDetails = () => {
                             }
                         </div>
                     </List>
+                </TabPanel>
+                <TabPanel value={tabSelected} index={2}>
+                    <Facts/>
                 </TabPanel>
             </div>
         );
