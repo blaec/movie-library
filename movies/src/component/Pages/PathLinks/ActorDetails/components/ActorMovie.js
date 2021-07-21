@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 
-import {getImageUrl, reactLinks} from "../../../../../utils/UrlUtils";
+import {getImageUrl, posterSizes, reactLinks} from "../../../../../utils/UrlUtils";
 import {isStringExist, fullYear} from "../../../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
@@ -48,7 +48,7 @@ const actorMovie = (props) => {
                 >
                     <img
                         className={`${image} ${imageSize}`}
-                        src={getImageUrl(poster_path)}
+                        src={getImageUrl(poster_path, posterSizes.w342)}
                         onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = errImage

@@ -40,8 +40,8 @@ const biography = (props) => {
             return (
                 <img
                     key={index}
-                    height={300}
-                    src={getImageUrl(file_path, posterSizes.w500)}
+                    height={150}
+                    src={getImageUrl(file_path, posterSizes.w342)}
                     alt=''
                 />
             )
