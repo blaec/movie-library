@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#3f51b50f',
     },
     movieItems: {
-        marginTop: 40,
+        // marginTop: 40,
     },
 }));
 

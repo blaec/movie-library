@@ -38,10 +38,13 @@ const actorMovie = (props) => {
         characterText = ` — as ${character}`;
     }
     return (
-        <ListItem className={exist ? movieExist : null}>
+        <ListItem
+            button
+            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${id}`}
+            className={exist ? movieExist : null}
+        >
             <ListItemAvatar>
                 <Paper
-                    component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${id}`}
                     elevation={3}
                     className={imageSize}
                     style={{backgroundImage: `url("${errImage}")`}}
