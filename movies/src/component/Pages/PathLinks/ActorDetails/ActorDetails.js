@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router";
 
-import Facts from "./components/Facts";
+import ActorFacts from "./components/ActorFacts";
 import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
@@ -132,7 +132,7 @@ const actorDetails = () => {
                     </List>
                 </TabPanel>
                 <TabPanel value={tabSelected} index={2}>
-                    <Facts details={actorDetails}/>
+                    <ActorFacts details={actorDetails}/>
                 </TabPanel>
             </div>
         );

@@ -5,7 +5,7 @@ import {fullYear, isStringExist} from "../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
 
-const facts = (props) => {
+const actorFacts = (props) => {
     const {
         details: {
             birthday,
@@ -38,4 +38,4 @@ const facts = (props) => {
     );
 };
 
-export default facts;
+export default actorFacts;

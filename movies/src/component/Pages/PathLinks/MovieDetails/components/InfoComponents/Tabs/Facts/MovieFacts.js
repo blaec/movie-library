@@ -5,7 +5,7 @@ import {joinNames} from "../../../../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
 
-const facts = (props) => {
+const movieFacts = (props) => {
     const {
         details: {
             Director,
@@ -56,4 +56,4 @@ const facts = (props) => {
     );
 };
 
-export default facts;
+export default movieFacts;

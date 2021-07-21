@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import Description from "./InfoComponents/Tabs/Description";
 import Cast from "./InfoComponents/Tabs/Cast/Cast";
-import Facts from "./InfoComponents/Tabs/Facts/Facts";
+import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
 import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
 import * as PropTypes from "prop-types";
@@ -110,7 +110,7 @@ const info = () => {
                         value={tabSelected}
                         index={MovieTab.facts}
                     >
-                        <Facts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
+                        <MovieFacts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
                     </TabPanel>
                 </div>
             </React.Fragment>
