@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
-import {Box, makeStyles, Paper} from "@material-ui/core";
 import {useSelector} from "react-redux";
+
 import {isArraysExist} from "../../../../../utils/Utils";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
+
+import {Box, makeStyles, Paper} from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
     customBox: {
@@ -33,10 +36,10 @@ const biography = (props) => {
     let actorGallery = null;
     if (isArraysExist(actorImages)) {
         actorGallery = actorImages.map((image, index) => {
-            const {key, file_path} = image;
+            const {file_path} = image;
             return (
                 <img
-                    key={key}
+                    key={index}
                     height={300}
                     src={getImageUrl(file_path, posterSizes.w500)}
                     alt=''
@@ -46,7 +49,6 @@ const biography = (props) => {
     }
 
 
-    console.log(actorGallery);
     return (
         <React.Fragment>
             <Box className={isEllipsis} onClick={handleViewBiography}>

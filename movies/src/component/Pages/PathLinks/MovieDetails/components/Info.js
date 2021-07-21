@@ -15,6 +15,7 @@ import {MovieTab} from "../../../../../utils/Constants";
 
 import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
+
 const TabPanel = (props) => {
     const {children, value, index, ...other} = props;
 

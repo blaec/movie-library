@@ -1,10 +1,10 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
 import {getImageUrl, reactLinks} from "../../../../../utils/UrlUtils";
 import {isStringExist, fullYear} from "../../../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
-import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     actor: {

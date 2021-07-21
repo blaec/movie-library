@@ -7,13 +7,11 @@ import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import MyArrowBack from "../../../../UI/Buttons/Icons/MyArrowBack";
-import {drawer} from "../../../../utils/Constants";
-import {isArrayExist, isMovieInCast, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
+import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 
-import {Box, List, makeStyles, Paper, Tab, Tabs, Typography} from "@material-ui/core";
-import * as PropTypes from "prop-types";
+import {Box, List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
+
 
 const TabPanel = (props) => {
     const {children, value, index, ...other} = props;

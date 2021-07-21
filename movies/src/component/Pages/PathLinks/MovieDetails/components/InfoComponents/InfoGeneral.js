@@ -1,11 +1,12 @@
 import React from 'react';
 import {useSelector} from "react-redux";
+import {useParams} from "react-router";
 
 import MyLoader from "../../../../../../UI/Spinners/MyLoader";
 import {getMovieByTmdbId, isArrayExist, joinNames, isSafe, playTime, fullYear} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
-import {useParams} from "react-router";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {

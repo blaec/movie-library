@@ -1,5 +1,7 @@
 import React from 'react';
+
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
+
 import {makeStyles, Typography} from "@material-ui/core";
 import {isMovieInCast} from "../../../../../utils/Utils";
 

@@ -3,6 +3,7 @@ import React from 'react';
 import {Box, Link, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 
+
 const useStyles = makeStyles((theme) => ({
     headerFont: {
         fontWeight: 900,
@@ -16,6 +17,22 @@ const fact = props => {
     const {header, text, homepage} = props;
     const {headerFont, textFont} = useStyles();
 
+    const textElement = text
+        ? (
+            <Typography className={textFont}
+                        display='inline'
+                        variant='subtitle1'>
+                {text}
+            </Typography>
+        )
+        : null;
+    const linkElement = homepage
+        ? (
+            <Link href={homepage} target="_blank">
+                {homepage}
+            </Link>
+        )
+        : null;
     const fact = text || homepage
         ? (
             <Box>
@@ -24,14 +41,8 @@ const fact = props => {
                             variant='subtitle1'>
                     {header}
                 </Typography>
-                <Typography className={textFont}
-                            display='inline'
-                            variant='subtitle1'>
-                    {text}
-                </Typography>
-                <Link href={homepage} target="_blank">
-                    {homepage}
-                </Link>
+                {textElement}
+                {linkElement}
             </Box>
         )
         : null;
