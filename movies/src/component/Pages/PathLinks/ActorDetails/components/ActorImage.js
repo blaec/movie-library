@@ -4,6 +4,7 @@ import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 
 import {makeStyles, Typography} from "@material-ui/core";
 import {isMovieInCast} from "../../../../../utils/Utils";
+import {drawer} from "../../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -13,18 +14,19 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(6),
     },
     sticky: {
+        position: 'fixed',
         display: 'flex',
         // marginTop: -10,
         zIndex: 2,
         backgroundColor: '#5c6bc0',
-        // width: '100%',
         height: 50,
         color: 'white',
+        width: '100%',
         [`@media (orientation:landscape)`]: {
-            // width: `calc(80% - ${drawer.width * .8}px)`,
+            width: `calc(80% - ${drawer.width * .8}px)`,
         },
         [`${theme.breakpoints.up(1000)} and (orientation:landscape)`]: {
-            // width: `calc(50% - ${drawer.width * .5}px)`,
+            width: `calc(50% - ${drawer.width * .5}px)`,
         },
     },
 }));

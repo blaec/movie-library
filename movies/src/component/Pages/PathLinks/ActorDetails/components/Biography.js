@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     images: {
         display: 'flex',
         overflow: 'auto',
+        marginTop: theme.spacing(2),
     },
 }));
 
@@ -54,7 +55,7 @@ const biography = (props) => {
             <Box className={isEllipsis} onClick={handleViewBiography}>
                 {biography}
             </Box>
-            <Paper className={images}>
+            <Paper className={images} square>
                 {actorGallery}
             </Paper>
         </React.Fragment>

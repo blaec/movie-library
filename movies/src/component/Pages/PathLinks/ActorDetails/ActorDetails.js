@@ -105,7 +105,7 @@ const actorDetails = () => {
 
         allMovies = (
             <div className={movieItems}>
-                <Paper square>
+                <Paper square style={{paddingTop: '50px'}}>
                     <Tabs
                         value={tabSelected}
                         onChange={handleChange}
