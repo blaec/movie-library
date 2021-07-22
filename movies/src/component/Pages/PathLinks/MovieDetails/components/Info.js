@@ -15,9 +15,9 @@ import {MovieTab} from "../../../../../utils/Constants";
 
 import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
-
+// TODO extract common element (check usage)
 const TabPanel = (props) => {
-    const {children, value, index, ...other} = props;
+    const {children, value, index, padding, ...other} = props;
 
     return (
         <div
@@ -26,7 +26,7 @@ const TabPanel = (props) => {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
+                <Box p={padding === undefined ? 3 : padding}>
                     {children}
                 </Box>
             )}
@@ -97,6 +97,7 @@ const info = () => {
                     <TabPanel
                         value={tabSelected}
                         index={MovieTab.cast}
+                        padding={0}
                     >
                         <Cast details={cast}/>
                     </TabPanel>

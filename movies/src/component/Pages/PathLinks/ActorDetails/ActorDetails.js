@@ -13,8 +13,9 @@ import {fetchActorDetails, fetchActorImages} from "../../../../store/state/detai
 import {Box, List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
 
+// TODO extract common element (check usage)
 const TabPanel = (props) => {
-    const {children, value, index, ...other} = props;
+    const {children, value, index, padding, ...other} = props;
 
     return (
         <div
@@ -23,7 +24,7 @@ const TabPanel = (props) => {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
+                <Box p={padding === undefined ? 3 : padding}>
                     {children}
                 </Box>
             )}
@@ -120,7 +121,7 @@ const actorDetails = () => {
                 <TabPanel value={tabSelected} index={0}>
                     <Biography biography={biography}/>
                 </TabPanel>
-                <TabPanel value={tabSelected} index={1}>
+                <TabPanel value={tabSelected} index={1} padding={0}>
                     <List>
                         <div className={movieItems}>
                             {movieList.map(movie =>
