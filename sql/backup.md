@@ -19,3 +19,10 @@ Same rules applied to the `%time%`.
 ```aidl
 ForFiles /p "C:\Users\blaec\Google Drive\mySql backup\backup" /s /d -30 /c "cmd /c del @file"
 ```
+
+[Clone db](https://stackoverflow.com/questions/675289/mysql-cloning-a-mysql-database-on-the-same-mysql-instance)
+
+Create dummy_movie_library schema
+```aidl
+mysqldump --user=user --password=password movie_library | mysql --user=user --password=password dummy_movie_library
+```
