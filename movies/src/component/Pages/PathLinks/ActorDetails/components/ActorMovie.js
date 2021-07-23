@@ -1,10 +1,10 @@
 import React from 'react';
+import {NavLink} from "react-router-dom";
 
-import {getImageUrl, reactLinks} from "../../../../../utils/UrlUtils";
-import {isStringExist, releaseDateYear} from "../../../../../utils/Utils";
+import {getImageUrl, posterSizes, reactLinks} from "../../../../../utils/UrlUtils";
+import {isStringExist, fullYear} from "../../../../../utils/Utils";
 
 import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@material-ui/core";
-import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -38,17 +38,20 @@ const actorMovie = (props) => {
         characterText = ` — as ${character}`;
     }
     return (
-        <ListItem className={exist ? movieExist : null}>
+        <ListItem
+            button
+            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${id}`}
+            className={exist ? movieExist : null}
+        >
             <ListItemAvatar>
                 <Paper
-                    component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${id}`}
                     elevation={3}
                     className={imageSize}
                     style={{backgroundImage: `url("${errImage}")`}}
                 >
                     <img
                         className={`${image} ${imageSize}`}
-                        src={getImageUrl(poster_path)}
+                        src={getImageUrl(poster_path, posterSizes.w342)}
                         onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = errImage
@@ -62,7 +65,7 @@ const actorMovie = (props) => {
                     fontWeight="fontWeightLight"
                     color="text.secondary"
                 >
-                    {releaseDateYear(release_date)}
+                    {fullYear(release_date)}
                 </Box>
                 <Box
                     className={titleFont}

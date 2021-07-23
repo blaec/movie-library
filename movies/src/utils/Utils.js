@@ -1,13 +1,13 @@
 import {drawer, mobile} from "./Constants";
 
 /**
- * Extract year from release date, release date could be undefined
- * @param releaseDate release date formatted like yyyy-mm-dd
+ * Extract year from date (like release date), date could be undefined or null
+ * @param date date formatted like yyyy-mm-dd
  * @returns {string|*|string} empty string or year
  */
 
-export const releaseDateYear = (releaseDate) => {
-    return releaseDate === undefined ? '' : releaseDate.split('-')[0];
+export const fullYear = (date) => {
+    return date === undefined || date === null ? '' : date.split('-')[0];
 };
 
 /**
@@ -20,7 +20,7 @@ export const releaseDateYear = (releaseDate) => {
  * @returns {string} full title
  */
 export const fullTitle = (title, releaseDate) => {
-    const year = releaseDateYear(releaseDate);
+    const year = fullYear(releaseDate);
     return `${title}${(year.length > 0 ? ` (${year})` : '')}`
 };
 

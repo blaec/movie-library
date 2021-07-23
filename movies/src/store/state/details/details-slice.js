@@ -5,6 +5,7 @@ const initialState = {
     movieTmdbDetails: {},
     movieOmdbDetails: {},
     actorDetails: {},
+    actorImages: {},
     imdbId: '',
     trailers: [],
 };
@@ -25,6 +26,9 @@ const detailsSlice = createSlice({
         setActorDetails(state, action) {
             state.actorDetails = action.payload;
         },
+        setActorImages(state, action) {
+            state.actorImages = action.payload;
+        },
         setImdbId(state, action) {
             state.imdbId = action.payload;
         },
@@ -33,6 +37,7 @@ const detailsSlice = createSlice({
             state.movieTmdbDetails = {};
             state.movieOmdbDetails = {};
             state.actorDetails = {};
+            state.actorImages = {};
             state.imdbId = '';
             state.trailers = [];
         },

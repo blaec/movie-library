@@ -6,8 +6,7 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     root: {
         position: 'absolute',
-        top: '5px',
-        left: '5px',
+        margin: '5px',
         padding: '5px',
         color: '#696969',
         backgroundColor: 'rgba(255,255,255,0.7)',

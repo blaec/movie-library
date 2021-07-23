@@ -11,8 +11,8 @@ export const reactLinks = {
     upload: "/upload",
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
-    actorMoviesEndpoint: "/actors/",
-    actorMovies: "/actors/:actorId",
+    actorDetailsEndpoint: "/actors/",
+    actorDetails: "/actors/:actorId",
     nowPlaying: "/info/now-playing",
     anticipated: "/info/anticipated",
     library: "/stats/library",
@@ -110,6 +110,12 @@ export const getActorDetailsUrl = (actorId, tmdbApi) => {
     return `${url_endpoints.tmdb.people.getDetails}${actorId}?${getParamsFrom(params)}`
 };
 
+// https://api.themoviedb.org/3/person/{person_id}/images?api_key=<<api_key>>
+export const getActorImagesUrl = (actorId, tmdbApi) => {
+    const params = {...actor_details_params, ...{api_key: tmdbApi}};
+    return `${url_endpoints.tmdb.people.getDetails}${actorId}/images?${getParamsFrom(params)}`
+};
+
 export const getTrailersUrl = (tmdbId, tmdbApi) => {
     return `https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${tmdbApi}`
 }
@@ -176,6 +182,7 @@ const caption_year_params = {
 };
 
 const actor_details_params = {
-    append_to_response: 'credits'
+    append_to_response: 'credits',
+    // language: settings.language
 };
 
