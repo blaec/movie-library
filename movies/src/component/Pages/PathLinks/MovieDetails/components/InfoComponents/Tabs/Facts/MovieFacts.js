@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Fact from "./Fact";
+import Fact from "../../../../../../../../utils/Fact";
 import {joinNames} from "../../../../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";

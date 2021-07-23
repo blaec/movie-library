@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Fact from "../../MovieDetails/components/InfoComponents/Tabs/Facts/Fact";
+import Fact from "../../../../../utils/Fact";
 import {fullYear, isStringExist} from "../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
