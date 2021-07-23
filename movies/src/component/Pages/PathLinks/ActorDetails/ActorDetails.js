@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router";
 
+import MyTabPanel from "../../../../UI/MyTabPanel";
 import ActorFacts from "./components/ActorFacts";
 import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
@@ -10,27 +11,8 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 
-import {Box, List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
+import {List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
-
-// TODO extract common element (check usage)
-const TabPanel = (props) => {
-    const {children, value, index, padding, ...other} = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            {...other}
-        >
-            {value === index && (
-                <Box p={padding === undefined ? 3 : padding}>
-                    {children}
-                </Box>
-            )}
-        </div>
-    );
-}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -118,10 +100,10 @@ const actorDetails = () => {
                         <Tab label="Facts"/>
                     </Tabs>
                 </Paper>
-                <TabPanel value={tabSelected} index={0}>
+                <MyTabPanel value={tabSelected} index={0}>
                     <Biography biography={biography}/>
-                </TabPanel>
-                <TabPanel value={tabSelected} index={1} padding={0}>
+                </MyTabPanel>
+                <MyTabPanel value={tabSelected} index={1} padding={0}>
                     <List>
                         <div className={movieItems}>
                             {movieList.map(movie =>
@@ -131,10 +113,10 @@ const actorDetails = () => {
                             }
                         </div>
                     </List>
-                </TabPanel>
-                <TabPanel value={tabSelected} index={2}>
+                </MyTabPanel>
+                <MyTabPanel value={tabSelected} index={2}>
                     <ActorFacts details={actorDetails}/>
-                </TabPanel>
+                </MyTabPanel>
             </div>
         );
     }

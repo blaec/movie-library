@@ -1,44 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 
+import MyTabPanel from "../../../../../UI/MyTabPanel";
 import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import Description from "./InfoComponents/Tabs/Description";
 import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
 import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
-import * as PropTypes from "prop-types";
 import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
 import {previousLocation} from "../../../../../store/localStorage/actions";
 import {reactLinks} from "../../../../../utils/UrlUtils";
 import {MovieTab} from "../../../../../utils/Constants";
 
-import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
+import {makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
-// TODO extract common element (check usage)
-const TabPanel = (props) => {
-    const {children, value, index, padding, ...other} = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            {...other}
-        >
-            {value === index && (
-                <Box p={padding === undefined ? 3 : padding}>
-                    {children}
-                </Box>
-            )}
-        </div>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -88,31 +64,31 @@ const info = () => {
                             <Tab label="Facts"/>
                         </Tabs>
                     </Paper>
-                    <TabPanel
+                    <MyTabPanel
                         value={tabSelected}
                         index={MovieTab.description}
                     >
                         <Description details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
-                    </TabPanel>
-                    <TabPanel
+                    </MyTabPanel>
+                    <MyTabPanel
                         value={tabSelected}
                         index={MovieTab.cast}
                         padding={0}
                     >
                         <Cast details={cast}/>
-                    </TabPanel>
-                    <TabPanel
+                    </MyTabPanel>
+                    <MyTabPanel
                         value={tabSelected}
                         index={MovieTab.trailers}
                     >
                         <Trailers/>
-                    </TabPanel>
-                    <TabPanel
+                    </MyTabPanel>
+                    <MyTabPanel
                         value={tabSelected}
                         index={MovieTab.facts}
                     >
                         <MovieFacts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
-                    </TabPanel>
+                    </MyTabPanel>
                 </div>
             </React.Fragment>
         );
