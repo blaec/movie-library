@@ -17,35 +17,42 @@ const fact = props => {
     const {header, text, homepage} = props;
     const {headerFont, textFont} = useStyles();
 
-    const textElement = text
-        ? (
+    let textElement = null;
+    if (text) {
+        textElement = (
             <Typography className={textFont}
                         display='inline'
                         variant='subtitle1'>
                 {text}
             </Typography>
-        )
-        : null;
-    const linkElement = homepage
-        ? (
+        );
+    }
+    let linkElement = null;
+    if (homepage) {
+        linkElement = (
             <Link href={homepage} target="_blank">
                 {homepage}
             </Link>
-        )
-        : null;
-    const fact = text || homepage
-        ? (
+        );
+    }
+    let fact = null;
+    if (textElement || linkElement) {
+        fact = (
             <Box>
-                <Typography className={headerFont}
-                            display='inline'
-                            variant='subtitle1'>
+                <Typography
+                    className={headerFont}
+                    display='inline'
+                    variant='subtitle1'
+                >
                     {header}
                 </Typography>
                 {textElement}
                 {linkElement}
             </Box>
-        )
-        : null;
+        );
+    }
+
+
     return (
         <React.Fragment>
             {fact}

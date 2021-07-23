@@ -16,9 +16,8 @@ const actorFacts = (props) => {
         },
     } = props;
 
-    const birthYear = fullYear(birthday);
-    const age = isStringExist(birthYear)
-        ? new Date().getFullYear() - birthYear
+    const age = isStringExist(birthday)
+        ? new Date().getFullYear() - fullYear(birthday)
         : null;
     return (
         <Typography component="div">

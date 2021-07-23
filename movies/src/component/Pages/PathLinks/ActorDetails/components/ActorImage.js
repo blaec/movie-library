@@ -1,10 +1,11 @@
 import React from 'react';
 
+import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
+import {drawer} from "../../../../../utils/Constants";
+import {isMovieInCast} from "../../../../../utils/Utils";
 
 import {makeStyles, Typography} from "@material-ui/core";
-import {isMovieInCast} from "../../../../../utils/Utils";
-import {drawer} from "../../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -32,22 +33,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actorImage = (props) => {
-    const {movies, actorDetails, movieList, moviesInCollection, onClose} = props;
+    const {movies, actorDetails: {name}, movieList, moviesInCollection, onClose} = props;
     const {sticky, actor} = useStyles();
-    const {name} = actorDetails;
 
-    const moviesSize = movies
-        .filter(movie => isMovieInCast(moviesInCollection, movie.tmdbId))
-        .reduce(((sum, movie) => sum + movie.size), 0);
+    let elem = <MyLoader/>;
+    if (name !== undefined) {
+        const moviesSize = movies
+            .filter(movie => isMovieInCast(moviesInCollection, movie.tmdbId))
+            .reduce(((sum, movie) => sum + movie.size), 0);
+        elem = (
+            <div className={sticky}>
+                <MyArrowBack onClose={onClose}/>
+                <Typography className={actor}
+                            variant="h6">
+                    {`${name} (${moviesInCollection.length}/${movieList.length}) - ${moviesSize.toFixed(0)}Gb`}
+                </Typography>
+            </div>
+        );
+    }
 
     return (
-        <div className={sticky}>
-            <MyArrowBack onClose={onClose}/>
-            <Typography className={actor}
-                        variant="h6">
-                {`${name} (${moviesInCollection.length}/${movieList.length}) - ${moviesSize.toFixed(0)}Gb`}
-            </Typography>
-        </div>
+        <React.Fragment>
+            {elem}
+        </React.Fragment>
     );
 };
 

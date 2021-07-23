@@ -1,6 +1,7 @@
 import axios from "../../../axios-movies";
 import {
-    getActorDetailsUrl, getActorImagesUrl,
+    getActorDetailsUrl,
+    getActorImagesUrl,
     getMovieCreditsUrl,
     getMovieDetailsUrl,
     getOmdbMovieDetails,
@@ -80,7 +81,7 @@ export const fetchActorImages = (actorId, tmdbApi) => {
     return async (dispatch) => {
         axios.get(getActorImagesUrl(actorId, tmdbApi))
             .then(response => {
-                const {data : {profiles}} = response;
+                const {data: {profiles}} = response;
                 dispatch(detailsActions.setActorImages(profiles));
             })
             .catch(error => {
