@@ -25,3 +25,7 @@ ALTER TABLE movies DROP COLUMN genres;
 -- 2021-06-11
 ALTER TABLE movies
     ADD COLUMN creation_date DATE DEFAULT (CURRENT_DATE);
+
+-- 2021-07-23
+ALTER TABLE movies
+    MODIFY COLUMN `resolution` ENUM( 'VGA', 'HD', 'FullHD', 'QHD', 'UHD4K' );

@@ -3,6 +3,7 @@ package com.blaec.movielibrary.enums;
 import java.util.Arrays;
 
 // https://en.wikipedia.org/wiki/List_of_common_resolutions
+// https://en.wikipedia.org/wiki/Computer_display_standard
 // 2160p: 3840x2160
 // 1440p: 2560x1440
 // 1080p: 1920x1080
@@ -13,7 +14,9 @@ import java.util.Arrays;
 public enum Resolution {
     VGA("480p"),
     HD("720p"),
-    FullHD("1080p");
+    FullHD("1080p"),
+    QHD("1440p"),
+    UHD4K("2160p");
 
     private final String res;
 
