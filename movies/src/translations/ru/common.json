@@ -1,5 +1,8 @@
 {
   "tabName": {
-    "description": "Описание"
+    "cast": "В ролях",
+    "description": "Описание",
+    "facts": "Факты",
+    "trailers": "Трейлеры"
   }
 }

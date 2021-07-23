@@ -1,5 +1,8 @@
 {
   "tabName": {
-    "description": "Description"
+    "cast": "Cast",
+    "description": "Description",
+    "facts": "Facts",
+    "trailers": "Trailers"
   }
 }

@@ -61,9 +61,9 @@ const info = () => {
                             variant="fullWidth"
                         >
                             <Tab label={t('tabName.description')}/>
-                            <Tab label="Cast"/>
-                            <Tab label="Trailers"/>
-                            <Tab label="Facts"/>
+                            <Tab label={t('tabName.cast')}/>
+                            <Tab label={t('tabName.trailers')}/>
+                            <Tab label={t('tabName.facts')}/>
                         </Tabs>
                     </Paper>
                     <MyTabPanel
