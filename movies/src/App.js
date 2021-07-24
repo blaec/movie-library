@@ -10,7 +10,8 @@ import {fetchMovies, fetchWishlist} from "./store/state/collection/collection-ac
 import {fetchConfigs} from "./store/state/api/api-actions";
 import {detailsActions} from "./store/state/details/details-slice";
 import {useLocation} from "react-router";
-import {currentLocation, previousLocation} from "./store/localStorage/actions";
+import {currentLocation, language, previousLocation} from "./store/localStorage/actions";
+import {useTranslation} from "react-i18next";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
@@ -39,6 +40,7 @@ const app = () => {
         anticipated,
         library,
     } = reactLinks;
+    const {i18n} = useTranslation('common');
 
     const dispatch = useDispatch();
 
@@ -50,6 +52,13 @@ const app = () => {
         dispatch(fetchMovies());
         dispatch(fetchWishlist());
     }, []);
+
+    useEffect(() => {
+        if (language.get() === null) {
+            language.set('en');
+        }
+        i18n.changeLanguage(language.get());
+    }, [language.get()]);
 
     let layout = (
         <Layout>

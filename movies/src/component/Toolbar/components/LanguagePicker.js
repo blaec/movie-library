@@ -8,13 +8,6 @@ const languagePicker = () => {
     const [lang, setLang] = useState(language.get() || 'en');
     const {i18n} = useTranslation('common');
 
-    useEffect(() => {
-        if (language.get() === null) {
-            language.set('en');
-        }
-        i18n.changeLanguage(language.get());
-    }, [])
-
     const handleChangeLanguage = () => {
         let lang;
         switch (language.get()) {
