@@ -49,18 +49,32 @@ export const configApi = {
     }
 }
 
+export const getDeleteUrl = (tmdbId) => {
+    return `${movieApi.delete.delete}${tmdbId}`;
+};
+
+export const getScanFolderUrl = (fileLocation) => {
+    return `${movieApi.post.scanFolder}${fileLocation}`;
+};
+
 export const getMovieDetailsUrl = (id, tmdbApi) => {
     const params = {...backdrop_params, ...{api_key: tmdbApi}};
-    return `${url_endpoints.tmdb.movies.getDetails}${id}?${getParamsFrom(params)}`
+    // console.log(`getMovieDetailsUrl: ${url_endpoints.tmdb.movies.getDetails}${id}?${getParamsFrom(params)}`);
+    return `${url_endpoints.tmdb.movies.getDetails}${id}?${getParamsFrom(params)}`;
 };
 
+// https://developers.themoviedb.org/3/movies/get-now-playing
+// https://api.themoviedb.org/3/movie/now_playing?api_key=<<api_key>>&language=en-US&page=1
 export const getNowPlayingUrl = (tmdbApi, showPage = 1) => {
-    const params = {...{api_key: tmdbApi, page: showPage}};
-    return `${url_endpoints.tmdb.movies.getNowPlaying}?${getParamsFrom(params)}`
+    const params = {...api_lang_params, ...{api_key: tmdbApi, page: showPage}};
+    return `${url_endpoints.tmdb.movies.getNowPlaying}?${getParamsFrom(params)}`;
 };
 
+// https://developers.themoviedb.org/3/discover/movie-discover
+// https://api.themoviedb.org/3/discover/movie?api_key=<<api_key>>&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate
 export const getAnticipatedUrl = (tmdbApi, showPage = 1) => {
     const params = {
+        ...api_lang_params,
         ...{
             api_key: tmdbApi,
             page: showPage,
@@ -68,57 +82,57 @@ export const getAnticipatedUrl = (tmdbApi, showPage = 1) => {
             'release_date.lte': getFutureDate(2, 6)
         }
     };
-    return `${url_endpoints.tmdb.movies.anticipated}?${getParamsFrom(params)}`
+    return `${url_endpoints.tmdb.movies.anticipated}?${getParamsFrom(params)}`;
 };
 
 export const getOmdbMovieDetails = (imdbId, omdbApi) => {
-    return `${url_endpoints.omdb.movie}${imdbId}&apikey=${omdbApi}`
+    // console.log(`getOmdbMovieDetails: ${url_endpoints.omdb.movie}${imdbId}&apikey=${omdbApi}`);
+    return `${url_endpoints.omdb.movie}${imdbId}&apikey=${omdbApi}`;
 };
 
+// https://developers.themoviedb.org/3/movies/get-movie-credits
+// https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=<<api_key>>&language=en-US
 export const getMovieCreditsUrl = (id, tmdbApi) => {
     const params = {...api_lang_params, ...{api_key: tmdbApi}};
-    return `${url_endpoints.tmdb.movies.getDetails}${id}/credits?${getParamsFrom(params)}`
+    return `${url_endpoints.tmdb.movies.getDetails}${id}/credits?${getParamsFrom(params)}`;
 };
 
 export const getImageUrl = (path, posterSize = posterSizes.original) => {
     let size = Object.values(posterSizes).includes(posterSize)
         ? `${posterSize}`
         : `${posterSizes.original}`;
-    return `${(url_endpoints.tmdb.gettingStarted.images)}${size}${path}`
+    return `${(url_endpoints.tmdb.gettingStarted.images)}${size}${path}`;
 };
 
 export const getSearchMovieUrl = (props) => {
     const params = {...caption_year_params, ...props};
-    return `${url_endpoints.tmdb.search.getDetails}?${getParamsFrom(params)}`
+    // console.log(`getSearchMovieUrl: ${url_endpoints.tmdb.search.getDetails}?${getParamsFrom(params)}`);
+    return `${url_endpoints.tmdb.search.getDetails}?${getParamsFrom(params)}`;
 };
 
 export const getAllGenresUrl = (tmdbApi) => {
     const params = {...api_lang_params, ...{api_key: tmdbApi}};
-    return `${url_endpoints.tmdb.genres.getMovieList}?${getParamsFrom(params)}`
-};
-
-export const getDeleteUrl = (tmdbId) => {
-    return `${movieApi.delete.delete}${tmdbId}`
-};
-
-export const getScanFolderUrl = (fileLocation) => {
-    return `${movieApi.post.scanFolder}${fileLocation}`
+    // console.log(`getAllGenresUrl: ${url_endpoints.tmdb.genres.getMovieList}?${getParamsFrom(params)}`);
+    return `${url_endpoints.tmdb.genres.getMovieList}?${getParamsFrom(params)}`;
 };
 
 // https://api.themoviedb.org/3/person/<<actorId>>?api_key=<<api_key>>&append_to_response=credits
 export const getActorDetailsUrl = (actorId, tmdbApi) => {
     const params = {...actor_details_params, ...{api_key: tmdbApi}};
-    return `${url_endpoints.tmdb.people.getDetails}${actorId}?${getParamsFrom(params)}`
+    // console.log(`getActorDetailsUrl: ${url_endpoints.tmdb.people.getDetails}${actorId}?${getParamsFrom(params)}`);
+    return `${url_endpoints.tmdb.people.getDetails}${actorId}?${getParamsFrom(params)}`;
 };
 
 // https://api.themoviedb.org/3/person/{person_id}/images?api_key=<<api_key>>
 export const getActorImagesUrl = (actorId, tmdbApi) => {
     const params = {...actor_details_params, ...{api_key: tmdbApi}};
-    return `${url_endpoints.tmdb.people.getDetails}${actorId}/images?${getParamsFrom(params)}`
+    // console.log(`getActorImagesUrl: ${url_endpoints.tmdb.people.getDetails}${actorId}/images?${getParamsFrom(params)}`);
+    return `${url_endpoints.tmdb.people.getDetails}${actorId}/images?${getParamsFrom(params)}`;
 };
 
 export const getTrailersUrl = (tmdbId, tmdbApi) => {
-    return `https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${tmdbApi}`
+    // console.log(`getTrailersUrl: https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${tmdbApi}`);
+    return `https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=${tmdbApi}`;
 }
 
 const getParamsFrom = (obj) => {
