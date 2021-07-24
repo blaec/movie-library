@@ -1,4 +1,7 @@
 {
+  "snackbar": {
+    "foundMovies": "Фильмов найдено: {{length}}"
+  },
   "tab": {
     "cast": "В ролях",
     "description": "Описание",

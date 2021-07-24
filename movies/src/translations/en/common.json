@@ -1,4 +1,7 @@
 {
+  "snackbar": {
+    "foundMovies": "Found {{length}} movies"
+  },
   "tab": {
     "cast": "Cast",
     "description": "Description",
