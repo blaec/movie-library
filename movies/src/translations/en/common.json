@@ -1,4 +1,14 @@
 {
+  "menu": {
+    "anticipated": "Anticipated",
+    "collection": "Collection",
+    "filter": "Filter",
+    "library": "Library",
+    "newMovies": "New Movies",
+    "nowPlaying": "Now Playing",
+    "upload": "Upload",
+    "wishlist": "Wishlist"
+  },
   "snackbar": {
     "foundMovies": "Found {{length}} movies"
   },

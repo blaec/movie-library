@@ -1,4 +1,14 @@
 {
+  "menu": {
+    "anticipated": "Ожидаемые",
+    "collection": "Видеотека",
+    "filter": "Фильтр",
+    "library": "Библиотека",
+    "newMovies": "Новинки",
+    "nowPlaying": "В прокате",
+    "upload": "Загрузка",
+    "wishlist": "Пожелания"
+  },
   "snackbar": {
     "foundMovies": "Фильмов найдено: {{length}}"
   },
