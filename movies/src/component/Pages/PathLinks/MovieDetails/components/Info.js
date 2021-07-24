@@ -60,10 +60,10 @@ const info = () => {
                             textColor="primary"
                             variant="fullWidth"
                         >
-                            <Tab label={t('tabName.description')}/>
-                            <Tab label={t('tabName.cast')}/>
-                            <Tab label={t('tabName.trailers')}/>
-                            <Tab label={t('tabName.facts')}/>
+                            <Tab label={t('tab.description')}/>
+                            <Tab label={t('tab.cast')}/>
+                            <Tab label={t('tab.trailers')}/>
+                            <Tab label={t('tab.facts')}/>
                         </Tabs>
                     </Paper>
                     <MyTabPanel
