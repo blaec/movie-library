@@ -1,4 +1,5 @@
 import {getFutureDate} from "./Utils";
+import {language} from "../store/localStorage/actions";
 
 export const reactLinks = {
     home: "/movies/collection",
@@ -125,9 +126,9 @@ const getParamsFrom = (obj) => {
 };
 
 const settings = {
-    language: 'ru-RU',
+    language: language.get(),
     append_to_response: 'images',
-    include_image_language: 'ru-RU,null'
+    include_image_language: `${language.get()},null`
 };
 
 // https://api.themoviedb.org/3/configuration?api_key=
@@ -178,11 +179,11 @@ const api_lang_params = {
 };
 
 const caption_year_params = {
-    language: 'en-EN'
+    language: language.get(),
 };
 
 const actor_details_params = {
     append_to_response: 'credits',
-    // language: settings.language
+    language: settings.language
 };
 
