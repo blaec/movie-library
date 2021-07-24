@@ -1,4 +1,14 @@
 {
+  "button": {
+    "add": "Добавить",
+    "clear": "Очистить",
+    "filter": "Фильтр",
+    "search": "Поиск"
+  },
+  "helperText": {
+    "enterMovieTitle": "Введите наименование фильма",
+    "enterReleaseYear": "Введите год выпуска фильма"
+  },
   "menu": {
     "anticipated": "Ожидаемые",
     "collection": "Видеотека",
@@ -10,12 +20,27 @@
     "wishlist": "Пожелания"
   },
   "snackbar": {
-    "foundMovies": "Фильмов найдено: {{length}}"
+    "addToWishlist": "Фильм {{title}} добавлен в Пожелания",
+    "failedToAddToWishlist": "Неудалось добавить фильм {{title}} в Пожелания: {{message}}",
+    "filteredMovies": "Отфильтровано фильмов {{count}}",
+    "foundMovies": "Фильмов найдено: {{count}}",
+    "noResult": "Ничего не найдено"
   },
   "tab": {
     "cast": "В ролях",
     "description": "Содержание",
     "facts": "Факты",
     "trailers": "Трейлеры"
+  },
+  "text": {
+    "addToWishList": "Добавить в Пожелания",
+    "creationDate": "Дата создания",
+    "genres": "Жанры",
+    "movieLibrary": "Видеотека",
+    "preview": "Просмотр",
+    "releaseYear": "Год выпуска",
+    "size": "Размер (Гб)",
+    "title": "Наименование",
+    "type": "Тип"
   }
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import {useTranslation} from "react-i18next";
 
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
@@ -8,28 +9,29 @@ const headCells = [
     {
         id: 'title',
         numeric: false,
-        label: 'Title'
+        label: 'text.title'
     },
     {
         id: 'type',
         numeric: true,
-        label: 'Type'
+        label: 'text.type'
     },
     {
         id: 'size',
         numeric: true,
-        label: 'Size (Gb)'
+        label: 'text.size'
     },
     {
         id: 'creationDate',
         numeric: true,
-        label: 'Creation date'
+        label: 'text.creationDate'
     },
 ];
 
 
 const enhancedTableHead = (props) => {
     const {order, orderBy, onRequestSort} = props;
+    const {t} = useTranslation('common');
 
     return (
         <TableHead>
@@ -48,7 +50,7 @@ const enhancedTableHead = (props) => {
                                 direction={isSorted ? order : 'asc'}
                                 onClick={() => onRequestSort(id)}
                             >
-                                {label}
+                                {t(label)}
                             </TableSortLabel>
                         </StyledTableCell>
                     )

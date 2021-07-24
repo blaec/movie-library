@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useTranslation} from "react-i18next";
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
@@ -8,6 +9,7 @@ const validateValue = (text) => isStringExist(text);
 
 const wishTitleInput = (props) => {
     const {inputRef, onSearchDisable} = props;
+    const {t} = useTranslation('common');
 
     const {
         value: wishTitle,
@@ -25,8 +27,8 @@ const wishTitleInput = (props) => {
         <MyTextField
             isValid={!hasError}
             text={wishTitle}
-            label="Movie title"
-            helperText="Enter movie title"
+            label={t('text.title')}
+            helperText={t('helperText.enterMovieTitle')}
             inputRef={inputRef}
             required={true}
             onChangeTextField={handleTextFieldChange}

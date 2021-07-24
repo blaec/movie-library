@@ -1,4 +1,14 @@
 {
+  "button": {
+    "add": "Add",
+    "clear": "Clear",
+    "filter": "Filter",
+    "search": "Search"
+  },
+  "helperText": {
+    "enterMovieTitle": "Enter movie title",
+    "enterReleaseYear": "Enter movie release year"
+  },
   "menu": {
     "anticipated": "Anticipated",
     "collection": "Collection",
@@ -10,12 +20,27 @@
     "wishlist": "Wishlist"
   },
   "snackbar": {
-    "foundMovies": "Found {{length}} movies"
+    "addToWishlist": "Movie {{title}} added to wishlist",
+    "failedToAddToWishlist": "Failed to add movie {{title}} to wishlist: {{message}}",
+    "filteredMovies": "Filtered {{count}} movies",
+    "foundMovies": "Found {{count}} movies",
+    "noResult": "Nothing found"
   },
   "tab": {
     "cast": "Cast",
     "description": "Description",
     "facts": "Facts",
     "trailers": "Trailers"
+  },
+  "text": {
+    "addToWishList": "Add to Wishlist",
+    "creationDate": "Сreation date",
+    "genres": "Genres",
+    "movieLibrary": "Movie Library",
+    "preview": "Preview",
+    "releaseYear": "Release year",
+    "size": "Size (Gb)",
+    "title": "Title",
+    "type": "Type"
   }
 }

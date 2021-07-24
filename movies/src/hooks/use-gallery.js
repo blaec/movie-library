@@ -16,7 +16,7 @@ const useGallery = (movies) => {
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
-                message: `${t('snackbar.foundMovies', {length: collection.length})}`,
+                message: `${t('snackbar.foundMovies', {count: collection.length})}`,
                 type: 'info'
             }));
         }

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
@@ -12,6 +13,7 @@ const validateValue = (text) => (
 
 const wishYearInput = (props) => {
     const {inputRef} = props;
+    const {t} = useTranslation('common');
 
     const {
         value: wishYear,
@@ -24,8 +26,8 @@ const wishYearInput = (props) => {
         <MyTextField
             isValid={!hasError}
             text={wishYear}
-            label="Release year"
-            helperText="Enter movie release year"
+            label={t('text.releaseYear')}
+            helperText={t('helperText.enterReleaseYear')}
             inputRef={inputRef}
             required={false}
             onChangeTextField={handleTextFieldChange}
