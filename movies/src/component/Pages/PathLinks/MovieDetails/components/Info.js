@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const info = () => {
     const {root, tabsBackground} = useStyles();
     const [tabSelected, setTabSelected] = useState(0);
-    const {t, i18n} = useTranslation('common');
+    const {t} = useTranslation('common');
 
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);

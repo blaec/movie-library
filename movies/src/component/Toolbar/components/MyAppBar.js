@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useLocation} from "react-router";
 
 import Search from "./Search";
 import {drawer} from "../../../utils/Constants";
 import {isSearchable} from "../../../utils/UrlUtils";
+import LanguagePicker from "./LanguagePicker";
 
-import {AppBar, Button, IconButton, Toolbar} from "@material-ui/core";
+import {AppBar, IconButton, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import {makeStyles} from "@material-ui/core/styles";
-import {useTranslation} from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
     root: visible => {
@@ -36,25 +36,6 @@ const myAppBar = (props) => {
     const {onDrawerToggle} = props;
     const {pathname} = useLocation();
     const {root, drawer, menuButton} = useStyles(isSearchable(pathname));
-    const [lang, setLang] = useState('EN');
-    const [t, i18n] = useTranslation('common');
-
-    const handleChangeLanguage = () => {
-        switch (i18n.language) {
-            case 'ru':
-                setLang('EN');
-                i18n.changeLanguage('en');
-                break;
-            case 'en':
-                setLang('RU');
-                i18n.changeLanguage('ru');
-                break;
-            default:
-                console.log("error");
-        }
-    };
-
-    console.log(lang);
 
     return (
         <AppBar
@@ -71,7 +52,7 @@ const myAppBar = (props) => {
                     <MenuIcon/>
                 </IconButton>
                 <Search/>
-                <Button variant='contained' color='secondary' onClick={handleChangeLanguage}>{lang}</Button>
+                <LanguagePicker/>
             </Toolbar>
         </AppBar>
     );
