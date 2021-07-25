@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useTranslation} from "react-i18next";
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
@@ -8,6 +9,7 @@ const validateValue = (text) => (isStringExist(text) && Number.isInteger(+text))
 
 const fileTmdbIdInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
+    const {t} = useTranslation('common');
 
     const {
         value: tmdbId,
@@ -29,7 +31,7 @@ const fileTmdbIdInput = (props) => {
             label="tmdb id"
             inputRef={inputRef}
             required={true}
-            helperText="Type exact tmdb id"
+            helperText={t('helperText.typeTmdbId')}
             onChangeTextField={handleTextFieldChange}
             onInputTouch={handleFieldTouch}
         />

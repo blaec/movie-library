@@ -6,8 +6,10 @@
     "search": "Search"
   },
   "helperText": {
+    "enterExactFileName": "Enter exact file name with extension",
     "enterMovieTitle": "Enter movie title",
-    "enterReleaseYear": "Enter movie release year"
+    "enterReleaseYear": "Enter movie release year",
+    "typeTmdbId": "Type exact tmdb id"
   },
   "menu": {
     "anticipated": "Anticipated",
@@ -22,23 +24,41 @@
   "snackbar": {
     "addToWishlist": "Movie {{title}} added to wishlist",
     "failedToAddToWishlist": "Failed to add movie {{title}} to wishlist: {{message}}",
+    "failedToUploadMovie": "Failed to upload movie {{title}} from {{folder}} folder | {{message}}",
+    "failedToUploadMovies": "Failed to upload movies from {{folder}}",
     "filteredMovies": "Filtered {{count}} movies",
     "foundMovies": "Found {{count}} movies",
-    "noResult": "Nothing found"
+    "noNewMovieFound": "No new movie found in {{folder}}",
+    "noResult": "Nothing found",
+    "uploadedMovie": "Successfully uploaded {{name}} from {{folder}} folder | {{message}} as {{file}}",
+    "uploadedMovies": "Successfully uploaded {{succeeded}} movies from {{folder}}",
+    "uploadedMoviesAndFailedToUploadMovies": "Successfully uploaded {{succeeded}} movies and {{failed}} failed from {{folder}}"
   },
   "tab": {
+    "bio": "Biography",
     "cast": "Cast",
     "description": "Description",
     "facts": "Facts",
+    "movies": "Movies",
     "trailers": "Trailers"
   },
   "text": {
     "addToWishList": "Add to Wishlist",
+    "age": "Age: ",
+    "birthplace": "Birthplace: ",
+    "born": "Born: ",
     "creationDate": "Сreation date",
+    "died": "Died: ",
+    "exactFileName": "Exact file name",
     "genres": "Genres",
+    "homepage": "Homepage: ",
+    "knownAs": "Also Known As: ",
     "movieLibrary": "Movie Library",
+    "movieLocation": "Movie location",
     "preview": "Preview",
     "releaseYear": "Release year",
+    "scan": "Scan",
+    "singleMovieUpload": "Single movie upload",
     "size": "Size (Gb)",
     "title": "Title",
     "type": "Type"

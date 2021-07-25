@@ -6,8 +6,10 @@
     "search": "Поиск"
   },
   "helperText": {
+    "enterExactFileName": "Введите точное имя файла с расширением",
     "enterMovieTitle": "Введите наименование фильма",
-    "enterReleaseYear": "Введите год выпуска фильма"
+    "enterReleaseYear": "Введите год выпуска фильма",
+    "typeTmdbId": "Введите полный tmdb id"
   },
   "menu": {
     "anticipated": "Ожидаемые",
@@ -19,26 +21,44 @@
     "upload": "Загрузка",
     "wishlist": "Пожелания"
   },
-  "snackbar": {
+  "snackbafr": {
     "addToWishlist": "Фильм {{title}} добавлен в Пожелания",
     "failedToAddToWishlist": "Неудалось добавить фильм {{title}} в Пожелания: {{message}}",
+    "failedToUploadMovie": "Не удалось загрузить фильм {{title}} с папки {{folder}} | {{message}}",
+    "failedToUploadMovies": "Не удалось загрузить фильмы с папки {{folder}}",
     "filteredMovies": "Отфильтровано фильмов {{count}}",
     "foundMovies": "Фильмов найдено: {{count}}",
-    "noResult": "Ничего не найдено"
+    "noNewMovieFound": "Ни одного нового фильма не найдено в папке {{folder}}",
+    "noResult": "Ничего не найдено",
+    "uploadedMovie": "Успешно загрузился {{name}} с папки {{folder}}  | {{message}} как {{file}}",
+    "uploadedMovies": "Successfully uploaded {{succeeded}} movies from {{folder}}",
+    "uploadedMoviesAndFailedToUploadMovies": "Успешно загружено фильмов: {{succeeded}} и не удалось загрузить фильмов: {{failed}} с папки {{folder}}"
   },
   "tab": {
+    "bio": "Биография",
     "cast": "В ролях",
     "description": "Содержание",
     "facts": "Факты",
+    "movies": "Фильмы",
     "trailers": "Трейлеры"
   },
   "text": {
     "addToWishList": "Добавить в Пожелания",
+    "age": "Возраст: ",
+    "birthplace": "Место рождения: ",
+    "born": "Дата рождения: ",
     "creationDate": "Дата создания",
+    "died": "Дата смерти: ",
+    "exactFileName": "Точное имя файла",
     "genres": "Жанры",
+    "homepage": "Сайт: ",
+    "knownAs": "Также известен как: ",
     "movieLibrary": "Видеотека",
+    "movieLocation": "Расположение фильмов",
     "preview": "Просмотр",
     "releaseYear": "Год выпуска",
+    "scan": "Сканирование",
+    "singleMovieUpload": "Пофайловая загрузка",
     "size": "Размер (Гб)",
     "title": "Наименование",
     "type": "Тип"
