@@ -1,6 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 import {useParams} from "react-router";
+import {useTranslation} from "react-i18next";
 
 import MyLoader from "../../../../../../UI/Spinners/MyLoader";
 import {getMovieByTmdbId, isArrayExist, joinNames, isSafe, playTime, fullYear} from "../../../../../../utils/Utils";
@@ -31,6 +32,7 @@ const infoGeneral = (props) => {
     const {details: {Rated, imdbRating, imdbVotes, release_date, runtime, title, genres} = {details: {}},} = props;
     const {movieTmdbId} = useParams();
     const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
+    const {t} = useTranslation('common');
 
     const movies = useSelector(state => state.collection.movies);
 
@@ -41,7 +43,7 @@ const infoGeneral = (props) => {
             rated: isSafe(Rated),
             release_date: isSafe(fullYear(release_date)),
             runtime: runtime !== 0
-                ? playTime(runtime)
+                ? playTime(runtime, t)
                 : null,
             rating: isSafe(imdbRating, `${imdbRating} <${imdbVotes}>`),
             resolution: resolution || null,

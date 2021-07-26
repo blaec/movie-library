@@ -24,13 +24,13 @@ export const fullTitle = (title, releaseDate) => {
     return `${title}${(year.length > 0 ? ` (${year})` : '')}`
 };
 
-export const playTime = (totalMinutes) => {
+export const playTime = (totalMinutes, t) => {
     let hour = Math.floor(totalMinutes / 60);
     let minute = `0${totalMinutes % 60}`.slice(-2);
 
     return hour > 0
-        ? `${hour} ${hour === 1 ? 'hr' : 'hrs'} ${minute} mins`
-        : `${minute} mins`;
+        ? `${hour} ${hour === 1 ? `${t('text.hr')}` : `${t('text.hrs')}`} ${minute} ${t('text.mins')}`
+        : `${minute} ${t('text.mins')}`;
 };
 
 /**

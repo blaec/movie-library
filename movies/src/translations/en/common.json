@@ -6,9 +6,11 @@
     "search": "Search"
   },
   "helperText": {
+    "deleteMovieQuery": "Do you really want to delete this movie?",
     "enterExactFileName": "Enter exact file name with extension",
     "enterMovieTitle": "Enter movie title",
     "enterReleaseYear": "Enter movie release year",
+    "noDescriptionAvailable": "No description available",
     "typeTmdbId": "Type exact tmdb id"
   },
   "menu": {
@@ -28,6 +30,7 @@
     "failedToUploadMovies": "Failed to upload movies from {{folder}}",
     "filteredMovies": "Filtered {{count}} movies",
     "foundMovies": "Found {{count}} movies",
+    "noGenreMatch": "Nothing matches the request! Please, choose another movie genre.",
     "noNewMovieFound": "No new movie found in {{folder}}",
     "noResult": "Nothing found",
     "uploadedMovie": "Successfully uploaded {{name}} from {{folder}} folder | {{message}} as {{file}}",
@@ -45,22 +48,39 @@
   "text": {
     "addToWishList": "Add to Wishlist",
     "age": "Age: ",
+    "awards": "Awards: ",
     "birthplace": "Birthplace: ",
     "born": "Born: ",
+    "budget": "Budget: ",
     "creationDate": "Сreation date",
+    "deleteMovie": "Delete Movie",
+    "densePadding": "Dense padding",
     "died": "Died: ",
+    "directedBy": "Directed By: ",
+    "englishTitle": "English title: ",
     "exactFileName": "Exact file name",
     "genres": "Genres",
     "homepage": "Homepage: ",
+    "hr": "hr",
+    "hrs": "hrs",
     "knownAs": "Also Known As: ",
+    "mins": "mins",
     "movieLibrary": "Movie Library",
     "movieLocation": "Movie location",
+    "no": "No",
+    "originalLanguage": "Original Language: ",
     "preview": "Preview",
+    "productionCompanies": "Production Companies: ",
+    "productionCountries": "Production Countries: ",
     "releaseYear": "Release year",
+    "released": "Released: ",
+    "revenue": "Revenue: ",
     "scan": "Scan",
+    "search": "Search...",
     "singleMovieUpload": "Single movie upload",
     "size": "Size (Gb)",
     "title": "Title",
-    "type": "Type"
+    "type": "Type",
+    "yes": "Yes"
   }
 }

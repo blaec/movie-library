@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
 import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
 
@@ -6,6 +7,7 @@ import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} fr
 
 const deleteDialog = (props) => {
     const {open, onExit, onDelete} = props;
+    const {t} = useTranslation('common');
 
     return (
         <Dialog
@@ -13,21 +15,21 @@ const deleteDialog = (props) => {
             onClose={onExit}
         >
             <DialogTitle>
-                Delete Movie
+                {t('text.deleteMovie')}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Do you really want to delete this movie?
+                    {t('helperText.deleteMovieQuery')}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <MyDialogButton
                     type="success"
-                    caption="No"
+                    caption={t('text.no')}
                     onClick={onExit}/>
                 <MyDialogButton
                     type="danger"
-                    caption="Yes"
+                    caption={t('text.yes')}
                     onClick={onDelete}/>
             </DialogActions>
         </Dialog>

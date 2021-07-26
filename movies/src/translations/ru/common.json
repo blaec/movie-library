@@ -6,9 +6,11 @@
     "search": "Поиск"
   },
   "helperText": {
+    "deleteMovieQuery": "Вы действительно хотите удалить этот фильм?",
     "enterExactFileName": "Введите точное имя файла с расширением",
     "enterMovieTitle": "Введите наименование фильма",
     "enterReleaseYear": "Введите год выпуска фильма",
+    "noDescriptionAvailable": "Нет доступного описания",
     "typeTmdbId": "Введите полный tmdb id"
   },
   "menu": {
@@ -21,13 +23,14 @@
     "upload": "Загрузка",
     "wishlist": "Пожелания"
   },
-  "snackbafr": {
+  "snackbar": {
     "addToWishlist": "Фильм {{title}} добавлен в Пожелания",
     "failedToAddToWishlist": "Неудалось добавить фильм {{title}} в Пожелания: {{message}}",
     "failedToUploadMovie": "Не удалось загрузить фильм {{title}} с папки {{folder}} | {{message}}",
     "failedToUploadMovies": "Не удалось загрузить фильмы с папки {{folder}}",
     "filteredMovies": "Отфильтровано фильмов {{count}}",
     "foundMovies": "Фильмов найдено: {{count}}",
+    "noGenreMatch": "Ничего не найдено по данному запросу. Пожалуйста, выберите другой жанр.",
     "noNewMovieFound": "Ни одного нового фильма не найдено в папке {{folder}}",
     "noResult": "Ничего не найдено",
     "uploadedMovie": "Успешно загрузился {{name}} с папки {{folder}}  | {{message}} как {{file}}",
@@ -45,22 +48,39 @@
   "text": {
     "addToWishList": "Добавить в Пожелания",
     "age": "Возраст: ",
+    "awards": "Награды: ",
     "birthplace": "Место рождения: ",
     "born": "Дата рождения: ",
+    "budget": "Бюджет: ",
     "creationDate": "Дата создания",
+    "deleteMovie": "Удаление фильма",
+    "densePadding": "Плотная таблица",
     "died": "Дата смерти: ",
+    "directedBy": "Режиссер: ",
+    "englishTitle": "Английское наименование: ",
     "exactFileName": "Точное имя файла",
     "genres": "Жанры",
     "homepage": "Сайт: ",
+    "hr": "ч",
+    "hrs": "ч",
     "knownAs": "Также известен как: ",
+    "mins": "мин",
     "movieLibrary": "Видеотека",
     "movieLocation": "Расположение фильмов",
+    "no": "Нет",
+    "originalLanguage": "Язык оригинала: ",
     "preview": "Просмотр",
+    "productionCompanies": "Производство: ",
+    "productionCountries": "Страны: ",
     "releaseYear": "Год выпуска",
+    "released": "Дата выпуска: ",
+    "revenue": "Cборы: ",
     "scan": "Сканирование",
+    "search": "Поиск...",
     "singleMovieUpload": "Пофайловая загрузка",
     "size": "Размер (Гб)",
     "title": "Наименование",
-    "type": "Тип"
+    "type": "Тип",
+    "yes": "Да"
   }
 }

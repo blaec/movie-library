@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
 import {Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 const description = (props) => {
     const {details: {tagline, overview, Plot}} = props;
     const {taglineFont} = useStyles();
+    const {t} = useTranslation('common');
 
     return (
         <React.Fragment>
@@ -25,7 +27,7 @@ const description = (props) => {
                 {tagline}
             </Typography>
             <Typography variant='body1'>
-                {overview || Plot || `No description available`}
+                {overview || Plot || `${t('helperText.noDescriptionAvailable')}`}
             </Typography>
         </React.Fragment>
     );

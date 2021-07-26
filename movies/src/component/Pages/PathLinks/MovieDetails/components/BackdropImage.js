@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router";
+import {useTranslation} from "react-i18next";
 
 import images from "./backdropComponents/Images";
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
@@ -31,6 +32,7 @@ const backdropImage = props => {
     const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
+    const {t} = useTranslation('common');
 
     const saveResult = useSelector(state => state.upload.result);
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
@@ -74,9 +76,9 @@ const backdropImage = props => {
             } else {
                 const {title} = tmdbMovieDetails;
                 if (success) {
-                    onSetSnackbar({message: `Movie '${title}' added to wishlist`, type: 'success'});
+                    onSetSnackbar({message: `${t('snackbar.addToWishlist', {title: title})}`, type: 'success'});
                 } else {
-                    onSetSnackbar({message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
+                    onSetSnackbar({message: `${t('snackbar.failedToAddToWishlist', {title: title, message: message})}`, type: 'error'});
                 }
                 dispatch(uploadActions.setResult({}));
             }

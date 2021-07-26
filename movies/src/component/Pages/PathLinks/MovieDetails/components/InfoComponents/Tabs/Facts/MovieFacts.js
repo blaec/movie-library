@@ -1,6 +1,7 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
-import Fact from "../../../../../../../../utils/Fact";
+import Fact from "../../../../../../../../UI/Fact";
 import {joinNames} from "../../../../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
@@ -20,6 +21,7 @@ const movieFacts = (props) => {
             original_language
         },
     } = props;
+    const {t} = useTranslation('common');
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -32,25 +34,25 @@ const movieFacts = (props) => {
 
     return (
         <Typography component="div">
-            <Fact header="English title: "
+            <Fact header={t('text.englishTitle')}
                   text={Title}/>
-            <Fact header="Directed By: "
+            <Fact header={t('text.directedBy')}
                   text={Director}/>
-            <Fact header="Budget: "
+            <Fact header={t('text.budget')}
                   text={formatter.format(budget)}/>
-            <Fact header="Revenue: "
+            <Fact header={t('text.revenue')}
                   text={formatter.format(revenue)}/>
-            <Fact header="Awards: "
+            <Fact header={t('text.awards')}
                   text={Awards}/>
-            <Fact header="Released: "
+            <Fact header={t('text.released')}
                   text={Released}/>
             <Fact header="DVD: "
                   text={DVD}/>
-            <Fact header="Production Companies: "
+            <Fact header={t('text.productionCompanies')}
                   text={joinNames(production_companies)}/>
-            <Fact header="Production Countries: "
+            <Fact header={t('text.productionCountries')}
                   text={joinNames(production_countries)}/>
-            <Fact header="Original Language: "
+            <Fact header={t('text.originalLanguage')}
                   text={original_language}/>
         </Typography>
     );

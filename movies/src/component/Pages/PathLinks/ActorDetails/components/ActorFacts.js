@@ -1,7 +1,7 @@
 import React from 'react';
 import {useTranslation} from "react-i18next";
 
-import Fact from "../../../../../utils/Fact";
+import Fact from "../../../../../UI/Fact";
 import {fullYear, isStringExist} from "../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
