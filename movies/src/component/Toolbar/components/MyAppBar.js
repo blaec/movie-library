@@ -4,7 +4,6 @@ import {useLocation} from "react-router";
 import Search from "./Search";
 import {drawer} from "../../../utils/Constants";
 import {isSearchable} from "../../../utils/UrlUtils";
-import LanguagePicker from "./LanguagePicker";
 
 import {AppBar, IconButton, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -52,7 +51,6 @@ const myAppBar = (props) => {
                     <MenuIcon/>
                 </IconButton>
                 <Search/>
-                <LanguagePicker/>
             </Toolbar>
         </AppBar>
     );

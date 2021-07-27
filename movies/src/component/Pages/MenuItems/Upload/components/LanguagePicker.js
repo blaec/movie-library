@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useTranslation} from "react-i18next";
 
 import {Button} from "@material-ui/core";
-import {language} from "../../../store/localStorage/actions";
+import {language} from "../../../../../store/localStorage/actions";
 
 const languagePicker = () => {
     const [lang, setLang] = useState(language.get() || 'en');
