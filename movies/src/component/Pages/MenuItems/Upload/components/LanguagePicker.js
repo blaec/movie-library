@@ -1,32 +1,42 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from "react-i18next";
 
-import {Button} from "@material-ui/core";
 import {language} from "../../../../../store/localStorage/actions";
+import MyFormLabel from "../../../../../UI/MyFormLabel";
+
+import {Button, ButtonGroup, Card, CardContent} from "@material-ui/core";
+
 
 const languagePicker = () => {
     const [lang, setLang] = useState(language.get() || 'en');
-    const {i18n} = useTranslation('common');
+    const {t, i18n} = useTranslation('common');
 
-    const handleChangeLanguage = () => {
-        let lang;
-        switch (language.get()) {
-            case 'en':  lang = 'ru';    break;
-            default:    lang = 'en';
-        }
+    const getVariant = (lng) => lang === lng ? 'contained' : '';
+
+    const handleSetEnglish = () => {
+        setNewLanguage('en');
+    };
+
+    const handleSetRussian = () => {
+        setNewLanguage('ru');
+    };
+
+    const setNewLanguage = (lang) => {
         setLang(lang);
         language.set(lang);
         i18n.changeLanguage(lang);
     };
 
     return (
-        <Button
-            variant='contained'
-            color='secondary'
-            onClick={handleChangeLanguage}
-        >
-            {lang}
-        </Button>
+        <Card variant="elevation">
+            <CardContent>
+                <MyFormLabel text={t('text.chooseLanguage')}/>
+                <ButtonGroup variant="text" color="primary">
+                    <Button onClick={handleSetEnglish} variant={getVariant('en')}>EN</Button>
+                    <Button onClick={handleSetRussian} variant={getVariant('ru')}>RU</Button>
+                </ButtonGroup>
+            </CardContent>
+        </Card>
     );
 };
 
