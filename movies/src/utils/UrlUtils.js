@@ -9,7 +9,7 @@ export const reactLinks = {
     filter: "/filter",
     filterByGenreEndpoint: "/movies/by-genre/",
     filterByGenre: "/movies/by-genre/:genreIds",
-    upload: "/upload",
+    settings: "/settings",
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
     actorDetailsEndpoint: "/actors/",

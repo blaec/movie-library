@@ -16,7 +16,7 @@ import {useTranslation} from "react-i18next";
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
 const Filter = React.lazy(() => import('./component/Pages/MenuItems/Filter/Filter'));
-const Upload = React.lazy(() => import('./component/Pages/MenuItems/Upload/Upload'));
+const Settings = React.lazy(() => import('./component/Pages/MenuItems/Settings/Settings'));
 const MovieDetails = React.lazy(() => import('./component/Pages/PathLinks/MovieDetails/MovieDetails'));
 const ActorDetails = React.lazy(() => import('./component/Pages/PathLinks/ActorDetails/ActorDetails'));
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
@@ -33,7 +33,7 @@ const app = () => {
         filterByGenre,
         wishlist,
         filter,
-        upload,
+        settings,
         movieDetails,
         actorDetails,
         nowPlaying,
@@ -70,7 +70,7 @@ const app = () => {
                     <Route path={newMovies} exact component={NewMovies}/>
                     <Route path={wishlist} exact component={Wishlist}/>
                     <Route path={filter} exact component={Filter}/>
-                    <Route path={upload} exact component={Upload}/>
+                    <Route path={settings} exact component={Settings}/>
                     <Route path={nowPlaying} exact component={NowPlaying}/>
                     <Route path={anticipated} exact component={Anticipated}/>
                     <Route path={library} exact component={Library}/>

@@ -14,6 +14,7 @@ import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
 import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
 import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
     const {t} = useTranslation('common');
@@ -70,9 +71,9 @@ const infoItemsData = [
 ];
 const settingsItemsData = [
     {
-        text: "menu.upload",
-        link: reactLinks.upload,
-        icon: <PublishTwoToneIcon/>
+        text: "menu.settings",
+        link: reactLinks.settings,
+        icon: <SettingsIcon/>
     },
     {
         text: "menu.library",

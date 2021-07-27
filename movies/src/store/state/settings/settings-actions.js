@@ -1,6 +1,6 @@
 import axios from "../../../axios-movies";
 import {getSearchMovieUrl, movieApi} from "../../../utils/UrlUtils";
-import {uploadActions} from "./upload-slice";
+import {settingsActions} from "./settings-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
 import {fetchMovies, fetchWishlist} from "../collection/collection-actions";
 import * as UrlUtils from "../../../utils/UrlUtils";
@@ -8,12 +8,12 @@ import {Loader} from "../../../utils/Constants";
 
 export const fetchWishMovies = (params) => {
     return async (dispatch) => {
-        dispatch(uploadActions.setLoader(Loader.wishMovie));
+        dispatch(settingsActions.setLoader(Loader.wishMovie));
         axios.get(getSearchMovieUrl(params))
             .then(response => {
                 const {data} = response;
                 const {results} = data;
-                dispatch(uploadActions.setWishMovies(results));
+                dispatch(settingsActions.setWishMovies(results));
             })
             .catch(error => {
                 console.log(error);
@@ -27,11 +27,11 @@ export const fetchWishMovies = (params) => {
 
 export const saveWishMovie = (wishMovie) => {
     return async (dispatch) => {
-        dispatch(uploadActions.setLoader(Loader.wishMovie));
+        dispatch(settingsActions.setLoader(Loader.wishMovie));
         axios.post(movieApi.post.saveWishMovie, wishMovie)
             .then(response => {
                 const {data} = response;
-                dispatch(uploadActions.setResult(data));
+                dispatch(settingsActions.setResult(data));
                 dispatch(fetchWishlist());
             })
             .catch(error => {
@@ -46,11 +46,11 @@ export const saveWishMovie = (wishMovie) => {
 
 export const saveSingleMovie = (movie) => {
     return async (dispatch) => {
-        dispatch(uploadActions.setLoader(Loader.folderScan));
+        dispatch(settingsActions.setLoader(Loader.folderScan));
         axios.post(movieApi.post.uploadMovie, movie)
             .then(response => {
                 const {data} = response;
-                dispatch(uploadActions.setResult(data));
+                dispatch(settingsActions.setResult(data));
                 dispatch(fetchMovies());
             })
             .catch(error => {
@@ -65,11 +65,11 @@ export const saveSingleMovie = (movie) => {
 
 export const scanFolderAndSave = (path) => {
     return async (dispatch) => {
-        dispatch(uploadActions.setLoader(Loader.folderScan));
+        dispatch(settingsActions.setLoader(Loader.folderScan));
         axios.post(UrlUtils.getScanFolderUrl(path))
             .then(response => {
                 const {data} = response;
-                dispatch(uploadActions.setResults(data));
+                dispatch(settingsActions.setResults(data));
                 dispatch(fetchMovies());
             })
             .catch(error => {

@@ -10,7 +10,7 @@ import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
-import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/upload/upload-actions";
+import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/settings/settings-actions";
 import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 
 import {
@@ -25,7 +25,7 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import {Loader} from "../../../../../../utils/Constants";
-import {uploadActions} from "../../../../../../store/state/upload/upload-slice";
+import {settingsActions} from "../../../../../../store/state/settings/settings-slice";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -35,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
 
 const fileLoader = () => {
     const {divider} = useStyles();
-    const saveResult = useSelector(state => state.upload.result);
-    const saveResults = useSelector(state => state.upload.results);
-    const loader = useSelector(state => state.upload.loader);
+    const saveResult = useSelector(state => state.settings.result);
+    const saveResults = useSelector(state => state.settings.results);
+    const loader = useSelector(state => state.settings.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
     const {t} = useTranslation('common');
@@ -110,8 +110,8 @@ const fileLoader = () => {
         setFileLocation('');
         tmdbIdRef.current.value = '';
         fileNameRef.current.value = '';
-        dispatch(uploadActions.setResult({}));
-        dispatch(uploadActions.setResults([]));
+        dispatch(settingsActions.setResult({}));
+        dispatch(settingsActions.setResults([]));
     };
 
     const handleChooseLocation = (event) => {

@@ -8,10 +8,10 @@ import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import DeleteDialog from "./DeleteDialog";
 import {isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
-import {uploadActions} from "../../../../../store/state/upload/upload-slice";
+import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
-import {saveWishMovie} from "../../../../../store/state/upload/upload-actions";
+import {saveWishMovie} from "../../../../../store/state/settings/settings-actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
@@ -34,7 +34,7 @@ const backdropImage = props => {
     const [isInCollection, setIsInCollection] = useState(false);
     const {t} = useTranslation('common');
 
-    const saveResult = useSelector(state => state.upload.result);
+    const saveResult = useSelector(state => state.settings.result);
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const movies = useSelector(state => state.collection.movies);
     const wishlist = useSelector(state => state.collection.wishlist);
@@ -71,7 +71,7 @@ const backdropImage = props => {
             if (isDeleting) {
                 const type = success ? 'success' : 'error';
                 onSetSnackbar({message, type});
-                dispatch(uploadActions.setResult({}));
+                dispatch(settingsActions.setResult({}));
                 onClose();
             } else {
                 const {title} = tmdbMovieDetails;
@@ -80,7 +80,7 @@ const backdropImage = props => {
                 } else {
                     onSetSnackbar({message: `${t('snackbar.failedToAddToWishlist', {title: title, message: message})}`, type: 'error'});
                 }
-                dispatch(uploadActions.setResult({}));
+                dispatch(settingsActions.setResult({}));
             }
         }
     }, [saveResult]);

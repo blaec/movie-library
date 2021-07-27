@@ -78,7 +78,7 @@ public class MovieController {
         String message = "Not found at all or more than one movie found";
         Response.Builder responseBuilder = Response.Builder.create(message);
 
-        // Get all files from folder, where upload movie is searched, that match upload movie file name
+        // Get all files from folder, where settings movie is searched, that match settings movie file name
         // Could be more than one (files with the same name from different sub-folders)
         List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(uploadMovie.getLocation(), uploadConfigs)).stream()
                 .filter(movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName()))

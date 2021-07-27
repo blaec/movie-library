@@ -7,8 +7,8 @@ const initialState = {
     loader: 0,
 };
 
-const uploadSlice = createSlice({
-    name: 'upload',
+const settingsSlice = createSlice({
+    name: 'settings',
     initialState,
     reducers: {
         setWishMovies(state, action) {
@@ -26,5 +26,5 @@ const uploadSlice = createSlice({
     }
 });
 
-export const uploadActions = uploadSlice.actions;
-export default uploadSlice.reducer;
+export const settingsActions = settingsSlice.actions;
+export default settingsSlice.reducer;

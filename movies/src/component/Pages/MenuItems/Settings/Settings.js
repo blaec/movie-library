@@ -6,7 +6,7 @@ import WishLoader from "./components/WishLoader/WishLoader";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 import MyFullWidthGrid from "../../../../UI/Buttons/MyFullWidthGrid";
 
-const upload = () => {
+const settings = () => {
     let langs = [<LanguagePicker key={1}/>]
     let loaders = [<WishLoader key={1}/>, <FileLoader key={2}/>]
     return (
@@ -21,4 +21,4 @@ const upload = () => {
     );
 };
 
-export default upload;
+export default settings;
