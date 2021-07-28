@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         textShadow: '1px 2px 4px #333',
     },
     metaFont: {
-        fontFamily: ['Antonio', "!important"],
+        fontFamily: ['Cuprum', "!important"],
     },
     locationFont: {
         fontFamily: ['Chakra Petch', "!important"],
