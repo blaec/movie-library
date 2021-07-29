@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory, useParams} from "react-router";
+import {useTranslation} from "react-i18next";
 
 import MyTabPanel from "../../../../UI/MyTabPanel";
 import ActorFacts from "./components/ActorFacts";
@@ -34,6 +35,7 @@ const actorDetails = () => {
     const history = useHistory();
     const {actorId} = params;
     const {root, movieItems} = useStyles();
+    const {t} = useTranslation('common');
 
     const [tabSelected, setTabSelected] = useState(0);
 
@@ -95,9 +97,9 @@ const actorDetails = () => {
                         textColor="primary"
                         variant="fullWidth"
                     >
-                        <Tab label="Info"/>
-                        <Tab label="Movies"/>
-                        <Tab label="Facts"/>
+                        <Tab label={t('tab.bio')}/>
+                        <Tab label={t('tab.movies')}/>
+                        <Tab label={t('tab.facts')}/>
                     </Tabs>
                 </Paper>
                 <MyTabPanel value={tabSelected} index={0}>

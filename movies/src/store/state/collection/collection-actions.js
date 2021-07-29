@@ -2,7 +2,7 @@ import axios from "../../../axios-movies";
 import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi} from "../../../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
-import {uploadActions} from "../upload/upload-slice";
+import {settingsActions} from "../settings/settings-slice";
 
 export const fetchMovies = () => {
     return async (dispatch) => {
@@ -61,7 +61,7 @@ export const deleteMovie = (tmdbId) => {
         axios.delete(getDeleteUrl(tmdbId))
             .then(response => {
                 const {data} = response;
-                dispatch(uploadActions.setResult(data));
+                dispatch(settingsActions.setResult(data));
                 dispatch(fetchMovies());
                 dispatch(fetchWishlist());
             })

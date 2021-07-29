@@ -10,12 +10,13 @@ import {fetchMovies, fetchWishlist} from "./store/state/collection/collection-ac
 import {fetchConfigs} from "./store/state/api/api-actions";
 import {detailsActions} from "./store/state/details/details-slice";
 import {useLocation} from "react-router";
-import {currentLocation, previousLocation} from "./store/localStorage/actions";
+import {currentLocation, language, previousLocation} from "./store/localStorage/actions";
+import {useTranslation} from "react-i18next";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
 const Filter = React.lazy(() => import('./component/Pages/MenuItems/Filter/Filter'));
-const Upload = React.lazy(() => import('./component/Pages/MenuItems/Upload/Upload'));
+const Settings = React.lazy(() => import('./component/Pages/MenuItems/Settings/Settings'));
 const MovieDetails = React.lazy(() => import('./component/Pages/PathLinks/MovieDetails/MovieDetails'));
 const ActorDetails = React.lazy(() => import('./component/Pages/PathLinks/ActorDetails/ActorDetails'));
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
@@ -32,13 +33,14 @@ const app = () => {
         filterByGenre,
         wishlist,
         filter,
-        upload,
+        settings,
         movieDetails,
         actorDetails,
         nowPlaying,
         anticipated,
         library,
     } = reactLinks;
+    const {i18n} = useTranslation('common');
 
     const dispatch = useDispatch();
 
@@ -51,6 +53,13 @@ const app = () => {
         dispatch(fetchWishlist());
     }, []);
 
+    useEffect(() => {
+        if (language.get() === null) {
+            language.set('en');
+        }
+        i18n.changeLanguage(language.get());
+    }, [language.get()]);
+
     let layout = (
         <Layout>
             <Suspense fallback={<MyLoader/>}>
@@ -61,7 +70,7 @@ const app = () => {
                     <Route path={newMovies} exact component={NewMovies}/>
                     <Route path={wishlist} exact component={Wishlist}/>
                     <Route path={filter} exact component={Filter}/>
-                    <Route path={upload} exact component={Upload}/>
+                    <Route path={settings} exact component={Settings}/>
                     <Route path={nowPlaying} exact component={NowPlaying}/>
                     <Route path={anticipated} exact component={Anticipated}/>
                     <Route path={library} exact component={Library}/>

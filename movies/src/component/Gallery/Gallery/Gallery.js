@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 import {forceCheck} from "react-lazyload";
+import {useTranslation} from "react-i18next";
 
 import Movie from "./components/Movie";
 import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
@@ -55,6 +56,7 @@ const gallery = (props) => {
     let {movies} = props;
     const {root, grid} = useStyles(document.body.clientWidth);
     const {pathname} = useLocation();
+    const {t} = useTranslation('common');
 
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
@@ -88,8 +90,8 @@ const gallery = (props) => {
             setDisplayedMovieList(filteredMovies);
             if (filteredMovies.length < movies.length) {
                 const message = isArrayExist(filteredMovies)
-                    ? `Filter result: ${filteredMovies.length} movies`
-                    : `Nothing found`;
+                    ? `${t('snackbar.filteredMovies', {count: filteredMovies.length})}`
+                    : `${t('snackbar.noResult')}`;
                 const type = isArrayExist(filteredMovies) ? 'info' : 'warning';
                 dispatch(feedbackActions.setSnackbar({message, type}));
 

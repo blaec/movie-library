@@ -6,6 +6,7 @@ const keys = Object.freeze(
         rowsPerPage: 'rows-per-page',
         currentLocation: 'current-location',
         previousLocation: 'previous-location',
+        language: 'language',
     }
 );
 
@@ -49,4 +50,9 @@ export const currentLocation = {
 export const previousLocation = {
     set: globalFunctions(keys.previousLocation).set,
     get: globalFunctions(keys.previousLocation).get,
+};
+
+export const language = {
+    set: globalFunctions(keys.language).set,
+    get: globalFunctions(keys.language).get,
 };

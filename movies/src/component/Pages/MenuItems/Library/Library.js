@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router";
+import {useTranslation} from "react-i18next";
+
 import {reactLinks} from "../../../../utils/UrlUtils";
 import {getComparator, stableSort} from "../../../../utils/SortUtils";
 import EnhancedTableHead from "./components/EnhancedTableHead";
@@ -43,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const library = () => {
     const {root, paper, table, container, switchElement} = useStyles();
     const history = useHistory();
+    const {t} = useTranslation('common');
 
     const library = useSelector(state => state.collection.library);
     const dispatch = useDispatch();
@@ -144,7 +147,7 @@ const library = () => {
                 />
                 <FormControlLabel
                     control={denseSwitch}
-                    label="Dense padding"
+                    label={t('text.densePadding')}
                 />
             </Paper>
         </div>

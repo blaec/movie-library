@@ -1,5 +1,6 @@
 import React from 'react';
 import {useLocation} from "react-router";
+import {useTranslation} from "react-i18next";
 
 import MyListItem from "../../../UI/MyListItem";
 import {reactLinks} from "../../../utils/UrlUtils";
@@ -13,14 +14,18 @@ import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
 import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
 import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
+    const {t} = useTranslation('common');
+
     return  itemsData.map((item, index) => {
             const {text, link, icon} = item;
+
             return (
                 <MyListItem
                     key={index}
-                    caption={text}
+                    caption={t(text)}
                     link={link}
                     icon={icon}
                     path={pathname}
@@ -32,46 +37,46 @@ const getMenuItemsBlock = (itemsData, pathname) => {
 
 const mainItemsData = [
     {
-        text: "Collection",
+        text: "menu.collection",
         link: reactLinks.collection,
         icon: <MovieFilterTwoToneIcon/>
     },
     {
-        text: "New Movies",
+        text: "menu.newMovies",
         link: reactLinks.newMovies,
         icon: <MovieCreationTwoToneIcon/>
     },
     {
-        text: "Filter",
+        text: "menu.filter",
         link: reactLinks.filter,
         icon: <SearchTwoToneIcon/>
     },
     {
-        text: "Wishlist",
+        text: "menu.wishlist",
         link: reactLinks.wishlist,
         icon: <FavoriteTwoToneIcon/>
     },
 ];
 const infoItemsData = [
     {
-        text: "Now Playing",
+        text: "menu.nowPlaying",
         link: reactLinks.nowPlaying,
         icon: <PlayCircleFilledWhiteTwoToneIcon/>
     },
     {
-        text: "Anticipated",
+        text: "menu.anticipated",
         link: reactLinks.anticipated,
         icon: <HourglassFullTwoToneIcon/>
     },
 ];
 const settingsItemsData = [
     {
-        text: "Upload",
-        link: reactLinks.upload,
-        icon: <PublishTwoToneIcon/>
+        text: "menu.settings",
+        link: reactLinks.settings,
+        icon: <SettingsIcon/>
     },
     {
-        text: "Library",
+        text: "menu.library",
         link: reactLinks.library,
         icon: <StorageTwoToneIcon/>
     },

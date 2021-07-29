@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 import MyLoader from "../../../../UI/Spinners/MyLoader";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
@@ -21,6 +22,7 @@ const filter = () => {
     const tmdbApi = useSelector(state => state.api.tmdb);
     const genres = useSelector(state => state.filter.genres);
     const dispatch = useDispatch();
+    const {t} = useTranslation('common');
 
     const [genreSelection, setGenreSelection] = useState([]);
     const [genreIds, setGenreIds] = useState([]);
@@ -62,7 +64,7 @@ const filter = () => {
                         variant='outlined'
                     >
                         <MyFormLabel
-                            text="Genres"
+                            text={t('text.genres')}
                             customStyle={{paddingBottom: theme.spacing(2)}}
                         />
                         <Select
@@ -88,14 +90,14 @@ const filter = () => {
                             disabled={!isArrayExist(genreSelection)}
                             icon={<HighlightOffTwoToneIcon/>}
                             buttonStyles={{marginRight: 1}}
-                            caption="Clear"
+                            caption={t('button.clear')}
                             type="danger"
                             onSubmit={handleClear}
                         />
                         <MySubmitButton
                             disabled={!isArrayExist(genreSelection)}
                             icon={<SearchTwoToneIcon/>}
-                            caption="Filter"
+                            caption={t('button.filter')}
                             type="success"
                             fill="filled"
                             component={NavLink}

@@ -5,20 +5,23 @@ import {isArrayExist} from "../utils/Utils";
 import MyLoader from "../UI/Spinners/MyLoader";
 import Gallery from "../component/Gallery/Gallery/Gallery";
 import {feedbackActions} from "../store/state/feedback/feedback-slice";
+import {useTranslation} from "react-i18next";
 
 const useGallery = (movies) => {
     const collection = useSelector(state => state.collection[movies]);
     const dispatch = useDispatch();
+    const {t} = useTranslation('common');
 
     const hasMovies = isArrayExist(collection);
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
-                message: `Found ${collection.length} movies`,
+                message: `${t('snackbar.foundMovies', {count: collection.length})}`,
                 type: 'info'
             }));
         }
-    }, [hasMovies])
+    }, [hasMovies]);
+
     return (
         <React.Fragment>
             {!hasMovies && <MyLoader/>}

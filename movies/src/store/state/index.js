@@ -4,7 +4,7 @@ import apiReducer from "./api/api-slice";
 import feedbackReducer from "./feedback/feedback-slice";
 import filterReducer from "./filter/filter-slice";
 import collectionReducer from "./collection/collection-slice";
-import uploadReducer from "./upload/upload-slice";
+import settingsReducer from "./settings/settings-slice";
 import detailsReducer from "./details/details-slice";
 
 const store = configureStore({
@@ -13,7 +13,7 @@ const store = configureStore({
         feedback: feedbackReducer,
         filter: filterReducer,
         collection: collectionReducer,
-        upload: uploadReducer,
+        settings: settingsReducer,
         details: detailsReducer,
     },
 });

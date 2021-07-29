@@ -14,6 +14,7 @@ import {reactLinks} from "../../../../../utils/UrlUtils";
 import {MovieTab} from "../../../../../utils/Constants";
 
 import {makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
+import {useTranslation} from "react-i18next";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const info = () => {
     const {root, tabsBackground} = useStyles();
     const [tabSelected, setTabSelected] = useState(0);
+    const {t} = useTranslation('common');
 
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
@@ -58,10 +60,10 @@ const info = () => {
                             textColor="primary"
                             variant="fullWidth"
                         >
-                            <Tab label="Description"/>
-                            <Tab label="Cast"/>
-                            <Tab label="Trailers"/>
-                            <Tab label="Facts"/>
+                            <Tab label={t('tab.description')}/>
+                            <Tab label={t('tab.cast')}/>
+                            <Tab label={t('tab.trailers')}/>
+                            <Tab label={t('tab.facts')}/>
                         </Tabs>
                     </Paper>
                     <MyTabPanel

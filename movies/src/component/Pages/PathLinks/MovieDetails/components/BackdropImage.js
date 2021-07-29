@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useParams} from "react-router";
+import {useTranslation} from "react-i18next";
 
 import images from "./backdropComponents/Images";
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import DeleteDialog from "./DeleteDialog";
 import {isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
-import {uploadActions} from "../../../../../store/state/upload/upload-slice";
+import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
-import {saveWishMovie} from "../../../../../store/state/upload/upload-actions";
+import {saveWishMovie} from "../../../../../store/state/settings/settings-actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
@@ -31,8 +32,9 @@ const backdropImage = props => {
     const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
+    const {t} = useTranslation('common');
 
-    const saveResult = useSelector(state => state.upload.result);
+    const saveResult = useSelector(state => state.settings.result);
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const movies = useSelector(state => state.collection.movies);
     const wishlist = useSelector(state => state.collection.wishlist);
@@ -69,16 +71,16 @@ const backdropImage = props => {
             if (isDeleting) {
                 const type = success ? 'success' : 'error';
                 onSetSnackbar({message, type});
-                dispatch(uploadActions.setResult({}));
+                dispatch(settingsActions.setResult({}));
                 onClose();
             } else {
                 const {title} = tmdbMovieDetails;
                 if (success) {
-                    onSetSnackbar({message: `Movie '${title}' added to wishlist`, type: 'success'});
+                    onSetSnackbar({message: `${t('snackbar.addToWishlist', {title: title})}`, type: 'success'});
                 } else {
-                    onSetSnackbar({message: `Failed to add movie '${title}' to wishlist: ${message}`, type: 'error'});
+                    onSetSnackbar({message: `${t('snackbar.failedToAddToWishlist', {title: title, message: message})}`, type: 'error'});
                 }
-                dispatch(uploadActions.setResult({}));
+                dispatch(settingsActions.setResult({}));
             }
         }
     }, [saveResult]);

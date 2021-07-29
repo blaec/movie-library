@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
 
 import MyFormLabel from "../../../../../../UI/MyFormLabel";
 import MySubmitButton from "../../../../../../UI/Buttons/MySubmitButton";
@@ -9,7 +10,7 @@ import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
-import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/upload/upload-actions";
+import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/settings/settings-actions";
 import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 
 import {
@@ -24,7 +25,7 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import {Loader} from "../../../../../../utils/Constants";
-import {uploadActions} from "../../../../../../store/state/upload/upload-slice";
+import {settingsActions} from "../../../../../../store/state/settings/settings-slice";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -34,11 +35,12 @@ const useStyles = makeStyles((theme) => ({
 
 const fileLoader = () => {
     const {divider} = useStyles();
-    const saveResult = useSelector(state => state.upload.result);
-    const saveResults = useSelector(state => state.upload.results);
-    const loader = useSelector(state => state.upload.loader);
+    const saveResult = useSelector(state => state.settings.result);
+    const saveResults = useSelector(state => state.settings.results);
+    const loader = useSelector(state => state.settings.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
+    const {t} = useTranslation('common');
 
     const tmdbIdRef = useRef();
     const fileNameRef = useRef();
@@ -70,8 +72,8 @@ const fileLoader = () => {
             setIsLoading(false);
             const {title, message, success} = saveResult;
             let info = success
-                ? `Uploading ${fileName} from ${fileLocation} folder: ${message} as ${title}`
-                : `Failed upload movie '${fileName}' from ${fileLocation} folder: ${message}`;
+                ? t('snackbar.uploadedMovie', {name: fileName, folder: fileLocation, message: message, file: title})
+                : t('snackbar.failedToUploadMovie', {title: fileName, folder: fileLocation, message: message});
             let type = success ? 'success' : 'error';
             onSetSnackbar({message: info, type: type});
             resetForm();
@@ -87,16 +89,16 @@ const fileLoader = () => {
             let failCount = saveResults.filter(result => !result.success).length - alreadyExistCount;
 
             let type = 'error';
-            let info = `Failed to upload movies from ${fileLocation}`;
+            let info = t('snackbar.failedToUploadMovie', {folder: fileLocation});
             if (alreadyExistCount === resultCount) {
                 type = 'info';
-                info = `No new movie found in ${fileLocation}`;
+                info = t('snackbar.noNewMovieFound', {folder: fileLocation});
             } else if (successCount > 0 && failCount > 0) {
                 type = 'warn';
-                info = `Successfully uploaded ${successCount} movies and ${failCount} failed from ${fileLocation}`;
+                info = t('snackbar.uploadedMoviesAndFailedToUploadMovies', {succeeded: successCount, failed: failCount, folder: fileLocation});
             } else if (successCount > 0) {
                 type = 'success';
-                info = `Successfully uploaded ${successCount} movies from ${fileLocation}`;
+                info = t('snackbar.uploadedMovies', {succeeded: successCount, folder: fileLocation});
             }
 
             onSetSnackbar({message: info, type: type});
@@ -108,8 +110,8 @@ const fileLoader = () => {
         setFileLocation('');
         tmdbIdRef.current.value = '';
         fileNameRef.current.value = '';
-        dispatch(uploadActions.setResult({}));
-        dispatch(uploadActions.setResults([]));
+        dispatch(settingsActions.setResult({}));
+        dispatch(settingsActions.setResults([]));
     };
 
     const handleChooseLocation = (event) => {
@@ -144,7 +146,7 @@ const fileLoader = () => {
         <Card variant="elevation">
             <CardContent>
                 <FormControl>
-                    <MyFormLabel text="Movie location"/>
+                    <MyFormLabel text={t('text.movieLocation')}/>
                     <FileRadios
                         fileLocation={fileLocation}
                         onChooseLocation={handleChooseLocation}/>
@@ -152,7 +154,7 @@ const fileLoader = () => {
                 <Divider className={divider}/>
                 <FormControl component="single-upload">
                     <FormControlLabel
-                        label="Single movie upload"
+                        label={t('text.singleMovieUpload')}
                         control={singleMovieUploadSwitch}
                     />
                     <FileTmdbIdInput
@@ -172,7 +174,7 @@ const fileLoader = () => {
                 <MyButtonGrid>
                     <MySubmitButton
                         icon={<BackupTwoToneIcon/>}
-                        caption="Scan"
+                        caption={t('text.scan')}
                         disabled={isScanButtonDisabled}
                         onSubmit={handleUpload}
                     />

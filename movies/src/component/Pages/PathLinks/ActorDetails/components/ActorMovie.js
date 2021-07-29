@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     titleFont: {
         fontWeight: 500,
-        fontFamily: ['Teko', "!important"],
+        fontFamily: ['Oswald', "!important"],
     },
 }));
 

@@ -1,4 +1,5 @@
 import React from "react";
+import {useTranslation} from "react-i18next";
 
 import {makeStyles} from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 const enhancedTableToolbar = () => {
     const {title} = useStyles();
+    const {t} = useTranslation('common');
 
     return (
         <Toolbar>
@@ -21,7 +23,7 @@ const enhancedTableToolbar = () => {
                 color="primary"
                 variant="h5"
             >
-                Movie Library
+                {t('text.movieLibrary')}
             </Typography>
         </Toolbar>
     );

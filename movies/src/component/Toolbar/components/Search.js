@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
+import {useTranslation} from "react-i18next";
 
 import {filterActions} from "../../../store/state/filter/filter-slice";
 import {isSearchable} from "../../../utils/UrlUtils";
@@ -61,6 +62,7 @@ const search = () => {
     const {pathname} = useLocation();
     const {root, searchIcon, inputRoot, inputInput} = useStyles(isSearchable(pathname))
     const [searchTerm, setSearchTerm] = useState('');
+    const {t} = useTranslation('common');
 
     const search = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
@@ -91,7 +93,7 @@ const search = () => {
                 <SearchIcon/>
             </div>
             <InputBase
-                placeholder="Search..."
+                placeholder={t('text.search')}
                 onChange={event => setSearchTerm(event.target.value)}
                 classes={{
                     root: inputRoot,

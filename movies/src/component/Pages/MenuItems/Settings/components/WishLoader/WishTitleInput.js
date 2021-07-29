@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useTranslation} from "react-i18next";
 
 import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
@@ -6,11 +7,12 @@ import {isStringExist} from "../../../../../../utils/Utils";
 
 const validateValue = (text) => isStringExist(text);
 
-const fileNameInput = (props) => {
-    const {inputRef, isSingleMovieUpload, onValid} = props;
+const wishTitleInput = (props) => {
+    const {inputRef, onSearchDisable} = props;
+    const {t} = useTranslation('common');
 
     const {
-        value: fileName,
+        value: wishTitle,
         handleFieldTouch,
         handleTextFieldChange,
         isValid,
@@ -18,22 +20,21 @@ const fileNameInput = (props) => {
     } = useInput(inputRef, validateValue);
 
     useEffect(() => {
-        onValid(isValid);
+        onSearchDisable(!isValid);
     }, [isValid]);
 
     return (
         <MyTextField
-            isValid={!hasError || !isSingleMovieUpload}
-            text={fileName}
-            disabled={!isSingleMovieUpload}
-            label="Exact file name"
+            isValid={!hasError}
+            text={wishTitle}
+            label={t('text.title')}
+            helperText={t('helperText.enterMovieTitle')}
             inputRef={inputRef}
             required={true}
-            helperText="Enter exact file name with extension"
             onChangeTextField={handleTextFieldChange}
             onInputTouch={handleFieldTouch}
         />
     );
 };
 
-export default fileNameInput;
+export default wishTitleInput;
