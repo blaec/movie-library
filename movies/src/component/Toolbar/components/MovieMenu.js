@@ -9,7 +9,6 @@ import {Divider, List} from "@material-ui/core";
 import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
 import MovieCreationTwoToneIcon from '@material-ui/icons/MovieCreationTwoTone';
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
-import PublishTwoToneIcon from '@material-ui/icons/PublishTwoTone';
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
 import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';

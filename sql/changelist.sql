@@ -29,3 +29,7 @@ ALTER TABLE movies
 -- 2021-07-23
 ALTER TABLE movies
     MODIFY COLUMN `resolution` ENUM( 'VGA', 'HD', 'FullHD', 'QHD', 'UHD4K' );
+
+-- 2021-07-30
+ALTER TABLE movies
+    ADD COLUMN poster_path_ru VARCHAR(250) NOT NULL AFTER poster_path;
