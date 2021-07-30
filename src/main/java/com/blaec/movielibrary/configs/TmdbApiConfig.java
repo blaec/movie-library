@@ -22,11 +22,14 @@ public class TmdbApiConfig{
     public static class Name{
         private final String title;
         private final String year;
+        private final String language;
         private final String apikey;
     }
 
     @Data
     public static class Value{
+        private final String language;
+        private final String languageRu;
         private final String apikey;
     }
 }

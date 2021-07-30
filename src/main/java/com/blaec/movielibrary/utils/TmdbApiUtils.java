@@ -44,7 +44,7 @@ public class TmdbApiUtils {
      */
     public static TmdbResult.TmdbMovie getMovieByNameAndYear(MovieFileTo movieFileTo) {
         TmdbResult.TmdbMovie foundMovie = null;
-        URL url = getUrlByNameAndYear(movieFileTo);
+        URL url = getUrlByNameAndYear(movieFileTo, tmdbApiConfig.getValue().getLanguage());
         if (url != null) {
             log.debug("{} | {}", movieFileTo.toString(), url);
             List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url.toString()).getResults();
@@ -62,7 +62,7 @@ public class TmdbApiUtils {
      */
     public static TmdbResult.TmdbMovie getMovieById(String id){
         TmdbResult.TmdbMovie foundMovie = null;
-        URL url = getUrlById(id);
+        URL url = getUrlById(id, tmdbApiConfig.getValue().getLanguage());
         if (url != null) {
             log.debug("{} | {}", id, url);
             foundMovie = convertGenres(TmdbApiUtils.getMovie(url.toString()));
@@ -81,17 +81,19 @@ public class TmdbApiUtils {
 
     /**
      * Create request api url from movie file object (name and year)
-     * sample url: https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019
+     * sample url: https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019&language=en-US
      *
      * @param movieFileTo movie file object
+     * @param language    language of results
      * @return URL object or null
      */
-    private static URL getUrlByNameAndYear(MovieFileTo movieFileTo) {
+    private static URL getUrlByNameAndYear(MovieFileTo movieFileTo, String language) {
         URL url = null;
         try {
             URIBuilder uri = new URIBuilder(tmdbApiConfig.getEndpoint().getSearch());
             uri.addParameter(tmdbApiConfig.getName().getTitle(), movieFileTo.getNameDbStyled());
             uri.addParameter(tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()));
+            uri.addParameter(tmdbApiConfig.getName().getLanguage(), language);
             uri.addParameter(tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey());
             url = uri.build().toURL();
         } catch (URISyntaxException e) {
@@ -107,15 +109,17 @@ public class TmdbApiUtils {
 
     /**
      * Create request api url from tmdb id
-     * sample url: https://api.themoviedb.org/3/movie/9487?api_key=33ca5cbc
+     * sample url: https://api.themoviedb.org/3/movie/9487?api_key=33ca5cbc&language=en-US
      *
-     * @param id tmdb id
+     * @param id       tmdb id
+     * @param language language of results
      * @return url for api-request by id or null
      */
-    private static URL getUrlById(String id){
+    private static URL getUrlById(String id, String language){
         URL url = null;
         try {
             URIBuilder uri = new URIBuilder(String.format("%s/%s", tmdbApiConfig.getEndpoint().getMovie(), id));
+            uri.addParameter(tmdbApiConfig.getName().getLanguage(), language);
             uri.addParameter(tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey());
             url = uri.build().toURL();
         } catch (URISyntaxException e) {

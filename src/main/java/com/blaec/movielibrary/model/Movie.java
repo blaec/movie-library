@@ -34,6 +34,9 @@ public class Movie{
     @Column(name="poster_path")
     @NonNull private String posterPath;
 
+    @Column(name="poster_path_ru")
+    @NonNull private String posterPathRu;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @NonNull private Set<Genre> genres;
 
@@ -102,6 +105,7 @@ public class Movie{
         movie.setTitle(movieJsonTo.getTitle());
         movie.setReleaseDate(movieJsonTo.getRelease_date());
         movie.setPosterPath(movieJsonTo.getPoster_path());
+        movie.setPosterPathRu(movieJsonTo.getPoster_path());
         movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;
