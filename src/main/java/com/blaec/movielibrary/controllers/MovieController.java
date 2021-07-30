@@ -31,6 +31,12 @@ public class MovieController {
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
+//        for (Movie movie : movieService.getAll()) {
+//            TmdbResult.TmdbMovie movieEN = TmdbApiUtils.getMovieById(movie.getTmdbId(), Language.EN);
+//            TmdbResult.TmdbMovie movieRU = TmdbApiUtils.getMovieById(movie.getTmdbId(), Language.RU);
+//            log.debug("UPDATE `dummy_movie_library`.`movies` SET `poster_path` = '{}' WHERE (`id` = '{}');", movieEN.getPoster_path(), movieEN.getId());
+//            log.debug("UPDATE `dummy_movie_library`.`movies` SET `poster_path_ru` = '{}' WHERE (`id` = '{}');", movieRU.getPoster_path(), movieRU.getId());
+//        }
         return movieService.getAll();
     }
 
