@@ -55,14 +55,15 @@ public class MovieService {
     /**
      * Save movie to database by combining data from json and file movie objects
      *
-     * @param movieJson json movie
-     * @param movieFile file movie
+     * @param movieJson   json movie
+     * @param movieJsonRu json movie with russian poster
+     * @param movieFile   file movie
      */
-    public Response.Builder save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
+    public Response.Builder save(TmdbResult.TmdbMovie movieJson, TmdbResult.TmdbMovie movieJsonRu, MovieFileTo movieFile) {
         Response.Builder responseBuilder = Response.Builder.create("passed null json object");
 
         if (MovieUtils.isNullSafe(movieJson, movieFile.toString())) {
-            Movie newMovie = Movie.of(movieJson, movieFile);
+            Movie newMovie = Movie.of(movieJson, movieJsonRu, movieFile);
             // FIXME not correct check
             if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
                 log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
@@ -76,11 +77,12 @@ public class MovieService {
     /**
      * Save wish-movie to db
      *
-     * @param wishMovie wish movie object
+     * @param wishMovie   wish movie object
+     * @param wishMovieRu wish movie object with russian poster
      */
-    public Response save(TmdbResult.TmdbMovie wishMovie) {
+    public Response save(TmdbResult.TmdbMovie wishMovie, TmdbResult.TmdbMovie wishMovieRu) {
         Response.Builder responseBuilder = Response.Builder.create();
-        Movie newMovie = Movie.fromJson(wishMovie).assignType(Type.wish_list);
+        Movie newMovie = Movie.fromJson(wishMovie, wishMovieRu).assignType(Type.wish_list);
 
         return trySave(responseBuilder, newMovie).build();
     }

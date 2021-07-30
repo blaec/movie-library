@@ -1,6 +1,7 @@
 package com.blaec.movielibrary.utils;
 
 import com.blaec.movielibrary.configs.TmdbApiConfig;
+import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.to.MovieFileTo;
 import com.blaec.movielibrary.to.TmdbResult;
 import com.google.gson.Gson;
@@ -40,11 +41,12 @@ public class TmdbApiUtils {
      * Get TmdbMovie from MovieFileTo by sending url, created from name and year, to api
      *
      * @param movieFileTo movie file object
+     * @param language    json language
      * @return TmdbMovie or null if not exist
      */
-    public static TmdbResult.TmdbMovie getMovieByNameAndYear(MovieFileTo movieFileTo) {
+    public static TmdbResult.TmdbMovie getMovieByNameAndYear(MovieFileTo movieFileTo, Language language) {
         TmdbResult.TmdbMovie foundMovie = null;
-        URL url = getUrlByNameAndYear(movieFileTo, tmdbApiConfig.getValue().getLanguage());
+        URL url = getUrlByNameAndYear(movieFileTo, language.getLanguageCode(tmdbApiConfig));
         if (url != null) {
             log.debug("{} | {}", movieFileTo.toString(), url);
             List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url.toString()).getResults();
@@ -57,12 +59,13 @@ public class TmdbApiUtils {
     /**
      * Get TmdbMovie from id by sending url to api
      *
-     * @param id tmdb id
+     * @param id       tmdb id
+     * @param language json language
      * @return TmdbMovie or null if not exist
      */
-    public static TmdbResult.TmdbMovie getMovieById(String id){
+    public static TmdbResult.TmdbMovie getMovieById(String id, Language language) {
         TmdbResult.TmdbMovie foundMovie = null;
-        URL url = getUrlById(id, tmdbApiConfig.getValue().getLanguage());
+        URL url = getUrlById(id, language.getLanguageCode(tmdbApiConfig));
         if (url != null) {
             log.debug("{} | {}", id, url);
             foundMovie = convertGenres(TmdbApiUtils.getMovie(url.toString()));
