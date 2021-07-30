@@ -103,8 +103,10 @@ public class MovieController {
 
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
-        Response response = movieService.save(wishMovie, wishMovie);
-        log.info("{}", wishMovie.toString());
+        TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(wishMovie.getId(), Language.EN);
+        TmdbResult.TmdbMovie movieJsonRu = TmdbApiUtils.getMovieById(wishMovie.getId(), Language.RU);
+        Response response = movieService.save(movieJson, movieJsonRu);
+        log.info("{}", wishMovie);
 
         return response;
     }
