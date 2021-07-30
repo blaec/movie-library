@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next";
 
 import {language} from "../../../../../store/localStorage/actions";
 import MyFormLabel from "../../../../../UI/MyFormLabel";
+import {Language} from "../../../../../utils/Constants";
 
 import {Button, ButtonGroup, Card, CardContent} from "@material-ui/core";
 
@@ -14,11 +15,11 @@ const languagePicker = () => {
     const getVariant = (lng) => lang === lng ? 'contained' : '';
 
     const handleSetEnglish = () => {
-        setNewLanguage('en');
+        setNewLanguage(Language.english);
     };
 
     const handleSetRussian = () => {
-        setNewLanguage('ru');
+        setNewLanguage(Language.russian);
     };
 
     const setNewLanguage = (lang) => {
@@ -32,8 +33,8 @@ const languagePicker = () => {
             <CardContent>
                 <MyFormLabel text={t('text.chooseLanguage')}/>
                 <ButtonGroup variant="text" color="primary">
-                    <Button onClick={handleSetEnglish} variant={getVariant('en')}>EN</Button>
-                    <Button onClick={handleSetRussian} variant={getVariant('ru')}>RU</Button>
+                    <Button onClick={handleSetEnglish} variant={getVariant(Language.english)}>EN</Button>
+                    <Button onClick={handleSetRussian} variant={getVariant(Language.russian)}>RU</Button>
                 </ButtonGroup>
             </CardContent>
         </Card>
