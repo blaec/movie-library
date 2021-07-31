@@ -31,11 +31,12 @@ public class MovieController {
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
+        // TODO used to refresh all poster images
 //        for (Movie movie : movieService.getAll()) {
 //            TmdbResult.TmdbMovie movieEN = TmdbApiUtils.getMovieById(movie.getTmdbId(), Language.EN);
 //            TmdbResult.TmdbMovie movieRU = TmdbApiUtils.getMovieById(movie.getTmdbId(), Language.RU);
-//            log.debug("UPDATE `dummy_movie_library`.`movies` SET `poster_path` = '{}' WHERE (`id` = '{}');", movieEN.getPoster_path(), movieEN.getId());
-//            log.debug("UPDATE `dummy_movie_library`.`movies` SET `poster_path_ru` = '{}' WHERE (`id` = '{}');", movieRU.getPoster_path(), movieRU.getId());
+//            log.debug("KPNUNQ UPDATE `movie_library`.`movies` SET `poster_path` = '{}' WHERE (`tmdb_id` = '{}');", movieEN.getPoster_path(), movieEN.getId());
+//            log.debug("KPNUNQ UPDATE `movie_library`.`movies` SET `poster_path_ru` = '{}' WHERE (`tmdb_id` = '{}');", movieRU.getPoster_path(), movieRU.getId());
 //        }
         return movieService.getAll();
     }
