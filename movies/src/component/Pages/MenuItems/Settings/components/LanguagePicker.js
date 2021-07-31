@@ -5,7 +5,8 @@ import {language} from "../../../../../store/localStorage/actions";
 import MyFormLabel from "../../../../../UI/MyFormLabel";
 import {Language} from "../../../../../utils/Constants";
 
-import {Button, ButtonGroup, Card, CardContent} from "@material-ui/core";
+import {Button, ButtonGroup, Card, CardActions, CardContent, CardHeader, Typography} from "@material-ui/core";
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 
 
 const languagePicker = () => {
@@ -28,15 +29,33 @@ const languagePicker = () => {
         i18n.changeLanguage(lang);
     };
 
+
+    const warning = language.get() === Language.english
+        ? null
+        : (
+            <CardActions>
+                <ErrorOutlineIcon color='error'/>
+                <Typography
+                    display='inline'
+                    variant='caption'
+                    color='textSecondary'
+                >
+                    Если перевод отсутствует - данные элемент может отсутствовать (описание, биография, трейлер...) или
+                    будет заменен на английский вариант (имена актеров, постер...)
+                </Typography>
+            </CardActions>
+        );
+
     return (
         <Card variant="elevation">
             <CardContent>
                 <MyFormLabel text={t('text.chooseLanguage')}/>
                 <ButtonGroup variant="text" color="primary">
-                    <Button onClick={handleSetEnglish} variant={getVariant(Language.english)}>EN</Button>
-                    <Button onClick={handleSetRussian} variant={getVariant(Language.russian)}>RU</Button>
+                    <Button onClick={handleSetEnglish} variant={getVariant(Language.english)}>English</Button>
+                    <Button onClick={handleSetRussian} variant={getVariant(Language.russian)}>Русский</Button>
                 </ButtonGroup>
             </CardContent>
+            {warning}
         </Card>
     );
 };
