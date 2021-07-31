@@ -23,6 +23,7 @@ const myLazyImage = (props) => {
     const {src, alt, onClick} = props;
     const {imageWrapper, styledImage} = useStyles();
 
+    let errImage = `https://via.placeholder.com/500x750.png?text=${alt}`;
     return (
         <div className={imageWrapper}>
             <LazyLoad
@@ -33,6 +34,10 @@ const myLazyImage = (props) => {
                     className={styledImage}
                     src={src}
                     alt={alt}
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = errImage
+                    }}
                     onClick={onClick}
                 />
             </LazyLoad>
