@@ -5,7 +5,7 @@ import {forceCheck} from "react-lazyload";
 import {useTranslation} from "react-i18next";
 
 import Movie from "./components/Movie";
-import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
+import {drawerWidth, fullTitle, isArrayExist, isStringExist} from "../../../utils/Utils";
 import {grid, Language} from "../../../utils/Constants";
 import {language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
@@ -110,7 +110,7 @@ const gallery = (props) => {
                         const {id, tmdbId, posterPath, posterPathRu, title, releaseDate} = movie;
                         const poster = language.get() === Language.english
                             ? posterPath
-                            : posterPathRu === '' ? posterPath : posterPathRu;
+                            : isStringExist(posterPathRu) ? posterPathRu : posterPath;
                         return (
                             <Movie
                                 key={id}
