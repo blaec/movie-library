@@ -4,10 +4,10 @@ import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
-import com.blaec.movielibrary.to.TmdbResult;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -44,25 +44,16 @@ public class MovieUtils {
     }
 
     /**
-     * Check by fileName if movie already saved to database
+     * Check by fileName and type movie - if movie already saved to database
      *
      * @param fileName movie file name
      * @param dbMovies database movies
-     * @return Movie object if movie exists in database, otherwise - null
+     * @return Optional of movie object
      */
-    public static Movie isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
+    public static Optional<Movie> isMovieSaved(String fileName, Iterable<Movie> dbMovies) {
         return StreamSupport.stream(dbMovies.spliterator(), false)
                 .filter(dbMovie -> dbMovie.getType() == Type.movie && dbMovie.getFileName().equals(fileName))
-                .findFirst().orElse(null);
-    }
-
-    public static boolean isNullSafe(TmdbResult.TmdbMovie movieJson, String logDetails) {
-        boolean result = true;
-        if (movieJson == null) {
-            log.warn("no movie found in tmdb | {}", logDetails);
-            result = false;
-        }
-        return result;
+                .findFirst();
     }
 
     /**

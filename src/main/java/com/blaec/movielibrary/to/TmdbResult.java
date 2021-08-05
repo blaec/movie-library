@@ -21,6 +21,11 @@ public class TmdbResult {
         @Setter
         private List<Integer> genre_ids;
         private final List<Genre> genres;
+
+        @Override
+        public String toString() {
+            return String.format("#%s %s (%s)", id, title, release_date);
+        }
     }
 
     @Getter

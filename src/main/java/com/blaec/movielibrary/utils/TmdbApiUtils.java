@@ -21,6 +21,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,18 +43,18 @@ public class TmdbApiUtils {
      *
      * @param movieFileTo movie file object
      * @param language    json language
-     * @return TmdbMovie or null if not exist
+     * @return Optional of TmdbMovie
      */
-    public static TmdbResult.TmdbMovie getMovieByNameAndYear(MovieFileTo movieFileTo, Language language) {
+    public static Optional<TmdbResult.TmdbMovie> getMovieByNameAndYear(MovieFileTo movieFileTo, Language language) {
         TmdbResult.TmdbMovie foundMovie = null;
-        URL url = getUrlByNameAndYear(movieFileTo, language.getLanguageCode(tmdbApiConfig));
-        if (url != null) {
-            log.debug("{} | {}", movieFileTo.toString(), url);
-            List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url.toString()).getResults();
+        Optional<URL> url = getUrlByNameAndYear(movieFileTo, language.getLanguageCode(tmdbApiConfig));
+        if (url.isPresent()) {
+            log.debug("{} | {}", movieFileTo.toString(), url.get());
+            List<TmdbResult.TmdbMovie> results = TmdbApiUtils.getMoviesResult(url.get().toString()).getResults();
             foundMovie = results.stream().findFirst().orElse(null);
         }
 
-        return foundMovie;
+        return Optional.ofNullable(foundMovie);
     }
 
     /**
@@ -61,17 +62,17 @@ public class TmdbApiUtils {
      *
      * @param id       tmdb id
      * @param language json language
-     * @return TmdbMovie or null if not exist
+     * @return Optional of TmdbMovie
      */
-    public static TmdbResult.TmdbMovie getMovieById(String id, Language language) {
+    public static Optional<TmdbResult.TmdbMovie> getMovieById(String id, Language language) {
         TmdbResult.TmdbMovie foundMovie = null;
-        URL url = getUrlById(id, language.getLanguageCode(tmdbApiConfig));
-        if (url != null) {
-            log.debug("{} | {}", id, url);
-            foundMovie = convertGenres(TmdbApiUtils.getMovie(url.toString()));
+        Optional<URL> url = getUrlById(id, language.getLanguageCode(tmdbApiConfig));
+        if (url.isPresent()) {
+            log.debug("{} | {}", id, url.get());
+            foundMovie = convertGenres(TmdbApiUtils.getMovie(url.get().toString()));
         }
 
-        return foundMovie;
+        return Optional.ofNullable(foundMovie);
     }
 
     private static TmdbResult.TmdbMovie convertGenres(TmdbResult.TmdbMovie movie) {
@@ -88,9 +89,9 @@ public class TmdbApiUtils {
      *
      * @param movieFileTo movie file object
      * @param language    language of results
-     * @return URL object or null
+     * @return Optional of URL object
      */
-    private static URL getUrlByNameAndYear(MovieFileTo movieFileTo, String language) {
+    private static Optional<URL> getUrlByNameAndYear(MovieFileTo movieFileTo, String language) {
         URL url = null;
         try {
             URIBuilder uri = new URIBuilder(tmdbApiConfig.getEndpoint().getSearch());
@@ -102,12 +103,12 @@ public class TmdbApiUtils {
         } catch (URISyntaxException e) {
             log.error("wrong uri syntax {}", tmdbApiConfig.getEndpoint().getSearch(), e);
         } catch (MalformedURLException e) {
-            log.error("malformed url {}", movieFileTo.toString(), e);
+            log.error("malformed url {}", movieFileTo, e);
         } catch (Exception e) {
             log.error("error creating url for {}", movieFileTo.toString(), e);
         }
 
-        return url;
+        return Optional.ofNullable(url);
     }
 
     /**
@@ -116,9 +117,9 @@ public class TmdbApiUtils {
      *
      * @param id       tmdb id
      * @param language language of results
-     * @return url for api-request by id or null
+     * @return Optional of url for api-request by id
      */
-    private static URL getUrlById(String id, String language){
+    private static Optional<URL> getUrlById(String id, String language){
         URL url = null;
         try {
             URIBuilder uri = new URIBuilder(String.format("%s/%s", tmdbApiConfig.getEndpoint().getMovie(), id));
@@ -133,7 +134,7 @@ public class TmdbApiUtils {
             log.error("error creating url for id: {}", id, e);
         }
 
-        return url;
+        return Optional.ofNullable(url);
     }
 
     /**
