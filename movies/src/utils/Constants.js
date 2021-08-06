@@ -63,3 +63,10 @@ export const MovieTab = Object.freeze(
         facts: 3,
     }
 );
+
+export const Language = Object.freeze(
+    {
+        english: 'en',
+        russian: 'ru',
+    }
+);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,13 @@ public class MovieController {
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
+        // TODO used to refresh all poster images
+//        for (Movie movie : movieService.getAll()) {
+//            TmdbResult.TmdbMovie movieEN = TmdbApiUtils.getMovieById(movie.getTmdbId(), Language.EN);
+//            TmdbResult.TmdbMovie movieRU = TmdbApiUtils.getMovieById(movie.getTmdbId(), Language.RU);
+//            log.debug("KPNUNQ UPDATE `movie_library`.`movies` SET `poster_path` = '{}' WHERE (`tmdb_id` = '{}');", movieEN.getPoster_path(), movieEN.getId());
+//            log.debug("KPNUNQ UPDATE `movie_library`.`movies` SET `poster_path_ru` = '{}' WHERE (`tmdb_id` = '{}');", movieRU.getPoster_path(), movieRU.getId());
+//        }
         return movieService.getAll();
     }
 
@@ -50,23 +58,19 @@ public class MovieController {
 
     @PostMapping("/upload/{folder}")
     public Iterable<Response> scanFolder(@PathVariable String folder) {
-        List<Response> responses = new ArrayList<>();
-
-        // Get all from database
+        List<MovieFileTo> folderMovies = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
         Iterable<Movie> dbMovies = movieService.getAll();
 
-        // get all movie files from folder
-        List<MovieFileTo> movieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
-
         // Save only new movies to database
-        for (MovieFileTo movieFile : movieFiles) {
-            Movie dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
-            if (dbMovie != null) {
+        List<Response> responses = new ArrayList<>();
+        for (MovieFileTo movieFile : folderMovies) {
+            Optional<Movie> dbMovie = MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies);
+            if (dbMovie.isPresent()) {
                 // TODO temporarily commented
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
-                responses.add(Response.Builder.create().setMovie(dbMovie).setFail().setMessage("already exist").build());
+                responses.add(Response.Builder.create().setMovie(dbMovie.get()).setFail().setMessage("already exist").build());
             } else {
-                responses.add(movieService.save(TmdbApiUtils.getMovieByNameAndYear(movieFile), movieFile).build());
+                responses.add(movieService.save(TmdbApiUtils.getMoviesByNameAndYear(movieFile), movieFile).build());
             }
         }
 
@@ -78,7 +82,7 @@ public class MovieController {
         String message = "Not found at all or more than one movie found";
         Response.Builder responseBuilder = Response.Builder.create(message);
 
-        // Get all files from folder, where settings movie is searched, that match settings movie file name
+        // Get all files from folder with the same file name as uploaded movie
         // Could be more than one (files with the same name from different sub-folders)
         List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(uploadMovie.getLocation(), uploadConfigs)).stream()
                 .filter(movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName()))
@@ -90,8 +94,7 @@ public class MovieController {
             responseBuilder.setFail();
         } else {
             MovieFileTo movieFile = filteredMovieFiles.get(0);
-            TmdbResult.TmdbMovie movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId());
-            responseBuilder = movieService.save(movieJson, movieFile);
+            responseBuilder = movieService.save(TmdbApiUtils.getMoviesById(uploadMovie.getTmdbId()), movieFile);
         }
 
         return responseBuilder.build();
@@ -99,10 +102,8 @@ public class MovieController {
 
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
-        Response response = movieService.save(wishMovie);
-        log.info("{}", wishMovie.toString());
-
-        return response;
+        log.info("uploading wish movie | {}", wishMovie);
+        return movieService.save(TmdbApiUtils.getMoviesById(wishMovie));
     }
 
     @DeleteMapping("/delete/{tmdbId}")

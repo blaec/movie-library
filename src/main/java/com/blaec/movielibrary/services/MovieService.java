@@ -1,17 +1,20 @@
 package com.blaec.movielibrary.services;
 
+import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.to.MovieFileTo;
 import com.blaec.movielibrary.to.Response;
 import com.blaec.movielibrary.to.TmdbResult;
-import com.blaec.movielibrary.utils.MovieUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -55,14 +58,14 @@ public class MovieService {
     /**
      * Save movie to database by combining data from json and file movie objects
      *
-     * @param movieJson json movie
-     * @param movieFile file movie
+     * @param jsonMovies map with json movies with english and russian languages
+     * @param movieFile  file movie
      */
-    public Response.Builder save(TmdbResult.TmdbMovie movieJson, MovieFileTo movieFile) {
+    public Response.Builder save(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFile) {
         Response.Builder responseBuilder = Response.Builder.create("passed null json object");
 
-        if (MovieUtils.isNullSafe(movieJson, movieFile.toString())) {
-            Movie newMovie = Movie.of(movieJson, movieFile);
+        if (jsonMovies.values().stream().allMatch(Optional::isPresent)) {
+            Movie newMovie = Movie.of(jsonMovies.get(Language.EN).get(), jsonMovies.get(Language.RU).get(), movieFile);
             // FIXME not correct check
             if (!movieFile.getName().equalsIgnoreCase(newMovie.getTitle())) {
                 log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
@@ -76,20 +79,26 @@ public class MovieService {
     /**
      * Save wish-movie to db
      *
-     * @param wishMovie wish movie object
+     * @param jsonMovies map with json wish movies with english and russian languages
      */
-    public Response save(TmdbResult.TmdbMovie wishMovie) {
-        Response.Builder responseBuilder = Response.Builder.create();
-        Movie newMovie = Movie.fromJson(wishMovie).assignType(Type.wish_list);
+    public Response save(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
+        Response.Builder responseBuilder = Response.Builder.create("passed null json object");
 
-        return trySave(responseBuilder, newMovie).build();
+        if (jsonMovies.values().stream().allMatch(Optional::isPresent)) {
+            Movie newMovie = Movie.fromJson(jsonMovies.get(Language.EN).get(), jsonMovies.get(Language.RU).get()).assignType(Type.wish_list);
+            trySave(responseBuilder, newMovie);
+        }
+
+        return responseBuilder.build();
     }
 
-    private Response.Builder trySave(Response.Builder responseBuilder, Movie newMovie) {
+    private void trySave(Response.Builder responseBuilder, Movie newMovie) {
         try {
-            Movie savedMovie = movieRepository.save(newMovie);
+            Movie savedMovie = movieRepository.save(Objects.requireNonNull(newMovie, "movie should not be null"));
             log.info("saved | {}", savedMovie);
             responseBuilder.setMovie(savedMovie).setMessage("Successfully saved");
+        } catch (NullPointerException e) {
+            log.error("movie is null");
         } catch (DataIntegrityViolationException e) {
             log.error("this movie [{}] already exist", newMovie);
             responseBuilder.setMovie(newMovie).setFail().setMessage("Already exist");
@@ -98,7 +107,6 @@ public class MovieService {
             responseBuilder.setMovie(newMovie).setFail().setMessage(e.getMessage());
         }
 
-        return responseBuilder;
     }
 
     /**
@@ -118,7 +126,7 @@ public class MovieService {
             } else {
                 int id = movie.getId();
                 movieRepository.deleteById(id);
-                String message = String.format("Movie %s with id %d deleted", movie, id);
+                String message = String.format("deleted | %s with id %d", movie, id);
                 log.info(message);
                 responseBuilder.setMovie(movie).setMessage(message);
             }

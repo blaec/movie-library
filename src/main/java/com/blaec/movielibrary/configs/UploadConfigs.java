@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @Data
-@ConfigurationProperties(prefix = "settings")
+@ConfigurationProperties(prefix = "upload")
 @ConstructorBinding
 public class UploadConfigs {
     private String cartoons;

@@ -34,6 +34,9 @@ public class Movie{
     @Column(name="poster_path")
     @NonNull private String posterPath;
 
+    @Column(name="poster_path_ru")
+    @NonNull private String posterPathRu;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @NonNull private Set<Genre> genres;
 
@@ -55,25 +58,26 @@ public class Movie{
     @Column(name="creation_date")
     @NonNull private LocalDate creationDate = LocalDate.now();
 
-    /**
-     * Creates Wish-Movie object from Movie Json Object
-     *
-     * @param movieJsonTo movie json object
-     * @return Movie object with type <b>wish_list</b>
-     */
-    public static Movie from(TmdbResult.TmdbMovie movieJsonTo) {
-        return fromJson(movieJsonTo).assignType(Type.wish_list);
-    }
+//    /**
+//     * Creates Wish-Movie object from Movie Json Object
+//     *
+//     * @param movieJsonTo movie json object
+//     * @return Movie object with type <b>wish_list</b>
+//     */
+//    public static Movie from(TmdbResult.TmdbMovie movieJsonTo) {
+//        return fromJson(movieJsonTo, movieJsonTo).assignType(Type.wish_list);
+//    }
 
     /**
      * Creates Movie object from Movie Json object and Movie File object
      *
-     * @param movieJsonTo movie json object
-     * @param movieFileTo movie file object
+     * @param movieJsonTo   movie json object
+     * @param movieJsonToRu movie json object with russian poster
+     * @param movieFileTo   movie file object
      * @return Movie object
      */
-    public static Movie of(TmdbResult.TmdbMovie movieJsonTo, MovieFileTo movieFileTo) {
-        Movie movie = fromJson(movieJsonTo);
+    public static Movie of(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu, MovieFileTo movieFileTo) {
+        Movie movie = fromJson(movieJsonTo, movieJsonToRu);
         movie.setType(Type.movie);
 
         // add movie file object
@@ -91,10 +95,11 @@ public class Movie{
     /**
      * Creates Movie object based on properties in Movie Json Object
      *
-     * @param movieJsonTo movie json object
+     * @param movieJsonTo   movie json object
+     * @param movieJsonToRu movie json object with russian poster
      * @return partial Movie object
      */
-    public static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo) {
+    public static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu) {
         Movie movie = new Movie();
 
         // add movie json object
@@ -102,6 +107,7 @@ public class Movie{
         movie.setTitle(movieJsonTo.getTitle());
         movie.setReleaseDate(movieJsonTo.getRelease_date());
         movie.setPosterPath(movieJsonTo.getPoster_path());
+        movie.setPosterPathRu(movieJsonToRu.getPoster_path());
         movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
 
         return movie;

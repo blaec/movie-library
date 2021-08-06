@@ -5,9 +5,9 @@ import {forceCheck} from "react-lazyload";
 import {useTranslation} from "react-i18next";
 
 import Movie from "./components/Movie";
-import {drawerWidth, fullTitle, isArrayExist} from "../../../utils/Utils";
-import {grid} from "../../../utils/Constants";
-import {scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
+import {drawerWidth, fullTitle, isArrayExist, isStringExist} from "../../../utils/Utils";
+import {grid, Language} from "../../../utils/Constants";
+import {language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import ScrollTop from "./components/ScrollTop";
 
@@ -107,13 +107,16 @@ const gallery = (props) => {
         <React.Fragment>
             <div className={root}>
                 {displayedMovieList.map(movie => {
-                        const {id, tmdbId, posterPath, title, releaseDate} = movie;
+                        const {id, tmdbId, posterPath, posterPathRu, title, releaseDate} = movie;
+                        const poster = language.get() === Language.english
+                            ? posterPath
+                            : isStringExist(posterPathRu) ? posterPathRu : posterPath;
                         return (
                             <Movie
                                 key={id}
                                 root={grid}
                                 tmdbId={tmdbId}
-                                poster={posterPath}
+                                poster={poster}
                                 alt={`${fullTitle(title, releaseDate)}`}
                                 onClick={handleViewMovieDetails}
                             />

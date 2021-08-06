@@ -36,6 +36,9 @@ tmdbapi:
   name:
     title: query
     year: primary_release_year
+    language: language
     apikey: api_key
   value:
     apikey: apikeyValue
+    language: languageValue
+    languageRu: languageRuValue

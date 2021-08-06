@@ -110,6 +110,7 @@ const fileLoader = () => {
         setFileLocation('');
         tmdbIdRef.current.value = '';
         fileNameRef.current.value = '';
+        setIsSingleMovieUpload(false);
         dispatch(settingsActions.setResult({}));
         dispatch(settingsActions.setResults([]));
     };

@@ -5,7 +5,7 @@ import MyTextField from "../../../../../../UI/MyTextField";
 import useInput from "../../../../../../hooks/use-input";
 import {isStringExist} from "../../../../../../utils/Utils";
 
-const validateValue = (text) => (isStringExist(text) && Number.isInteger(+text));
+const validateValue = (text) => (isStringExist(text));
 
 const fileTmdbIdInput = (props) => {
     const {inputRef, isSingleMovieUpload, onValid} = props;
