@@ -4,6 +4,7 @@ import com.blaec.movielibrary.configs.TmdbApiConfig;
 import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.to.MovieFileTo;
 import com.blaec.movielibrary.to.TmdbResult;
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -30,12 +31,24 @@ import java.util.stream.Collectors;
 public class TmdbApiUtils {
     private static TmdbApiConfig tmdbApiConfig;
     private static final Gson gson = new Gson();
-
     private final TmdbApiConfig apiConfig;
 
     @PostConstruct
     private void init() {
         tmdbApiConfig = this.apiConfig;
+    }
+
+    /**
+     * Get map of TmdbMovies from MovieFileTo with different languages
+     *
+     * @param movieFile movieTO file for uploading
+     * @return map of TmdbMovies with different languages
+     */
+    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMoviesByNameAndYear(MovieFileTo movieFile) {
+        return ImmutableMap.of(
+                Language.EN, TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.EN),
+                Language.RU, TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.RU)
+        );
     }
 
     /**
@@ -45,7 +58,7 @@ public class TmdbApiUtils {
      * @param language    json language
      * @return Optional of TmdbMovie
      */
-    public static Optional<TmdbResult.TmdbMovie> getMovieByNameAndYear(MovieFileTo movieFileTo, Language language) {
+    private static Optional<TmdbResult.TmdbMovie> getMovieByNameAndYear(MovieFileTo movieFileTo, Language language) {
         TmdbResult.TmdbMovie foundMovie = null;
         Optional<URL> url = getUrlByNameAndYear(movieFileTo, language.getLanguageCode(tmdbApiConfig));
         if (url.isPresent()) {
@@ -58,29 +71,47 @@ public class TmdbApiUtils {
     }
 
     /**
+     * Get map of TmdbMovies with different languages by tmdbId
+     *
+     * @param tmdbMovie tmdbMovie
+     * @return map of TmdbMovies with different languages
+     */
+    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMoviesById(TmdbResult.TmdbMovie tmdbMovie) {
+        return ImmutableMap.of(
+                Language.EN, TmdbApiUtils.getMovieById(tmdbMovie.getId(), Language.EN),
+                Language.RU, TmdbApiUtils.getMovieById(tmdbMovie.getId(), Language.RU)
+        );
+    }
+
+    /**
+     * Get map of TmdbMovies with different languages by tmdbId
+     *
+     * @param tmdbId tmdb id
+     * @return map of TmdbMovies with different languages
+     */
+    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMoviesById(String tmdbId) {
+        return ImmutableMap.of(
+                Language.EN, TmdbApiUtils.getMovieById(tmdbId, Language.EN),
+                Language.RU, TmdbApiUtils.getMovieById(tmdbId, Language.RU)
+        );
+    }
+
+    /**
      * Get TmdbMovie from id by sending url to api
      *
      * @param id       tmdb id
      * @param language json language
      * @return Optional of TmdbMovie
      */
-    public static Optional<TmdbResult.TmdbMovie> getMovieById(String id, Language language) {
+    private static Optional<TmdbResult.TmdbMovie> getMovieById(String id, Language language) {
         TmdbResult.TmdbMovie foundMovie = null;
         Optional<URL> url = getUrlById(id, language.getLanguageCode(tmdbApiConfig));
         if (url.isPresent()) {
             log.debug("{} | {}", id, url.get());
-            foundMovie = convertGenres(TmdbApiUtils.getMovie(url.get().toString()));
+            foundMovie = TmdbResult.convertGenres(TmdbApiUtils.getMovie(url.get().toString()));
         }
 
         return Optional.ofNullable(foundMovie);
-    }
-
-    private static TmdbResult.TmdbMovie convertGenres(TmdbResult.TmdbMovie movie) {
-        movie.setGenre_ids(movie.getGenres().stream()
-                .map(genre -> Integer.valueOf(genre.getId()))
-                .collect(Collectors.toList())
-        );
-        return movie;
     }
 
     /**
@@ -119,7 +150,7 @@ public class TmdbApiUtils {
      * @param language language of results
      * @return Optional of url for api-request by id
      */
-    private static Optional<URL> getUrlById(String id, String language){
+    private static Optional<URL> getUrlById(String id, String language) {
         URL url = null;
         try {
             URIBuilder uri = new URIBuilder(String.format("%s/%s", tmdbApiConfig.getEndpoint().getMovie(), id));

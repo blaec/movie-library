@@ -1,7 +1,6 @@
 package com.blaec.movielibrary.controllers;
 
 import com.blaec.movielibrary.configs.UploadConfigs;
-import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.to.MovieFileTo;
@@ -71,9 +70,7 @@ public class MovieController {
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
                 responses.add(Response.Builder.create().setMovie(dbMovie.get()).setFail().setMessage("already exist").build());
             } else {
-                Optional<TmdbResult.TmdbMovie> movieEN = TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.EN);
-                Optional<TmdbResult.TmdbMovie> movieRU = TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.RU);
-                responses.add(movieService.save(movieEN, movieRU, movieFile).build());
+                responses.add(movieService.save(TmdbApiUtils.getMoviesByNameAndYear(movieFile), movieFile).build());
             }
         }
 
@@ -97,9 +94,7 @@ public class MovieController {
             responseBuilder.setFail();
         } else {
             MovieFileTo movieFile = filteredMovieFiles.get(0);
-            Optional<TmdbResult.TmdbMovie> movieJson = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId(), Language.EN);
-            Optional<TmdbResult.TmdbMovie> movieJsonRu = TmdbApiUtils.getMovieById(uploadMovie.getTmdbId(), Language.RU);
-            responseBuilder = movieService.save(movieJson, movieJsonRu, movieFile);
+            responseBuilder = movieService.save(TmdbApiUtils.getMoviesById(uploadMovie.getTmdbId()), movieFile);
         }
 
         return responseBuilder.build();
@@ -107,11 +102,8 @@ public class MovieController {
 
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
-        Optional<TmdbResult.TmdbMovie> movieJson = TmdbApiUtils.getMovieById(wishMovie.getId(), Language.EN);
-        Optional<TmdbResult.TmdbMovie> movieJsonRu = TmdbApiUtils.getMovieById(wishMovie.getId(), Language.RU);
         log.info("uploading wish movie | {}", wishMovie);
-
-        return movieService.save(movieJson, movieJsonRu);
+        return movieService.save(TmdbApiUtils.getMoviesById(wishMovie));
     }
 
     @DeleteMapping("/delete/{tmdbId}")
