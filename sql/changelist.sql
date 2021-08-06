@@ -33,3 +33,9 @@ ALTER TABLE movies
 -- 2021-07-30
 ALTER TABLE movies
     ADD COLUMN poster_path_ru VARCHAR(250) NOT NULL AFTER poster_path;
+
+-- 2021-08-06
+SET SQL_SAFE_UPDATES = 0;
+UPDATE movies
+   SET `location` = REPLACE(`location`, 'l_movies', 'n_movies')
+ WHERE `location` LIKE '%l_movies%';
