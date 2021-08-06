@@ -39,3 +39,4 @@ SET SQL_SAFE_UPDATES = 0;
 UPDATE movies
    SET `location` = REPLACE(`location`, 'l_movies', 'n_movies')
  WHERE `location` LIKE '%l_movies%';
+-- changes m_serial_movies to m_serian_movies
