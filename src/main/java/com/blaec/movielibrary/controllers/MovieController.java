@@ -38,6 +38,13 @@ public class MovieController {
 //            log.debug("KPNUNQ UPDATE `movie_library`.`movies` SET `poster_path` = '{}' WHERE (`tmdb_id` = '{}');", movieEN.getPoster_path(), movieEN.getId());
 //            log.debug("KPNUNQ UPDATE `movie_library`.`movies` SET `poster_path_ru` = '{}' WHERE (`tmdb_id` = '{}');", movieRU.getPoster_path(), movieRU.getId());
 //        }
+
+        // TODO remove all cartoons
+//        for (Movie movie : movieService.getAll()) {
+//            if (movie.getType() == Type.movie && movie.getLocation().contains("k_cartoons")) {
+//                delete(movie.getTmdbId());
+//            }
+//        }
         return movieService.getAll();
     }
 
