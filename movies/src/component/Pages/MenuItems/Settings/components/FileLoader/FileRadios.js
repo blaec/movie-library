@@ -30,8 +30,8 @@ const fileRadios = (props) => {
     let movieLocations = [];
     if (isArrayExist(movies)) {
         movieLocations = [
-            createData('cartoons', 'K | Cartoons', movies, '\\k_cartoons'),
-            createData('movies', 'L | Movies', movies, '\\l_movies'),
+            createData('cartoons', 'L | Cartoons', movies, '\\l_cartoons'),
+            createData('movies', 'N | Movies', movies, '\\n_movies'),
             createData('serialMovies', 'M | Serial Movies', movies, '\\m_serial_movies'),
             createData('music', 'D | New Movies', movies, '\\d_music'),
             createData('videos', 'C | Videos', movies, '\\c_videos'),
