@@ -18,7 +18,8 @@ const movieFacts = (props) => {
             revenue,
             production_companies,
             production_countries,
-            original_language
+            original_language,
+            original_title
         },
     } = props;
     const {t} = useTranslation('common');
@@ -54,6 +55,8 @@ const movieFacts = (props) => {
                   text={joinNames(production_countries)}/>
             <Fact header={t('text.originalLanguage')}
                   text={original_language}/>
+            <Fact header={t('text.originalTitle')}
+                  text={original_title}/>
         </Typography>
     );
 };

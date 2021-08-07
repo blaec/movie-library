@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
     locationFont: {
         fontFamily: ['Chakra Petch', "!important"],
     },
+    fileNameFont: {
+        fontWeight: 700,
+        fontFamily: ['Chakra Petch', "!important"],
+    },
     genreFont: {
         fontFamily: ['Andika', "!important"],
     },
@@ -31,14 +35,14 @@ const useStyles = makeStyles((theme) => ({
 const infoGeneral = (props) => {
     const {details: {Rated, imdbRating, imdbVotes, release_date, runtime, title, genres} = {details: {}},} = props;
     const {movieTmdbId} = useParams();
-    const {root, titleFont, metaFont, locationFont, genreFont} = useStyles();
+    const {root, titleFont, metaFont, locationFont, fileNameFont, genreFont} = useStyles();
     const {t} = useTranslation('common');
 
     const movies = useSelector(state => state.collection.movies);
 
     let generalInfo = <MyLoader/>
     if (isArrayExist(movies)) {
-        let {resolution, size, location} = getMovieByTmdbId(movies, movieTmdbId);
+        let {resolution, size, location, fileName} = getMovieByTmdbId(movies, movieTmdbId);
         let metadata = {
             rated: isSafe(Rated),
             release_date: isSafe(fullYear(release_date)),
@@ -60,6 +64,12 @@ const infoGeneral = (props) => {
                         fontSize="caption.fontSize"
                     >
                         {location}
+                    </Box>
+                    <Box
+                        className={fileNameFont}
+                        fontSize="caption.fontSize"
+                    >
+                        {fileName}
                     </Box>
                     <Divider/>
                     <Box
