@@ -77,9 +77,7 @@ const app = () => {
 
                     {/* Path links */}
                     <Route path={movieDetails} exact component={props => {
-                        useEffect(() => {
-                            dispatch(detailsActions.resetAll());
-                        }, []);
+                        dispatch(detailsActions.resetAll());
                         return <MovieDetails {...props}/>
                     }}/>
                     <Route path={actorDetails} exact component={props => <ActorDetails {...props}/>}/>
