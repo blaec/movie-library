@@ -1,11 +1,11 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 
-import MyLoader from "../../../../../../UI/Spinners/MyLoader";
 import {drawerWidth, fullTitle, isArraysExist, isObjectExist} from "../../../../../../utils/Utils";
 import {getImageUrl} from "../../../../../../utils/UrlUtils";
 
 import {makeStyles} from "@material-ui/core/styles";
+import {Skeleton} from "@material-ui/lab";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const aspect_ratio = 16 / 9;
+
 const images = () => {
     const {root} = useStyles();
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
@@ -23,18 +25,28 @@ const images = () => {
         : 1;
     const windowWidth = (window.innerWidth - drawerWidth(window.innerWidth)) * marginBorders;
 
-    let backdropImages = <MyLoader/>
+    let backdropImages = <React.Fragment>
+        <Skeleton
+            animation="wave"
+            variant="rect"
+            height={windowWidth / aspect_ratio}
+        />
+        <Skeleton
+            animation="wave"
+            variant="text"
+            width='40%'
+            style={{margin: 'auto'}}
+        />
+    </React.Fragment>
     if (isObjectExist(tmdbMovieDetails)) {
         const {title, releaseDate, images: {backdrops}, poster_path} = tmdbMovieDetails;
         const backdropsData = isArraysExist(backdrops)
             ? backdrops
             : [{
-                aspect_ratio: 16 / 9,
                 file_path: poster_path
-
             }];
         backdropImages = backdropsData.map((backdrop, idx) => {
-            const {aspect_ratio, file_path} = backdrop;
+            const {file_path} = backdrop;
             const height = parseInt(windowWidth / aspect_ratio, 0);
             const width = parseInt(windowWidth, 0);
             const path = file_path !== null

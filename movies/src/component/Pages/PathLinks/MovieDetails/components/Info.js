@@ -13,8 +13,9 @@ import {previousLocation} from "../../../../../store/localStorage/actions";
 import {reactLinks} from "../../../../../utils/UrlUtils";
 import {MovieTab} from "../../../../../utils/Constants";
 
-import {makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
+import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
+import {Skeleton} from "@material-ui/lab";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +47,42 @@ const info = () => {
     }, []);
 
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails)) && isArrayExist(cast);
-    let info = <MyLoader/>
+    let info = <Box>
+        <Skeleton
+            animation="wave"
+            variant="text"
+            width='40%'
+        />
+        <Skeleton
+            animation="wave"
+            variant="text"
+            width='50%'
+        />
+        <Skeleton
+            animation="wave"
+            variant="text"
+            width='80%'
+            style={{margin: 'auto'}}
+        />
+        <Skeleton
+            animation="wave"
+            variant="text"
+            height={50}
+            width='60%'
+            style={{margin: 'auto'}}
+        />
+        <Skeleton
+            animation="wave"
+            variant="text"
+            width='80%'
+            style={{margin: 'auto'}}
+        />
+        <Skeleton
+            animation="wave"
+            variant="rect"
+            height={300}
+        />
+    </Box>
     if (hasDetails) {
         info = (
             <React.Fragment>
