@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 
 import MyTabPanel from "../../../../../UI/MyTabPanel";
-import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import Description from "./InfoComponents/Tabs/Description";
 import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
@@ -13,10 +12,10 @@ import {previousLocation} from "../../../../../store/localStorage/actions";
 import {reactLinks} from "../../../../../utils/UrlUtils";
 import {MovieTab} from "../../../../../utils/Constants";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
+import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
 
 import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
-import {Skeleton} from "@material-ui/lab";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,35 +49,11 @@ const info = () => {
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails)) && isArrayExist(cast);
     let info = (
         <Box>
-            <Skeleton
-                animation="wave"
-                variant="text"
-                width='40%'
-            />
-            <Skeleton
-                animation="wave"
-                variant="text"
-                width='50%'
-            />
-            <Skeleton
-                animation="wave"
-                variant="text"
-                width='80%'
-                style={{margin: 'auto'}}
-            />
-            <Skeleton
-                animation="wave"
-                variant="text"
-                height={50}
-                width='60%'
-                style={{margin: 'auto'}}
-            />
-            <Skeleton
-                animation="wave"
-                variant="text"
-                width='80%'
-                style={{margin: 'auto'}}
-            />
+            <MyTextSkeleton width='40%'/>
+            <MyTextSkeleton width='50%'/>
+            <MyTextSkeleton width='80%' center/>
+            <MyTextSkeleton width='60%' center height={50}/>
+            <MyTextSkeleton width='80%' center/>
             <MyRectSkeleton height={300}/>
         </Box>
     );

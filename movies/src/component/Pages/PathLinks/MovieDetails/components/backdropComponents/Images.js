@@ -4,9 +4,9 @@ import {useSelector} from "react-redux";
 import {drawerWidth, fullTitle, isArraysExist, isObjectExist} from "../../../../../../utils/Utils";
 import {getImageUrl} from "../../../../../../utils/UrlUtils";
 import MyRectSkeleton from "../../../../../../UI/Skeleton/MyRectSkeleton";
+import MyTextSkeleton from "../../../../../../UI/Skeleton/MyTextSkeleton";
 
 import {makeStyles} from "@material-ui/core/styles";
-import {Skeleton} from "@material-ui/lab";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,12 +29,7 @@ const images = () => {
     let backdropImages = (
         <React.Fragment>
             <MyRectSkeleton height={windowWidth / aspect_ratio}/>
-            <Skeleton
-                animation="wave"
-                variant="text"
-                width='40%'
-                style={{margin: 'auto'}}
-            />
+            <MyTextSkeleton width='40%' center/>
         </React.Fragment>
     );
     if (isObjectExist(tmdbMovieDetails)) {
