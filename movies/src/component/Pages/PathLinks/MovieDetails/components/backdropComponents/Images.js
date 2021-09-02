@@ -3,6 +3,7 @@ import {useSelector} from "react-redux";
 
 import {drawerWidth, fullTitle, isArraysExist, isObjectExist} from "../../../../../../utils/Utils";
 import {getImageUrl} from "../../../../../../utils/UrlUtils";
+import MyRectSkeleton from "../../../../../../UI/Skeleton/MyRectSkeleton";
 
 import {makeStyles} from "@material-ui/core/styles";
 import {Skeleton} from "@material-ui/lab";
@@ -25,19 +26,17 @@ const images = () => {
         : 1;
     const windowWidth = (window.innerWidth - drawerWidth(window.innerWidth)) * marginBorders;
 
-    let backdropImages = <React.Fragment>
-        <Skeleton
-            animation="wave"
-            variant="rect"
-            height={windowWidth / aspect_ratio}
-        />
-        <Skeleton
-            animation="wave"
-            variant="text"
-            width='40%'
-            style={{margin: 'auto'}}
-        />
-    </React.Fragment>
+    let backdropImages = (
+        <React.Fragment>
+            <MyRectSkeleton height={windowWidth / aspect_ratio}/>
+            <Skeleton
+                animation="wave"
+                variant="text"
+                width='40%'
+                style={{margin: 'auto'}}
+            />
+        </React.Fragment>
+    );
     if (isObjectExist(tmdbMovieDetails)) {
         const {title, releaseDate, images: {backdrops}, poster_path} = tmdbMovieDetails;
         const backdropsData = isArraysExist(backdrops)

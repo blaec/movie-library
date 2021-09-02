@@ -10,9 +10,9 @@ import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
 import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
+import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 
 import {List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
-import {Skeleton} from "@material-ui/lab";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,10 +64,8 @@ const actorDetails = () => {
     }, [tmdbApi, actorId]);
 
     let hasData = isObjectsExist(actorDetails, movies);
-    let allMovies = <Skeleton
+    let allMovies = <MyRectSkeleton
                         className={movieItems}
-                        animation="wave"
-                        variant="rect"
                         height={320}
                     />;
     let movieList = [];

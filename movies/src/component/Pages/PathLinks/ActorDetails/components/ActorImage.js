@@ -3,9 +3,9 @@ import React from 'react';
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import {drawer} from "../../../../../utils/Constants";
 import {isMovieInCast} from "../../../../../utils/Utils";
+import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 
 import {makeStyles, Typography} from "@material-ui/core";
-import {Skeleton} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -37,10 +37,7 @@ const actorImage = (props) => {
     const {movies, actorDetails: {name}, movieList, moviesInCollection, onClose} = props;
     const {sticky, skeleton, actor} = useStyles();
 
-    let elem = <Skeleton
-                    className={skeleton}
-                    variant="rect"
-                />;
+    let elem = <MyRectSkeleton className={skeleton}/>;
     if (name !== undefined) {
         const moviesSize = movies
             .filter(movie => isMovieInCast(moviesInCollection, movie.tmdbId))
