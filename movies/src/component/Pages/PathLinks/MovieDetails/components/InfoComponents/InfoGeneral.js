@@ -2,9 +2,7 @@ import React from 'react';
 import {useSelector} from "react-redux";
 import {useParams} from "react-router";
 import {useTranslation} from "react-i18next";
-
-import MyLoader from "../../../../../../UI/Spinners/MyLoader";
-import {getMovieByTmdbId, isArrayExist, joinNames, isSafe, playTime, fullYear} from "../../../../../../utils/Utils";
+import {fullYear, getMovieByTmdbId, isArrayExist, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 
@@ -40,7 +38,7 @@ const infoGeneral = (props) => {
 
     const movies = useSelector(state => state.collection.movies);
 
-    let generalInfo = <MyLoader/>
+    let generalInfo = null;
     if (isArrayExist(movies)) {
         let {resolution, size, location, fileName} = getMovieByTmdbId(movies, movieTmdbId);
         let metadata = {

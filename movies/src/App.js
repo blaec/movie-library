@@ -4,7 +4,6 @@ import {useDispatch} from "react-redux";
 
 import Layout from "./hoc/Layout";
 import Collection from "./component/Pages/MenuItems/Collection/Collection";
-import MyLoader from "./UI/Spinners/MyLoader";
 import {reactLinks} from "./utils/UrlUtils";
 import {fetchMovies, fetchWishlist} from "./store/state/collection/collection-actions";
 import {fetchConfigs} from "./store/state/api/api-actions";
@@ -62,7 +61,7 @@ const app = () => {
 
     let layout = (
         <Layout>
-            <Suspense fallback={<MyLoader/>}>
+            <Suspense fallback={null}>
                 <Switch>
 
                     {/* Menu items */}

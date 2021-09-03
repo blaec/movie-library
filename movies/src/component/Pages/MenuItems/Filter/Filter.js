@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
-import MyLoader from "../../../../UI/Spinners/MyLoader";
+import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MyFormLabel from "../../../../UI/MyFormLabel";
@@ -53,7 +53,7 @@ const filter = () => {
         setGenreIds([]);
     };
 
-    let genreFilter = <MyLoader/>;
+    let genreFilter = <MyRectSkeleton height={238}/>;
     if (isArrayExist(genres)) {
         const genreNames = genres.flatMap(genre => genre.name);
         genreFilter =
