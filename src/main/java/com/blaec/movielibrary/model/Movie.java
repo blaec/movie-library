@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Entity
 @Getter
-@Setter
+@Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "movies")
 public class Movie{
@@ -58,15 +58,31 @@ public class Movie{
     @Column(name="creation_date")
     @NonNull private LocalDate creationDate = LocalDate.now();
 
-//    /**
-//     * Creates Wish-Movie object from Movie Json Object
-//     *
-//     * @param movieJsonTo movie json object
-//     * @return Movie object with type <b>wish_list</b>
-//     */
-//    public static Movie from(TmdbResult.TmdbMovie movieJsonTo) {
-//        return fromJson(movieJsonTo, movieJsonTo).assignType(Type.wish_list);
-//    }
+
+    /**
+     * Creates Movie object based on properties in Movie Json Object
+     *
+     * @param movieJsonTo   movie json object
+     * @param movieJsonToRu movie json object with russian poster
+     * @return partial Movie object
+     */
+    public static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu) {
+        Movie movie = new Movie();
+        movie.tmdbId = movieJsonTo.getId();
+        movie.title = movieJsonTo.getTitle();
+        movie.releaseDate = movieJsonTo.getRelease_date();
+        movie.posterPath = movieJsonTo.getPoster_path();
+        movie.posterPathRu = movieJsonToRu.getPoster_path();
+        movie.genres = convertGenreIds(movieJsonTo.getGenre_ids());
+
+        return movie;
+    }
+
+    private static Set<Genre> convertGenreIds(List<Integer> genres) {
+        return genres.stream()
+                .map(genreId -> new Genre(null, genreId))
+                .collect(Collectors.toSet());
+    }
 
     /**
      * Creates Movie object from Movie Json object and Movie File object
@@ -78,37 +94,13 @@ public class Movie{
      */
     public static Movie of(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu, MovieFileTo movieFileTo) {
         Movie movie = fromJson(movieJsonTo, movieJsonToRu);
-        movie.setType(Type.movie);
-
-        // add movie file object
-        movie.setResolution(movieFileTo.getResolution());
-        movie.setFileName(movieFileTo.getFileName());
-        movie.setSize(movieFileTo.getSize());
-        movie.setLocation(movieFileTo.getLocation());
-        movie.setDescription(movieFileTo.getDescription());
-        movie.setFrameRate(movieFileTo.getFrameRate());
-        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
-
-        return movie;
-    }
-
-    /**
-     * Creates Movie object based on properties in Movie Json Object
-     *
-     * @param movieJsonTo   movie json object
-     * @param movieJsonToRu movie json object with russian poster
-     * @return partial Movie object
-     */
-    public static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu) {
-        Movie movie = new Movie();
-
-        // add movie json object
-        movie.setTmdbId(movieJsonTo.getId());
-        movie.setTitle(movieJsonTo.getTitle());
-        movie.setReleaseDate(movieJsonTo.getRelease_date());
-        movie.setPosterPath(movieJsonTo.getPoster_path());
-        movie.setPosterPathRu(movieJsonToRu.getPoster_path());
-        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
+        movie.type = Type.movie;
+        movie.resolution = movieFileTo.getResolution();
+        movie.fileName = movieFileTo.getFileName();
+        movie.size = movieFileTo.getSize();
+        movie.location = movieFileTo.getLocation();
+        movie.description = movieFileTo.getDescription();
+        movie.frameRate = movieFileTo.getFrameRate();
 
         return movie;
     }
@@ -118,14 +110,9 @@ public class Movie{
         return this;
     }
 
+    // TODO currently not in use
     public void setConvertedGenres(List<TmdbResult.Genre> genres) {
         this.genres = extractGenres(genres);
-    }
-
-    private static Set<Genre> convertGenreIds(List<Integer> genres) {
-        return genres.stream()
-                .map(genreId -> new Genre(null, genreId))
-                .collect(Collectors.toSet());
     }
 
     private static Set<Genre> extractGenres(List<TmdbResult.Genre> genres) {
