@@ -12,13 +12,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const movieStatusSwitch = () => {
+const movieStatusSwitch = (props) => {
+    const {onSwitchChange} = props;
     const {root} = useStyles();
     const [dense, setDense] = useState(false);
     const {t} = useTranslation('common');
 
     const handleChangeDense = () => {
         setDense(!dense);
+        onSwitchChange(!dense);
     };
 
     const switchElement = (
