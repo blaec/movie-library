@@ -12,6 +12,7 @@ import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 import MovieStatusSwitch from "./components/MovieStatusSwitch";
+import MyResponse from "../../../../UI/MyResponse";
 
 import {List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
@@ -97,6 +98,13 @@ const actorDetails = () => {
         moviesInCollection = movieList.filter(movie => isMovieInCollection(movies, movie.id));
 
         const moviesToDisplay = isCollectionMovie ? moviesInCollection : movieList;
+        let actorMovies = moviesToDisplay.length > 0
+            ? moviesToDisplay.map(movie =>
+                <ActorMovie key={movie.id}
+                            {...movie}
+                            exist={moviesInCollection.includes(movie)}/>
+            )
+            : <MyResponse message={t('text.noMovieWithActor')}/>;
         allMovies = (
             <div className={movieItems}>
                 <Paper square style={{paddingTop: '50px'}}>
@@ -119,11 +127,7 @@ const actorDetails = () => {
                     <List>
                         <div className={movieItems}>
                             <MovieStatusSwitch onSwitchChange={handleCollectionMovieFilter}/>
-                            {moviesToDisplay.map(movie =>
-                                <ActorMovie key={movie.id}
-                                            {...movie}
-                                            exist={moviesInCollection.includes(movie)}/>)
-                            }
+                            {actorMovies}
                         </div>
                     </List>
                 </MyTabPanel>

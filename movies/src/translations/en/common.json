@@ -70,6 +70,7 @@
     "movieLocation": "Movie location",
     "movieSwitch": "Show collection movies",
     "no": "No",
+    "noMovieWithActor": "No movie found in collection with this actor",
     "originalLanguage": "Original Language: ",
     "originalTitle": "Original title: ",
     "preview": "Preview",
