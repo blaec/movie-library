@@ -11,6 +11,7 @@ import ActorMovie from "./components/ActorMovie";
 import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
+import MovieStatusSwitch from "./MovieStatusSwitch";
 
 import {List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
@@ -111,6 +112,7 @@ const actorDetails = () => {
                 <MyTabPanel value={tabSelected} index={1} padding={0}>
                     <List>
                         <div className={movieItems}>
+                            <MovieStatusSwitch/>
                             {movieList.map(movie =>
                                 <ActorMovie key={movie.id}
                                             {...movie}
