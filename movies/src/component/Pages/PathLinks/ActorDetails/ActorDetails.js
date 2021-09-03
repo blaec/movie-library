@@ -11,6 +11,8 @@ import ActorMovie from "./components/ActorMovie";
 import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
+import MovieStatusSwitch from "./components/MovieStatusSwitch";
+import MyResponse from "../../../../UI/MyResponse";
 
 import {List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
@@ -38,6 +40,7 @@ const actorDetails = () => {
     const {t} = useTranslation('common');
 
     const [tabSelected, setTabSelected] = useState(0);
+    const [isCollectionMovie, setIsCollectionMovie] = useState(false);
 
     const movies = useSelector(state => state.collection.movies);
     const tmdbApi = useSelector(state => state.api.tmdb);
@@ -50,6 +53,10 @@ const actorDetails = () => {
 
     const handleChange = (event, newValue) => {
         setTabSelected(newValue);
+    };
+
+    const handleCollectionMovieFilter = (value) => {
+        setIsCollectionMovie(value);
     };
 
     useEffect(() => {
@@ -90,6 +97,14 @@ const actorDetails = () => {
             });
         moviesInCollection = movieList.filter(movie => isMovieInCollection(movies, movie.id));
 
+        const moviesToDisplay = isCollectionMovie ? moviesInCollection : movieList;
+        let actorMovies = moviesToDisplay.length > 0
+            ? moviesToDisplay.map(movie =>
+                <ActorMovie key={movie.id}
+                            {...movie}
+                            exist={moviesInCollection.includes(movie)}/>
+            )
+            : <MyResponse message={t('text.noMovieWithActor')}/>;
         allMovies = (
             <div className={movieItems}>
                 <Paper square style={{paddingTop: '50px'}}>
@@ -111,11 +126,8 @@ const actorDetails = () => {
                 <MyTabPanel value={tabSelected} index={1} padding={0}>
                     <List>
                         <div className={movieItems}>
-                            {movieList.map(movie =>
-                                <ActorMovie key={movie.id}
-                                            {...movie}
-                                            exist={moviesInCollection.includes(movie)}/>)
-                            }
+                            <MovieStatusSwitch onSwitchChange={handleCollectionMovieFilter}/>
+                            {actorMovies}
                         </div>
                     </List>
                 </MyTabPanel>
