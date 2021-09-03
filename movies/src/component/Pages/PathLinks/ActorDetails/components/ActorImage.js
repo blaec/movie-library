@@ -1,9 +1,9 @@
 import React from 'react';
 
-import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import {drawer} from "../../../../../utils/Constants";
 import {isMovieInCast} from "../../../../../utils/Utils";
+import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 
 import {makeStyles, Typography} from "@material-ui/core";
 
@@ -14,15 +14,16 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         paddingLeft: theme.spacing(6),
     },
+    skeleton: {
+        display: 'flex',
+        height: 50,
+        width: '100%',
+    },
     sticky: {
         position: 'fixed',
-        display: 'flex',
-        // marginTop: -10,
         zIndex: 2,
         backgroundColor: '#5c6bc0',
-        height: 50,
         color: 'white',
-        width: '100%',
         [`@media (orientation:landscape)`]: {
             width: `calc(80% - ${drawer.width * .8}px)`,
         },
@@ -34,15 +35,15 @@ const useStyles = makeStyles((theme) => ({
 
 const actorImage = (props) => {
     const {movies, actorDetails: {name}, movieList, moviesInCollection, onClose} = props;
-    const {sticky, actor} = useStyles();
+    const {sticky, skeleton, actor} = useStyles();
 
-    let elem = <MyLoader/>;
+    let elem = <MyRectSkeleton className={skeleton}/>;
     if (name !== undefined) {
         const moviesSize = movies
             .filter(movie => isMovieInCast(moviesInCollection, movie.tmdbId))
             .reduce(((sum, movie) => sum + movie.size), 0);
         elem = (
-            <div className={sticky}>
+            <div className={`${sticky} ${skeleton}`}>
                 <MyArrowBack onClose={onClose}/>
                 <Typography className={actor}
                             variant="h6">

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 
 import MyTabPanel from "../../../../../UI/MyTabPanel";
-import MyLoader from "../../../../../UI/Spinners/MyLoader";
 import Description from "./InfoComponents/Tabs/Description";
 import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
@@ -12,8 +11,10 @@ import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
 import {previousLocation} from "../../../../../store/localStorage/actions";
 import {reactLinks} from "../../../../../utils/UrlUtils";
 import {MovieTab} from "../../../../../utils/Constants";
+import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
+import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
 
-import {makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
+import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 
 
@@ -46,7 +47,16 @@ const info = () => {
     }, []);
 
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails)) && isArrayExist(cast);
-    let info = <MyLoader/>
+    let info = (
+        <Box>
+            <MyTextSkeleton width='40%'/>
+            <MyTextSkeleton width='50%'/>
+            <MyTextSkeleton width='80%' center/>
+            <MyTextSkeleton width='60%' center height={50}/>
+            <MyTextSkeleton width='80%' center/>
+            <MyRectSkeleton height={300}/>
+        </Box>
+    );
     if (hasDetails) {
         info = (
             <React.Fragment>

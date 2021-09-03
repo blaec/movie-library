@@ -8,9 +8,9 @@ import ActorFacts from "./components/ActorFacts";
 import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
-import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {isArrayExist, isMovieInCollection, isObjectsExist, isStringExist} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
+import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 
 import {List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
@@ -64,7 +64,10 @@ const actorDetails = () => {
     }, [tmdbApi, actorId]);
 
     let hasData = isObjectsExist(actorDetails, movies);
-    let allMovies = <MyLoader/>;
+    let allMovies = <MyRectSkeleton
+                        className={movieItems}
+                        height={320}
+                    />;
     let movieList = [];
     let moviesInCollection = [];
     if (hasData) {
