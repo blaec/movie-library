@@ -23,7 +23,7 @@ const movieStatusSwitch = (props) => {
         onSwitchChange(!isCollectionMovie);
     };
 
-    const switchElement = (
+    const switchControl = (
         <Switch
             checked={isCollectionMovie}
             onChange={handleCollectionMovieToggle}
@@ -33,7 +33,7 @@ const movieStatusSwitch = (props) => {
     return (
         <FormControlLabel
             className={root}
-            control={switchElement}
+            control={switchControl}
             label={t('text.movieSwitch')}
         />
     );

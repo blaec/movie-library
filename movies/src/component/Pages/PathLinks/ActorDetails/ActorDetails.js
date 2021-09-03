@@ -96,7 +96,7 @@ const actorDetails = () => {
             });
         moviesInCollection = movieList.filter(movie => isMovieInCollection(movies, movie.id));
 
-        const displayMovies = isCollectionMovie ? moviesInCollection : movieList;
+        const moviesToDisplay = isCollectionMovie ? moviesInCollection : movieList;
         allMovies = (
             <div className={movieItems}>
                 <Paper square style={{paddingTop: '50px'}}>
@@ -119,7 +119,7 @@ const actorDetails = () => {
                     <List>
                         <div className={movieItems}>
                             <MovieStatusSwitch onSwitchChange={handleCollectionMovieFilter}/>
-                            {displayMovies.map(movie =>
+                            {moviesToDisplay.map(movie =>
                                 <ActorMovie key={movie.id}
                                             {...movie}
                                             exist={moviesInCollection.includes(movie)}/>)
