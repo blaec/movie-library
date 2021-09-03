@@ -15,18 +15,18 @@ const useStyles = makeStyles((theme) => ({
 const movieStatusSwitch = (props) => {
     const {onSwitchChange} = props;
     const {root} = useStyles();
-    const [dense, setDense] = useState(false);
+    const [isCollectionMovie, setIsCollectionMovie] = useState(false);
     const {t} = useTranslation('common');
 
-    const handleChangeDense = () => {
-        setDense(!dense);
-        onSwitchChange(!dense);
+    const handleCollectionMovieToggle = () => {
+        setIsCollectionMovie(!isCollectionMovie);
+        onSwitchChange(!isCollectionMovie);
     };
 
     const switchElement = (
         <Switch
-            checked={dense}
-            onChange={handleChangeDense}
+            checked={isCollectionMovie}
+            onChange={handleCollectionMovieToggle}
         />
     );
 
@@ -34,7 +34,7 @@ const movieStatusSwitch = (props) => {
         <FormControlLabel
             className={root}
             control={switchElement}
-            label={t('text.densePadding')}
+            label={t('text.movieSwitch')}
         />
     );
 };

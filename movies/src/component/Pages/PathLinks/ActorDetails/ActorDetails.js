@@ -39,7 +39,7 @@ const actorDetails = () => {
     const {t} = useTranslation('common');
 
     const [tabSelected, setTabSelected] = useState(0);
-    const [dense, setDense] = useState(false);
+    const [isCollectionMovie, setIsCollectionMovie] = useState(false);
 
     const movies = useSelector(state => state.collection.movies);
     const tmdbApi = useSelector(state => state.api.tmdb);
@@ -54,8 +54,8 @@ const actorDetails = () => {
         setTabSelected(newValue);
     };
 
-    const handleChangeDense = (value) => {
-        setDense(value);
+    const handleCollectionMovieFilter = (value) => {
+        setIsCollectionMovie(value);
     };
 
     useEffect(() => {
@@ -96,7 +96,7 @@ const actorDetails = () => {
             });
         moviesInCollection = movieList.filter(movie => isMovieInCollection(movies, movie.id));
 
-        const displayMovies = dense ? moviesInCollection : movieList;
+        const displayMovies = isCollectionMovie ? moviesInCollection : movieList;
         allMovies = (
             <div className={movieItems}>
                 <Paper square style={{paddingTop: '50px'}}>
@@ -118,7 +118,7 @@ const actorDetails = () => {
                 <MyTabPanel value={tabSelected} index={1} padding={0}>
                     <List>
                         <div className={movieItems}>
-                            <MovieStatusSwitch onSwitchChange={handleChangeDense}/>
+                            <MovieStatusSwitch onSwitchChange={handleCollectionMovieFilter}/>
                             {displayMovies.map(movie =>
                                 <ActorMovie key={movie.id}
                                             {...movie}
