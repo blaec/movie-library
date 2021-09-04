@@ -87,34 +87,42 @@ public class MovieService {
         return responseBuilder;
     }
 
-    public Response delete(String tmdbId) {
-        Response.Builder responseBuilder = Response.Builder.create();
-
+    public Response.Builder delete(String tmdbId) {
+        Response.Builder responseBuilder;
         try {
-            Movie movie = movieRepository.findByTmdbId(tmdbId);
-            if (movie == null) {
-                String message = String.format("No movie with tmdbId %s exists", tmdbId);
-                log.warn(message);
-                responseBuilder.setTmdbId(tmdbId).setFailMessage(message);
-            } else {
-                int id = movie.getId();
-                movieRepository.deleteById(id);
-                String message = String.format("deleted | %s with id %d", movie, id);
-                log.info(message);
-                responseBuilder.setMovie(movie).setMessage(message);
-            }
+            responseBuilder = deleteMovieByTmdbId(tmdbId);
         } catch (IllegalArgumentException e) {
             String message = String.format("Can't delete movie, wrong tmdbId: %s", tmdbId);
             log.error(message, e);
-            responseBuilder.setTmdbId(tmdbId).setFailMessage(message);
+            responseBuilder = Response.Builder.create().setTmdbId(tmdbId).setFailMessage(message);
         } catch (Exception e) {
             String message = String.format("Failed deleting movie by tmdbId: %s", tmdbId);
-            log.error("Failed deleting movie by tmdbId: {}", tmdbId, e);
-            responseBuilder.setTmdbId(tmdbId).setFailMessage(message);
+            log.error(message, e);
+            responseBuilder = Response.Builder.create().setTmdbId(tmdbId).setFailMessage(message);
         }
 
-        return responseBuilder.build();
+        return responseBuilder;
     }
+
+    private Response.Builder deleteMovieByTmdbId(String tmdbId) {
+        Response.Builder responseBuilder = Response.Builder.create();
+
+        Movie movie = movieRepository.findByTmdbId(tmdbId);
+        if (movie == null) {
+            String message = String.format("No movie with tmdbId %s exists", tmdbId);
+            log.warn(message);
+            responseBuilder.setTmdbId(tmdbId).setFailMessage(message);
+        } else {
+            int id = movie.getId();
+            movieRepository.deleteById(id);
+            String message = String.format("deleted | %s with id %d", movie, id);
+            log.info(message);
+            responseBuilder.setMovie(movie).setMessage(message);
+        }
+
+        return responseBuilder;
+    }
+
 
 /*
    // TODO currently not in use
