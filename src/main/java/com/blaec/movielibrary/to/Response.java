@@ -59,8 +59,9 @@ public class Response {
             return this;
         }
 
-        public Builder setFail() {
+        public Builder setFailMessage(String message) {
             this.isSuccess = false;
+            this.message = message;
             return this;
         }
 

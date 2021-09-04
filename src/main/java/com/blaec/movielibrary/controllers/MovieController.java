@@ -50,12 +50,12 @@ public class MovieController {
 
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
-        return MovieUtils.sortByTitleAndYear(movieService.getAllMovies());
+        return MovieUtils.sortByTitleAndYear(movieService.getAllByTypeMovie());
     }
 
     @GetMapping("/wishlist")
     public Iterable<Movie> getAllWishMovies() {
-        return MovieUtils.sortByReleaseYear(movieService.getAllWishMovies());
+        return MovieUtils.sortByReleaseYear(movieService.getAllByTypeWishlist());
     }
 
     @PostMapping("/filter")
@@ -75,9 +75,9 @@ public class MovieController {
             if (dbMovie.isPresent()) {
                 // TODO temporarily commented
 //                movieService.update(TmdbApiUtils.getMovieById(dbMovie.getTmdbId()), dbMovie);
-                responses.add(Response.Builder.create().setMovie(dbMovie.get()).setFail().setMessage("already exist").build());
+                responses.add(Response.Builder.create().setMovie(dbMovie.get()).setFailMessage("already exist").build());
             } else {
-                responses.add(movieService.save(TmdbApiUtils.getMoviesByNameAndYear(movieFile), movieFile).build());
+                responses.add(movieService.saveToCollection(TmdbApiUtils.getMoviesByNameAndYear(movieFile), movieFile).build());
             }
         }
 
@@ -98,10 +98,10 @@ public class MovieController {
         // Save if file found and there are no duplicates
         if (filteredMovieFiles.size() != 1) {
             log.warn("{} '{}'", message, uploadMovie);
-            responseBuilder.setFail();
+            responseBuilder.setFailMessage(message);
         } else {
             MovieFileTo movieFile = filteredMovieFiles.get(0);
-            responseBuilder = movieService.save(TmdbApiUtils.getMoviesById(uploadMovie.getTmdbId()), movieFile);
+            responseBuilder = movieService.saveToCollection(TmdbApiUtils.getMoviesById(uploadMovie.getTmdbId()), movieFile);
         }
 
         return responseBuilder.build();
@@ -110,7 +110,7 @@ public class MovieController {
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         log.info("uploading wish movie | {}", wishMovie);
-        return movieService.save(TmdbApiUtils.getMoviesById(wishMovie));
+        return movieService.saveToWishlist(TmdbApiUtils.getMoviesById(wishMovie)).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

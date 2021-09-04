@@ -1,5 +1,6 @@
 package com.blaec.movielibrary.model;
 
+import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.to.MovieFileTo;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -59,14 +62,10 @@ public class Movie{
     @NonNull private LocalDate creationDate = LocalDate.now();
 
 
-    /**
-     * Creates Movie object based on properties in Movie Json Object
-     *
-     * @param movieJsonTo   movie json object
-     * @param movieJsonToRu movie json object with russian poster
-     * @return partial Movie object
-     */
-    public static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu) {
+    private static Movie fromJson(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
+        TmdbResult.TmdbMovie movieJsonTo = jsonMovies.get(Language.EN).get();
+        TmdbResult.TmdbMovie movieJsonToRu = jsonMovies.get(Language.RU).get();
+
         Movie movie = new Movie();
         movie.tmdbId = movieJsonTo.getId();
         movie.title = movieJsonTo.getTitle();
@@ -84,16 +83,15 @@ public class Movie{
                 .collect(Collectors.toSet());
     }
 
-    /**
-     * Creates Movie object from Movie Json object and Movie File object
-     *
-     * @param movieJsonTo   movie json object
-     * @param movieJsonToRu movie json object with russian poster
-     * @param movieFileTo   movie file object
-     * @return Movie object
-     */
-    public static Movie of(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu, MovieFileTo movieFileTo) {
-        Movie movie = fromJson(movieJsonTo, movieJsonToRu);
+    public static Movie withWishlistTypeOf(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
+        Movie movie = fromJson(jsonMovies);
+        movie.type = Type.wish_list;
+
+        return movie;
+    }
+
+    public static Movie withMovieTypeOf(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFileTo) {
+        Movie movie = fromJson(jsonMovies);
         movie.type = Type.movie;
         movie.resolution = movieFileTo.getResolution();
         movie.fileName = movieFileTo.getFileName();
