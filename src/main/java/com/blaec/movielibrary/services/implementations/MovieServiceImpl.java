@@ -24,6 +24,7 @@ import java.util.Set;
 public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
 
+
     public Iterable<Movie> getAll() {
         return movieRepository.findAll();
     }
