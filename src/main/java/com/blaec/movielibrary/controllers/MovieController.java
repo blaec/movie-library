@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -50,7 +51,7 @@ public class MovieController {
 
     @PostMapping("/upload/{folder}")
     public Iterable<Response> uploadFromFolder(@PathVariable String folder) {
-        List<MovieFileTo> folderMovies = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
+        List<MovieFileTo> folderMovies = getMoviesFromFolder(folder);
         Iterable<Movie> dbMovies = movieService.getAll();
         List<MovieFileTo> newMovies = folderMovies.stream()
                 .filter(movieFile -> isNewMovie(dbMovies, movieFile))
@@ -63,6 +64,10 @@ public class MovieController {
         }
 
         return responses;
+    }
+
+    private List<MovieFileTo> getMoviesFromFolder(String folder) {
+        return FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
     }
 
     private boolean isNewMovie(Iterable<Movie> dbMovies, MovieFileTo movieFile) {
@@ -85,25 +90,26 @@ public class MovieController {
 
     @PostMapping("/upload/file")
     public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
-        String message = "Not found at all or more than one movie found";
-        Response.Builder responseBuilder = Response.Builder.create(message);
+        Response.Builder responseBuilder = Response.Builder.create();
 
-        // Get all files from folder with the same file name as uploaded movie
-        // Could be more than one (files with the same name from different sub-folders)
-        List<MovieFileTo> filteredMovieFiles = FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(uploadMovie.getLocation(), uploadConfigs)).stream()
-                .filter(movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName()))
+        List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
+                .filter(isFileNameAsRequested(uploadMovie))
                 .collect(Collectors.toList());
 
-        // Save if file found and there are no duplicates
-        if (filteredMovieFiles.size() != 1) {
+        if (moviesWithRequestedFileName.size() != 1) {
+            String message = "Not found at all or more than one movie found";
             log.warn("{} '{}'", message, uploadMovie);
             responseBuilder.setFailMessage(message);
         } else {
-            MovieFileTo movieFile = filteredMovieFiles.get(0);
+            MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
             responseBuilder = movieService.saveToCollection(TmdbApiUtils.getMoviesById(uploadMovie.getTmdbId()), movieFile);
         }
 
         return responseBuilder.build();
+    }
+
+    private Predicate<MovieFileTo> isFileNameAsRequested(SingleFileUpload uploadMovie) {
+        return movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName());
     }
 
     @PostMapping("/upload/wish")
