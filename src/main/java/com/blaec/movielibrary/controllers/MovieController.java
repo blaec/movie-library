@@ -1,5 +1,6 @@
 package com.blaec.movielibrary.controllers;
 
+import com.blaec.movielibrary.api.MovieDataBaseApi;
 import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.model.json.SingleFileUpload;
@@ -10,7 +11,6 @@ import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.utils.FilesUtils;
 import com.blaec.movielibrary.utils.MovieUtils;
-import com.blaec.movielibrary.utils.TmdbApiUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 public class MovieController {
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
+    private final MovieDataBaseApi tmdbApi;
 
 
     @GetMapping("/library")
@@ -62,7 +63,7 @@ public class MovieController {
 
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
         for (MovieFileTo movieFile : newMovies) {
-            Optional<MovieTmdbTo> tmdbMovie = TmdbApiUtils.getMultilangMoviesByNameAndYear(movieFile);
+            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMultilingualMoviesByNameAndYear(movieFile);
             responses.add(movieService.saveToCollection(tmdbMovie, movieFile).build());
         }
 
@@ -105,7 +106,7 @@ public class MovieController {
             responseBuilder.setFailMessage(message);
         } else {
             MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
-            Optional<MovieTmdbTo> tmdbMovie = TmdbApiUtils.getMutlilangMoviesById(uploadMovie.getTmdbId());
+            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMultilingualMoviesById(uploadMovie.getTmdbId());
             responseBuilder = movieService.saveToCollection(tmdbMovie, movieFile);
         }
 
@@ -119,7 +120,7 @@ public class MovieController {
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         log.info("uploading wish movie | {}", wishMovie);
-        Optional<MovieTmdbTo> tmdbMovie = TmdbApiUtils.getMutlilangMoviesById(wishMovie);
+        Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMultilingualMoviesById(wishMovie);
         return movieService.saveToWishlist(tmdbMovie).build();
     }
 
