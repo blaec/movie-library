@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,7 +44,7 @@ public class MovieFileTo {
      * @param file movie file
      * @return MovieFileObject or null if match isn't found
      */
-    public static MovieFileTo from(File file) {
+    public static Optional<MovieFileTo> from(File file) {
         String fileName = file.getName();
         Matcher matcher = MOVIE.matcher(fileName);
         MovieFileTo movieFileObject = null;
@@ -60,7 +61,7 @@ public class MovieFileTo {
                 frameRate == 0 ? 24 : frameRate
             );
         }
-        return movieFileObject;
+        return Optional.ofNullable(movieFileObject);
     }
 
     private static int parseInt(Matcher matcher, String group) {
