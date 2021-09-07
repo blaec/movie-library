@@ -33,18 +33,13 @@ public class TmdbApiUtils {
     private static final Gson gson = new Gson();
     private final TmdbApiConfig apiConfig;
 
+
     @PostConstruct
     private void init() {
         tmdbApiConfig = this.apiConfig;
     }
 
-    /**
-     * Get map of TmdbMovies from MovieFileTo with different languages
-     *
-     * @param movieFile movieTO file for uploading
-     * @return map of TmdbMovies with different languages
-     */
-    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMoviesByNameAndYear(MovieFileTo movieFile) {
+    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMultilangMoviesByNameAndYear(MovieFileTo movieFile) {
         return ImmutableMap.of(
                 Language.EN, TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.EN),
                 Language.RU, TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.RU)
@@ -70,26 +65,11 @@ public class TmdbApiUtils {
         return Optional.ofNullable(foundMovie);
     }
 
-    /**
-     * Get map of TmdbMovies with different languages by tmdbId
-     *
-     * @param tmdbMovie tmdbMovie
-     * @return map of TmdbMovies with different languages
-     */
-    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMoviesById(TmdbResult.TmdbMovie tmdbMovie) {
-        return ImmutableMap.of(
-                Language.EN, TmdbApiUtils.getMovieById(tmdbMovie.getId(), Language.EN),
-                Language.RU, TmdbApiUtils.getMovieById(tmdbMovie.getId(), Language.RU)
-        );
+    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMutlilangMoviesById(TmdbResult.TmdbMovie tmdbMovie) {
+        return getMutlilangMoviesById(tmdbMovie.getId());
     }
 
-    /**
-     * Get map of TmdbMovies with different languages by tmdbId
-     *
-     * @param tmdbId tmdb id
-     * @return map of TmdbMovies with different languages
-     */
-    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMoviesById(String tmdbId) {
+    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMutlilangMoviesById(String tmdbId) {
         return ImmutableMap.of(
                 Language.EN, TmdbApiUtils.getMovieById(tmdbId, Language.EN),
                 Language.RU, TmdbApiUtils.getMovieById(tmdbId, Language.RU)
@@ -126,10 +106,11 @@ public class TmdbApiUtils {
         URL url = null;
         try {
             URIBuilder uri = new URIBuilder(tmdbApiConfig.getEndpoint().getSearch());
-            uri.addParameter(tmdbApiConfig.getName().getTitle(), movieFileTo.getNameDbStyled());
-            uri.addParameter(tmdbApiConfig.getName().getYear(), String.valueOf(movieFileTo.getYear()));
-            uri.addParameter(tmdbApiConfig.getName().getLanguage(), language);
-            uri.addParameter(tmdbApiConfig.getName().getApikey(), tmdbApiConfig.getValue().getApikey());
+            TmdbApiConfig.Name name = tmdbApiConfig.getName();
+            uri.addParameter(name.getTitle(), movieFileTo.getNameDbStyled());
+            uri.addParameter(name.getYear(), String.valueOf(movieFileTo.getYear()));
+            uri.addParameter(name.getLanguage(), language);
+            uri.addParameter(name.getApikey(), tmdbApiConfig.getValue().getApikey());
             url = uri.build().toURL();
         } catch (URISyntaxException e) {
             log.error("wrong uri syntax {}", tmdbApiConfig.getEndpoint().getSearch(), e);

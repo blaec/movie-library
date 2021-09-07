@@ -59,7 +59,7 @@ public class MovieController {
 
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
         for (MovieFileTo movieFile : newMovies) {
-            Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = TmdbApiUtils.getMoviesByNameAndYear(movieFile);
+            Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = TmdbApiUtils.getMultilangMoviesByNameAndYear(movieFile);
             responses.add(movieService.saveToCollection(jsonMovies, movieFile).build());
         }
 
@@ -102,7 +102,7 @@ public class MovieController {
             responseBuilder.setFailMessage(message);
         } else {
             MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
-            responseBuilder = movieService.saveToCollection(TmdbApiUtils.getMoviesById(uploadMovie.getTmdbId()), movieFile);
+            responseBuilder = movieService.saveToCollection(TmdbApiUtils.getMutlilangMoviesById(uploadMovie.getTmdbId()), movieFile);
         }
 
         return responseBuilder.build();
@@ -115,7 +115,7 @@ public class MovieController {
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         log.info("uploading wish movie | {}", wishMovie);
-        return movieService.saveToWishlist(TmdbApiUtils.getMoviesById(wishMovie)).build();
+        return movieService.saveToWishlist(TmdbApiUtils.getMutlilangMoviesById(wishMovie)).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

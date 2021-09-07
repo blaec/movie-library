@@ -43,7 +43,7 @@ public class MovieServiceImpl implements MovieService {
 
     public Response.Builder saveToWishlist(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
         return isAllJsonMoviesPresent(jsonMovies)
-                ? save(Movie.withWishlistTypeOf(jsonMovies))
+                ? save(Movie.createWithWishlistType(jsonMovies))
                 : Response.Builder.create("passed null json object");
     }
 
@@ -58,7 +58,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Response.Builder validateAndSave(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFile) {
-        Movie newMovie = Movie.withMovieTypeOf(jsonMovies, movieFile);
+        Movie newMovie = Movie.createWithMovieType(jsonMovies, movieFile);
         validateMovieByTitle(movieFile, newMovie);
 
         return save(newMovie);

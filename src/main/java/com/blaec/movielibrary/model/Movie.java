@@ -83,14 +83,14 @@ public class Movie{
                 .collect(Collectors.toSet());
     }
 
-    public static Movie withWishlistTypeOf(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
+    public static Movie createWithWishlistType(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
         Movie movie = fromJson(jsonMovies);
         movie.type = Type.wish_list;
 
         return movie;
     }
 
-    public static Movie withMovieTypeOf(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFileTo) {
+    public static Movie createWithMovieType(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFileTo) {
         Movie movie = fromJson(jsonMovies);
         movie.type = Type.movie;
         movie.resolution = movieFileTo.getResolution();

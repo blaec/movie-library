@@ -5,11 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class Response {
-    // TODO for some reason React replaces isSomething to something
     private final Integer id;
     private final String tmbdId;
     private final String title;
-    private final boolean isSuccess;
+    private final boolean isSuccess;    // for some reason React replaces isSomething to something
     private final String message;
 
     private Response(Builder builder) {
@@ -46,11 +45,6 @@ public class Response {
             this.id = movie.getId();
             this.tmbdId = movie.getTmdbId();
             this.title = movie.getTitle();
-            return this;
-        }
-
-        public Builder setId(Integer id) {
-            this.id = id;
             return this;
         }
 
