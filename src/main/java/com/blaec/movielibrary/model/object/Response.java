@@ -1,4 +1,4 @@
-package com.blaec.movielibrary.to;
+package com.blaec.movielibrary.model.object;
 
 import com.blaec.movielibrary.model.Movie;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.blaec.movielibrary.to;
+package com.blaec.movielibrary.model.to;
 
 import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.utils.FilesUtils;

@@ -1,4 +1,4 @@
-package com.blaec.movielibrary.to;
+package com.blaec.movielibrary.model.json;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

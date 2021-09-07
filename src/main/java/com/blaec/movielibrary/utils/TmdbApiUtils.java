@@ -2,8 +2,8 @@ package com.blaec.movielibrary.utils;
 
 import com.blaec.movielibrary.configs.TmdbApiConfig;
 import com.blaec.movielibrary.enums.Language;
-import com.blaec.movielibrary.to.MovieFileTo;
-import com.blaec.movielibrary.to.TmdbResult;
+import com.blaec.movielibrary.model.to.MovieFileTo;
+import com.blaec.movielibrary.model.json.TmdbResult;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import lombok.AccessLevel;

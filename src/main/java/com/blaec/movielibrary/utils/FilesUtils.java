@@ -1,7 +1,7 @@
 package com.blaec.movielibrary.utils;
 
 
-import com.blaec.movielibrary.to.MovieFileTo;
+import com.blaec.movielibrary.model.to.MovieFileTo;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;

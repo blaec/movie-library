@@ -2,9 +2,9 @@ package com.blaec.movielibrary.services;
 
 import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.model.Movie;
-import com.blaec.movielibrary.to.MovieFileTo;
-import com.blaec.movielibrary.to.Response;
-import com.blaec.movielibrary.to.TmdbResult;
+import com.blaec.movielibrary.model.to.MovieFileTo;
+import com.blaec.movielibrary.model.object.Response;
+import com.blaec.movielibrary.model.json.TmdbResult;
 
 import java.util.Map;
 import java.util.Optional;
