@@ -1,19 +1,17 @@
 package com.blaec.movielibrary.services.implementations;
 
-import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
+import com.blaec.movielibrary.model.object.Response;
+import com.blaec.movielibrary.model.to.MovieFileTo;
+import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.services.MovieService;
-import com.blaec.movielibrary.model.to.MovieFileTo;
-import com.blaec.movielibrary.model.object.Response;
-import com.blaec.movielibrary.model.json.TmdbResult;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,24 +39,20 @@ public class MovieServiceImpl implements MovieService {
         return movieRepository.findAllByGenreId(genres);
     }
 
-    public Response.Builder saveToWishlist(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
-        return isAllJsonMoviesPresent(jsonMovies)
-                ? save(Movie.createWithWishlistType(jsonMovies))
-                : Response.Builder.create("passed null json object");
+    public Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie) {
+        return tmdbMovie
+                .map(movieTmdbTo -> save(Movie.createWithWishlistType(movieTmdbTo)))
+                .orElseGet(() -> Response.Builder.create("passed null json object"));
     }
 
-    public Response.Builder saveToCollection(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFile) {
-        return isAllJsonMoviesPresent(jsonMovies)
-                ? validateAndSave(jsonMovies, movieFile)
-                : Response.Builder.create("passed null json object");
+    public Response.Builder saveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile) {
+        return tmdbMovie
+                .map(movieTmdbTo -> validateAndSaveToCollection(movieTmdbTo, movieFile))
+                .orElseGet(() -> Response.Builder.create("passed null json object"));
     }
 
-    private boolean isAllJsonMoviesPresent(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
-        return jsonMovies.values().stream().allMatch(Optional::isPresent);
-    }
-
-    private Response.Builder validateAndSave(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFile) {
-        Movie newMovie = Movie.createWithMovieType(jsonMovies, movieFile);
+    private Response.Builder validateAndSaveToCollection(MovieTmdbTo tmdbMovie, MovieFileTo movieFile) {
+        Movie newMovie = Movie.createWithMovieType(tmdbMovie, movieFile);
         validateMovieByTitle(movieFile, newMovie);
 
         return save(newMovie);
@@ -124,20 +118,4 @@ public class MovieServiceImpl implements MovieService {
 
         return responseBuilder;
     }
-
-
-/*
-   // TODO currently not in use
-   public void update(TmdbResult.TmdbMovie movieJson, Movie movie) {
-        try {
-            movie.setConvertedGenres(movieJson.getGenres());
-            // need to delete children before saving a-new to prevent error
-            movieRepository.delete(movie);
-            Movie updatedMovie = movieRepository.save(movie);
-            log.info("updated | {}", updatedMovie);
-        } catch (Exception e) {
-            log.error(movie.toString(), e);
-        }
-    }
-*/
 }

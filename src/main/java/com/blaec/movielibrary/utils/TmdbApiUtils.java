@@ -2,8 +2,9 @@ package com.blaec.movielibrary.utils;
 
 import com.blaec.movielibrary.configs.TmdbApiConfig;
 import com.blaec.movielibrary.enums.Language;
-import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.json.TmdbResult;
+import com.blaec.movielibrary.model.to.MovieFileTo;
+import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import lombok.AccessLevel;
@@ -22,7 +23,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -39,11 +39,13 @@ public class TmdbApiUtils {
         tmdbApiConfig = this.apiConfig;
     }
 
-    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMultilangMoviesByNameAndYear(MovieFileTo movieFile) {
-        return ImmutableMap.of(
+    public static Optional<MovieTmdbTo> getMultilangMoviesByNameAndYear(MovieFileTo movieFile) {
+        ImmutableMap<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = ImmutableMap.of(
                 Language.EN, TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.EN),
                 Language.RU, TmdbApiUtils.getMovieByNameAndYear(movieFile, Language.RU)
         );
+
+        return MovieTmdbTo.fromJson(jsonMovies);
     }
 
     /**
@@ -65,15 +67,17 @@ public class TmdbApiUtils {
         return Optional.ofNullable(foundMovie);
     }
 
-    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMutlilangMoviesById(TmdbResult.TmdbMovie tmdbMovie) {
+    public static Optional<MovieTmdbTo> getMutlilangMoviesById(TmdbResult.TmdbMovie tmdbMovie) {
         return getMutlilangMoviesById(tmdbMovie.getId());
     }
 
-    public static Map<Language, Optional<TmdbResult.TmdbMovie>> getMutlilangMoviesById(String tmdbId) {
-        return ImmutableMap.of(
+    public static Optional<MovieTmdbTo> getMutlilangMoviesById(String tmdbId) {
+        ImmutableMap<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = ImmutableMap.of(
                 Language.EN, TmdbApiUtils.getMovieById(tmdbId, Language.EN),
                 Language.RU, TmdbApiUtils.getMovieById(tmdbId, Language.RU)
         );
+
+        return MovieTmdbTo.fromJson(jsonMovies);
     }
 
     /**

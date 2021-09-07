@@ -1,20 +1,15 @@
 package com.blaec.movielibrary.model;
 
-import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.to.MovieFileTo;
-import com.blaec.movielibrary.model.json.TmdbResult;
+import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Entity
@@ -62,36 +57,27 @@ public class Movie{
     @NonNull private LocalDate creationDate = LocalDate.now();
 
 
-    private static Movie fromJson(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
-        TmdbResult.TmdbMovie movieJsonTo = jsonMovies.get(Language.EN).get();
-        TmdbResult.TmdbMovie movieJsonToRu = jsonMovies.get(Language.RU).get();
-
+    private static Movie fromTmdb(MovieTmdbTo tmdbMovie) {
         Movie movie = new Movie();
-        movie.tmdbId = movieJsonTo.getId();
-        movie.title = movieJsonTo.getTitle();
-        movie.releaseDate = movieJsonTo.getRelease_date();
-        movie.posterPath = movieJsonTo.getPoster_path();
-        movie.posterPathRu = movieJsonToRu.getPoster_path();
-        movie.genres = convertGenreIds(movieJsonTo.getGenre_ids());
+        movie.tmdbId = tmdbMovie.getTmdbId();
+        movie.title = tmdbMovie.getTitle();
+        movie.releaseDate = tmdbMovie.getReleaseDate();
+        movie.posterPath = tmdbMovie.getPosterPath();
+        movie.posterPathRu = tmdbMovie.getPosterPathRu();
+        movie.genres = tmdbMovie.getGenres();
 
         return movie;
     }
 
-    private static Set<Genre> convertGenreIds(List<Integer> genres) {
-        return genres.stream()
-                .map(genreId -> new Genre(null, genreId))
-                .collect(Collectors.toSet());
-    }
-
-    public static Movie createWithWishlistType(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies) {
-        Movie movie = fromJson(jsonMovies);
+    public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
+        Movie movie = fromTmdb(tmdbMovie);
         movie.type = Type.wish_list;
 
         return movie;
     }
 
-    public static Movie createWithMovieType(Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies, MovieFileTo movieFileTo) {
-        Movie movie = fromJson(jsonMovies);
+    public static Movie createWithMovieType(MovieTmdbTo tmdbMovie, MovieFileTo movieFileTo) {
+        Movie movie = fromTmdb(tmdbMovie);
         movie.type = Type.movie;
         movie.resolution = movieFileTo.getResolution();
         movie.fileName = movieFileTo.getFileName();
@@ -101,22 +87,6 @@ public class Movie{
         movie.frameRate = movieFileTo.getFrameRate();
 
         return movie;
-    }
-
-    public Movie assignType(Type type) {
-        this.type = type;
-        return this;
-    }
-
-    // TODO currently not in use
-    public void setConvertedGenres(List<TmdbResult.Genre> genres) {
-        this.genres = extractGenres(genres);
-    }
-
-    private static Set<Genre> extractGenres(List<TmdbResult.Genre> genres) {
-        return genres.stream()
-                .map(genre -> new Genre(null, Integer.valueOf(genre.getId())))
-                .collect(Collectors.toSet());
     }
 
     @Override

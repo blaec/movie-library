@@ -1,13 +1,13 @@
 package com.blaec.movielibrary.controllers;
 
 import com.blaec.movielibrary.configs.UploadConfigs;
-import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.model.Movie;
-import com.blaec.movielibrary.services.MovieService;
-import com.blaec.movielibrary.model.to.MovieFileTo;
-import com.blaec.movielibrary.model.object.Response;
 import com.blaec.movielibrary.model.json.SingleFileUpload;
 import com.blaec.movielibrary.model.json.TmdbResult;
+import com.blaec.movielibrary.model.object.Response;
+import com.blaec.movielibrary.model.to.MovieFileTo;
+import com.blaec.movielibrary.model.to.MovieTmdbTo;
+import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.utils.FilesUtils;
 import com.blaec.movielibrary.utils.MovieUtils;
 import com.blaec.movielibrary.utils.TmdbApiUtils;
@@ -15,7 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -59,8 +62,8 @@ public class MovieController {
 
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
         for (MovieFileTo movieFile : newMovies) {
-            Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = TmdbApiUtils.getMultilangMoviesByNameAndYear(movieFile);
-            responses.add(movieService.saveToCollection(jsonMovies, movieFile).build());
+            Optional<MovieTmdbTo> tmdbMovie = TmdbApiUtils.getMultilangMoviesByNameAndYear(movieFile);
+            responses.add(movieService.saveToCollection(tmdbMovie, movieFile).build());
         }
 
         return responses;
@@ -102,8 +105,8 @@ public class MovieController {
             responseBuilder.setFailMessage(message);
         } else {
             MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
-            Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = TmdbApiUtils.getMutlilangMoviesById(uploadMovie.getTmdbId());
-            responseBuilder = movieService.saveToCollection(jsonMovies, movieFile);
+            Optional<MovieTmdbTo> tmdbMovie = TmdbApiUtils.getMutlilangMoviesById(uploadMovie.getTmdbId());
+            responseBuilder = movieService.saveToCollection(tmdbMovie, movieFile);
         }
 
         return responseBuilder.build();
@@ -116,8 +119,8 @@ public class MovieController {
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         log.info("uploading wish movie | {}", wishMovie);
-        Map<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = TmdbApiUtils.getMutlilangMoviesById(wishMovie);
-        return movieService.saveToWishlist(jsonMovies).build();
+        Optional<MovieTmdbTo> tmdbMovie = TmdbApiUtils.getMutlilangMoviesById(wishMovie);
+        return movieService.saveToWishlist(tmdbMovie).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")
