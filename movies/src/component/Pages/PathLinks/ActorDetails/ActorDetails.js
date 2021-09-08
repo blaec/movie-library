@@ -99,8 +99,8 @@ const actorDetails = () => {
 
         const moviesToDisplay = isCollectionMovie ? moviesInCollection : movieList;
         let actorMovies = moviesToDisplay.length > 0
-            ? moviesToDisplay.map(movie =>
-                <ActorMovie key={movie.id}
+            ? moviesToDisplay.map((movie, index) =>
+                <ActorMovie key={`${index}${movie.id}`}
                             {...movie}
                             exist={moviesInCollection.includes(movie)}/>
             )
