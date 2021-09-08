@@ -31,7 +31,7 @@ public class TmdbApiImpl implements MovieDataBaseApi {
 
 
     @Override
-    public Optional<MovieTmdbTo> getMultilingualMoviesByNameAndYear(MovieFileTo movieFile) {
+    public Optional<MovieTmdbTo> getMovieByNameAndYear(MovieFileTo movieFile) {
         ImmutableMap<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = ImmutableMap.of(
                 Language.EN, getMovieByNameAndYear(movieFile, Language.EN),
                 Language.RU, getMovieByNameAndYear(movieFile, Language.RU)
@@ -105,12 +105,12 @@ public class TmdbApiImpl implements MovieDataBaseApi {
     }
 
     @Override
-    public Optional<MovieTmdbTo> getMultilingualMoviesById(TmdbResult.TmdbMovie tmdbMovie) {
-        return getMultilingualMoviesById(tmdbMovie.getId());
+    public Optional<MovieTmdbTo> getMovieById(TmdbResult.TmdbMovie tmdbMovie) {
+        return getMovieById(tmdbMovie.getId());
     }
 
     @Override
-    public Optional<MovieTmdbTo> getMultilingualMoviesById(String tmdbId) {
+    public Optional<MovieTmdbTo> getMovieById(String tmdbId) {
         ImmutableMap<Language, Optional<TmdbResult.TmdbMovie>> jsonMovies = ImmutableMap.of(
                 Language.EN, getMovieById(tmdbId, Language.EN),
                 Language.RU, getMovieById(tmdbId, Language.RU)

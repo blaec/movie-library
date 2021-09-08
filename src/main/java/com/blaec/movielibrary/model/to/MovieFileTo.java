@@ -63,8 +63,6 @@ public class MovieFileTo {
 
     /**
      * Replace some symbols (that aren't allowed in file name) to new symbols as they are saved in db
-     *
-     * @return file movie name converted for comparing with db movie name
      */
     public String getNameDbStyled() {
         return name.replace("..", ":")

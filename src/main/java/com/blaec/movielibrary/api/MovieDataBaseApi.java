@@ -7,7 +7,7 @@ import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import java.util.Optional;
 
 public interface MovieDataBaseApi {
-    Optional<MovieTmdbTo> getMultilingualMoviesByNameAndYear(MovieFileTo movieFile);
-    Optional<MovieTmdbTo> getMultilingualMoviesById(TmdbResult.TmdbMovie tmdbMovie);
-    Optional<MovieTmdbTo> getMultilingualMoviesById(String tmdbId);
+    Optional<MovieTmdbTo> getMovieByNameAndYear(MovieFileTo movieFile);
+    Optional<MovieTmdbTo> getMovieById(TmdbResult.TmdbMovie tmdbMovie);
+    Optional<MovieTmdbTo> getMovieById(String tmdbId);
 }

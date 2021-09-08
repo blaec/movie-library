@@ -63,7 +63,7 @@ public class MovieController {
 
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
         for (MovieFileTo movieFile : newMovies) {
-            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMultilingualMoviesByNameAndYear(movieFile);
+            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieByNameAndYear(movieFile);
             responses.add(movieService.saveToCollection(tmdbMovie, movieFile).build());
         }
 
@@ -106,7 +106,7 @@ public class MovieController {
             responseBuilder.setFailMessage(message);
         } else {
             MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
-            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMultilingualMoviesById(uploadMovie.getTmdbId());
+            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());
             responseBuilder = movieService.saveToCollection(tmdbMovie, movieFile);
         }
 
@@ -120,7 +120,7 @@ public class MovieController {
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         log.info("uploading wish movie | {}", wishMovie);
-        Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMultilingualMoviesById(wishMovie);
+        Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(wishMovie);
         return movieService.saveToWishlist(tmdbMovie).build();
     }
 
