@@ -2,20 +2,16 @@ import React from 'react';
 import {useTranslation} from "react-i18next";
 
 import Fact from "../../../../../UI/Fact";
-import {fullYear, isStringExist} from "../../../../../utils/Utils";
+import {isStringExist} from "../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
 
 const getActorAge = (birthday, deathday) => {
-    let age = null;
-    if (isStringExist(birthday)) {
-        const from = isStringExist(deathday)
-            ? Date.parse(deathday)
-            : Date.now();
-        age = Math.abs(new Date(from - Date.parse(birthday)).getUTCFullYear() - 1970);
-    }
+    const from = isStringExist(deathday)
+        ? Date.parse(deathday)
+        : Date.now();
 
-    return age;
+    return Math.abs(new Date(from - Date.parse(birthday)).getUTCFullYear() - 1970);
 };
 
 const actorFacts = (props) => {
