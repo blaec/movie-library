@@ -6,6 +6,18 @@ import {fullYear, isStringExist} from "../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
 
+const getActorAge = (birthday, deathday) => {
+    let age = null;
+    if (isStringExist(birthday)) {
+        const from = isStringExist(deathday)
+            ? Date.parse(deathday)
+            : Date.now();
+        age = Math.abs(new Date(from - Date.parse(birthday)).getUTCFullYear() - 1970);
+    }
+
+    return age;
+};
+
 const actorFacts = (props) => {
     const {
         details: {
@@ -18,9 +30,7 @@ const actorFacts = (props) => {
     } = props;
     const {t} = useTranslation('common');
 
-    const age = isStringExist(birthday)
-        ? new Date().getFullYear() - fullYear(birthday)
-        : null;
+    const age = getActorAge(birthday, deathday);
     return (
         <Typography component="div">
             <Fact header={t('text.born')}
