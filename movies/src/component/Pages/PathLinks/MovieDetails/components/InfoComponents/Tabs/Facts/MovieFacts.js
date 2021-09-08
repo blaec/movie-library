@@ -2,9 +2,10 @@ import React from 'react';
 import {useTranslation} from "react-i18next";
 
 import Fact from "../../../../../../../../UI/Fact";
-import {joinNames} from "../../../../../../../../utils/Utils";
+import {isArrayExist, joinNames} from "../../../../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
+import {ReleaseType} from "../../../../../../../../utils/Constants";
 
 const movieFacts = (props) => {
     const {
@@ -19,7 +20,8 @@ const movieFacts = (props) => {
             production_companies,
             production_countries,
             original_language,
-            original_title
+            original_title,
+            release_dates
         },
     } = props;
     const {t} = useTranslation('common');
@@ -32,6 +34,22 @@ const movieFacts = (props) => {
         //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
         //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
     });
+
+    const usReleaseDates = release_dates.results
+        .filter(result => result.iso_3166_1 === 'US')
+        .map(rd => rd.release_dates);
+    let usReleases = null;
+    if (isArrayExist(usReleaseDates)) {
+        usReleases = usReleaseDates[0].map((rd, index) => {
+            const {type, release_date} = rd;
+            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+            return (
+                <Fact key={index}
+                      header={`${t('text.released')} ${ReleaseType[type]}: `}
+                      text={`${new Date(release_date).toLocaleDateString("en-GB", options)}`}/>
+            )
+        });
+    }
 
     return (
         <Typography component="div">
@@ -47,6 +65,7 @@ const movieFacts = (props) => {
                   text={Awards}/>
             <Fact header={t('text.released')}
                   text={Released}/>
+            {usReleases}
             <Fact header="DVD: "
                   text={DVD}/>
             <Fact header={t('text.productionCompanies')}

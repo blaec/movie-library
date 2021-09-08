@@ -82,7 +82,7 @@ export const getOmdbMovieDetails = (imdbId, omdbApi) => {
 export const getMovieDetailsUrl = (id, tmdbApi) => {
     const backdropParams = {
         ...api_lang_params(),
-        append_to_response: 'images',
+        append_to_response: 'images,release_dates',
         include_image_language: `${language.get()},null`
     };
     const params = {...backdropParams, ...{api_key: tmdbApi}};
