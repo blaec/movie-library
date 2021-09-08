@@ -1,4 +1,4 @@
-package com.blaec.movielibrary.to;
+package com.blaec.movielibrary.model.json;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,9 +38,6 @@ public class TmdbResult {
 
     /**
      * Convert parameter genres in TmdbMovie into genre_ids
-     *
-     * @param movie tmdb movie
-     * @return converted movie
      */
     public static TmdbResult.TmdbMovie convertGenres(TmdbResult.TmdbMovie movie) {
         movie.setGenre_ids(movie.getGenres().stream()

@@ -1,4 +1,4 @@
-package com.blaec.movielibrary.to;
+package com.blaec.movielibrary.model.to;
 
 import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.utils.FilesUtils;
@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,19 +16,16 @@ import java.util.regex.Pattern;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MovieFileTo {
-    // mandatory properties
     private final String name;
     private final int year;
     private final Resolution resolution;
     private final double size;
     private final String location;
     private final String fileName;
-
-    // optional properties
     private final String description;
     private final int frameRate;
 
-    private static final Pattern MOVIE = Pattern.compile
+    private static final Pattern FILE_NAME = Pattern.compile
         (
             "(?<order>\\d{3}. )?" +
             "(?<name>[ ,-.\\w'&ampéÆ!·³;]+?) " +
@@ -37,15 +35,9 @@ public class MovieFileTo {
             "( \\[(?<frameRate>\\d+)fps])?"
         );
 
-    /**
-     * Creates movie file object from movie file
-     *
-     * @param file movie file
-     * @return MovieFileObject or null if match isn't found
-     */
-    public static MovieFileTo from(File file) {
+    public static Optional<MovieFileTo> from(File file) {
         String fileName = file.getName();
-        Matcher matcher = MOVIE.matcher(fileName);
+        Matcher matcher = FILE_NAME.matcher(fileName);
         MovieFileTo movieFileObject = null;
         if (matcher.find()) {
             int frameRate = parseInt(matcher, "frameRate");
@@ -60,7 +52,8 @@ public class MovieFileTo {
                 frameRate == 0 ? 24 : frameRate
             );
         }
-        return movieFileObject;
+
+        return Optional.ofNullable(movieFileObject);
     }
 
     private static int parseInt(Matcher matcher, String group) {
@@ -70,28 +63,10 @@ public class MovieFileTo {
 
     /**
      * Replace some symbols (that aren't allowed in file name) to new symbols as they are saved in db
-     *
-     * @return file movie name converted for comparing with db movie name
      */
     public String getNameDbStyled() {
         return name.replace("..", ":")
                    .replace(",.","?");
-    }
-
-    /**
-     * Replace some symbols in file name to new symbols allowed in url link
-     *
-     * @return file movie name converted to url file name
-     */
-    // FIXME probably should be removed
-    public String getNameUrlStyled() {
-        return name;
-//        return name.replace("..", "%3A")
-//                   .replace(",.", "%3F")
-//                   .replace("é", "%C3%A9")
-//                   .replace("&", "%26")
-//                   .replace("·", "%C2%B7")
-//                   .replace("³", "%C2%B3");
     }
 
     @Override

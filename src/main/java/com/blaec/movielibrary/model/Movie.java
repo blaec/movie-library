@@ -2,21 +2,19 @@ package com.blaec.movielibrary.model;
 
 import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.enums.Type;
-import com.blaec.movielibrary.to.MovieFileTo;
-import com.blaec.movielibrary.to.TmdbResult;
+import com.blaec.movielibrary.model.to.MovieFileTo;
+import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Entity
 @Getter
-@Setter
+@Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "movies")
 public class Movie{
@@ -58,80 +56,37 @@ public class Movie{
     @Column(name="creation_date")
     @NonNull private LocalDate creationDate = LocalDate.now();
 
-//    /**
-//     * Creates Wish-Movie object from Movie Json Object
-//     *
-//     * @param movieJsonTo movie json object
-//     * @return Movie object with type <b>wish_list</b>
-//     */
-//    public static Movie from(TmdbResult.TmdbMovie movieJsonTo) {
-//        return fromJson(movieJsonTo, movieJsonTo).assignType(Type.wish_list);
-//    }
 
-    /**
-     * Creates Movie object from Movie Json object and Movie File object
-     *
-     * @param movieJsonTo   movie json object
-     * @param movieJsonToRu movie json object with russian poster
-     * @param movieFileTo   movie file object
-     * @return Movie object
-     */
-    public static Movie of(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu, MovieFileTo movieFileTo) {
-        Movie movie = fromJson(movieJsonTo, movieJsonToRu);
-        movie.setType(Type.movie);
-
-        // add movie file object
-        movie.setResolution(movieFileTo.getResolution());
-        movie.setFileName(movieFileTo.getFileName());
-        movie.setSize(movieFileTo.getSize());
-        movie.setLocation(movieFileTo.getLocation());
-        movie.setDescription(movieFileTo.getDescription());
-        movie.setFrameRate(movieFileTo.getFrameRate());
-        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
-
-        return movie;
-    }
-
-    /**
-     * Creates Movie object based on properties in Movie Json Object
-     *
-     * @param movieJsonTo   movie json object
-     * @param movieJsonToRu movie json object with russian poster
-     * @return partial Movie object
-     */
-    public static Movie fromJson(TmdbResult.TmdbMovie movieJsonTo, TmdbResult.TmdbMovie movieJsonToRu) {
+    private static Movie fromTmdb(MovieTmdbTo tmdbMovie) {
         Movie movie = new Movie();
-
-        // add movie json object
-        movie.setTmdbId(movieJsonTo.getId());
-        movie.setTitle(movieJsonTo.getTitle());
-        movie.setReleaseDate(movieJsonTo.getRelease_date());
-        movie.setPosterPath(movieJsonTo.getPoster_path());
-        movie.setPosterPathRu(movieJsonToRu.getPoster_path());
-        movie.setGenres(convertGenreIds(movieJsonTo.getGenre_ids()));
+        movie.tmdbId = tmdbMovie.getTmdbId();
+        movie.title = tmdbMovie.getTitle();
+        movie.releaseDate = tmdbMovie.getReleaseDate();
+        movie.posterPath = tmdbMovie.getPosterPath();
+        movie.posterPathRu = tmdbMovie.getPosterPathRu();
+        movie.genres = tmdbMovie.getGenres();
 
         return movie;
     }
 
-    public Movie assignType(Type type) {
-        this.type = type;
-        return this;
+    public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
+        Movie movie = fromTmdb(tmdbMovie);
+        movie.type = Type.wish_list;
+
+        return movie;
     }
 
-    public void setConvertedGenres(List<TmdbResult.Genre> genres) {
-        this.genres = extractGenres(genres);
-    }
+    public static Movie createWithMovieType(MovieTmdbTo tmdbMovie, MovieFileTo movieFileTo) {
+        Movie movie = fromTmdb(tmdbMovie);
+        movie.type = Type.movie;
+        movie.resolution = movieFileTo.getResolution();
+        movie.fileName = movieFileTo.getFileName();
+        movie.size = movieFileTo.getSize();
+        movie.location = movieFileTo.getLocation();
+        movie.description = movieFileTo.getDescription();
+        movie.frameRate = movieFileTo.getFrameRate();
 
-    private static Set<Genre> convertGenreIds(List<Integer> genres) {
-        return genres.stream()
-                .map(genreId -> new Genre(null, genreId))
-                .collect(Collectors.toSet());
-    }
-
-    private static Set<Genre> extractGenres(List<TmdbResult.Genre> genres) {
-        return genres.stream()
-                .map(genre -> new Genre(null, Integer.valueOf(genre.getId())))
-                .collect(Collectors.toSet());
+        return movie;
     }
 
     @Override

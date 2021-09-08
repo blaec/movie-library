@@ -1,15 +1,14 @@
-package com.blaec.movielibrary.to;
+package com.blaec.movielibrary.model.object;
 
 import com.blaec.movielibrary.model.Movie;
 import lombok.Getter;
 
 @Getter
 public class Response {
-    // TODO for some reason React replaces isSomething to something
     private final Integer id;
     private final String tmbdId;
     private final String title;
-    private final boolean isSuccess;
+    private final boolean isSuccess;    // for some reason React replaces isSomething to something
     private final String message;
 
     private Response(Builder builder) {
@@ -49,18 +48,14 @@ public class Response {
             return this;
         }
 
-        public Builder setId(Integer id) {
-            this.id = id;
-            return this;
-        }
-
         public Builder setTmdbId(String tmbdId) {
             this.tmbdId = tmbdId;
             return this;
         }
 
-        public Builder setFail() {
+        public Builder setFailMessage(String message) {
             this.isSuccess = false;
+            this.message = message;
             return this;
         }
 

@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Setter
+@Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Table(name = "genres")
