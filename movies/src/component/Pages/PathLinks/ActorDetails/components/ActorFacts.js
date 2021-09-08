@@ -2,9 +2,17 @@ import React from 'react';
 import {useTranslation} from "react-i18next";
 
 import Fact from "../../../../../UI/Fact";
-import {fullYear, isStringExist} from "../../../../../utils/Utils";
+import {isStringExist} from "../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
+
+const getActorAge = (birthday, deathday) => {
+    const from = isStringExist(deathday)
+        ? Date.parse(deathday)
+        : Date.now();
+
+    return Math.abs(new Date(from - Date.parse(birthday)).getUTCFullYear() - 1970);
+};
 
 const actorFacts = (props) => {
     const {
@@ -18,9 +26,7 @@ const actorFacts = (props) => {
     } = props;
     const {t} = useTranslation('common');
 
-    const age = isStringExist(birthday)
-        ? new Date().getFullYear() - fullYear(birthday)
-        : null;
+    const age = getActorAge(birthday, deathday);
     return (
         <Typography component="div">
             <Fact header={t('text.born')}
