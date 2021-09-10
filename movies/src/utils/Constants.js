@@ -74,7 +74,7 @@ export const Language = Object.freeze(
 export const ReleaseType = Object.freeze(
     {
         1: 'Premiere',
-        2: 'Theatrical (limited)',
+        2: 'Theatrical Ltd',
         3: 'Theatrical',
         4: 'Digital',
         5: 'Physical',

@@ -1,13 +1,23 @@
 import React from 'react';
 import {useTranslation} from "react-i18next";
 
+import Release from "./Release";
 import Fact from "../../../../../../../../UI/Fact";
 import {isArrayExist, joinNames} from "../../../../../../../../utils/Utils";
 
-import {Typography} from "@material-ui/core";
+import {makeStyles, Paper, Typography} from "@material-ui/core";
 import {ReleaseType} from "../../../../../../../../utils/Constants";
 
+const useStyles = makeStyles((theme) => ({
+    images: {
+        display: 'flex',
+        overflow: 'auto',
+    },
+}));
+
+
 const movieFacts = (props) => {
+    const {images} = useStyles();
     const {
         details: {
             Director,
@@ -41,12 +51,13 @@ const movieFacts = (props) => {
     let usReleases = null;
     if (isArrayExist(usReleaseDates)) {
         usReleases = usReleaseDates[0].map((rd, index) => {
-            const {type, release_date} = rd;
-            const options = { year: 'numeric', month: 'short', day: '2-digit' };
+            // const {type, release_date} = rd;
+            // const options = { year: 'numeric', month: 'short', day: '2-digit' };
             return (
-                <Fact key={index}
-                      header={`${t('text.released')} ${ReleaseType[type]}: `}
-                      text={`${new Date(release_date).toLocaleDateString("en-GB", options)}`}/>
+                <Release key={index} data={rd}/>
+                // <Fact key={index}
+                //       header={`${t('text.released')} ${ReleaseType[type]}: `}
+                //       text={`${new Date(release_date).toLocaleDateString("en-GB", options)}`}/>
             )
         });
     }
@@ -65,7 +76,6 @@ const movieFacts = (props) => {
                   text={Awards}/>
             <Fact header={t('text.released')}
                   text={Released}/>
-            {usReleases}
             <Fact header="DVD: "
                   text={DVD}/>
             <Fact header={t('text.productionCompanies')}
@@ -76,6 +86,11 @@ const movieFacts = (props) => {
                   text={original_language}/>
             <Fact header={t('text.originalTitle')}
                   text={original_title}/>
+            <Fact header={t('text.released')}
+                  text=" "/>
+            <div className={images}>
+                {usReleases}
+            </div>
         </Typography>
     );
 };
