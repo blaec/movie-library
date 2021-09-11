@@ -4,7 +4,7 @@ import {ReleaseType} from "../../../../../../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        margin: theme.spacing(.5),
+        margin: theme.spacing(0, 1, .5, 0),
         padding: theme.spacing(1),
         minWidth: theme.spacing(15),
     },
