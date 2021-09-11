@@ -1,25 +1,26 @@
 import React from 'react';
 import {useTranslation} from "react-i18next";
 
+import Releases from "./releases/Releases";
 import Fact from "../../../../../../../../UI/Fact";
 import {joinNames} from "../../../../../../../../utils/Utils";
 
 import {Typography} from "@material-ui/core";
+
 
 const movieFacts = (props) => {
     const {
         details: {
             Director,
             Awards,
-            Released,
-            DVD,
             Title,
             budget,
             revenue,
             production_companies,
             production_countries,
             original_language,
-            original_title
+            original_title,
+            release_dates
         },
     } = props;
     const {t} = useTranslation('common');
@@ -27,10 +28,7 @@ const movieFacts = (props) => {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-
-        // These options are needed to round to whole numbers if that's what you want.
-        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+        maximumFractionDigits: 0,
     });
 
     return (
@@ -45,10 +43,6 @@ const movieFacts = (props) => {
                   text={formatter.format(revenue)}/>
             <Fact header={t('text.awards')}
                   text={Awards}/>
-            <Fact header={t('text.released')}
-                  text={Released}/>
-            <Fact header="DVD: "
-                  text={DVD}/>
             <Fact header={t('text.productionCompanies')}
                   text={joinNames(production_companies)}/>
             <Fact header={t('text.productionCountries')}
@@ -57,6 +51,7 @@ const movieFacts = (props) => {
                   text={original_language}/>
             <Fact header={t('text.originalTitle')}
                   text={original_title}/>
+            <Releases releaseDates={release_dates}/>
         </Typography>
     );
 };
