@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, makeStyles, Paper, Typography} from "@material-ui/core";
+import {makeStyles, Paper, Typography} from "@material-ui/core";
 import {ReleaseType} from "../../../../../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
@@ -8,16 +8,20 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
         minWidth: theme.spacing(15),
     },
+    headerFont: {
+        fontWeight: 700,
+    },
 }));
 
 const release = (props) => {
     const {data : {type, release_date}} = props;
-    const {root} = useStyles();
+    const {root, headerFont} = useStyles();
     const options = { year: 'numeric', month: 'short', day: '2-digit' };
 
     return (
         <Paper className={root}>
             <Typography
+                className={headerFont}
                 display='block'
                 variant='subtitle1'
             >
