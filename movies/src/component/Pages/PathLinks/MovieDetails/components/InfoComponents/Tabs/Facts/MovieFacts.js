@@ -1,22 +1,14 @@
 import React from 'react';
 import {useTranslation} from "react-i18next";
 
-import Release from "./Release";
+import Releases from "./releases/Releases";
 import Fact from "../../../../../../../../UI/Fact";
-import {isArrayExist, joinNames} from "../../../../../../../../utils/Utils";
+import {joinNames} from "../../../../../../../../utils/Utils";
 
-import {makeStyles, Typography} from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-    releases: {
-        display: 'flex',
-        overflow: 'auto',
-    },
-}));
+import {Typography} from "@material-ui/core";
 
 
 const movieFacts = (props) => {
-    const {releases} = useStyles();
     const {
         details: {
             Director,
@@ -36,25 +28,8 @@ const movieFacts = (props) => {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-
-        // These options are needed to round to whole numbers if that's what you want.
-        //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-        //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+        maximumFractionDigits: 0,
     });
-
-    const usReleaseDates = release_dates.results
-        .filter(result => result.iso_3166_1 === 'US')
-        .map(rd => rd.release_dates);
-    let usReleases = null;
-    if (isArrayExist(usReleaseDates)) {
-        usReleases = usReleaseDates[0].map((rd, index) => (
-            <Release
-                key={index}
-                data={rd}
-            />
-        ));
-    }
-    const showReleases = usReleases === null ? '' : ' ';
 
     return (
         <Typography component="div">
@@ -76,11 +51,7 @@ const movieFacts = (props) => {
                   text={original_language}/>
             <Fact header={t('text.originalTitle')}
                   text={original_title}/>
-            <Fact header={t('text.releases')}
-                  text={showReleases}/>
-            <div className={releases}>
-                {usReleases}
-            </div>
+            <Releases releaseDates={release_dates}/>
         </Typography>
     );
 };

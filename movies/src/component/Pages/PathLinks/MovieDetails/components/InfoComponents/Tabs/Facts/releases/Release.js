@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles, Paper, Typography} from "@material-ui/core";
-import {ReleaseType} from "../../../../../../../../utils/Constants";
+import {ReleaseType} from "../../../../../../../../../utils/Constants";
 
 const useStyles = makeStyles((theme) => ({
     root: {
