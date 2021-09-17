@@ -24,19 +24,19 @@ public class MovieServiceImpl implements MovieService {
 
 
     public Iterable<Movie> getAll() {
-        return movieRepository.findAll();
+        return movieRepository.getAll();
     }
 
     public Iterable<Movie> getAllByTypeMovie() {
-        return movieRepository.findAllByType(Type.movie);
+        return movieRepository.getAllByType(Type.movie);
     }
 
     public Iterable<Movie> getAllByTypeWishlist() {
-        return movieRepository.findAllByType(Type.wish_list);
+        return movieRepository.getAllByType(Type.wish_list);
     }
 
     public Iterable<Movie> getAllByGenres(Set<Integer> genres) {
-        return movieRepository.findAllByGenreId(genres);
+        return movieRepository.getAllByGenreId(genres);
     }
 
     public Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie) {
@@ -103,7 +103,7 @@ public class MovieServiceImpl implements MovieService {
     private Response.Builder deleteMovieByTmdbId(String tmdbId) {
         Response.Builder responseBuilder = Response.Builder.create();
 
-        Movie movie = movieRepository.findByTmdbId(tmdbId);
+        Movie movie = movieRepository.getByTmdbId(tmdbId);
         if (movie == null) {
             String message = String.format("No movie with tmdbId %s exists", tmdbId);
             log.warn(message);
