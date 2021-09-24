@@ -8,7 +8,9 @@ public class Response {
     private final Integer id;
     private final String tmbdId;
     private final String title;
-    private final boolean isSuccess;    // for some reason React replaces isSomething to something
+    // probably during serialization which is used by getters + setters + is-getters
+    // field isSomething replaced to something
+    private final boolean isSuccess;
     private final String message;
 
     private Response(Builder builder) {
