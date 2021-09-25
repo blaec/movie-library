@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/movies")
+@RequestMapping(MovieController.URL)
 @CrossOrigin(origins = "*")
 @RestController
 public class MovieController {
@@ -32,6 +32,7 @@ public class MovieController {
     private final MovieService movieService;
     private final MovieDataBaseApi tmdbApi;
 
+    static final String URL = "/movies";
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
