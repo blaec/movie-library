@@ -15,7 +15,7 @@ public class TestMatcher {
     }
 
     public void assertContainAll(Iterable<Movie> actual, Iterable<Movie> expected) {
-        assertThat(actual).usingElementComparatorIgnoringFields(
+        final String[] ignoreFields = {
                 "id",
                 "releaseDate",
                 "posterPath",
@@ -24,7 +24,10 @@ public class TestMatcher {
                 "size",
                 "location",
                 "creationDate"
-        ).containsAll(expected);
+        };
+        assertThat(actual)
+                .usingElementComparatorIgnoringFields(ignoreFields)
+                .containsAll(expected);
     }
 
     public ResultMatcher contentJson(Iterable<Movie> expected) {
