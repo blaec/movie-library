@@ -1,5 +1,6 @@
 package com.blaec.movielibrary.controllers;
 
+import com.blaec.movielibrary.TestMatcher;
 import com.blaec.movielibrary.services.MovieService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,8 @@ class MovieControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andExpect(MEAL_TO_MATCHER.contentJson(MOVIES))
+                .andExpect(TestMatcher.getInstance().contentJson(MOVIES));
+//                .andExpect(MovieTestData.contentJson(MOVIES))
         ;
     }
 

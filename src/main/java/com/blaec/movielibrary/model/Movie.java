@@ -50,7 +50,7 @@ public class Movie {
     private Resolution resolution;
 
     @Column(name="file_name")
-    @NonNull private String fileName;
+    private String fileName;
     private Double size = 0d;
     private String location;
     private String description;
