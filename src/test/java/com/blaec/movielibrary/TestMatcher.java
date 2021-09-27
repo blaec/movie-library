@@ -14,11 +14,20 @@ public class TestMatcher {
         return new TestMatcher();
     }
 
-    public void assertMatch(Iterable<Movie> actual, Iterable<Movie> expected) {
-        assertThat(actual).isEqualTo(expected);
+    public void assertContainAll(Iterable<Movie> actual, Iterable<Movie> expected) {
+        assertThat(actual).usingElementComparatorIgnoringFields(
+                "id",
+                "releaseDate",
+                "posterPath",
+                "posterPathRu",
+                "genres",
+                "size",
+                "location",
+                "creationDate"
+        ).containsAll(expected);
     }
 
     public ResultMatcher contentJson(Iterable<Movie> expected) {
-        return result -> assertMatch(readListFromJsonMvcResult(result), expected);
+        return result -> assertContainAll(readListFromJsonMvcResult(result), expected);
     }
 }

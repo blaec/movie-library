@@ -32,7 +32,6 @@ class MovieControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(TestMatcher.getInstance().contentJson(MOVIES));
-//                .andExpect(MovieTestData.contentJson(MOVIES))
         ;
     }
 
