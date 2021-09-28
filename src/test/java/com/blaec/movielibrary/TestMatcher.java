@@ -7,30 +7,23 @@ import static com.blaec.movielibrary.TestUtils.readListFromJsonMvcResult;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestMatcher {
-    private TestMatcher() {
+    private final String[] fieldsToIgnore;
+
+    private TestMatcher(String... fieldsToIgnore) {
+        this.fieldsToIgnore = fieldsToIgnore;
     }
 
-    public static TestMatcher getInstance() {
-        return new TestMatcher();
+    public static TestMatcher getInstance(String... fieldsToIgnore) {
+        return new TestMatcher(fieldsToIgnore);
     }
 
     public void assertContainAll(Iterable<Movie> actual, Iterable<Movie> expected) {
-        final String[] ignoreFields = {
-                "id",
-                "releaseDate",
-                "posterPath",
-                "posterPathRu",
-                "genres",
-                "size",
-                "location",
-                "creationDate"
-        };
         assertThat(actual)
-                .usingElementComparatorIgnoringFields(ignoreFields)
+                .usingElementComparatorIgnoringFields(fieldsToIgnore)
                 .containsAll(expected);
     }
 
-    public ResultMatcher contentJson(Iterable<Movie> expected) {
+    public ResultMatcher containsAll(Iterable<Movie> expected) {
         return result -> assertContainAll(readListFromJsonMvcResult(result), expected);
     }
 }

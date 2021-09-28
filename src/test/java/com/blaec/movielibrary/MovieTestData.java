@@ -13,6 +13,17 @@ import java.util.Map;
 import java.util.Optional;
 
 public class MovieTestData {
+    public static final String[] IGNORED_FIELDS = {
+            "id",
+            "releaseDate",
+            "posterPath",
+            "posterPathRu",
+            "genres",
+            "size",
+            "location",
+            "creationDate"
+    };
+
     public static final TmdbResult.Genre ACTION = new TmdbResult.Genre("28", "Action");
     public static final TmdbResult.Genre ADVENTURE = new TmdbResult.Genre("12", "Adventure");
     public static final TmdbResult.Genre ANIMATION = new TmdbResult.Genre("16", "Animation");

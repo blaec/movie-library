@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.blaec.movielibrary.MovieTestData.IGNORED_FIELDS;
 import static com.blaec.movielibrary.MovieTestData.MOVIES;
 import static com.blaec.movielibrary.controllers.MovieController.URL;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,8 +32,7 @@ class MovieControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(TestMatcher.getInstance().contentJson(MOVIES));
-        ;
+                .andExpect(TestMatcher.getInstance(IGNORED_FIELDS).containsAll(MOVIES));
     }
 
     @Test
