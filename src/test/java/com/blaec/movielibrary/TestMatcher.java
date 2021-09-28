@@ -1,5 +1,6 @@
 package com.blaec.movielibrary;
 
+import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -23,7 +24,33 @@ public class TestMatcher {
                 .containsAll(expected);
     }
 
+    public void assertNotEmpty(Iterable<Movie> actual) {
+        assertThat(actual).isNotEmpty();
+    }
+
+    public void assertAllMatchByField(Iterable<Movie> actual, Type expected) {
+        assertThat(actual)
+                .allMatch(movie -> movie.getType() == expected);
+    }
+
+    public void assertNoneMatchByField(Iterable<Movie> actual, Type expected) {
+        assertThat(actual)
+                .noneMatch(movie -> movie.getType() == expected);
+    }
+
     public ResultMatcher containsAll(Iterable<Movie> expected) {
         return result -> assertContainAll(readListFromJsonMvcResult(result), expected);
+    }
+
+    public ResultMatcher notEmpty() {
+        return result -> assertNotEmpty(readListFromJsonMvcResult(result));
+    }
+
+    public ResultMatcher containsAllWithType(Type expected) {
+        return result -> assertAllMatchByField(readListFromJsonMvcResult(result), expected);
+    }
+
+    public ResultMatcher notContainsAnyWithType(Type expected) {
+        return result -> assertNoneMatchByField(readListFromJsonMvcResult(result), expected);
     }
 }
