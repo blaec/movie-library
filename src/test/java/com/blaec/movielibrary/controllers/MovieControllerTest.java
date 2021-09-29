@@ -11,13 +11,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Set;
 
-import static com.blaec.movielibrary.MovieTestData.IGNORED_FIELDS;
-import static com.blaec.movielibrary.MovieTestData.MOVIES;
+import static com.blaec.movielibrary.MovieTestData.*;
 import static com.blaec.movielibrary.controllers.MovieController.URL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 class MovieControllerTest extends AbstractControllerTest {
@@ -91,6 +89,13 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     void saveWishMovie() throws Exception {
+        perform(MockMvcRequestBuilders.post(URL + "/upload/wish")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(TMDB_WISH_MOVIE)))
+                .andExpect(jsonPath("$.tmbdId").value(TMDB_WISH_MOVIE.getId()))
+                .andExpect(jsonPath("$.title").value(TMDB_WISH_MOVIE.getTitle()))
+                .andExpect(jsonPath("$.message").value("Successfully saved"))
+                .andExpect(jsonPath("$.success").value(true));
     }
 
     @Test
