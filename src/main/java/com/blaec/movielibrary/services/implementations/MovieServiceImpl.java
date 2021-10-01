@@ -73,8 +73,8 @@ public class MovieServiceImpl implements MovieService {
             log.info("saved | {}", savedMovie);
             responseBuilder.setMovie(savedMovie).setMessage("Successfully saved");
         } catch (DataIntegrityViolationException e) {
-            log.error("this movie [{}] already exist", newMovie);
-            responseBuilder.setMovie(newMovie).setFailMessage("Already exist");
+            log.error("this movie [{}] already exists", newMovie);
+            responseBuilder.setMovie(newMovie).setFailMessage("Already exist");     // TODO change to Duplicate entry, fix tests and react
         } catch (Exception e) {
             log.error(newMovie.toString(), e);
             responseBuilder.setMovie(newMovie).setFailMessage(e.getMessage());

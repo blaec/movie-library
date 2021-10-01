@@ -81,7 +81,7 @@ public class MovieController {
         for (MovieFileTo movieFile : folderMovies) {
             if (!newMovies.contains(movieFile)) {
                 Response existingMovie = Response.Builder.create()
-                        .setFailMessage("already exist")
+                        .setFailMessage("Already exist")
                         .build();
                 responses.add(existingMovie);
             }

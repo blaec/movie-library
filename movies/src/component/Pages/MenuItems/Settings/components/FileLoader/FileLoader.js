@@ -84,7 +84,7 @@ const fileLoader = () => {
         if (isArrayExist(saveResults) && loader === Loader.folderScan) {
             setIsLoading(false);
             let resultCount = saveResults.length;
-            let alreadyExistCount = saveResults.filter(result => result.message === 'already exist').length
+            let alreadyExistCount = saveResults.filter(result => result.message === 'Already exist').length
             let successCount = saveResults.filter(result => result.success).length;
             let failCount = saveResults.filter(result => !result.success).length - alreadyExistCount;
 

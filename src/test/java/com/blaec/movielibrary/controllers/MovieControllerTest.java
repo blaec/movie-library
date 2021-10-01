@@ -15,7 +15,7 @@ import java.util.Set;
 import static com.blaec.movielibrary.MovieTestData.*;
 import static com.blaec.movielibrary.controllers.MovieController.URL;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -83,6 +83,12 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     void uploadFromFolder() throws Exception {
+        perform(MockMvcRequestBuilders.post(URL + "/upload/music"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.*").isNotEmpty())
+                .andExpect(jsonPath("$[*].message", hasItems("Successfully saved")))
+                .andExpect(jsonPath("$[*].success", hasItems(true)))
+                ;
     }
 
     @Test
