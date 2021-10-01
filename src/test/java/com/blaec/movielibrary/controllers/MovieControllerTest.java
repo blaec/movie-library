@@ -86,7 +86,7 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     void uploadMovie() throws Exception {
-        SingleFileUpload singleFileUpload = new SingleFileUpload("music", "10307", "Stigmata (1999) [720p].mkv");
+        SingleFileUpload singleFileUpload = new SingleFileUpload("serialMovies", "337170", "American Made (2017) [1080p].mkv");
         perform(MockMvcRequestBuilders.post(URL + "/upload/file")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(singleFileUpload)))
