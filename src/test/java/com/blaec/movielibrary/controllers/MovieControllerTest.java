@@ -41,8 +41,10 @@ class MovieControllerTest extends AbstractControllerTest {
     @Test
     @Order(20)
     void getAll() throws Exception {
+        final String url = String.format("%s/library", URL);
+
         TestMatcher matcher = getTestMatcher();
-        ResultActions resultActions = perform(MockMvcRequestBuilders.get(URL + "/library"));
+        ResultActions resultActions = perform(MockMvcRequestBuilders.get(url));
         validate(resultActions)
                 .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(matcher.containsAll(MOVIES));
@@ -51,18 +53,20 @@ class MovieControllerTest extends AbstractControllerTest {
     @Test
     @Order(21)
     void getAllMovies() throws Exception {
-        getAllByType("/gallery", Type.movie, Type.wish_list);
+        getAllByType("gallery", Type.movie, Type.wish_list);
     }
 
     @Test
     @Order(22)
     void getAllWishMovies() throws Exception {
-        getAllByType("/wishlist", Type.wish_list, Type.movie);
+        getAllByType("wishlist", Type.wish_list, Type.movie);
     }
 
     private void getAllByType(String path, Type expected, Type missing) throws Exception {
+        final String url = String.format("%s/%s", URL, path);
+
         TestMatcher matcher = getTestMatcher();
-        ResultActions resultActions = perform(MockMvcRequestBuilders.get(URL + path));
+        ResultActions resultActions = perform(MockMvcRequestBuilders.get(url));
         validate(resultActions)
                 .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(matcher.containsAllWithType(expected))
@@ -104,15 +108,20 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     private ResultActions getAllFilteredByGenres(Set<Integer> genres) throws Exception {
-        return perform(MockMvcRequestBuilders.post(URL + "/filter")
+        final String url = String.format("%s/filter", URL);
+
+        return perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(genres)));
     }
 
     @Test
     @Order(30)
-   void uploadFromFolder() throws Exception {
-        ResultActions resultActions = perform(MockMvcRequestBuilders.post(URL + "/upload/music"));
+    void uploadFromFolder() throws Exception {
+        final String folder = "music";
+        final String url = String.format("%s/upload/%s", URL, folder);
+
+        ResultActions resultActions = perform(MockMvcRequestBuilders.post(url));
         validate(resultActions)
                 .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(jsonPath("$[*].message", hasItems(SUCCESS_MESSAGE)))
@@ -122,8 +131,10 @@ class MovieControllerTest extends AbstractControllerTest {
     @Test
     @Order(40)
     void uploadMovie() throws Exception {
-        SingleFileUpload singleFileUpload = new SingleFileUpload("serialMovies", "337170", "American Made (2017) [1080p].mkv");
-        ResultActions resultActions = perform(MockMvcRequestBuilders.post(URL + "/upload/file")
+        final SingleFileUpload singleFileUpload = new SingleFileUpload("serialMovies", "337170", "American Made (2017) [1080p].mkv");
+        final String url = String.format("%s/upload/file", URL);
+
+        ResultActions resultActions = perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(singleFileUpload)));
         validate(resultActions)
@@ -136,7 +147,9 @@ class MovieControllerTest extends AbstractControllerTest {
     @Test
     @Order(50)
     void saveWishMovie() throws Exception {
-        ResultActions resultActions = perform(MockMvcRequestBuilders.post(URL + "/upload/wish")
+        final String url = String.format("%s/upload/wish", URL);
+
+        ResultActions resultActions = perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(TMDB_WISH_MOVIE)));
         validate(resultActions)
@@ -149,7 +162,10 @@ class MovieControllerTest extends AbstractControllerTest {
     @Test
     @Order(60)
     void delete() throws Exception {
-        ResultActions resultActions = perform(MockMvcRequestBuilders.delete(URL + "/delete/" + "19995"));
+        final int tmdbId = 19995;
+        final String url = String.format("%s/delete/%d", URL, tmdbId);
+
+        ResultActions resultActions = perform(MockMvcRequestBuilders.delete(url));
         validate(resultActions)
                 .andExpect(jsonPath("$.tmbdId").value(MOVIE_2.getTmdbId()))
                 .andExpect(jsonPath("$.title").value(MOVIE_2.getTitle()))
