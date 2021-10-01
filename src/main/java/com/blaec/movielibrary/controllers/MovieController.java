@@ -95,7 +95,7 @@ public class MovieController {
         Response.Builder responseBuilder = Response.Builder.create();
 
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
-                .filter(isFileNameAsRequested(uploadMovie))
+                .filter(isFileNameMatchRequested(uploadMovie))
                 .collect(Collectors.toList());
 
         if (moviesWithRequestedFileName.size() != 1) {
@@ -111,7 +111,7 @@ public class MovieController {
         return responseBuilder.build();
     }
 
-    private Predicate<MovieFileTo> isFileNameAsRequested(SingleFileUpload uploadMovie) {
+    private Predicate<MovieFileTo> isFileNameMatchRequested(SingleFileUpload uploadMovie) {
         return movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName());
     }
 

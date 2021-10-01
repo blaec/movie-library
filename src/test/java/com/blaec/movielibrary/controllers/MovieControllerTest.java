@@ -2,6 +2,7 @@ package com.blaec.movielibrary.controllers;
 
 import com.blaec.movielibrary.TestMatcher;
 import com.blaec.movielibrary.enums.Type;
+import com.blaec.movielibrary.model.json.SingleFileUpload;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.utils.JsonUtil;
 import org.junit.jupiter.api.Test;
@@ -85,6 +86,11 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     void uploadMovie() throws Exception {
+        SingleFileUpload singleFileUpload = new SingleFileUpload("music", "10307", "Stigmata (1999) [720p].mkv");
+        perform(MockMvcRequestBuilders.post(URL + "/upload/file")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(singleFileUpload)))
+                .andExpect(jsonPath("$.success").value(true));
     }
 
     @Test
