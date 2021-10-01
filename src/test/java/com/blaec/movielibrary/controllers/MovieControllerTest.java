@@ -6,6 +6,7 @@ import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.model.json.SingleFileUpload;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.utils.JsonUtil;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,11 +33,13 @@ class MovieControllerTest extends AbstractControllerTest {
     public static final String SUCCESS_MESSAGE = "Successfully saved";
 
     @Test
+    @Order(10)
     public void contextLoads() {
         assertThat(movieService).isNotNull();
     }
 
     @Test
+    @Order(20)
     void getAll() throws Exception {
         TestMatcher matcher = getTestMatcher();
         ResultActions resultActions = perform(MockMvcRequestBuilders.get(URL + "/library"));
@@ -46,11 +49,13 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Order(21)
     void getAllMovies() throws Exception {
         getAllByType("/gallery", Type.movie, Type.wish_list);
     }
 
     @Test
+    @Order(22)
     void getAllWishMovies() throws Exception {
         getAllByType("/wishlist", Type.wish_list, Type.movie);
     }
@@ -65,6 +70,7 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Order(23)
     void getAllByGenres() throws Exception {
         final Set<Integer> genres = Set.of(14, 80);
         final List<Movie> expected = List.of(MOVIE_2, MOVIE_1);
@@ -80,6 +86,7 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Order(24)
     void getAllByNonExistingGenres() throws Exception {
         final Set<Integer> genres = Set.of(99, 10770);
 
@@ -88,6 +95,7 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Order(25)
     void getAllByEmptyGenres() throws Exception {
         final Set<Integer> genres = Collections.emptySet();
 
@@ -102,7 +110,8 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    void uploadFromFolder() throws Exception {
+    @Order(30)
+   void uploadFromFolder() throws Exception {
         ResultActions resultActions = perform(MockMvcRequestBuilders.post(URL + "/upload/music"));
         validate(resultActions)
                 .andExpect(jsonPath("$.*").isNotEmpty())
@@ -111,6 +120,7 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Order(40)
     void uploadMovie() throws Exception {
         SingleFileUpload singleFileUpload = new SingleFileUpload("serialMovies", "337170", "American Made (2017) [1080p].mkv");
         ResultActions resultActions = perform(MockMvcRequestBuilders.post(URL + "/upload/file")
@@ -124,6 +134,7 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Order(50)
     void saveWishMovie() throws Exception {
         ResultActions resultActions = perform(MockMvcRequestBuilders.post(URL + "/upload/wish")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -136,6 +147,7 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Order(60)
     void delete() throws Exception {
         ResultActions resultActions = perform(MockMvcRequestBuilders.delete(URL + "/delete/" + "19995"));
         validate(resultActions)
