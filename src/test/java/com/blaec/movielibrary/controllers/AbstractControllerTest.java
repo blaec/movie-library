@@ -9,6 +9,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Can't use application.yaml with test settings in resource folder -
+ * because it's settings are overridden by same file from config folder
+ */
 @TestPropertySource(
         properties = {
                 "spring.datasource.url=jdbc:mysql://localhost:3306/dummy_movie_library?serverTimezone=UTC",

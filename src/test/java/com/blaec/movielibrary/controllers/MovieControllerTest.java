@@ -90,6 +90,9 @@ class MovieControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(URL + "/upload/file")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(singleFileUpload)))
+                .andExpect(jsonPath("$.tmbdId").value(singleFileUpload.getTmdbId()))
+                .andExpect(jsonPath("$.title").value("American Made"))
+                .andExpect(jsonPath("$.message").value("Successfully saved"))
                 .andExpect(jsonPath("$.success").value(true));
     }
 
