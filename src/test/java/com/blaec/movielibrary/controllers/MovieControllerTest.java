@@ -15,6 +15,7 @@ import java.util.Set;
 import static com.blaec.movielibrary.MovieTestData.*;
 import static com.blaec.movielibrary.controllers.MovieController.URL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -109,5 +110,11 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(URL + "/delete/" + "19995"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.tmbdId").value(MOVIE_2.getTmdbId()))
+                .andExpect(jsonPath("$.title").value(MOVIE_2.getTitle()))
+                .andExpect(jsonPath("$.message", startsWith("deleted | #19995 Avatar (2009-12-10)")))
+                .andExpect(jsonPath("$.success").value(true));
     }
 }
