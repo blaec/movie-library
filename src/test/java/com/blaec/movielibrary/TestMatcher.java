@@ -14,7 +14,7 @@ public class TestMatcher {
         this.fieldsToIgnore = fieldsToIgnore;
     }
 
-    public static TestMatcher getInstance(String... fieldsToIgnore) {
+    public static TestMatcher createInstance(String... fieldsToIgnore) {
         return new TestMatcher(fieldsToIgnore);
     }
 
@@ -22,6 +22,12 @@ public class TestMatcher {
         assertThat(actual)
                 .usingElementComparatorIgnoringFields(fieldsToIgnore)
                 .containsAll(expected);
+    }
+
+    public void assertNotContainAny(Iterable<Movie> actual, Iterable<Movie> expected) {
+        assertThat(actual)
+                .usingElementComparatorIgnoringFields(fieldsToIgnore)
+                .doesNotContainAnyElementsOf(expected);
     }
 
     public void assertNotEmpty(Iterable<Movie> actual) {
@@ -40,6 +46,10 @@ public class TestMatcher {
 
     public ResultMatcher containsAll(Iterable<Movie> expected) {
         return result -> assertContainAll(readListFromJsonMvcResult(result), expected);
+    }
+
+    public ResultMatcher notContainsAny(Iterable<Movie> expected) {
+        return result -> assertNotContainAny(readListFromJsonMvcResult(result), expected);
     }
 
     public ResultMatcher notEmpty() {
