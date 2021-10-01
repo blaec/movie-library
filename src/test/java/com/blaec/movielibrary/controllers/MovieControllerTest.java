@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -37,10 +38,10 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     void getAll() throws Exception {
-        TestMatcher matcher = TestMatcher.createInstance(IGNORED_FIELDS);
+        TestMatcher matcher = getTestMatcher();
         ResultActions resultActions = perform(MockMvcRequestBuilders.get(URL + "/library"));
         validate(resultActions)
-                .andExpect(matcher.notEmpty())
+                .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(matcher.containsAll(MOVIES));
     }
 
@@ -55,30 +56,49 @@ class MovieControllerTest extends AbstractControllerTest {
     }
 
     private void getAllByType(String path, Type expected, Type missing) throws Exception {
-        TestMatcher matcher = TestMatcher.createInstance(IGNORED_FIELDS);
+        TestMatcher matcher = getTestMatcher();
         ResultActions resultActions = perform(MockMvcRequestBuilders.get(URL + path));
         validate(resultActions)
-                .andExpect(matcher.notEmpty())
+                .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(matcher.containsAllWithType(expected))
                 .andExpect(matcher.notContainsAnyWithType(missing));
     }
 
     @Test
     void getAllByGenres() throws Exception {
-        TestMatcher matcher = TestMatcher.createInstance(IGNORED_FIELDS);
         final Set<Integer> genres = Set.of(14, 80);
         final List<Movie> expected = List.of(MOVIE_2, MOVIE_1);
         final List<Movie> notExpected = List.of(MOVIE_3);
 
-        ResultActions resultActions = perform(MockMvcRequestBuilders.post(URL + "/filter")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(genres)));
-        validate(resultActions)
-                .andExpect(matcher.notEmpty())
+        TestMatcher matcher = getTestMatcher();
+        validate(getAllFilteredByGenres(genres))
+                .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(matcher.containsAllWithType(Type.movie))
                 .andExpect(matcher.notContainsAnyWithType(Type.wish_list))
                 .andExpect(matcher.containsAll(expected))
                 .andExpect(matcher.notContainsAny(notExpected));
+    }
+
+    @Test
+    void getAllByNonExistingGenres() throws Exception {
+        final Set<Integer> genres = Set.of(99, 10770);
+
+        validate(getAllFilteredByGenres(genres))
+                .andExpect(jsonPath("$.*").isEmpty());
+    }
+
+    @Test
+    void getAllByEmptyGenres() throws Exception {
+        final Set<Integer> genres = Collections.emptySet();
+
+        validate(getAllFilteredByGenres(genres))
+                .andExpect(jsonPath("$.*").isEmpty());
+    }
+
+    private ResultActions getAllFilteredByGenres(Set<Integer> genres) throws Exception {
+        return perform(MockMvcRequestBuilders.post(URL + "/filter")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(genres)));
     }
 
     @Test
@@ -87,8 +107,7 @@ class MovieControllerTest extends AbstractControllerTest {
         validate(resultActions)
                 .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(jsonPath("$[*].message", hasItems(SUCCESS_MESSAGE)))
-                .andExpect(jsonPath("$[*].success", hasItems(true)))
-                ;
+                .andExpect(jsonPath("$[*].success", hasItems(true)));
     }
 
     @Test

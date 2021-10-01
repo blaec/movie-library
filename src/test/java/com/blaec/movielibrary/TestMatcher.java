@@ -30,10 +30,6 @@ public class TestMatcher {
                 .doesNotContainAnyElementsOf(expected);
     }
 
-    public void assertNotEmpty(Iterable<Movie> actual) {
-        assertThat(actual).isNotEmpty();
-    }
-
     public void assertAllMatchByField(Iterable<Movie> actual, Type expected) {
         assertThat(actual)
                 .allMatch(movie -> movie.getType() == expected);
@@ -50,10 +46,6 @@ public class TestMatcher {
 
     public ResultMatcher notContainsAny(Iterable<Movie> expected) {
         return result -> assertNotContainAny(readListFromJsonMvcResult(result), expected);
-    }
-
-    public ResultMatcher notEmpty() {
-        return result -> assertNotEmpty(readListFromJsonMvcResult(result));
     }
 
     public ResultMatcher containsAllWithType(Type expected) {
