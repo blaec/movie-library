@@ -124,6 +124,7 @@ class MovieControllerTest extends AbstractControllerTest {
         ResultActions resultActions = perform(MockMvcRequestBuilders.post(url));
         validate(resultActions)
                 .andExpect(jsonPath("$.*").isNotEmpty())
+                .andExpect(jsonPath("$[*].message", hasItems("Already exist")))
                 .andExpect(jsonPath("$[*].message", hasItems(SUCCESS_MESSAGE)))
                 .andExpect(jsonPath("$[*].success", hasItems(true)));
     }
