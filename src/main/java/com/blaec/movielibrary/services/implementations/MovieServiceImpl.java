@@ -23,58 +23,70 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
 
 
+    @Override
     public Iterable<Movie> getAll() {
-        return movieRepository.findAll();
+        return movieRepository.getAll();
     }
 
+    @Override
     public Iterable<Movie> getAllByTypeMovie() {
-        return movieRepository.findAllByType(Type.movie);
+        return movieRepository.getAllByType(Type.movie);
     }
 
+    @Override
     public Iterable<Movie> getAllByTypeWishlist() {
-        return movieRepository.findAllByType(Type.wish_list);
+        return movieRepository.getAllByType(Type.wish_list);
     }
 
+    @Override
     public Iterable<Movie> getAllByGenres(Set<Integer> genres) {
-        return movieRepository.findAllByGenreId(genres);
+        return movieRepository.getAllByGenreId(genres);
     }
 
+    @Override
     public Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie) {
         return tmdbMovie
                 .map(movieTmdbTo -> save(Movie.createWithWishlistType(movieTmdbTo)))
-                .orElseGet(() -> Response.Builder.create("passed null json object"));
+                .orElseGet(() -> Response.Builder.create().setMessage("passed null json object"));
     }
 
+    @Override
     public Response.Builder saveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile) {
         return tmdbMovie
                 .map(movieTmdbTo -> validateAndSaveToCollection(movieTmdbTo, movieFile))
-                .orElseGet(() -> Response.Builder.create("passed null json object"));
+                .orElseGet(() -> Response.Builder.create().setFailMessage("passed null json object"));
     }
 
     private Response.Builder validateAndSaveToCollection(MovieTmdbTo tmdbMovie, MovieFileTo movieFile) {
         Movie newMovie = Movie.createWithMovieType(tmdbMovie, movieFile);
-        validateMovieByTitle(movieFile, newMovie);
+        boolean isValidTitle = isValidMovieByTitle(movieFile, newMovie);
 
-        return save(newMovie);
+        return save(newMovie, isValidTitle);
     }
 
-    // FIXME not correct check
-    private void validateMovieByTitle(MovieFileTo movieFile, Movie newMovie) {
+    // FIXME not correct check, should show warning, not in logs only
+    private boolean isValidMovieByTitle(MovieFileTo movieFile, Movie newMovie) {
         boolean hasInconsistentTitle = !movieFile.getName().equalsIgnoreCase(newMovie.getTitle());
         if (hasInconsistentTitle) {
             log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
         }
+
+        return !hasInconsistentTitle;
     }
 
     private Response.Builder save(Movie newMovie) {
-        Response.Builder responseBuilder = Response.Builder.create();
+        return save(newMovie, true);
+    }
+
+    private Response.Builder save(Movie newMovie, boolean isValidTitle) {
+        Response.Builder responseBuilder = Response.Builder.create().setIsValidTitle(isValidTitle);
         try {
             Movie savedMovie = movieRepository.save(newMovie);
             log.info("saved | {}", savedMovie);
             responseBuilder.setMovie(savedMovie).setMessage("Successfully saved");
         } catch (DataIntegrityViolationException e) {
-            log.error("this movie [{}] already exist", newMovie);
-            responseBuilder.setMovie(newMovie).setFailMessage("Already exist");
+            log.error("this movie [{}] already exists", newMovie);
+            responseBuilder.setMovie(newMovie).setFailMessage("Already exist");     // TODO change to Duplicate entry, fix tests and react
         } catch (Exception e) {
             log.error(newMovie.toString(), e);
             responseBuilder.setMovie(newMovie).setFailMessage(e.getMessage());
@@ -83,6 +95,7 @@ public class MovieServiceImpl implements MovieService {
         return responseBuilder;
     }
 
+    @Override
     public Response.Builder delete(String tmdbId) {
         Response.Builder responseBuilder;
         try {
@@ -103,7 +116,7 @@ public class MovieServiceImpl implements MovieService {
     private Response.Builder deleteMovieByTmdbId(String tmdbId) {
         Response.Builder responseBuilder = Response.Builder.create();
 
-        Movie movie = movieRepository.findByTmdbId(tmdbId);
+        Movie movie = movieRepository.getByTmdbId(tmdbId);
         if (movie == null) {
             String message = String.format("No movie with tmdbId %s exists", tmdbId);
             log.warn(message);

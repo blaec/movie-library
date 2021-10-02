@@ -7,10 +7,13 @@ import lombok.Data;
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Configs {
-    TmdbApiConfig tmdb;
-    OmdbApiConfig omdb;
+    String tmdbApiKey;
+    String omdbApiKey;
 
     public static Configs of(TmdbApiConfig tmdbApiConfig, OmdbApiConfig omdbApiConfig) {
-        return new Configs(tmdbApiConfig, omdbApiConfig);
+        return new Configs(
+                tmdbApiConfig.getValue().getApikey(),
+                omdbApiConfig.getValue().getApikey()
+        );
     }
 }

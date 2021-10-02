@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/configs")
+@RequestMapping(ConfigController.URL)
 @CrossOrigin(origins = "*")
 @RestController
 public class ConfigController {
     private final TmdbApiConfig tmdbApiConfig;
     private final OmdbApiConfig omdbApiConfig;
+
+    static final String URL = "/configs";
 
     @GetMapping()
     public Configs getConfigs() {

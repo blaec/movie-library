@@ -17,7 +17,8 @@ import java.util.Set;
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "movies")
-public class Movie{
+// extends AbstractPersistable<Integer> - no need in id, hashCode, equals, etc...
+public class Movie {
 
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Id private Integer id;
@@ -35,6 +36,10 @@ public class Movie{
     @Column(name="poster_path_ru")
     @NonNull private String posterPathRu;
 
+    // see following annotations:
+    // @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique")})
+    // @Column(name = "role")
+    // @ElementCollection(fetch = FetchType.EAGER)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @NonNull private Set<Genre> genres;
 
@@ -45,7 +50,7 @@ public class Movie{
     private Resolution resolution;
 
     @Column(name="file_name")
-    @NonNull private String fileName;
+    private String fileName;
     private Double size = 0d;
     private String location;
     private String description;

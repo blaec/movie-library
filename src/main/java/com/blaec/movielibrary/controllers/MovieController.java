@@ -15,16 +15,13 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/movies")
+@RequestMapping(MovieController.URL)
 @CrossOrigin(origins = "*")
 @RestController
 public class MovieController {
@@ -32,6 +29,7 @@ public class MovieController {
     private final MovieService movieService;
     private final MovieDataBaseApi tmdbApi;
 
+    static final String URL = "/movies";
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
@@ -83,7 +81,7 @@ public class MovieController {
         for (MovieFileTo movieFile : folderMovies) {
             if (!newMovies.contains(movieFile)) {
                 Response existingMovie = Response.Builder.create()
-                        .setFailMessage("already exist")
+                        .setFailMessage("Already exist")
                         .build();
                 responses.add(existingMovie);
             }
@@ -97,8 +95,11 @@ public class MovieController {
         Response.Builder responseBuilder = Response.Builder.create();
 
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
-                .filter(isFileNameAsRequested(uploadMovie))
+                .filter(isFileNameMatchRequested(uploadMovie))
                 .collect(Collectors.toList());
+        // TODO missing check that movie with this file name already saved to db
+        //  falls with validation
+        //  add new property to Response - isValid
 
         if (moviesWithRequestedFileName.size() != 1) {
             String message = "Not found at all or more than one movie found";
@@ -113,7 +114,7 @@ public class MovieController {
         return responseBuilder.build();
     }
 
-    private Predicate<MovieFileTo> isFileNameAsRequested(SingleFileUpload uploadMovie) {
+    private Predicate<MovieFileTo> isFileNameMatchRequested(SingleFileUpload uploadMovie) {
         return movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName());
     }
 

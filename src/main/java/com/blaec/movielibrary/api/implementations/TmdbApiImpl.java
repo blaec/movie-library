@@ -8,8 +8,10 @@ import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
+import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.stereotype.Component;
 
@@ -84,8 +86,8 @@ public class TmdbApiImpl implements MovieDataBaseApi {
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(uri);
             movieJson = gson.fromJson(stringHttpResponse.body(), TmdbResult.class);
-        } catch (IOException | InterruptedException e) {
-            log.error("Failed to get tmdb movie data from url {}", uri);
+        } catch (IOException | InterruptedException | NotFoundException e) {
+            log.error("Failed to get tmdb movie data from url {}", uri, e);
         }
 
         return Optional.ofNullable(movieJson);
@@ -95,13 +97,19 @@ public class TmdbApiImpl implements MovieDataBaseApi {
      * Sends the given request using this client
      * http://zetcode.com/java/getpostrequest/
      */
-    private HttpResponse<String> sendRequest(URI uri) throws IOException, InterruptedException {
+    private HttpResponse<String> sendRequest(URI uri) throws IOException, InterruptedException, NotFoundException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .build();
 
-        return client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        final int statusCode = response.statusCode();
+        if (statusCode != HttpStatus.SC_OK) {
+            String msg = String.format("Response returned with code: %d", statusCode);
+            throw new NotFoundException(msg);
+        }
+        return response;
     }
 
     @Override
@@ -153,12 +161,13 @@ public class TmdbApiImpl implements MovieDataBaseApi {
     }
 
     private Optional<TmdbResult.TmdbMovie> getMovie(URI uri) {
-        TmdbResult.TmdbMovie movieJson = null;
+        TmdbResult.TmdbMovie movieJson;
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(uri);
             movieJson = gson.fromJson(stringHttpResponse.body(), TmdbResult.TmdbMovie.class);
-        } catch (IOException | InterruptedException e) {
-            log.error("Failed to get imdb movie data from url {}", uri);
+        } catch (IOException | InterruptedException | NotFoundException e) {
+            log.error("Failed to get imdb movie data from url {}", uri, e);
+            movieJson = null;
         }
 
         return Optional.ofNullable(movieJson);
