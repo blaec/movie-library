@@ -4,6 +4,7 @@ import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
@@ -12,10 +13,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Slf4j
+@UtilityClass
 public class MovieUtils {
-    private MovieUtils() {
-        throw new AssertionError();
-    }
 
     /**
      * Sort movie list by title and than by release date, skip 'the' and 'a' in title

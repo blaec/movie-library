@@ -2,6 +2,7 @@ package com.blaec.movielibrary.utils;
 
 
 import com.blaec.movielibrary.model.to.MovieFileTo;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
+@UtilityClass
 public class FilesUtils {
     private static final long ONE_KB = 1024;
     private static final long ONE_MB = ONE_KB * ONE_KB;
@@ -31,12 +33,9 @@ public class FilesUtils {
                                                       || pathname.getName().endsWith("mkv")
                                                       || pathname.getName().endsWith("avi");
 
-    private FilesUtils() {
-        throw new AssertionError();
-    }
-
 
     private static Set<File> movies;
+
     public static List<MovieFileTo> getMoviesFromFolder(String dirPath) {
         movies = new TreeSet<>();
         getRecursivelyFilesFromFolder(dirPath);
