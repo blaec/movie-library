@@ -54,7 +54,7 @@ public class MovieServiceImpl implements MovieService {
     public Response.Builder saveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile) {
         return tmdbMovie
                 .map(movieTmdbTo -> validateAndSaveToCollection(movieTmdbTo, movieFile))
-                .orElseGet(() -> Response.Builder.create().setMessage("passed null json object"));
+                .orElseGet(() -> Response.Builder.create().setFailMessage("passed null json object"));
     }
 
     private Response.Builder validateAndSaveToCollection(MovieTmdbTo tmdbMovie, MovieFileTo movieFile) {

@@ -136,8 +136,8 @@ class MovieControllerTest extends AbstractControllerTest {
         final int tmdbId = 337170;
         final String location = "serialMovies";
         final String fileName = "American Made (2017) [1080p].mkv";
-        final String expectedTitle = "American Made";
         final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), fileName);
+        final String expectedTitle = "American Made";
 
         validate(postUploadMovie(singleFileUpload))
                 .andExpect(jsonPath("$.tmbdId").value(tmdbId))
@@ -163,12 +163,12 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     @Order(42)
-    void uploadMovieWithWrongFileName() throws Exception {
+    void uploadMovieWithExistingWrongFileName() throws Exception {
         final int tmdbId = 337170;
         final String location = "serialMovies";
         final String wrongFileName = "Oblivion (2013) [1080p] [60fps].mkv";
-        final String expectedTitle = "American Made";
         final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), wrongFileName);
+        final String expectedTitle = "American Made";
 
         // TODO should expect failure
         validate(postUploadMovie(singleFileUpload))
@@ -177,6 +177,21 @@ class MovieControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.message").value("Successfully saved"))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.validTitle").value(false));
+    }
+
+    @Test
+    @Order(43)
+    void uploadMovieWithWrongTmdbId() throws Exception {
+        final int tmdbId = -1;
+        final String location = "serialMovies";
+        final String fileName = "American Made (2017) [1080p].mkv";
+        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), fileName);
+
+        validate(postUploadMovie(singleFileUpload))
+                .andExpect(jsonPath("$.tmbdId").value(IsNull.nullValue()))
+                .andExpect(jsonPath("$.title").value(IsNull.nullValue()))
+                .andExpect(jsonPath("$.message").value("passed null json object"))
+                .andExpect(jsonPath("$.success").value(false));
     }
 
     private ResultActions postUploadMovie(SingleFileUpload singleFileUpload) throws Exception {
