@@ -23,51 +23,63 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
 
 
+    @Override
     public Iterable<Movie> getAll() {
         return movieRepository.getAll();
     }
 
+    @Override
     public Iterable<Movie> getAllByTypeMovie() {
         return movieRepository.getAllByType(Type.movie);
     }
 
+    @Override
     public Iterable<Movie> getAllByTypeWishlist() {
         return movieRepository.getAllByType(Type.wish_list);
     }
 
+    @Override
     public Iterable<Movie> getAllByGenres(Set<Integer> genres) {
         return movieRepository.getAllByGenreId(genres);
     }
 
+    @Override
     public Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie) {
         return tmdbMovie
                 .map(movieTmdbTo -> save(Movie.createWithWishlistType(movieTmdbTo)))
-                .orElseGet(() -> Response.Builder.create("passed null json object"));
+                .orElseGet(() -> Response.Builder.create().setMessage("passed null json object"));
     }
 
+    @Override
     public Response.Builder saveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile) {
         return tmdbMovie
                 .map(movieTmdbTo -> validateAndSaveToCollection(movieTmdbTo, movieFile))
-                .orElseGet(() -> Response.Builder.create("passed null json object"));
+                .orElseGet(() -> Response.Builder.create().setMessage("passed null json object"));
     }
 
     private Response.Builder validateAndSaveToCollection(MovieTmdbTo tmdbMovie, MovieFileTo movieFile) {
         Movie newMovie = Movie.createWithMovieType(tmdbMovie, movieFile);
-        validateMovieByTitle(movieFile, newMovie);
+        boolean isValidTitle = isValidMovieByTitle(movieFile, newMovie);
 
-        return save(newMovie);
+        return save(newMovie, isValidTitle);
     }
 
     // FIXME not correct check, should show warning, not in logs only
-    private void validateMovieByTitle(MovieFileTo movieFile, Movie newMovie) {
+    private boolean isValidMovieByTitle(MovieFileTo movieFile, Movie newMovie) {
         boolean hasInconsistentTitle = !movieFile.getName().equalsIgnoreCase(newMovie.getTitle());
         if (hasInconsistentTitle) {
             log.warn("check if it's correct | {} -x-> {}}", newMovie, movieFile.getFileName());
         }
+
+        return !hasInconsistentTitle;
     }
 
     private Response.Builder save(Movie newMovie) {
-        Response.Builder responseBuilder = Response.Builder.create();
+        return save(newMovie, true);
+    }
+
+    private Response.Builder save(Movie newMovie, boolean isValidTitle) {
+        Response.Builder responseBuilder = Response.Builder.create().setIsValidTitle(isValidTitle);
         try {
             Movie savedMovie = movieRepository.save(newMovie);
             log.info("saved | {}", savedMovie);
@@ -83,6 +95,7 @@ public class MovieServiceImpl implements MovieService {
         return responseBuilder;
     }
 
+    @Override
     public Response.Builder delete(String tmdbId) {
         Response.Builder responseBuilder;
         try {

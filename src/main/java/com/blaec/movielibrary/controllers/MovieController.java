@@ -97,6 +97,9 @@ public class MovieController {
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
                 .filter(isFileNameMatchRequested(uploadMovie))
                 .collect(Collectors.toList());
+        // TODO missing check that movie with this file name already saved to db
+        //  falls with validation
+        //  add new property to Response - isValid
 
         if (moviesWithRequestedFileName.size() != 1) {
             String message = "Not found at all or more than one movie found";

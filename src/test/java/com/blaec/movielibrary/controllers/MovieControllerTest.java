@@ -6,6 +6,7 @@ import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.model.json.SingleFileUpload;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.utils.JsonUtil;
+import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,17 +133,58 @@ class MovieControllerTest extends AbstractControllerTest {
     @Test
     @Order(40)
     void uploadMovie() throws Exception {
-        final SingleFileUpload singleFileUpload = new SingleFileUpload("serialMovies", "337170", "American Made (2017) [1080p].mkv");
-        final String url = String.format("%s/upload/file", URL);
+        final int tmdbId = 337170;
+        final String location = "serialMovies";
+        final String fileName = "American Made (2017) [1080p].mkv";
+        final String expectedTitle = "American Made";
+        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), fileName);
 
-        ResultActions resultActions = perform(MockMvcRequestBuilders.post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(singleFileUpload)));
-        validate(resultActions)
-                .andExpect(jsonPath("$.tmbdId").value(singleFileUpload.getTmdbId()))
-                .andExpect(jsonPath("$.title").value("American Made"))
+        validate(postUploadMovie(singleFileUpload))
+                .andExpect(jsonPath("$.tmbdId").value(tmdbId))
+                .andExpect(jsonPath("$.title").value(expectedTitle))
                 .andExpect(jsonPath("$.message").value(SUCCESS_MESSAGE))
                 .andExpect(jsonPath("$.success").value(true));
+    }
+
+    @Test
+    @Order(41)
+    void uploadMovieWithMissingFileName() throws Exception {
+        final int tmdbId = 337170;
+        final String location = "serialMovies";
+        final String fileName = "2..22 (2017) [1080p].mkv";
+        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), fileName);
+
+        validate(postUploadMovie(singleFileUpload))
+                .andExpect(jsonPath("$.tmbdId").value(IsNull.nullValue()))
+                .andExpect(jsonPath("$.title").value(IsNull.nullValue()))
+                .andExpect(jsonPath("$.message").value("Not found at all or more than one movie found"))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
+    @Order(42)
+    void uploadMovieWithWrongFileName() throws Exception {
+        final int tmdbId = 337170;
+        final String location = "serialMovies";
+        final String wrongFileName = "Oblivion (2013) [1080p] [60fps].mkv";
+        final String expectedTitle = "American Made";
+        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), wrongFileName);
+
+        // TODO should expect failure
+        validate(postUploadMovie(singleFileUpload))
+                .andExpect(jsonPath("$.tmbdId").value(tmdbId))
+                .andExpect(jsonPath("$.title").value(expectedTitle))
+                .andExpect(jsonPath("$.message").value("Successfully saved"))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.validTitle").value(false));
+    }
+
+    private ResultActions postUploadMovie(SingleFileUpload singleFileUpload) throws Exception {
+        final String url = String.format("%s/upload/file", URL);
+
+        return perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(singleFileUpload)));
     }
 
     @Test
