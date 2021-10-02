@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
-class MovieControllerTest extends AbstractControllerTest {
+class MovieControllerTest extends AbstractMovieControllerTest {
 
     @Autowired
     private MovieService movieService;
@@ -63,17 +63,6 @@ class MovieControllerTest extends AbstractControllerTest {
         getAllByType("wishlist", Type.wish_list, Type.movie);
     }
 
-    private void getAllByType(String path, Type expected, Type missing) throws Exception {
-        final String url = String.format("%s/%s", URL, path);
-
-        TestMatcher matcher = getTestMatcher();
-        ResultActions resultActions = perform(MockMvcRequestBuilders.get(url));
-        validate(resultActions)
-                .andExpect(jsonPath("$.*").isNotEmpty())
-                .andExpect(matcher.containsAllWithType(expected))
-                .andExpect(matcher.notContainsAnyWithType(missing));
-    }
-
     @Test
     @Order(23)
     void getAllByGenres() throws Exception {
@@ -106,14 +95,6 @@ class MovieControllerTest extends AbstractControllerTest {
 
         validate(resultActionsForGetAllByGenres(genres))
                 .andExpect(jsonPath("$.*").isEmpty());
-    }
-
-    private ResultActions resultActionsForGetAllByGenres(Set<Integer> genres) throws Exception {
-        final String url = String.format("%s/filter", URL);
-
-        return perform(MockMvcRequestBuilders.post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(genres)));
     }
 
     @Test
@@ -194,14 +175,6 @@ class MovieControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.success").value(false));
     }
 
-    private ResultActions resultActionsForUploadMovie(SingleFileUpload singleFileUpload) throws Exception {
-        final String url = String.format("%s/upload/file", URL);
-
-        return perform(MockMvcRequestBuilders.post(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(singleFileUpload)));
-    }
-
     @Test
     @Order(50)
     void saveWishMovie() throws Exception {
@@ -239,11 +212,5 @@ class MovieControllerTest extends AbstractControllerTest {
                 .andExpect(jsonPath("$.title").value(IsNull.nullValue()))
                 .andExpect(jsonPath("$.message", startsWith("No movie with tmdbId")))
                 .andExpect(jsonPath("$.success").value(false));
-    }
-
-    private ResultActions resultActionsForDelete(int tmdbId) throws Exception {
-        final String url = String.format("%s/delete/%d", URL, tmdbId);
-
-        return perform(MockMvcRequestBuilders.delete(url));
     }
 }
