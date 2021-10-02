@@ -82,7 +82,7 @@ class MovieControllerTest extends AbstractControllerTest {
         final List<Movie> notExpected = List.of(MOVIE_3);
 
         TestMatcher matcher = getTestMatcher();
-        validate(getAllFilteredByGenres(genres))
+        validate(resultActionsForGetAllByGenres(genres))
                 .andExpect(jsonPath("$.*").isNotEmpty())
                 .andExpect(matcher.containsAllWithType(Type.movie))
                 .andExpect(matcher.notContainsAnyWithType(Type.wish_list))
@@ -95,7 +95,7 @@ class MovieControllerTest extends AbstractControllerTest {
     void getAllByNonExistingGenres() throws Exception {
         final Set<Integer> genres = Set.of(99, 10770);
 
-        validate(getAllFilteredByGenres(genres))
+        validate(resultActionsForGetAllByGenres(genres))
                 .andExpect(jsonPath("$.*").isEmpty());
     }
 
@@ -104,11 +104,11 @@ class MovieControllerTest extends AbstractControllerTest {
     void getAllByEmptyGenres() throws Exception {
         final Set<Integer> genres = Collections.emptySet();
 
-        validate(getAllFilteredByGenres(genres))
+        validate(resultActionsForGetAllByGenres(genres))
                 .andExpect(jsonPath("$.*").isEmpty());
     }
 
-    private ResultActions getAllFilteredByGenres(Set<Integer> genres) throws Exception {
+    private ResultActions resultActionsForGetAllByGenres(Set<Integer> genres) throws Exception {
         final String url = String.format("%s/filter", URL);
 
         return perform(MockMvcRequestBuilders.post(url)
@@ -139,7 +139,7 @@ class MovieControllerTest extends AbstractControllerTest {
         final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), fileName);
         final String expectedTitle = "American Made";
 
-        validate(postUploadMovie(singleFileUpload))
+        validate(resultActionsForUploadMovie(singleFileUpload))
                 .andExpect(jsonPath("$.tmbdId").value(tmdbId))
                 .andExpect(jsonPath("$.title").value(expectedTitle))
                 .andExpect(jsonPath("$.message").value(SUCCESS_MESSAGE))
@@ -154,7 +154,7 @@ class MovieControllerTest extends AbstractControllerTest {
         final String fileName = "2..22 (2017) [1080p].mkv";
         final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), fileName);
 
-        validate(postUploadMovie(singleFileUpload))
+        validate(resultActionsForUploadMovie(singleFileUpload))
                 .andExpect(jsonPath("$.tmbdId").value(IsNull.nullValue()))
                 .andExpect(jsonPath("$.title").value(IsNull.nullValue()))
                 .andExpect(jsonPath("$.message").value("Not found at all or more than one movie found"))
@@ -163,15 +163,15 @@ class MovieControllerTest extends AbstractControllerTest {
 
     @Test
     @Order(42)
-    void uploadMovieWithExistingWrongFileName() throws Exception {
+    void uploadMovieWithExistingMismatchingFileName() throws Exception {
         final int tmdbId = 337170;
         final String location = "serialMovies";
-        final String wrongFileName = "Oblivion (2013) [1080p] [60fps].mkv";
-        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), wrongFileName);
+        final String mismatchingFileName = "Oblivion (2013) [1080p] [60fps].mkv";
+        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), mismatchingFileName);
         final String expectedTitle = "American Made";
 
         // TODO should expect failure
-        validate(postUploadMovie(singleFileUpload))
+        validate(resultActionsForUploadMovie(singleFileUpload))
                 .andExpect(jsonPath("$.tmbdId").value(tmdbId))
                 .andExpect(jsonPath("$.title").value(expectedTitle))
                 .andExpect(jsonPath("$.message").value("Successfully saved"))
@@ -182,19 +182,19 @@ class MovieControllerTest extends AbstractControllerTest {
     @Test
     @Order(43)
     void uploadMovieWithWrongTmdbId() throws Exception {
-        final int tmdbId = -1;
+        final int wrongTmdbId = -1;
         final String location = "serialMovies";
         final String fileName = "American Made (2017) [1080p].mkv";
-        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(tmdbId), fileName);
+        final SingleFileUpload singleFileUpload = new SingleFileUpload(location, String.valueOf(wrongTmdbId), fileName);
 
-        validate(postUploadMovie(singleFileUpload))
+        validate(resultActionsForUploadMovie(singleFileUpload))
                 .andExpect(jsonPath("$.tmbdId").value(IsNull.nullValue()))
                 .andExpect(jsonPath("$.title").value(IsNull.nullValue()))
                 .andExpect(jsonPath("$.message").value("passed null json object"))
                 .andExpect(jsonPath("$.success").value(false));
     }
 
-    private ResultActions postUploadMovie(SingleFileUpload singleFileUpload) throws Exception {
+    private ResultActions resultActionsForUploadMovie(SingleFileUpload singleFileUpload) throws Exception {
         final String url = String.format("%s/upload/file", URL);
 
         return perform(MockMvcRequestBuilders.post(url)
@@ -221,13 +221,29 @@ class MovieControllerTest extends AbstractControllerTest {
     @Order(60)
     void delete() throws Exception {
         final int tmdbId = 19995;
-        final String url = String.format("%s/delete/%d", URL, tmdbId);
 
-        ResultActions resultActions = perform(MockMvcRequestBuilders.delete(url));
-        validate(resultActions)
+        validate(resultActionsForDelete(tmdbId))
                 .andExpect(jsonPath("$.tmbdId").value(MOVIE_2.getTmdbId()))
                 .andExpect(jsonPath("$.title").value(MOVIE_2.getTitle()))
                 .andExpect(jsonPath("$.message", startsWith("deleted | #19995 Avatar (2009-12-10)")))
                 .andExpect(jsonPath("$.success").value(true));
+    }
+
+    @Test
+    @Order(61)
+    void deleteWithWrongTmdbId() throws Exception {
+        final int tmdbId = -1;
+
+        validate(resultActionsForDelete(tmdbId))
+                .andExpect(jsonPath("$.tmbdId").value(tmdbId))
+                .andExpect(jsonPath("$.title").value(IsNull.nullValue()))
+                .andExpect(jsonPath("$.message", startsWith("No movie with tmdbId")))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    private ResultActions resultActionsForDelete(int tmdbId) throws Exception {
+        final String url = String.format("%s/delete/%d", URL, tmdbId);
+
+        return perform(MockMvcRequestBuilders.delete(url));
     }
 }
