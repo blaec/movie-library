@@ -13,6 +13,7 @@ import {fetchActorDetails, fetchActorImages} from "../../../../store/state/detai
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 import MovieStatusSwitch from "./components/MovieStatusSwitch";
 import MyResponse from "../../../../UI/MyResponse";
+import {ActorTab} from "../../../../utils/Constants";
 
 import {List, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 
@@ -115,15 +116,16 @@ const actorDetails = () => {
                         textColor="primary"
                         variant="fullWidth"
                     >
-                        <Tab label={t('tab.bio')}/>
                         <Tab label={t('tab.movies')}/>
+                        <Tab label={t('tab.bio')}/>
                         <Tab label={t('tab.facts')}/>
                     </Tabs>
                 </Paper>
-                <MyTabPanel value={tabSelected} index={0}>
-                    <Biography biography={biography}/>
-                </MyTabPanel>
-                <MyTabPanel value={tabSelected} index={1} padding={0}>
+                <MyTabPanel
+                    value={tabSelected}
+                    index={ActorTab.movies}
+                    padding={0}
+                >
                     <List>
                         <div className={movieItems}>
                             <MovieStatusSwitch onSwitchChange={handleCollectionMovieFilter}/>
@@ -131,7 +133,16 @@ const actorDetails = () => {
                         </div>
                     </List>
                 </MyTabPanel>
-                <MyTabPanel value={tabSelected} index={2}>
+                <MyTabPanel
+                    value={tabSelected}
+                    index={ActorTab.biography}
+                >
+                    <Biography biography={biography}/>
+                </MyTabPanel>
+                <MyTabPanel
+                    value={tabSelected}
+                    index={ActorTab.facts}
+                >
                     <ActorFacts details={actorDetails}/>
                 </MyTabPanel>
             </div>
