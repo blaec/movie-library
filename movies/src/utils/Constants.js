@@ -57,10 +57,18 @@ export const Loader = Object.freeze(
 
 export const MovieTab = Object.freeze(
     {
-        description: 0,
-        cast: 1,
+        cast: 0,
+        description: 1,
         trailers: 2,
         facts: 3,
+    }
+);
+
+export const ActorTab = Object.freeze(
+    {
+        movies: 0,
+        biography: 1,
+        facts: 2,
     }
 );
 

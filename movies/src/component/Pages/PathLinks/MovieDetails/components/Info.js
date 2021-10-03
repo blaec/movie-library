@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 
 import MyTabPanel from "../../../../../UI/MyTabPanel";
@@ -8,8 +8,6 @@ import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
 import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
 import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
-import {previousLocation} from "../../../../../store/localStorage/actions";
-import {reactLinks} from "../../../../../utils/UrlUtils";
 import {MovieTab} from "../../../../../utils/Constants";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
@@ -40,12 +38,6 @@ const info = () => {
         setTabSelected(newValue);
     };
 
-    useEffect(() => {
-        if (previousLocation.get().includes(reactLinks.actorDetailsEndpoint)) {
-            setTabSelected(MovieTab.cast);
-        }
-    }, []);
-
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails)) && isArrayExist(cast);
     let info = (
         <Box>
@@ -70,24 +62,24 @@ const info = () => {
                             textColor="primary"
                             variant="fullWidth"
                         >
-                            <Tab label={t('tab.description')}/>
                             <Tab label={t('tab.cast')}/>
+                            <Tab label={t('tab.description')}/>
                             <Tab label={t('tab.trailers')}/>
                             <Tab label={t('tab.facts')}/>
                         </Tabs>
                     </Paper>
                     <MyTabPanel
                         value={tabSelected}
-                        index={MovieTab.description}
-                    >
-                        <Description details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
-                    </MyTabPanel>
-                    <MyTabPanel
-                        value={tabSelected}
                         index={MovieTab.cast}
                         padding={0}
                     >
                         <Cast details={cast}/>
+                    </MyTabPanel>
+                    <MyTabPanel
+                        value={tabSelected}
+                        index={MovieTab.description}
+                    >
+                        <Description details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
                     </MyTabPanel>
                     <MyTabPanel
                         value={tabSelected}
