@@ -117,16 +117,19 @@ public class MovieServiceImpl implements MovieService {
         return responseBuilder;
     }
 
-    private Response.Builder deleteMovieByTmdbId(String tmdbId) {
+    private Response.Builder deleteMovieByTmdbId(String tmdbId) throws IllegalStateException, IllegalArgumentException {
         Response.Builder responseBuilder = Response.Builder.create();
 
         Movie movie = movieRepository.getByTmdbId(tmdbId)
                 .orElseThrow(IllegalArgumentException::new);
         int id = movie.getId();
-        movieRepository.deleteById(id);
-        String message = String.format("deleted | %s with id %d", movie, id);
-        log.info(message);
-        responseBuilder.setMovie(movie).setMessage(message);
+        if (movieRepository.delete(id)) {
+            String message = String.format("deleted | %s with id %d", movie, id);
+            log.info(message);
+            responseBuilder.setMovie(movie).setMessage(message);
+        } else {
+            throw new IllegalStateException();
+        }
 
         return responseBuilder;
     }

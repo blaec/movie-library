@@ -12,5 +12,5 @@ public interface MovieRepository {
     Iterable<Movie> getAllByType(Type type);
     Iterable<Movie> getAllByGenreId(Set<Integer> genres);
     Optional<Movie> save(Movie movie);
-    void deleteById(int id);
+    boolean delete(int id);
 }

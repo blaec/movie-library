@@ -42,7 +42,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public void deleteById(int id) {
-        crudMovieRepository.deleteById(id);
+    public boolean delete(int id) {
+        return crudMovieRepository.delete(id) != 0;
     }
 }
