@@ -81,11 +81,15 @@ public class MovieServiceImpl implements MovieService {
     private Response.Builder save(Movie newMovie, boolean isValidTitle) {
         Response.Builder responseBuilder = Response.Builder.create().setIsValidTitle(isValidTitle);
         try {
-            Movie savedMovie = movieRepository.save(newMovie);
+            Movie savedMovie = movieRepository.save(newMovie)
+                    .orElseThrow(IllegalArgumentException::new);
             log.info("saved | {}", savedMovie);
             responseBuilder.setMovie(savedMovie).setMessage("Successfully saved");
+        } catch (IllegalArgumentException e) {
+            log.error("failed to save movie [{}]", newMovie, e);
+            responseBuilder.setMovie(newMovie).setFailMessage("database failure");
         } catch (DataIntegrityViolationException e) {
-            log.error("this movie [{}] already exists", newMovie);
+            log.error("this movie [{}] already exists", newMovie, e);
             responseBuilder.setMovie(newMovie).setFailMessage("Already exist");     // TODO change to Duplicate entry, fix tests and react
         } catch (Exception e) {
             log.error(newMovie.toString(), e);
@@ -113,20 +117,18 @@ public class MovieServiceImpl implements MovieService {
         return responseBuilder;
     }
 
-    private Response.Builder deleteMovieByTmdbId(String tmdbId) {
+    private Response.Builder deleteMovieByTmdbId(String tmdbId) throws IllegalStateException, IllegalArgumentException {
         Response.Builder responseBuilder = Response.Builder.create();
 
-        Movie movie = movieRepository.getByTmdbId(tmdbId);
-        if (movie == null) {
-            String message = String.format("No movie with tmdbId %s exists", tmdbId);
-            log.warn(message);
-            responseBuilder.setTmdbId(tmdbId).setFailMessage(message);
-        } else {
-            int id = movie.getId();
-            movieRepository.deleteById(id);
+        Movie movie = movieRepository.getByTmdbId(tmdbId)
+                .orElseThrow(IllegalArgumentException::new);
+        int id = movie.getId();
+        if (movieRepository.delete(id)) {
             String message = String.format("deleted | %s with id %d", movie, id);
             log.info(message);
             responseBuilder.setMovie(movie).setMessage(message);
+        } else {
+            throw new IllegalStateException();
         }
 
         return responseBuilder;

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -21,7 +22,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Movie getByTmdbId(String tmdbId) {
+    public Optional<Movie> getByTmdbId(String tmdbId) {
         return crudMovieRepository.findByTmdbId(tmdbId);
     }
 
@@ -36,12 +37,12 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Movie save(Movie movie) {
-        return crudMovieRepository.save(movie);
+    public Optional<Movie> save(Movie movie) {
+        return Optional.of(crudMovieRepository.save(movie));
     }
 
     @Override
-    public void deleteById(int id) {
-        crudMovieRepository.deleteById(id);
+    public boolean delete(int id) {
+        return crudMovieRepository.delete(id) != 0;
     }
 }

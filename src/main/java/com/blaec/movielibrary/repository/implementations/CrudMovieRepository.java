@@ -2,16 +2,24 @@ package com.blaec.movielibrary.repository.implementations;
 
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface CrudMovieRepository extends CrudRepository<Movie, Integer> {
-    Movie findByTmdbId(String tmdbId);
+    Optional<Movie> findByTmdbId(String tmdbId);
 
     Iterable<Movie> findAllByType(Type type);
 
     @Query("SELECT DISTINCT m FROM Movie m JOIN m.genres g WHERE g.genreId IN (:genres) AND m.type='movie'")
     Iterable<Movie> findAllByGenreId(Set<Integer> genres);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Movie m WHERE m.id=:id")
+    int delete(int id);
 }
