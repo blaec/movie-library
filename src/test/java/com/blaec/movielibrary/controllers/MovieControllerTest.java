@@ -210,7 +210,7 @@ class MovieControllerTest extends AbstractMovieControllerTest {
         validate(resultActionsForDelete(tmdbId))
                 .andExpect(jsonPath("$.tmbdId").value(tmdbId))
                 .andExpect(jsonPath("$.title").value(IsNull.nullValue()))
-                .andExpect(jsonPath("$.message", startsWith("No movie with tmdbId")))
+                .andExpect(jsonPath("$.message", startsWith("Can't delete movie, wrong tmdbId:")))
                 .andExpect(jsonPath("$.success").value(false));
     }
 }
