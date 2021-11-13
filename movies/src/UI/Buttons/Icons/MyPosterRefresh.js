@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const myPosterRefresh = (props) => {
-    const {isInCollection, onClose} = props;
+    const {isInCollection, onShowModal} = props;
     const {root} = useStyles();
 
     return (
@@ -30,7 +30,7 @@ const myPosterRefresh = (props) => {
             && <ImageTwoToneIcon
                 className={root}
                 fontSize="large"
-                onClick={onClose}/>}
+                onClick={onShowModal}/>}
         </React.Fragment>
     );
 };

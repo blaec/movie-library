@@ -104,7 +104,7 @@ const backdropImage = props => {
                     onAddToWatch={handleAddToWatchMovie}
                     onDelete={handleDeletedMovie}
                 />
-                <MyPosterRefresh isInCollection={isInCollection} onClose={onClose}/>
+                <MyPosterRefresh isInCollection={isInCollection} onShowModal={() => alert("not implemented")}/>
                 <Carousel
                     timeout={FADE_TIMEOUT}
                     animation="fade"
