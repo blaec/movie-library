@@ -8,6 +8,7 @@ import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import MyPosterRefresh from "../../../../../UI/Buttons/Icons/MyPosterRefresh";
 import DeleteDialog from "./DeleteDialog";
+import PosterRefreshDialog from "./PosterRefreshDialog";
 import {isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
@@ -32,6 +33,7 @@ const backdropImage = props => {
     const {root} = useStyles();
     const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isPosterRefresh, setIsPosterRefresh] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
     const {t} = useTranslation('common');
 
@@ -55,6 +57,14 @@ const backdropImage = props => {
         setIsDeleting(true);
         dispatch(deleteMovie(movieTmdbId));
     };
+
+    const handlePosterRefresh = () => {
+        setIsPosterRefresh(true);
+    };
+
+    const handleClosePosterRefreshDialog = () => {
+        setIsPosterRefresh(false);
+    }
 
     const handleAddToWatchMovie = () => {
         const {original_title} = tmdbMovieDetails;
@@ -104,7 +114,10 @@ const backdropImage = props => {
                     onAddToWatch={handleAddToWatchMovie}
                     onDelete={handleDeletedMovie}
                 />
-                <MyPosterRefresh isInCollection={isInCollection} onShowModal={() => alert("not implemented")}/>
+                <MyPosterRefresh
+                    isInCollection={isInCollection}
+                    onShowModal={handlePosterRefresh}
+                />
                 <Carousel
                     timeout={FADE_TIMEOUT}
                     animation="fade"
@@ -118,6 +131,10 @@ const backdropImage = props => {
                 open={isDeleting}
                 onExit={handleCloseDeleteDialog}
                 onDelete={handleDeleteMovie}
+            />
+            <PosterRefreshDialog
+                open={isPosterRefresh}
+                onExit={handleClosePosterRefreshDialog}
             />
         </React.Fragment>
     );

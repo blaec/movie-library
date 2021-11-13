@@ -28,9 +28,9 @@ const myPosterRefresh = (props) => {
         <React.Fragment>
             {isInCollection
             && <ImageTwoToneIcon
-                className={root}
-                fontSize="large"
-                onClick={onShowModal}/>}
+                    className={root}
+                    fontSize="large"
+                    onClick={onShowModal}/>}
         </React.Fragment>
     );
 };
