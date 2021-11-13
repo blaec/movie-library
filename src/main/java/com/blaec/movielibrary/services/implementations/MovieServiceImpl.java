@@ -101,7 +101,24 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Response.Builder updatePoster(String tmdbId) {
-        return Response.Builder.create();
+        Response.Builder responseBuilder;
+        try {
+            Movie movie = getMovieByTmdb(tmdbId);
+            String posterPath = movie.getPosterPath();
+            String posterPathRu = movie.getPosterPathRu();
+
+            responseBuilder = Response.Builder.create();
+        } catch (IllegalArgumentException e) {
+            String message = String.format("Movie with this tmdbId: %s not exists", tmdbId);
+            log.error(message, e);
+            responseBuilder = Response.Builder.create().setTmdbId(tmdbId).setFailMessage(message);
+        }
+        return responseBuilder;
+    }
+
+    private Movie getMovieByTmdb(String tmdbId) throws IllegalArgumentException {
+        return movieRepository.getByTmdbId(tmdbId)
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
@@ -125,8 +142,7 @@ public class MovieServiceImpl implements MovieService {
     private Response.Builder deleteMovieByTmdbId(String tmdbId) throws IllegalStateException, IllegalArgumentException {
         Response.Builder responseBuilder = Response.Builder.create();
 
-        Movie movie = movieRepository.getByTmdbId(tmdbId)
-                .orElseThrow(IllegalArgumentException::new);
+        Movie movie = getMovieByTmdb(tmdbId);
         int id = movie.getId();
         if (movieRepository.delete(id)) {
             String message = String.format("deleted | %s with id %d", movie, id);
