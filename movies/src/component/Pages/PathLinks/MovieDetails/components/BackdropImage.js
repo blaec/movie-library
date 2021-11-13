@@ -93,19 +93,16 @@ const backdropImage = props => {
         }
     }, [movies, wishlist, tmdbMovieDetails]);
 
-
     return (
         <React.Fragment>
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
-                {
-                    hasMovieDetails &&
-                    <MyControlIcon
-                        isInCollection={isInCollection}
-                        onAddToWatch={handleAddToWatchMovie}
-                        onDelete={handleDeletedMovie}
-                    />
-                }
+                <MyControlIcon
+                    isInCollection={isInCollection}
+                    canDisplay={hasMovieDetails}
+                    onAddToWatch={handleAddToWatchMovie}
+                    onDelete={handleDeletedMovie}
+                />
                 <Carousel
                     timeout={FADE_TIMEOUT}
                     animation="fade"
