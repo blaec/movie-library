@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import images from "./backdropComponents/Images";
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
+import MyPosterRefresh from "../../../../../UI/Buttons/Icons/MyPosterRefresh";
 import DeleteDialog from "./DeleteDialog";
 import {isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {settingsActions} from "../../../../../store/state/settings/settings-slice";
@@ -103,6 +104,7 @@ const backdropImage = props => {
                     onAddToWatch={handleAddToWatchMovie}
                     onDelete={handleDeletedMovie}
                 />
+                <MyPosterRefresh isInCollection={isInCollection} onClose={onClose}/>
                 <Carousel
                     timeout={FADE_TIMEOUT}
                     animation="fade"
