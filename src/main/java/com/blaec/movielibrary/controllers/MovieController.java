@@ -127,7 +127,7 @@ public class MovieController {
 
     @PostMapping("/update-poster/{tmdbId}")
     public Response updatePoster(@PathVariable String tmdbId) {
-        return null;
+        return movieService.updatePoster(tmdbId).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

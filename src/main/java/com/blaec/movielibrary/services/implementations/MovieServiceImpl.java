@@ -100,6 +100,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Response.Builder updatePoster(String tmdbId) {
+        return Response.Builder.create();
+    }
+
+    @Override
     public Response.Builder delete(String tmdbId) {
         Response.Builder responseBuilder;
         try {

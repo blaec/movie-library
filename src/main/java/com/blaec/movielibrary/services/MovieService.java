@@ -15,5 +15,6 @@ public interface MovieService {
     Iterable<Movie> getAllByGenres(Set<Integer> genres);
     Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie);
     Response.Builder saveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile);
+    Response.Builder updatePoster(String tmdbId);
     Response.Builder delete(String tmdbId);
 }
