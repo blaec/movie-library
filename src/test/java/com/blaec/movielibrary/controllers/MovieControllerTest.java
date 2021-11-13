@@ -192,6 +192,21 @@ class MovieControllerTest extends AbstractMovieControllerTest {
 
     @Test
     @Order(60)
+    void updatePoster() throws Exception {
+        final int tmdbId = 19995;
+        final String url = String.format("%s/update-poster/%d", URL, tmdbId);
+
+        ResultActions resultActions = perform(MockMvcRequestBuilders.post(url));
+        validate(resultActions)
+//                .andExpect(jsonPath("$.*").isNotEmpty())
+//                .andExpect(jsonPath("$[*].message", hasItems("Already exist")))
+//                .andExpect(jsonPath("$[*].message", hasItems(SUCCESS_MESSAGE)))
+//                .andExpect(jsonPath("$[*].success", hasItems(true)))
+        ;
+    }
+
+    @Test
+    @Order(70)
     void delete() throws Exception {
         final int tmdbId = 19995;
 
@@ -203,7 +218,7 @@ class MovieControllerTest extends AbstractMovieControllerTest {
     }
 
     @Test
-    @Order(61)
+    @Order(71)
     void deleteWithWrongTmdbId() throws Exception {
         final int tmdbId = -1;
 

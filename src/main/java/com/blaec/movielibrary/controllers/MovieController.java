@@ -125,6 +125,11 @@ public class MovieController {
         return movieService.saveToWishlist(tmdbMovie).build();
     }
 
+    @PostMapping("/update-poster/{tmdbId}")
+    public Response updatePoster(@PathVariable String tmdbId) {
+        return null;
+    }
+
     @DeleteMapping("/delete/{tmdbId}")
     public Response delete(@PathVariable String tmdbId) {
         return movieService.delete(tmdbId).build();
