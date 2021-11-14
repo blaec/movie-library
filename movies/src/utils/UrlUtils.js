@@ -138,6 +138,20 @@ export const getMovieCreditsUrl = (id, tmdbApi) => {
 };
 
 /**
+ * https://developers.themoviedb.org/3/movies/get-movie-images
+ *
+ * @param id tmdb movie id
+ * @param tmdbApi tmdb api key
+ * @param language poster language
+ * @returns {`https://api.themoviedb.org/3/movie/{id}/images?api_key=<<tmdbApi>>&language=en`}
+ */
+export const getMoviePostersUrl = (id, tmdbApi, language) => {
+    const params = {api_key: tmdbApi, language: language};
+
+    return `${url_endpoints.tmdb.movies.getDetails}${id}/images?${getParamsFrom(params)}`;
+};
+
+/**
  * https://developers.themoviedb.org/3/search/search-movies
  *
  * @param props
