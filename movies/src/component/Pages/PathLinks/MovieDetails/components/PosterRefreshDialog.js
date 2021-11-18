@@ -11,7 +11,7 @@ import {
 import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
 import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
-import {isArraysExist} from "../../../../../utils/Utils";
+import {getMovieByTmdbId, isArrayExist, isObjectExist} from "../../../../../utils/Utils";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
 import {useParams} from "react-router";
 
@@ -35,16 +35,12 @@ const posterRefreshDialog = (props) => {
     const postersEn = useSelector(state => state.collection.postersEn);
     const postersRu = useSelector(state => state.collection.postersRu);
     const movies = useSelector(state => state.collection.movies);
-    // const wishlist = useSelector(state => state.collection.wishlist);
-    // const currentMovies = movies === undefined ? wishlist : movies;
+    const wishlist = useSelector(state => state.collection.wishlist);
+    let movie = getMovieByTmdbId(movies.concat(wishlist), movieTmdbId);
 
     let posterEnGallery = null;
-    if (isArraysExist(postersEn, movies)) {
-        const {posterPath} = movies.filter(movie => movie.tmdbId === movieTmdbId)[0];
-        // const movie = currentMovies !== undefined
-        //     ? currentMovies.filter(movie => movie.tmdbId === movieTmdbId)[0]
-        //     : {};
-        // const {posterPath} = {};
+    if (isArrayExist(postersEn) && isObjectExist(movies)) {
+        const {posterPath} = movie;
         posterEnGallery = postersEn.map((image, index) => {
             const {file_path} = image;
             return (
@@ -60,12 +56,8 @@ const posterRefreshDialog = (props) => {
     }
 
     let posterRuGallery = null;
-    if (isArraysExist(postersRu, movies)) {
-        const {posterPathRu} = movies.filter(movie => movie.tmdbId === movieTmdbId)[0];
-        // const movie = currentMovies !== undefined
-        //     ? currentMovies.filter(movie => movie.tmdbId === movieTmdbId)[0]
-        //     : {};
-        // const {posterPathRu} = movie;
+    if (isArrayExist(postersRu) && isObjectExist(movies)) {
+        const {posterPathRu} = movie;
         posterRuGallery = postersRu.map((image, index) => {
             const {file_path} = image;
             return (
