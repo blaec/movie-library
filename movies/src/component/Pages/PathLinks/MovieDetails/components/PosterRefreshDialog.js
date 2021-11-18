@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Dialog,
     DialogActions,
@@ -11,9 +11,8 @@ import {
 import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
 import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
-import {getMovieByTmdbId, isArrayExist, isObjectExist} from "../../../../../utils/Utils";
+import {isArrayExist} from "../../../../../utils/Utils";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
-import {useParams} from "react-router";
 
 const useStyles = makeStyles((theme) => ({
     images: {
@@ -23,50 +22,56 @@ const useStyles = makeStyles((theme) => ({
     },
     selected: {
         opacity: '50%',
+        cursor: 'pointer'
     }
 }));
 
 const posterRefreshDialog = (props) => {
-    const {open, onExit, onDelete} = props;
+    const {open, movie: {posterPath, posterPathRu}, onExit} = props;
     const {t} = useTranslation('common');
-    const {movieTmdbId} = useParams();
     const {images, selected} = useStyles();
+    const [posterEnSelected, setPosterEnSelected] = useState(posterPath);
+    const [posterRuSelected, setPosterRuSelected] = useState(posterPathRu);
 
     const postersEn = useSelector(state => state.collection.postersEn);
     const postersRu = useSelector(state => state.collection.postersRu);
-    const movies = useSelector(state => state.collection.movies);
-    const wishlist = useSelector(state => state.collection.wishlist);
-    let movie = getMovieByTmdbId(movies.concat(wishlist), movieTmdbId);
+
+    const handleUpdateEnPoster = (posterUrl) => {
+        setPosterEnSelected(posterUrl);
+    };
+    const handleUpdateRuPoster = (posterUrl) => {
+        setPosterRuSelected(posterUrl);
+    };
 
     let posterEnGallery = null;
-    if (isArrayExist(postersEn) && isObjectExist(movies)) {
-        const {posterPath} = movie;
+    if (isArrayExist(postersEn)) {
         posterEnGallery = postersEn.map((image, index) => {
             const {file_path} = image;
             return (
                 <img
-                    className={file_path !== posterPath ? selected : null}
+                    className={file_path !== posterEnSelected ? selected : null}
                     key={index}
                     height={250}
                     src={getImageUrl(file_path, posterSizes.w342)}
                     alt=''
+                    onClick={() => handleUpdateEnPoster(file_path)}
                 />
-            )
+            );
         });
     }
 
     let posterRuGallery = null;
-    if (isArrayExist(postersRu) && isObjectExist(movies)) {
-        const {posterPathRu} = movie;
+    if (isArrayExist(postersRu)) {
         posterRuGallery = postersRu.map((image, index) => {
             const {file_path} = image;
             return (
                 <img
-                    className={file_path !== posterPathRu ? selected : null}
+                    className={file_path !== posterRuSelected ? selected : null}
                     key={index}
                     height={250}
                     src={getImageUrl(file_path, posterSizes.w342)}
                     alt=''
+                    onClick={() => handleUpdateRuPoster(file_path)}
                 />
             )
         });
@@ -99,7 +104,8 @@ const posterRefreshDialog = (props) => {
                 <MyDialogButton
                     type="danger"
                     caption={t('text.yes')}
-                    onClick={onDelete}/>
+                    // onClick={onDelete}
+                />
             </DialogActions>
         </Dialog>
     );

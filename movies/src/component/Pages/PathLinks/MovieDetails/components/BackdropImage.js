@@ -9,7 +9,7 @@ import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import MyPosterRefresh from "../../../../../UI/Buttons/Icons/MyPosterRefresh";
 import DeleteDialog from "./DeleteDialog";
 import PosterRefreshDialog from "./PosterRefreshDialog";
-import {isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
+import {getMovieByTmdbId, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
@@ -104,6 +104,18 @@ const backdropImage = props => {
         }
     }, [movies, wishlist, tmdbMovieDetails]);
 
+    const selectedMovie = getMovieByTmdbId(movies.concat(wishlist), movieTmdbId);
+    let posterSelector = null;
+    if (isObjectExist(selectedMovie)) {
+        posterSelector = (
+            <PosterRefreshDialog
+                open={isPosterRefresh}
+                movie={selectedMovie}
+                onExit={handleClosePosterRefreshDialog}
+            />
+        );
+    }
+
     return (
         <React.Fragment>
             <div className={root}>
@@ -132,10 +144,7 @@ const backdropImage = props => {
                 onExit={handleCloseDeleteDialog}
                 onDelete={handleDeleteMovie}
             />
-            <PosterRefreshDialog
-                open={isPosterRefresh}
-                onExit={handleClosePosterRefreshDialog}
-            />
+            {posterSelector}
         </React.Fragment>
     );
 };
