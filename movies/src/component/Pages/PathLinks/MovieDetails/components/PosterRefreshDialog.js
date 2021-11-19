@@ -99,11 +99,11 @@ const posterRefreshDialog = (props) => {
             <DialogActions>
                 <MyDialogButton
                     type="success"
-                    caption={t('text.no')}
+                    caption={t('button.no')}
                     onClick={onExit}/>
                 <MyDialogButton
                     type="danger"
-                    caption={t('text.yes')}
+                    caption={t('button.yes')}
                     // onClick={onDelete}
                 />
             </DialogActions>
