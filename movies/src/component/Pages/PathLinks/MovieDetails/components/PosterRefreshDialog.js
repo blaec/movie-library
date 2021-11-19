@@ -10,9 +10,10 @@ import {
 } from "@material-ui/core";
 import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
 import {useTranslation} from "react-i18next";
-import {useSelector} from "react-redux";
-import {isArrayExist} from "../../../../../utils/Utils";
+import {useDispatch, useSelector} from "react-redux";
+import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
+import {updateMoviePosters} from "../../../../../store/state/collection/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     images: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const posterRefreshDialog = (props) => {
-    const {open, movie: {posterPath, posterPathRu}, onExit} = props;
+    const {open, movie: {posterPath, posterPathRu, id}, onExit} = props;
     const {t} = useTranslation('common');
     const {images, selected} = useStyles();
     const [posterEnSelected, setPosterEnSelected] = useState(posterPath);
@@ -35,12 +36,26 @@ const posterRefreshDialog = (props) => {
 
     const postersEn = useSelector(state => state.collection.postersEn);
     const postersRu = useSelector(state => state.collection.postersRu);
+    const dispatch = useDispatch();
 
     const handleUpdateEnPoster = (posterUrl) => {
         setPosterEnSelected(posterUrl);
     };
     const handleUpdateRuPoster = (posterUrl) => {
         setPosterRuSelected(posterUrl);
+    };
+
+    const handleUpdatePoster = () => {
+        const posterEn = posterEnSelected === posterPath
+            ? ''
+            : posterEnSelected;
+        const posterRu = posterRuSelected === posterPathRu
+            ? ''
+            : posterRuSelected;
+        if (isObjectExist(posterEn) || isObjectExist(posterRu)) {
+            dispatch(updateMoviePosters(id, posterEnSelected, posterRuSelected));
+        }
+        onExit();
     };
 
     let posterEnGallery = null;
@@ -104,7 +119,7 @@ const posterRefreshDialog = (props) => {
                 <MyDialogButton
                     type="danger"
                     caption={t('button.yes')}
-                    // onClick={onDelete}
+                    onClick={handleUpdatePoster}
                 />
             </DialogActions>
         </Dialog>

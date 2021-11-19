@@ -3,6 +3,7 @@ package com.blaec.movielibrary.controllers;
 import com.blaec.movielibrary.api.MovieDataBaseApi;
 import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.model.Movie;
+import com.blaec.movielibrary.model.json.Poster;
 import com.blaec.movielibrary.model.json.SingleFileUpload;
 import com.blaec.movielibrary.model.json.TmdbResult;
 import com.blaec.movielibrary.model.object.Response;
@@ -15,7 +16,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -125,10 +129,11 @@ public class MovieController {
         return movieService.saveToWishlist(tmdbMovie).build();
     }
 
-    @PostMapping("/update-poster/{tmdbId}")
-    public Response updatePoster(@PathVariable String tmdbId) {
-        Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(tmdbId);
-        return movieService.updatePoster(tmdbMovie.get().getTmdbId()).build();
+    @PutMapping("/update-movie-posters")
+    public Response updatePoster(@RequestBody Poster poster) {
+        log.debug(String.format("Received movie %s with en-poster %s and ru-poster %s", poster.getId(), poster.getPosterEn(), poster.getPosterRu()));
+//        Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(tmdbId);
+        return Response.Builder.create().setMessage("Poster updated successfully").build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

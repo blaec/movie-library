@@ -38,6 +38,9 @@ export const movieApi = {
         uploadMovie: `${baseMovieApi}upload/file`,
         scanFolder: `${baseMovieApi}upload/`,
     },
+    put: {
+        updatePosters: `${baseMovieApi}update-movie-posters`
+    },
     delete: {
         delete: `${baseMovieApi}delete/`,
     },

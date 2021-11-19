@@ -149,3 +149,21 @@ export const fetchPostersByLanguage = (id, tmdbApi, language) => {
             });
     };
 };
+
+export const updateMoviePosters = (id, posterEn, posterRu) => {
+    return async (dispatch) => {
+        axios.put(movieApi.put.updatePosters, {id: id, posterEn: posterEn, posterRu: posterRu})
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setResults(data));
+                dispatch(fetchMovies());
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to load filtered movie list`,
+                    type: 'error'
+                }));
+            });
+    };
+};

@@ -10,6 +10,7 @@ const initialState = {
     library: [],
     postersEn: [],
     postersRu: [],
+    results: [],
 };
 
 const collectionSlice = createSlice({
@@ -45,6 +46,9 @@ const collectionSlice = createSlice({
         },
         setPostersRu(state, action) {
             state.postersRu = action.payload;
+        },
+        setResults(state, action) {
+            state.results = action.payload;
         },
     }
 });
