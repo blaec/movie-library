@@ -6,9 +6,9 @@ import {useTranslation} from "react-i18next";
 import images from "./backdropComponents/Images";
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
-import MyPosterRefresh from "../../../../../UI/Buttons/Icons/MyPosterRefresh";
+import MyPosterIcon from "../../../../../UI/Buttons/Icons/MyPosterIcon";
 import DeleteDialog from "./DeleteDialog";
-import PosterRefreshDialog from "./PosterRefreshDialog";
+import PosterUpdateDialog from "./PosterUpdateDialog";
 import {getMovieByTmdbId, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
@@ -33,7 +33,7 @@ const backdropImage = props => {
     const {root} = useStyles();
     const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
-    const [isPosterRefresh, setIsPosterRefresh] = useState(false);
+    const [isPosterUpdate, setIsPosterUpdate] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
     const {t} = useTranslation('common');
 
@@ -59,12 +59,12 @@ const backdropImage = props => {
         dispatch(deleteMovie(movieTmdbId));
     };
 
-    const handlePosterRefresh = () => {
-        setIsPosterRefresh(true);
+    const handlePosterUpdate = () => {
+        setIsPosterUpdate(true);
     };
 
-    const handleClosePosterRefreshDialog = () => {
-        setIsPosterRefresh(false);
+    const handleClosePosterUpdateDialog = () => {
+        setIsPosterUpdate(false);
     }
 
     const handleAddToWatchMovie = () => {
@@ -114,13 +114,13 @@ const backdropImage = props => {
     }, [movies, wishlist, tmdbMovieDetails]);
 
     const selectedMovie = getMovieByTmdbId(movies.concat(wishlist), movieTmdbId);
-    let posterSelector = null;
+    let posterDialog = null;
     if (isObjectExist(selectedMovie)) {
-        posterSelector = (
-            <PosterRefreshDialog
-                open={isPosterRefresh}
+        posterDialog = (
+            <PosterUpdateDialog
+                open={isPosterUpdate}
                 movie={selectedMovie}
-                onExit={handleClosePosterRefreshDialog}
+                onExit={handleClosePosterUpdateDialog}
             />
         );
     }
@@ -135,9 +135,9 @@ const backdropImage = props => {
                     onAddToWatch={handleAddToWatchMovie}
                     onDelete={handleDeletedMovie}
                 />
-                <MyPosterRefresh
+                <MyPosterIcon
                     isInCollection={isInCollection}
-                    onShowModal={handlePosterRefresh}
+                    onShowModal={handlePosterUpdate}
                 />
                 <Carousel
                     timeout={FADE_TIMEOUT}
@@ -153,7 +153,7 @@ const backdropImage = props => {
                 onExit={handleCloseDeleteDialog}
                 onDelete={handleDeleteMovie}
             />
-            {posterSelector}
+            {posterDialog}
         </React.Fragment>
     );
 };

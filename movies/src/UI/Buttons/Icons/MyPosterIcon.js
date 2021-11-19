@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const myPosterRefresh = (props) => {
+const myPosterIcon = (props) => {
     const {isInCollection, onShowModal} = props;
     const {root} = useStyles();
 
@@ -35,4 +35,4 @@ const myPosterRefresh = (props) => {
     );
 };
 
-export default myPosterRefresh;
+export default myPosterIcon;

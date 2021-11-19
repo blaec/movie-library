@@ -11,6 +11,7 @@ import {detailsActions} from "./store/state/details/details-slice";
 import {useLocation} from "react-router";
 import {currentLocation, language, previousLocation} from "./store/localStorage/actions";
 import {useTranslation} from "react-i18next";
+import {collectionActions} from "./store/state/collection/collection-slice";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
@@ -77,6 +78,7 @@ const app = () => {
                     {/* Path links */}
                     <Route path={movieDetails} exact component={props => {
                         dispatch(detailsActions.resetAll());
+                        dispatch(collectionActions.setResults([]));
                         return <MovieDetails {...props}/>
                     }}/>
                     <Route path={actorDetails} exact component={props => <ActorDetails {...props}/>}/>

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const posterRefreshDialog = (props) => {
+const posterUpdateDialog = (props) => {
     const {open, movie: {posterPath, posterPathRu, id}, onExit} = props;
     const {t} = useTranslation('common');
     const {images, selected} = useStyles();
@@ -126,4 +126,4 @@ const posterRefreshDialog = (props) => {
     );
 };
 
-export default posterRefreshDialog;
+export default posterUpdateDialog;
