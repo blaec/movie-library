@@ -1,10 +1,12 @@
 {
   "button": {
     "add": "Добавить",
+    "cancel": "Отмена",
     "clear": "Очистить",
     "filter": "Фильтр",
     "no": "Нет",
     "search": "Поиск",
+    "update": "Изменить",
     "yes": "Да"
   },
   "helperText": {
@@ -13,7 +15,8 @@
     "enterMovieTitle": "Введите наименование фильма",
     "enterReleaseYear": "Введите год выпуска фильма",
     "noDescriptionAvailable": "Нет доступного описания",
-    "typeTmdbId": "Введите полный tmdb id"
+    "typeTmdbId": "Введите полный tmdb id",
+    "updatePosterExplanation": "Выберите один из затемненных постеров для любого языка (английский и/или русский) и нажмите кнопку Изменить."
   },
   "menu": {
     "anticipated": "Ожидаемые",
@@ -85,6 +88,7 @@
     "singleMovieUpload": "Пофайловая загрузка",
     "size": "Размер (Гб)",
     "title": "Наименование",
-    "type": "Тип"
+    "type": "Тип",
+    "updatePoster": "Изменить постеры"
   }
 }

@@ -1,10 +1,12 @@
 {
   "button": {
     "add": "Add",
+    "cancel": "Cancel",
     "clear": "Clear",
     "filter": "Filter",
     "no": "No",
     "search": "Search",
+    "update": "Update",
     "yes": "Yes"
   },
   "helperText": {
@@ -13,7 +15,8 @@
     "enterMovieTitle": "Enter movie title",
     "enterReleaseYear": "Enter movie release year",
     "noDescriptionAvailable": "No description available",
-    "typeTmdbId": "Type exact tmdb id"
+    "typeTmdbId": "Type exact tmdb id",
+    "updatePosterExplanation": "Select one of shaded posters for any language (english and/or russian) and press Update button."
   },
   "menu": {
     "anticipated": "Anticipated",
@@ -85,6 +88,7 @@
     "singleMovieUpload": "Single movie upload",
     "size": "Size (Gb)",
     "title": "Title",
-    "type": "Type"
+    "type": "Type",
+    "updatePoster": "Update posters"
   }
 }

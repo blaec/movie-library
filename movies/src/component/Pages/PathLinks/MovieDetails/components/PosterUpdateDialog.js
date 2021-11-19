@@ -1,4 +1,12 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
+
+import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
+import {isArrayExist, isStringExist} from "../../../../../utils/Utils";
+import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
+import {updateMoviePosters} from "../../../../../store/state/collection/collection-actions";
+
 import {
     Dialog,
     DialogActions,
@@ -8,12 +16,6 @@ import {
     makeStyles,
     Paper
 } from "@material-ui/core";
-import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
-import {useTranslation} from "react-i18next";
-import {useDispatch, useSelector} from "react-redux";
-import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
-import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
-import {updateMoviePosters} from "../../../../../store/state/collection/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     images: {
@@ -29,68 +31,48 @@ const useStyles = makeStyles((theme) => ({
 
 const posterUpdateDialog = (props) => {
     const {open, movie: {posterPath, posterPathRu, id}, onExit} = props;
-    const {t} = useTranslation('common');
     const {images, selected} = useStyles();
     const [posterEnSelected, setPosterEnSelected] = useState(posterPath);
     const [posterRuSelected, setPosterRuSelected] = useState(posterPathRu);
+    const {t} = useTranslation('common');
 
     const postersEn = useSelector(state => state.collection.postersEn);
     const postersRu = useSelector(state => state.collection.postersRu);
     const dispatch = useDispatch();
 
-    const handleUpdateEnPoster = (posterUrl) => {
-        setPosterEnSelected(posterUrl);
-    };
-    const handleUpdateRuPoster = (posterUrl) => {
-        setPosterRuSelected(posterUrl);
-    };
-
     const handleUpdatePoster = () => {
-        const posterEn = posterEnSelected === posterPath
-            ? ''
-            : posterEnSelected;
-        const posterRu = posterRuSelected === posterPathRu
-            ? ''
-            : posterRuSelected;
-        if (isObjectExist(posterEn) || isObjectExist(posterRu)) {
+        const posterEn = getIfNew(posterPath, posterEnSelected);
+        const posterRu = getIfNew(posterPathRu, posterRuSelected);
+        if (isStringExist(posterEn) || isStringExist(posterRu)) {
             dispatch(updateMoviePosters(id, posterEnSelected, posterRuSelected));
         }
         onExit();
     };
+    const getIfNew = (currentValue, newValue) => {
+        return currentValue === newValue ? '' : newValue;
+    };
 
-    let posterEnGallery = null;
-    if (isArrayExist(postersEn)) {
-        posterEnGallery = postersEn.map((image, index) => {
-            const {file_path} = image;
-            return (
-                <img
-                    className={file_path !== posterEnSelected ? selected : null}
-                    key={index}
-                    height={250}
-                    src={getImageUrl(file_path, posterSizes.w342)}
-                    alt=''
-                    onClick={() => handleUpdateEnPoster(file_path)}
-                />
-            );
-        });
+    const createPosterGallery = (posters, selectedPoster, setSelectedPoster) => {
+        let posterGallery = null;
+        if (isArrayExist(posters)) {
+            posterGallery = posters.map((image, index) => {
+                const {file_path} = image;
+                return (
+                    <img
+                        className={file_path !== selectedPoster ? selected : null}
+                        key={index}
+                        height={200}
+                        src={getImageUrl(file_path, posterSizes.w342)}
+                        alt=''
+                        onClick={() => setSelectedPoster(file_path)}
+                    />
+                );
+            });
+        }
+        return posterGallery;
     }
-
-    let posterRuGallery = null;
-    if (isArrayExist(postersRu)) {
-        posterRuGallery = postersRu.map((image, index) => {
-            const {file_path} = image;
-            return (
-                <img
-                    className={file_path !== posterRuSelected ? selected : null}
-                    key={index}
-                    height={250}
-                    src={getImageUrl(file_path, posterSizes.w342)}
-                    alt=''
-                    onClick={() => handleUpdateRuPoster(file_path)}
-                />
-            )
-        });
-    }
+    const posterEnGallery = createPosterGallery(postersEn, posterEnSelected, setPosterEnSelected);
+    const posterRuGallery = createPosterGallery(postersRu, posterRuSelected, setPosterRuSelected);
 
     return (
         <Dialog
@@ -98,27 +80,27 @@ const posterUpdateDialog = (props) => {
             onClose={onExit}
         >
             <DialogTitle>
-                {t('text.deleteMovie')}
+                {t('text.updatePoster')}
             </DialogTitle>
             <DialogContent>
+                <DialogContentText>
+                    {t('helperText.updatePosterExplanation')}
+                </DialogContentText>
                 <Paper className={images} square>
                     {posterEnGallery}
                 </Paper>
                 <Paper className={images} square>
                     {posterRuGallery}
                 </Paper>
-                <DialogContentText>
-                    {t('helperText.deleteMovieQuery')}
-                </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <MyDialogButton
                     type="success"
-                    caption={t('button.no')}
+                    caption={t('button.cancel')}
                     onClick={onExit}/>
                 <MyDialogButton
                     type="danger"
-                    caption={t('button.yes')}
+                    caption={t('button.update')}
                     onClick={handleUpdatePoster}
                 />
             </DialogActions>
