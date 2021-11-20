@@ -162,6 +162,8 @@ export const updateMoviePosters = (movie) => {
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setResults(data));
+                dispatch(fetchMovies());
+                dispatch(fetchWishlist());
             })
             .catch(error => {
                 console.log(error);
