@@ -131,8 +131,7 @@ public class MovieController {
     @PutMapping("/update-movie-posters")
     public Response updatePoster(@RequestBody Movie movie) {
         log.debug(String.format("Received movie %s with en-poster %s and ru-poster %s", movie.getId(), movie.getPosterPath(), movie.getPosterPathRu()));
-//        Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(tmdbId);
-        return Response.Builder.create().setMessage("Poster updated successfully").build();
+        return movieService.updatePoster(movie).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

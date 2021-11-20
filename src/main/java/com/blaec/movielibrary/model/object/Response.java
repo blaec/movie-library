@@ -3,6 +3,8 @@ package com.blaec.movielibrary.model.object;
 import com.blaec.movielibrary.model.Movie;
 import lombok.Getter;
 
+import java.util.concurrent.Callable;
+
 @Getter
 public class Response {
     private final Integer id;
@@ -53,6 +55,11 @@ public class Response {
         public Builder setFailMessage(String message) {
             this.isSuccess = false;
             this.message = message;
+            return this;
+        }
+
+        public Builder validateSuccess(Callable<Boolean> isValid) throws Exception {
+            this.isSuccess = isValid.call();
             return this;
         }
 

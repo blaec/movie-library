@@ -94,6 +94,11 @@ public class Movie {
         return movie;
     }
 
+    public void updatePosters(String posterPath, String posterPathRu) {
+        this.posterPath = posterPath;
+        this.posterPathRu = posterPathRu;
+    }
+
     @Override
     public String toString() {
         return String.format("#%s %s (%s) %.1fGb", tmdbId, title, releaseDate, size);

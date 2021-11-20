@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 
 @Slf4j
@@ -100,18 +101,23 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Response.Builder updatePoster(String tmdbId) {
-        Response.Builder responseBuilder;
+    public Response.Builder updatePoster(Movie movie) {
+        Response.Builder responseBuilder = Response.Builder.create();
         try {
-            Movie movie = getMovieByTmdb(tmdbId);
-            String posterPath = movie.getPosterPath();
-            String posterPathRu = movie.getPosterPathRu();
-
-            responseBuilder = Response.Builder.create();
-        } catch (IllegalArgumentException e) {
-            String message = String.format("Movie with this tmdbId: %s not exists", tmdbId);
+            Movie updatedMovie = movieRepository.save(movie)
+                    .orElseThrow(IllegalArgumentException::new);
+            log.info("updated poster | {}", updatedMovie);
+            Callable<Boolean> isUpdated = () ->
+                    movie.getPosterPath().equals(updatedMovie.getPosterPath())
+                    && movie.getPosterPathRu().equals(updatedMovie.getPosterPathRu());
+            responseBuilder
+                    .setMovie(updatedMovie)
+                    .setMessage("Poster successfully updated")
+                    .validateSuccess(isUpdated);
+        } catch (Exception e) {
+            String message = String.format("Failed to update movie posters | %s", movie);
             log.error(message, e);
-            responseBuilder = Response.Builder.create().setTmdbId(tmdbId).setFailMessage(message);
+            responseBuilder.setMovie(movie).setFailMessage(e.getMessage());
         }
         return responseBuilder;
     }
