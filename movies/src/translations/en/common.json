@@ -10,6 +10,7 @@
     "yes": "Yes"
   },
   "helperText": {
+    "NoPosterFound": "Found no poster for this movie",
     "deleteMovieQuery": "Do you really want to delete this movie?",
     "enterExactFileName": "Enter exact file name with extension",
     "enterMovieTitle": "Enter movie title",

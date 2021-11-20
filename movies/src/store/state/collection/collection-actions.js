@@ -135,10 +135,16 @@ export const fetchPostersByLanguage = (id, tmdbApi, language) => {
         axios.get(getMoviePostersUrl(id, tmdbApi, language))
             .then(response => {
                 const {data: {posters}} = response;
-                let setPosters = language === Language.english
-                    ? collectionActions.setPostersEn
-                    : collectionActions.setPostersRu;
-                dispatch(setPosters(posters));
+                switch (language) {
+                    case Language.english:
+                        dispatch(collectionActions.setPostersEn(posters));
+                        break;
+                    case Language.russian:
+                        dispatch(collectionActions.setPostersRu(posters));
+                        break;
+                    default:
+                        throw new Error(`not implemented language ${language}`);
+                }
             })
             .catch(error => {
                 console.log(error);

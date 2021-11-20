@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 
 import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
+import MyResponse from "../../../../../UI/MyResponse";
 import {isArrayExist, isStringExist} from "../../../../../utils/Utils";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
 import {updateMoviePosters} from "../../../../../store/state/collection/collection-actions";
@@ -28,6 +29,10 @@ const useStyles = makeStyles((theme) => ({
         cursor: 'pointer'
     }
 }));
+
+const getIfNew = (currentValue, newValue) => {
+    return currentValue === newValue ? '' : newValue;
+};
 
 const posterUpdateDialog = (props) => {
     const {open, movie: {posterPath, posterPathRu, id}, onExit} = props;
@@ -56,9 +61,6 @@ const posterUpdateDialog = (props) => {
             dispatch(updateMoviePosters(id, posterEnSelected, posterRuSelected));
         }
         onExit();
-    };
-    const getIfNew = (currentValue, newValue) => {
-        return currentValue === newValue ? '' : newValue;
     };
     const isAnyNewPoster = (posterEnSelected, posterRuSelected) => {
         const posterEn = getIfNew(posterPath, posterEnSelected);
@@ -91,15 +93,14 @@ const posterUpdateDialog = (props) => {
     const posterEnGallery = createPosterGallery(postersEn, posterEnSelected, handlePosterEnSelect);
     const posterRuGallery = createPosterGallery(postersRu, posterRuSelected, handlePosterRuSelect);
 
-    return (
-        <Dialog
-            open={open}
-            onClose={onExit}
-        >
-            <DialogTitle>
-                {t('text.updatePoster')}
-            </DialogTitle>
-            <DialogContent>
+    let dialogContent = (
+        <React.Fragment>
+            <MyResponse message={t('helperText.NoPosterFound')}/>
+        </React.Fragment>
+    );
+    if (posterEnGallery !== null || posterRuGallery !== null) {
+        dialogContent = (
+            <React.Fragment>
                 <DialogContentText>
                     {t('helperText.updatePosterExplanation')}
                 </DialogContentText>
@@ -109,6 +110,20 @@ const posterUpdateDialog = (props) => {
                 <Paper className={images} square>
                     {posterRuGallery}
                 </Paper>
+            </React.Fragment>
+        );
+    }
+
+    return (
+        <Dialog
+            open={open}
+            onClose={onExit}
+        >
+            <DialogTitle>
+                {t('text.updatePoster')}
+            </DialogTitle>
+            <DialogContent>
+                {dialogContent}
             </DialogContent>
             <DialogActions>
                 <MyDialogButton
