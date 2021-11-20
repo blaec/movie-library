@@ -3,7 +3,7 @@ import React from 'react';
 import {Button} from "@material-ui/core";
 
 const myDialogButton = (props) => {
-    const {type, caption, onClick} = props;
+    const {type, caption, disabled, onClick} = props;
 
     const style = {
         success: {
@@ -21,6 +21,7 @@ const myDialogButton = (props) => {
             color={style[type].color}
             autoFocus={style[type].autoFocus}
             onClick={onClick}
+            disabled={disabled}
         >
             {caption}
         </Button>

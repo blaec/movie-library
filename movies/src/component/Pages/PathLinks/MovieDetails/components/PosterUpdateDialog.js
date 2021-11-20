@@ -34,11 +34,26 @@ const posterUpdateDialog = (props) => {
     const {images, selected} = useStyles();
     const [posterEnSelected, setPosterEnSelected] = useState(posterPath);
     const [posterRuSelected, setPosterRuSelected] = useState(posterPathRu);
+    const [disableUpdate, setDisableUpdate] = useState(true);
     const {t} = useTranslation('common');
 
     const postersEn = useSelector(state => state.collection.postersEn);
     const postersRu = useSelector(state => state.collection.postersRu);
     const dispatch = useDispatch();
+
+    const handlePosterEnSelect = (posterUrl) => {
+        setPosterEnSelected(posterUrl);
+        const posterEn = getIfNew(posterPath, posterUrl);
+        const posterRu = getIfNew(posterPathRu, posterRuSelected);
+        setDisableUpdate((!isStringExist(posterEn) && !isStringExist(posterRu)));
+    };
+
+    const handlePosterRuSelect = (posterUrl) => {
+        setPosterRuSelected(posterUrl);
+        const posterEn = getIfNew(posterPath, posterEnSelected);
+        const posterRu = getIfNew(posterPathRu, posterUrl);
+        setDisableUpdate((!isStringExist(posterEn) && !isStringExist(posterRu)));
+    };
 
     const handleUpdatePoster = () => {
         const posterEn = getIfNew(posterPath, posterEnSelected);
@@ -52,6 +67,7 @@ const posterUpdateDialog = (props) => {
         return currentValue === newValue ? '' : newValue;
     };
 
+    console.log(disableUpdate);
     const createPosterGallery = (posters, selectedPoster, setSelectedPoster) => {
         let posterGallery = null;
         if (isArrayExist(posters)) {
@@ -71,8 +87,8 @@ const posterUpdateDialog = (props) => {
         }
         return posterGallery;
     }
-    const posterEnGallery = createPosterGallery(postersEn, posterEnSelected, setPosterEnSelected);
-    const posterRuGallery = createPosterGallery(postersRu, posterRuSelected, setPosterRuSelected);
+    const posterEnGallery = createPosterGallery(postersEn, posterEnSelected, handlePosterEnSelect);
+    const posterRuGallery = createPosterGallery(postersRu, posterRuSelected, handlePosterRuSelect);
 
     return (
         <Dialog
@@ -101,6 +117,7 @@ const posterUpdateDialog = (props) => {
                 <MyDialogButton
                     type="danger"
                     caption={t('button.update')}
+                    disabled={disableUpdate}
                     onClick={handleUpdatePoster}
                 />
             </DialogActions>
