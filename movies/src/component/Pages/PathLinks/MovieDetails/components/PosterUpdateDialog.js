@@ -43,16 +43,16 @@ const posterUpdateDialog = (props) => {
 
     const handlePosterEnSelect = (posterUrl) => {
         setPosterEnSelected(posterUrl);
-        setDisableUpdate(isCurrentPoster(posterUrl, posterRuSelected));
+        setDisableUpdate(isCurrentPosters(posterUrl, posterRuSelected));
     };
 
     const handlePosterRuSelect = (posterUrl) => {
         setPosterRuSelected(posterUrl);
-        setDisableUpdate(isCurrentPoster(posterEnSelected, posterUrl));
+        setDisableUpdate(isCurrentPosters(posterEnSelected, posterUrl));
     };
 
     const handleUpdatePoster = () => {
-        if (isNewPoster(posterEnSelected, posterRuSelected)) {
+        if (isAnyNewPoster(posterEnSelected, posterRuSelected)) {
             dispatch(updateMoviePosters(id, posterEnSelected, posterRuSelected));
         }
         onExit();
@@ -60,13 +60,13 @@ const posterUpdateDialog = (props) => {
     const getIfNew = (currentValue, newValue) => {
         return currentValue === newValue ? '' : newValue;
     };
-    const isNewPoster = (posterEnSelected, posterRuSelected) => {
+    const isAnyNewPoster = (posterEnSelected, posterRuSelected) => {
         const posterEn = getIfNew(posterPath, posterEnSelected);
         const posterRu = getIfNew(posterPathRu, posterRuSelected);
         return isStringExist(posterEn) || isStringExist(posterRu)
     };
-    const isCurrentPoster = (posterEnSelected, posterRuSelected) => {
-        return !isNewPoster(posterEnSelected, posterRuSelected)
+    const isCurrentPosters = (posterEnSelected, posterRuSelected) => {
+        return !isAnyNewPoster(posterEnSelected, posterRuSelected)
     };
 
     const createPosterGallery = (posters, selectedPoster, setSelectedPoster) => {
