@@ -192,15 +192,18 @@ class MovieControllerTest extends AbstractMovieControllerTest {
 
     @Test
     @Order(60)
-    void updatePoster() throws Exception {
+    void updatePosters() throws Exception {
         final int tmdbId = 19995;
-        final String url = String.format("%s/update-poster/%d", URL, tmdbId);
+        final String url = String.format("%s/update-movie-posters", URL);
 
-        ResultActions resultActions = perform(MockMvcRequestBuilders.post(url));
+        ResultActions resultActions = perform(MockMvcRequestBuilders.put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(POSTER)));
         validate(resultActions)
 //                .andExpect(jsonPath("$.*").isNotEmpty())
 //                .andExpect(jsonPath("$[*].message", hasItems("Already exist")))
-//                .andExpect(jsonPath("$[*].message", hasItems(SUCCESS_MESSAGE)))
+                .andExpect(jsonPath("$.message").value("Poster updated successfully"))
+                .andExpect(jsonPath("$.success").value(true));
 //                .andExpect(jsonPath("$[*].success", hasItems(true)))
         ;
     }

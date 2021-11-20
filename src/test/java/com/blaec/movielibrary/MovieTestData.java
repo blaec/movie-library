@@ -2,6 +2,7 @@ package com.blaec.movielibrary;
 
 import com.blaec.movielibrary.enums.Language;
 import com.blaec.movielibrary.model.Movie;
+import com.blaec.movielibrary.model.json.Poster;
 import com.blaec.movielibrary.model.json.TmdbResult;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
@@ -69,5 +70,5 @@ public class MovieTestData {
     public static final Movie MOVIE_3 = Movie.createWithMovieType(MOVIE_TMDB_TO_3, MovieFileTo.from(FILE_3).get());
     public static final List<Movie> MOVIES = List.of(MOVIE_3, MOVIE_2, MOVIE_1);
 
-
+    public static final Poster POSTER = new Poster("899", "/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg", "/xNlrGGUepVWcjDxgjc4L4weW4Vn.jpg");
 }
