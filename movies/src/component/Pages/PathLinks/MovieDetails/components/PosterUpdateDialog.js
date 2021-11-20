@@ -35,7 +35,8 @@ const getIfNew = (currentValue, newValue) => {
 };
 
 const posterUpdateDialog = (props) => {
-    const {open, movie: {posterPath, posterPathRu, id}, onExit} = props;
+    const {open, movie, onExit} = props;
+    const {posterPath, posterPathRu} = movie;
     const {images, selected} = useStyles();
     const [posterEnSelected, setPosterEnSelected] = useState(posterPath);
     const [posterRuSelected, setPosterRuSelected] = useState(posterPathRu);
@@ -58,7 +59,12 @@ const posterUpdateDialog = (props) => {
 
     const handleUpdatePoster = () => {
         if (isAnyNewPoster(posterEnSelected, posterRuSelected)) {
-            dispatch(updateMoviePosters(id, posterEnSelected, posterRuSelected));
+            const updatedMovie = {
+                ...movie,
+                posterPath: posterEnSelected,
+                posterPathRu: posterRuSelected
+            }
+            dispatch(updateMoviePosters(updatedMovie));
         }
         onExit();
     };

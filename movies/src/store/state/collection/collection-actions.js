@@ -156,9 +156,9 @@ export const fetchPostersByLanguage = (id, tmdbApi, language) => {
     };
 };
 
-export const updateMoviePosters = (id, posterEn, posterRu) => {
+export const updateMoviePosters = (movie) => {
     return async (dispatch) => {
-        axios.put(movieApi.put.updatePosters, {id: id, posterEn: posterEn, posterRu: posterRu})
+        axios.put(movieApi.put.updatePosters, movie)
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setResults(data));
@@ -166,7 +166,7 @@ export const updateMoviePosters = (id, posterEn, posterRu) => {
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to update posters to movie with id #${id}`,
+                    message: `${error} | Failed to update posters to movie with id #${movie.id}`,
                     type: 'error'
                 }));
             });

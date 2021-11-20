@@ -198,12 +198,12 @@ class MovieControllerTest extends AbstractMovieControllerTest {
 
         ResultActions resultActions = perform(MockMvcRequestBuilders.put(url)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(POSTER)));
+                .content(JsonUtil.writeValue(MOVIE_1)));
         validate(resultActions)
 //                .andExpect(jsonPath("$.*").isNotEmpty())
 //                .andExpect(jsonPath("$[*].message", hasItems("Already exist")))
                 .andExpect(jsonPath("$.message").value("Poster updated successfully"))
-                .andExpect(jsonPath("$.success").value(true));
+                .andExpect(jsonPath("$.success").value(true))
 //                .andExpect(jsonPath("$[*].success", hasItems(true)))
         ;
     }

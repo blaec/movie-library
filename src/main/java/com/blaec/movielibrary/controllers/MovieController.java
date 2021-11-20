@@ -3,7 +3,6 @@ package com.blaec.movielibrary.controllers;
 import com.blaec.movielibrary.api.MovieDataBaseApi;
 import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.model.Movie;
-import com.blaec.movielibrary.model.json.Poster;
 import com.blaec.movielibrary.model.json.SingleFileUpload;
 import com.blaec.movielibrary.model.json.TmdbResult;
 import com.blaec.movielibrary.model.object.Response;
@@ -130,8 +129,8 @@ public class MovieController {
     }
 
     @PutMapping("/update-movie-posters")
-    public Response updatePoster(@RequestBody Poster poster) {
-        log.debug(String.format("Received movie %s with en-poster %s and ru-poster %s", poster.getId(), poster.getPosterEn(), poster.getPosterRu()));
+    public Response updatePoster(@RequestBody Movie movie) {
+        log.debug(String.format("Received movie %s with en-poster %s and ru-poster %s", movie.getId(), movie.getPosterPath(), movie.getPosterPathRu()));
 //        Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(tmdbId);
         return Response.Builder.create().setMessage("Poster updated successfully").build();
     }
