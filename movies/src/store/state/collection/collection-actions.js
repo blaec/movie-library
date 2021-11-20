@@ -162,12 +162,11 @@ export const updateMoviePosters = (id, posterEn, posterRu) => {
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setResults(data));
-                dispatch(fetchMovies());
             })
             .catch(error => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to load filtered movie list`,
+                    message: `${error} | Failed to update posters to movie with id #${id}`,
                     type: 'error'
                 }));
             });
