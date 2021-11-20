@@ -130,7 +130,7 @@ public class MovieController {
 
     @PutMapping("/update-movie-posters")
     public Response updatePoster(@RequestBody Movie movie) {
-        log.debug(String.format("Received movie %s with en-poster %s and ru-poster %s", movie.getId(), movie.getPosterPath(), movie.getPosterPathRu()));
+        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movie, movie.getPosterPath(), movie.getPosterPathRu()));
         return movieService.updatePoster(movie).build();
     }
 

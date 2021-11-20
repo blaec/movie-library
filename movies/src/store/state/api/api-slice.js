@@ -10,10 +10,7 @@ const apiSlice = createSlice({
     initialState,
     reducers: {
         initConfig(state, action) {
-            const {
-                tmdbApiKey: tmdbApiKey,
-                omdbApiKey: omdbApiKey
-            } = action.payload;
+            const {tmdbApiKey, omdbApiKey} = action.payload;
             state.tmdb = tmdbApiKey;
             state.omdb = omdbApiKey;
         },

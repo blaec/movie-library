@@ -205,11 +205,8 @@ class MovieControllerTest extends AbstractMovieControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(dbMovie)));
         validate(resultActions)
-//                .andExpect(jsonPath("$.*").isNotEmpty())
-//                .andExpect(jsonPath("$[*].message", hasItems("Already exist")))
                 .andExpect(jsonPath("$.message").value("Poster successfully updated"))
                 .andExpect(jsonPath("$.success").value(true))
-//                .andExpect(jsonPath("$[*].success", hasItems(true)))
         ;
     }
 

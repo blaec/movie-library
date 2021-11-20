@@ -19,12 +19,12 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    images: {
+    posters: {
         display: 'flex',
         overflow: 'auto',
         marginTop: theme.spacing(2),
     },
-    selected: {
+    newPoster: {
         opacity: '50%',
         cursor: 'pointer'
     }
@@ -37,7 +37,7 @@ const getIfNew = (currentValue, newValue) => {
 const posterUpdateDialog = (props) => {
     const {open, movie, onExit} = props;
     const {posterPath, posterPathRu} = movie;
-    const {images, selected} = useStyles();
+    const {posters, newPoster} = useStyles();
     const [posterEnSelected, setPosterEnSelected] = useState(posterPath);
     const [posterRuSelected, setPosterRuSelected] = useState(posterPathRu);
     const [disableUpdate, setDisableUpdate] = useState(true);
@@ -58,7 +58,7 @@ const posterUpdateDialog = (props) => {
     };
 
     const handleUpdatePoster = () => {
-        if (isAnyNewPoster(posterEnSelected, posterRuSelected)) {
+        if (hasNewPoster(posterEnSelected, posterRuSelected)) {
             const updatedMovie = {
                 ...movie,
                 posterPath: posterEnSelected,
@@ -68,13 +68,13 @@ const posterUpdateDialog = (props) => {
         }
         onExit();
     };
-    const isAnyNewPoster = (posterEnSelected, posterRuSelected) => {
+    const hasNewPoster = (posterEnSelected, posterRuSelected) => {
         const posterEn = getIfNew(posterPath, posterEnSelected);
         const posterRu = getIfNew(posterPathRu, posterRuSelected);
         return isStringExist(posterEn) || isStringExist(posterRu)
     };
     const isCurrentPosters = (posterEnSelected, posterRuSelected) => {
-        return !isAnyNewPoster(posterEnSelected, posterRuSelected)
+        return !hasNewPoster(posterEnSelected, posterRuSelected)
     };
 
     const createPosterGallery = (posters, selectedPoster, setSelectedPoster) => {
@@ -84,7 +84,7 @@ const posterUpdateDialog = (props) => {
                 const {file_path} = image;
                 return (
                     <img
-                        className={file_path !== selectedPoster ? selected : null}
+                        className={file_path !== selectedPoster ? newPoster : null}
                         key={index}
                         height={200}
                         src={getImageUrl(file_path, posterSizes.w342)}
@@ -110,10 +110,10 @@ const posterUpdateDialog = (props) => {
                 <DialogContentText>
                     {t('helperText.updatePosterExplanation')}
                 </DialogContentText>
-                <Paper className={images} square>
+                <Paper className={posters} square>
                     {posterEnGallery}
                 </Paper>
-                <Paper className={images} square>
+                <Paper className={posters} square>
                     {posterRuGallery}
                 </Paper>
             </React.Fragment>
