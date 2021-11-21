@@ -4,6 +4,7 @@ import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
+import com.blaec.movielibrary.utils.TestUtils;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -95,8 +96,10 @@ public class Movie {
     }
 
     public void updatePosters(String posterPath, String posterPathRu) {
-        this.posterPath = posterPath;
-        this.posterPathRu = posterPathRu;
+        if (TestUtils.isJUnitTest()) {
+            this.posterPath = posterPath;
+            this.posterPathRu = posterPathRu;
+        }
     }
 
     @Override
