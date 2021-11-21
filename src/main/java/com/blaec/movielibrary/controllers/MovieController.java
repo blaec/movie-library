@@ -15,7 +15,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -123,6 +126,12 @@ public class MovieController {
         log.info("uploading wish movie | {}", wishMovie);
         Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(wishMovie);
         return movieService.saveToWishlist(tmdbMovie).build();
+    }
+
+    @PutMapping("/update-movie-posters")
+    public Response updatePoster(@RequestBody Movie movie) {
+        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movie, movie.getPosterPath(), movie.getPosterPathRu()));
+        return movieService.updatePoster(movie).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

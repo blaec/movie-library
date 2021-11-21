@@ -1,17 +1,23 @@
 {
   "button": {
     "add": "Добавить",
+    "cancel": "Отмена",
     "clear": "Очистить",
     "filter": "Фильтр",
-    "search": "Поиск"
+    "no": "Нет",
+    "search": "Поиск",
+    "update": "Изменить",
+    "yes": "Да"
   },
   "helperText": {
+    "NoPosterFound": "Ни одного постера этого фильма не найдено",
     "deleteMovieQuery": "Вы действительно хотите удалить этот фильм?",
     "enterExactFileName": "Введите точное имя файла с расширением",
     "enterMovieTitle": "Введите наименование фильма",
     "enterReleaseYear": "Введите год выпуска фильма",
     "noDescriptionAvailable": "Нет доступного описания",
-    "typeTmdbId": "Введите полный tmdb id"
+    "typeTmdbId": "Введите полный tmdb id",
+    "updatePosterExplanation": "Выберите один из затемненных постеров для любого языка (английский и/или русский) и нажмите кнопку Изменить."
   },
   "menu": {
     "anticipated": "Ожидаемые",
@@ -69,7 +75,6 @@
     "movieLibrary": "Видеотека",
     "movieLocation": "Расположение фильмов",
     "movieSwitch": "Показать фильмы с видеотеки",
-    "no": "Нет",
     "noMovieWithActor": "Ни одного фильма не найдено в видеотеке с этим актером",
     "originalLanguage": "Язык оригинала: ",
     "originalTitle": "Оригинальное наименование: ",
@@ -85,6 +90,6 @@
     "size": "Размер (Гб)",
     "title": "Наименование",
     "type": "Тип",
-    "yes": "Да"
+    "updatePoster": "Изменить постеры"
   }
 }

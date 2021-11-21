@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Callable;
 
 
 @Slf4j
@@ -96,6 +97,28 @@ public class MovieServiceImpl implements MovieService {
             responseBuilder.setMovie(newMovie).setFailMessage(e.getMessage());
         }
 
+        return responseBuilder;
+    }
+
+    @Override
+    public Response.Builder updatePoster(Movie movie) {
+        Response.Builder responseBuilder = Response.Builder.create();
+        try {
+            Movie updatedMovie = movieRepository.save(movie)
+                    .orElseThrow(IllegalArgumentException::new);
+            log.info("updated poster | {}", updatedMovie);
+            Callable<Boolean> isUpdated = () ->
+                    movie.getPosterPath().equals(updatedMovie.getPosterPath())
+                    && movie.getPosterPathRu().equals(updatedMovie.getPosterPathRu());
+            responseBuilder
+                    .setMovie(updatedMovie)
+                    .setMessage("Poster successfully updated")
+                    .validateSuccess(isUpdated);
+        } catch (Exception e) {
+            String message = String.format("Failed to update movie posters | %s", movie);
+            log.error(message, e);
+            responseBuilder.setMovie(movie).setFailMessage(e.getMessage());
+        }
         return responseBuilder;
     }
 

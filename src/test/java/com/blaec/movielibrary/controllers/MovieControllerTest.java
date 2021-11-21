@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.StreamSupport;
 
 import static com.blaec.movielibrary.MovieTestData.*;
 import static com.blaec.movielibrary.controllers.MovieController.URL;
@@ -192,6 +193,25 @@ class MovieControllerTest extends AbstractMovieControllerTest {
 
     @Test
     @Order(60)
+    void updatePosters() throws Exception {
+        final String tmdbId = "19995";
+        final String url = String.format("%s/update-movie-posters", URL);
+
+        Movie dbMovie = StreamSupport.stream(movieService.getAll().spliterator(), false)
+                .filter(movie ->  tmdbId.equals(movie.getTmdbId()))
+                .findAny().orElseThrow();
+        dbMovie.updatePosters("/poster-en", "/poster-ru");
+        ResultActions resultActions = perform(MockMvcRequestBuilders.put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(dbMovie)));
+        validate(resultActions)
+                .andExpect(jsonPath("$.message").value("Poster successfully updated"))
+                .andExpect(jsonPath("$.success").value(true))
+        ;
+    }
+
+    @Test
+    @Order(70)
     void delete() throws Exception {
         final int tmdbId = 19995;
 
@@ -203,7 +223,7 @@ class MovieControllerTest extends AbstractMovieControllerTest {
     }
 
     @Test
-    @Order(61)
+    @Order(71)
     void deleteWithWrongTmdbId() throws Exception {
         final int tmdbId = -1;
 

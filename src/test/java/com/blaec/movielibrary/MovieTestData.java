@@ -68,6 +68,4 @@ public class MovieTestData {
     public static final Movie MOVIE_2 = Movie.createWithMovieType(MOVIE_TMDB_TO_2, MovieFileTo.from(FILE_2).get());
     public static final Movie MOVIE_3 = Movie.createWithMovieType(MOVIE_TMDB_TO_3, MovieFileTo.from(FILE_3).get());
     public static final List<Movie> MOVIES = List.of(MOVIE_3, MOVIE_2, MOVIE_1);
-
-
 }

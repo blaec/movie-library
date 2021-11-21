@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const myControlIcon = (props) => {
-    const {isInCollection, onAddToWatch, onDelete} = props;
+    const {isInCollection, canDisplay, onAddToWatch, onDelete} = props;
     const {root} = useStyles(isInCollection);
 
     const iconButton = isInCollection
@@ -37,7 +37,7 @@ const myControlIcon = (props) => {
 
     return (
         <React.Fragment>
-            {iconButton}
+            {canDisplay && iconButton}
         </React.Fragment>
     );
 };

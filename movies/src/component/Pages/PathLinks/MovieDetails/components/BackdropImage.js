@@ -6,8 +6,10 @@ import {useTranslation} from "react-i18next";
 import images from "./backdropComponents/Images";
 import MyArrowBack from "../../../../../UI/Buttons/Icons/MyArrowBack";
 import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
+import MyPosterIcon from "../../../../../UI/Buttons/Icons/MyPosterIcon";
 import DeleteDialog from "./DeleteDialog";
-import {isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
+import PosterUpdateDialog from "./PosterUpdateDialog";
+import {getMovieByTmdbId, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
@@ -31,10 +33,12 @@ const backdropImage = props => {
     const {root} = useStyles();
     const {movieTmdbId} = useParams();
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isPosterUpdate, setIsPosterUpdate] = useState(false);
     const [isInCollection, setIsInCollection] = useState(false);
     const {t} = useTranslation('common');
 
     const saveResult = useSelector(state => state.settings.result);
+    const posterUpdateResult = useSelector(state => state.collection.results);
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const movies = useSelector(state => state.collection.movies);
     const wishlist = useSelector(state => state.collection.wishlist);
@@ -54,6 +58,14 @@ const backdropImage = props => {
         setIsDeleting(true);
         dispatch(deleteMovie(movieTmdbId));
     };
+
+    const handlePosterUpdate = () => {
+        setIsPosterUpdate(true);
+    };
+
+    const handleClosePosterUpdateDialog = () => {
+        setIsPosterUpdate(false);
+    }
 
     const handleAddToWatchMovie = () => {
         const {original_title} = tmdbMovieDetails;
@@ -85,6 +97,14 @@ const backdropImage = props => {
         }
     }, [saveResult]);
 
+    useEffect(() => {
+        if (isObjectExist(posterUpdateResult)) {
+            const {message, success} = posterUpdateResult;
+            const type = success ? 'success' : 'error';
+            onSetSnackbar({message, type});
+        }
+    }, [posterUpdateResult]);
+
     let hasMovieDetails = isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails);
     useEffect(() => {
         if (hasMovieDetails) {
@@ -93,19 +113,32 @@ const backdropImage = props => {
         }
     }, [movies, wishlist, tmdbMovieDetails]);
 
+    const selectedMovie = getMovieByTmdbId(movies.concat(wishlist), movieTmdbId);
+    let posterDialog = null;
+    if (isObjectExist(selectedMovie)) {
+        posterDialog = (
+            <PosterUpdateDialog
+                open={isPosterUpdate}
+                movie={selectedMovie}
+                onExit={handleClosePosterUpdateDialog}
+            />
+        );
+    }
 
     return (
         <React.Fragment>
             <div className={root}>
                 <MyArrowBack onClose={onClose}/>
-                {
-                    hasMovieDetails &&
-                    <MyControlIcon
-                        isInCollection={isInCollection}
-                        onAddToWatch={handleAddToWatchMovie}
-                        onDelete={handleDeletedMovie}
-                    />
-                }
+                <MyControlIcon
+                    isInCollection={isInCollection}
+                    canDisplay={hasMovieDetails}
+                    onAddToWatch={handleAddToWatchMovie}
+                    onDelete={handleDeletedMovie}
+                />
+                <MyPosterIcon
+                    isInCollection={isInCollection}
+                    onShowModal={handlePosterUpdate}
+                />
                 <Carousel
                     timeout={FADE_TIMEOUT}
                     animation="fade"
@@ -120,6 +153,7 @@ const backdropImage = props => {
                 onExit={handleCloseDeleteDialog}
                 onDelete={handleDeleteMovie}
             />
+            {posterDialog}
         </React.Fragment>
     );
 };

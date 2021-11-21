@@ -1,8 +1,9 @@
 import axios from "../../../axios-movies";
-import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi} from "../../../utils/UrlUtils";
+import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi, getMoviePostersUrl} from "../../../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
 import {settingsActions} from "../settings/settings-slice";
+import {Language} from "../../../utils/Constants";
 
 export const fetchMovies = () => {
     return async (dispatch) => {
@@ -123,6 +124,51 @@ export const fetchLibrary = () => {
                 console.log(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load entire library`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const fetchPostersByLanguage = (id, tmdbApi, language) => {
+    return async (dispatch) => {
+        axios.get(getMoviePostersUrl(id, tmdbApi, language))
+            .then(response => {
+                const {data: {posters}} = response;
+                switch (language) {
+                    case Language.english:
+                        dispatch(collectionActions.setPostersEn(posters));
+                        break;
+                    case Language.russian:
+                        dispatch(collectionActions.setPostersRu(posters));
+                        break;
+                    default:
+                        throw new Error(`not implemented language ${language}`);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to load posters to movie ${id}`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const updateMoviePosters = (movie) => {
+    return async (dispatch) => {
+        axios.put(movieApi.put.updatePosters, movie)
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setResults(data));
+                dispatch(fetchMovies());
+                dispatch(fetchWishlist());
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to update posters to movie with id #${movie.id}`,
                     type: 'error'
                 }));
             });

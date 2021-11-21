@@ -8,6 +8,9 @@ const initialState = {
     nowPlaying: [],
     anticipated: [],
     library: [],
+    postersEn: [],
+    postersRu: [],
+    results: [],
 };
 
 const collectionSlice = createSlice({
@@ -37,6 +40,15 @@ const collectionSlice = createSlice({
         },
         setLibrary(state, action) {
             state.library = action.payload;
+        },
+        setPostersEn(state, action) {
+            state.postersEn = action.payload;
+        },
+        setPostersRu(state, action) {
+            state.postersRu = action.payload;
+        },
+        setResults(state, action) {
+            state.results = action.payload;
         },
     }
 });

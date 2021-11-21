@@ -5,7 +5,13 @@ import {useHistory, useParams} from "react-router";
 import {isStringExist, isStringsExist} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
-import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../../store/state/details/details-actions";
+import {
+    fetchCast,
+    fetchMovieOmdbDetails,
+    fetchMovieTmdbDetails
+} from "../../../../store/state/details/details-actions";
+import {fetchPostersByLanguage} from "../../../../store/state/collection/collection-actions";
+import {Language} from "../../../../utils/Constants";
 
 import {makeStyles} from "@material-ui/core/styles";
 
@@ -56,6 +62,13 @@ const movieDetails = () => {
             dispatch(fetchCast(movieTmdbId, tmdbApi));
         }
     }, [movieTmdbId, tmdbApi]);
+
+    useEffect(() => {
+        if (isStringExist(tmdbApi)) {
+            dispatch(fetchPostersByLanguage(movieTmdbId, tmdbApi, Language.english));
+            dispatch(fetchPostersByLanguage(movieTmdbId, tmdbApi, Language.russian));
+        }
+    }, [tmdbApi]);
 
     return (
         <div className={root}>
