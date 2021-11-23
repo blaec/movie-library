@@ -8,6 +8,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -28,6 +29,30 @@ public class MovieUtils {
                     .comparing((Movie movie) -> movie.getTitle().replaceAll("The |A ", ""))
                     .thenComparing(Movie::getReleaseDate))
                 .collect(Collectors.toList());
+    }
+
+    public static Iterable<Movie> sortByLocationTitleAndYear(Iterable<Movie> movies, List<String> locations) {
+        return StreamSupport.stream(movies.spliterator(), false)
+                .sorted(Comparator
+                    .comparing((Movie movie) -> getTitleWithLocation(movie.getFileName(), movie.getLocation(), locations))
+                    .thenComparing(Movie::getReleaseDate))
+                .collect(Collectors.toList());
+    }
+
+    private static String getTitleWithLocation(String fileName, String fullLocation, List<String> locations) {
+        for (String location : locations) {
+            fullLocation = fullLocation.replaceAll(location, "");
+        }
+        if (fullLocation.contains("actor -")) {
+            fullLocation = "";
+        }
+        StringBuilder sb = new StringBuilder(fullLocation.replaceAll("\\\\",""));
+        if (!fullLocation.isEmpty()) {
+            sb.append(".");
+        }
+        sb.append(fileName.replaceAll("The |A ", ""));
+//        log.debug(sb.toString());
+        return sb.toString();
     }
 
     /**

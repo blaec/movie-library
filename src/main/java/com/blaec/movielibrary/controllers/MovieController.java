@@ -11,6 +11,7 @@ import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.utils.FilesUtils;
 import com.blaec.movielibrary.utils.MovieUtils;
+import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,8 @@ public class MovieController {
 
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
-        return MovieUtils.sortByTitleAndYear(movieService.getAllByTypeMovie());
+        List<String> locations = ImmutableList.of(uploadConfigs.getCartoons(), uploadConfigs.getMovies(), uploadConfigs.getSerialMovies(), uploadConfigs.getMusic(), uploadConfigs.getVideos());
+        return MovieUtils.sortByLocationTitleAndYear(movieService.getAllByTypeMovie(), locations);
     }
 
     @GetMapping("/wishlist")
@@ -51,7 +53,8 @@ public class MovieController {
 
     @PostMapping("/filter")
     public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
-        return MovieUtils.sortByTitleAndYear(movieService.getAllByGenres(genreIds));
+        List<String> locations = ImmutableList.of(uploadConfigs.getCartoons(), uploadConfigs.getMovies(), uploadConfigs.getSerialMovies(), uploadConfigs.getMusic(), uploadConfigs.getVideos());
+        return MovieUtils.sortByLocationTitleAndYear(movieService.getAllByGenres(genreIds), locations);
     }
 
     @PostMapping("/upload/{folder}")
