@@ -43,7 +43,7 @@ public class MovieController {
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
         List<String> locations = ImmutableList.of(uploadConfigs.getCartoons(), uploadConfigs.getMovies(), uploadConfigs.getSerialMovies(), uploadConfigs.getMusic(), uploadConfigs.getVideos());
-        return MovieUtils.sortByLocationTitleAndYear(movieService.getAllByTypeMovie(), locations);
+        return MovieUtils.sortByLocationAndTitle(movieService.getAllByTypeMovie(), locations);
     }
 
     @GetMapping("/wishlist")
@@ -54,7 +54,7 @@ public class MovieController {
     @PostMapping("/filter")
     public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
         List<String> locations = ImmutableList.of(uploadConfigs.getCartoons(), uploadConfigs.getMovies(), uploadConfigs.getSerialMovies(), uploadConfigs.getMusic(), uploadConfigs.getVideos());
-        return MovieUtils.sortByLocationTitleAndYear(movieService.getAllByGenres(genreIds), locations);
+        return MovieUtils.sortByLocationAndTitle(movieService.getAllByGenres(genreIds), locations);
     }
 
     @PostMapping("/upload/{folder}")
