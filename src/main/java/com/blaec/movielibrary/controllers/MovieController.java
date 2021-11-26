@@ -16,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +33,20 @@ public class MovieController {
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
     private final MovieDataBaseApi tmdbApi;
+    private List<String> locations;
 
     static final String URL = "/movies";
+
+    @PostConstruct
+    public void init () {
+        locations = ImmutableList.of(
+                uploadConfigs.getCartoons(),
+                uploadConfigs.getMovies(),
+                uploadConfigs.getSerialMovies(),
+                uploadConfigs.getMusic(),
+                uploadConfigs.getVideos()
+        );
+    }
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
@@ -42,7 +55,6 @@ public class MovieController {
 
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
-        List<String> locations = ImmutableList.of(uploadConfigs.getCartoons(), uploadConfigs.getMovies(), uploadConfigs.getSerialMovies(), uploadConfigs.getMusic(), uploadConfigs.getVideos());
         return MovieUtils.sortByLocationAndTitle(movieService.getAllByTypeMovie(), locations);
     }
 
@@ -53,7 +65,6 @@ public class MovieController {
 
     @PostMapping("/filter")
     public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
-        List<String> locations = ImmutableList.of(uploadConfigs.getCartoons(), uploadConfigs.getMovies(), uploadConfigs.getSerialMovies(), uploadConfigs.getMusic(), uploadConfigs.getVideos());
         return MovieUtils.sortByLocationAndTitle(movieService.getAllByGenres(genreIds), locations);
     }
 

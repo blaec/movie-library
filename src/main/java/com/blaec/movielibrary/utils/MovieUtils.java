@@ -33,22 +33,8 @@ public class MovieUtils {
 
     public static Iterable<Movie> sortByLocationAndTitle(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
-                .sorted(Comparator.comparing((Movie movie) -> getTitleWithLocation(movie, locations)))
+                .sorted(Comparator.comparing(movie -> movie.getCleanFileNameWithLocation(locations)))
                 .collect(Collectors.toList());
-    }
-
-    private static String getTitleWithLocation(Movie movie, List<String> locations) {
-        String fullLocation = movie.getLocation();
-        if (fullLocation.contains("actor -")) {
-            fullLocation = "";
-        } else {
-            for (String location : locations) {
-                fullLocation = fullLocation.replaceAll(location, "");
-            }
-            fullLocation = fullLocation.replaceAll("\\\\", "");
-        }
-
-        return String.format("%s%s", fullLocation, movie.getCleanFileName());
     }
 
     /**
