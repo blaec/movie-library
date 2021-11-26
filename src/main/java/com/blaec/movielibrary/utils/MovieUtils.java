@@ -26,32 +26,29 @@ public class MovieUtils {
     public static Iterable<Movie> sortByTitleAndYear(Iterable<Movie> movies) {
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator
-                    .comparing((Movie movie) -> movie.getTitle().replaceAll("The |A ", ""))
+                    .comparing(Movie::getCleanFileName)
                     .thenComparing(Movie::getReleaseDate))
                 .collect(Collectors.toList());
     }
 
     public static Iterable<Movie> sortByLocationAndTitle(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
-                .sorted(Comparator
-                        .comparing((Movie movie) -> getTitleWithLocation(movie, locations)))
+                .sorted(Comparator.comparing((Movie movie) -> getTitleWithLocation(movie, locations)))
                 .collect(Collectors.toList());
     }
 
     private static String getTitleWithLocation(Movie movie, List<String> locations) {
         String fullLocation = movie.getLocation();
-        for (String location : locations) {
-            fullLocation = fullLocation.contains(location)
-                    ? fullLocation.replaceAll(location, "")
-                    : fullLocation;
+        if (fullLocation.contains("actor -")) {
+            fullLocation = "";
+        } else {
+            for (String location : locations) {
+                fullLocation = fullLocation.replaceAll(location, "");
+            }
+            fullLocation = fullLocation.replaceAll("\\\\", "");
         }
-        fullLocation = fullLocation.contains("actor -")
-                ? ""
-                : String.format("%s.", fullLocation.replaceAll("\\\\", ""));
 
-        final String fileName = movie.getFileName().replaceAll("The |A ", "");
-
-        return String.format("%s%s", fullLocation, fileName);
+        return String.format("%s%s", fullLocation, movie.getCleanFileName());
     }
 
     /**

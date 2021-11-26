@@ -102,6 +102,12 @@ public class Movie {
         }
     }
 
+    public String getCleanFileName() {
+        return fileName == null
+                ? ""
+                : fileName.replaceAll("The |A ", "");
+    }
+
     @Override
     public String toString() {
         return String.format("#%s %s (%s) %.1fGb", tmdbId, title, releaseDate, size);
