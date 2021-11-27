@@ -18,20 +18,13 @@ import java.util.stream.StreamSupport;
 public class MovieUtils {
 
     /**
-     * Sort movie list by title and than by release date, skip 'the' and 'a' in title
+     * Sort movies by location and file name
      *
-     * @param movies list of movies to sort
-     * @return sorted list
+     * @param movies    list of movies to sort
+     * @param locations list of movie locations
+     * @return sorted movies list
      */
-    public static Iterable<Movie> sortByTitleAndYear(Iterable<Movie> movies) {
-        return StreamSupport.stream(movies.spliterator(), false)
-                .sorted(Comparator
-                    .comparing(Movie::getCleanFileName)
-                    .thenComparing(Movie::getReleaseDate))
-                .collect(Collectors.toList());
-    }
-
-    public static Iterable<Movie> sortByLocationAndTitle(Iterable<Movie> movies, List<String> locations) {
+    public static Iterable<Movie> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator.comparing(movie -> movie.getCleanFileNameWithLocation(locations)))
                 .collect(Collectors.toList());

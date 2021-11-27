@@ -55,7 +55,7 @@ public class MovieController {
 
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
-        return MovieUtils.sortByLocationAndTitle(movieService.getAllByTypeMovie(), locations);
+        return MovieUtils.sortByLocationAndFilename(movieService.getAllByTypeMovie(), locations);
     }
 
     @GetMapping("/wishlist")
@@ -65,7 +65,7 @@ public class MovieController {
 
     @PostMapping("/filter")
     public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
-        return MovieUtils.sortByLocationAndTitle(movieService.getAllByGenres(genreIds), locations);
+        return MovieUtils.sortByLocationAndFilename(movieService.getAllByGenres(genreIds), locations);
     }
 
     @PostMapping("/upload/{folder}")

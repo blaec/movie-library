@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
@@ -103,12 +104,6 @@ public class Movie {
         }
     }
 
-    public String getCleanFileName() {
-        return fileName == null
-                ? ""
-                : fileName.replaceAll("The |A ", "");
-    }
-
     public String getCleanFileNameWithLocation(List<String> locations) {
         String fullLocation = location;
         if (fullLocation.contains("actor -")) {
@@ -121,6 +116,11 @@ public class Movie {
         }
 
         return String.format("%s%s", fullLocation, getCleanFileName());
+    }
+
+    private String getCleanFileName() {
+        return Objects.requireNonNullElse(fileName, "")
+                .replaceAll("The |A ", "");
     }
 
     @Override
