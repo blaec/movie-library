@@ -86,6 +86,7 @@ const fileLoader = () => {
             let resultCount = saveResults.length;
             let alreadyExistCount = saveResults.filter(result => result.message === 'Already exist').length
             let successCount = saveResults.filter(result => result.success).length;
+            let invalidTitleCount = saveResults.filter(result => !result.validTitle).length;
             let failCount = saveResults.filter(result => !result.success).length - alreadyExistCount;
 
             let type = 'error';
@@ -93,12 +94,17 @@ const fileLoader = () => {
             if (alreadyExistCount === resultCount) {
                 type = 'info';
                 info = t('snackbar.noNewMovieFound', {folder: fileLocation});
-            } else if (successCount > 0 && failCount > 0) {
-                type = 'warn';
-                info = t('snackbar.uploadedMoviesAndFailedToUploadMovies', {succeeded: successCount, failed: failCount, folder: fileLocation});
             } else if (successCount > 0) {
-                type = 'success';
-                info = t('snackbar.uploadedMovies', {succeeded: successCount, folder: fileLocation});
+                if (failCount > 0) {
+                    type = 'warning';
+                    info = t('snackbar.uploadedMoviesAndFailedToUploadMovies', {succeeded: successCount, failed: failCount, folder: fileLocation});
+                } else if (invalidTitleCount > 0) {
+                    type = 'warning';
+                    info = t('snackbar.uploadedMoviesWithInvalidTitle', {succeeded: successCount, invalid: invalidTitleCount, folder: fileLocation});
+                } else {
+                    type = 'success';
+                    info = t('snackbar.uploadedMovies', {succeeded: successCount, folder: fileLocation});
+                }
             }
 
             onSetSnackbar({message: info, type: type});

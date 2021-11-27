@@ -40,7 +40,8 @@
     "noNewMovieFound": "Ни одного нового фильма не найдено в папке {{folder}}",
     "noResult": "Ничего не найдено",
     "uploadedMovie": "Успешно загрузился {{name}} с папки {{folder}}  | {{message}} как {{file}}",
-    "uploadedMovies": "Successfully uploaded {{succeeded}} movies from {{folder}}",
+    "uploadedMovies": "Успешно загружено фильмов: {{succeeded}} с папки {{folder}}",
+    "uploadedMoviesWithInvalidTitle": "Успешно загружено фильмов: {{succeeded}} с папки {{folder}} и {{invalid}} из них с неверным названием",
     "uploadedMoviesAndFailedToUploadMovies": "Успешно загружено фильмов: {{succeeded}} и не удалось загрузить фильмов: {{failed}} с папки {{folder}}"
   },
   "tab": {
