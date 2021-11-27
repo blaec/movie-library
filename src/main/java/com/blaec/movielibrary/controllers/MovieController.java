@@ -11,10 +11,12 @@ import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.blaec.movielibrary.services.MovieService;
 import com.blaec.movielibrary.utils.FilesUtils;
 import com.blaec.movielibrary.utils.MovieUtils;
+import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +33,20 @@ public class MovieController {
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
     private final MovieDataBaseApi tmdbApi;
+    private List<String> locations;
 
     static final String URL = "/movies";
+
+    @PostConstruct
+    public void init () {
+        locations = ImmutableList.of(
+                uploadConfigs.getCartoons(),
+                uploadConfigs.getMovies(),
+                uploadConfigs.getSerialMovies(),
+                uploadConfigs.getMusic(),
+                uploadConfigs.getVideos()
+        );
+    }
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
@@ -41,7 +55,7 @@ public class MovieController {
 
     @GetMapping("/gallery")
     public Iterable<Movie> getAllMovies() {
-        return MovieUtils.sortByTitleAndYear(movieService.getAllByTypeMovie());
+        return MovieUtils.sortByLocationAndFilename(movieService.getAllByTypeMovie(), locations);
     }
 
     @GetMapping("/wishlist")
@@ -51,7 +65,7 @@ public class MovieController {
 
     @PostMapping("/filter")
     public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
-        return MovieUtils.sortByTitleAndYear(movieService.getAllByGenres(genreIds));
+        return MovieUtils.sortByLocationAndFilename(movieService.getAllByGenres(genreIds), locations);
     }
 
     @PostMapping("/upload/{folder}")

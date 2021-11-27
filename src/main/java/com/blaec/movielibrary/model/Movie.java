@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
@@ -100,6 +102,25 @@ public class Movie {
             this.posterPath = posterPath;
             this.posterPathRu = posterPathRu;
         }
+    }
+
+    public String getLocationWithCleanFileName(List<String> locations) {
+        String fullLocation = location;
+        if (fullLocation.contains("actor -")) {
+            fullLocation = "";
+        } else {
+            for (String location : locations) {
+                fullLocation = fullLocation.replaceAll(location, "");
+            }
+            fullLocation = fullLocation.replaceAll("\\\\", "");
+        }
+
+        return String.format("%s%s", fullLocation, getCleanFileName());
+    }
+
+    private String getCleanFileName() {
+        return Objects.requireNonNullElse(fileName, "")
+                .replaceAll("The |A ", "");
     }
 
     @Override
