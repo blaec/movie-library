@@ -7,9 +7,11 @@ import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.blaec.movielibrary.utils.TestUtils;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -69,12 +71,26 @@ public class Movie {
         Movie movie = new Movie();
         movie.tmdbId = tmdbMovie.getTmdbId();
         movie.title = tmdbMovie.getTitle();
-        movie.releaseDate = tmdbMovie.getReleaseDate();
+        movie.releaseDate = parseReleaseDate(tmdbMovie.getReleaseDate());
         movie.posterPath = tmdbMovie.getPosterPath();
         movie.posterPathRu = tmdbMovie.getPosterPathRu();
         movie.genres = tmdbMovie.getGenres();
 
         return movie;
+    }
+
+    /**
+     * Since release date if mandatory, but could be unknown
+     * empty value replaced with future date (10 years from now)
+     *
+     * @param releaseDate release date, could be empty string
+     * @return Timestamp release date
+     */
+    private static String parseReleaseDate(String releaseDate) {
+        return StringUtils.defaultIfEmpty(
+                releaseDate,
+                LocalDate.now().plus(10, ChronoUnit.YEARS).toString()
+        );
     }
 
     public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
