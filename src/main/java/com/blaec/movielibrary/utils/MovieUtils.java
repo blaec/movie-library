@@ -26,7 +26,7 @@ public class MovieUtils {
      */
     public static Iterable<Movie> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
-                .sorted(Comparator.comparing(movie -> movie.getCleanFileNameWithLocation(locations)))
+                .sorted(Comparator.comparing(movie -> movie.getLocationWithCleanFileName(locations)))
                 .collect(Collectors.toList());
     }
 

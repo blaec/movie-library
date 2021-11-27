@@ -104,7 +104,7 @@ public class Movie {
         }
     }
 
-    public String getCleanFileNameWithLocation(List<String> locations) {
+    public String getLocationWithCleanFileName(List<String> locations) {
         String fullLocation = location;
         if (fullLocation.contains("actor -")) {
             fullLocation = "";
