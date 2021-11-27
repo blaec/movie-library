@@ -72,8 +72,8 @@ public class Movie {
         movie.tmdbId = tmdbMovie.getTmdbId();
         movie.title = tmdbMovie.getTitle();
         movie.releaseDate = parseReleaseDate(tmdbMovie.getReleaseDate());
-        movie.posterPath = tmdbMovie.getPosterPath();
-        movie.posterPathRu = tmdbMovie.getPosterPathRu();
+        movie.posterPath = String.valueOf(tmdbMovie.getPosterPath());
+        movie.posterPathRu = String.valueOf(tmdbMovie.getPosterPathRu());
         movie.genres = tmdbMovie.getGenres();
 
         return movie;
