@@ -70,14 +70,14 @@ const infoItemsData = [
 ];
 const settingsItemsData = [
     {
-        text: "menu.settings",
-        link: reactLinks.settings,
-        icon: <SettingsIcon/>
-    },
-    {
         text: "menu.library",
         link: reactLinks.library,
         icon: <StorageTwoToneIcon/>
+    },
+    {
+        text: "menu.settings",
+        link: reactLinks.settings,
+        icon: <SettingsIcon/>
     },
 ];
 

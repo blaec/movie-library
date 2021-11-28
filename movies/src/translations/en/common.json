@@ -41,6 +41,7 @@
     "noResult": "Nothing found",
     "uploadedMovie": "Successfully uploaded {{name}} from {{folder}} folder | {{message}} as {{file}}",
     "uploadedMovies": "Successfully uploaded {{succeeded}} movies from {{folder}}",
+    "uploadedMoviesWithInvalidTitle": "Successfully uploaded {{succeeded}} movies from {{folder}} and {{invalid}} of them with invalid title",
     "uploadedMoviesAndFailedToUploadMovies": "Successfully uploaded {{succeeded}} movies and {{failed}} failed from {{folder}}"
   },
   "tab": {

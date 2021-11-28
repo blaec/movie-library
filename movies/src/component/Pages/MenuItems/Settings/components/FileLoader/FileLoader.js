@@ -83,25 +83,49 @@ const fileLoader = () => {
     useEffect(() => {
         if (isArrayExist(saveResults) && loader === Loader.folderScan) {
             setIsLoading(false);
-            let resultCount = saveResults.length;
-            let alreadyExistCount = saveResults.filter(result => result.message === 'Already exist').length
-            let successCount = saveResults.filter(result => result.success).length;
-            let failCount = saveResults.filter(result => !result.success).length - alreadyExistCount;
+            const resultCount = saveResults.length;
+            const alreadyExistCount = saveResults.filter(result => result.message === 'Already exist').length
+            const successCount = saveResults.filter(result => result.success).length;
+            const invalidTitleCount = saveResults.filter(result => !result.validTitle).length;
+            const failCount = saveResults.filter(result => !result.success).length - alreadyExistCount;
 
-            let type = 'error';
-            let info = t('snackbar.failedToUploadMovie', {folder: fileLocation});
+            const snackbarMessages = {
+                'hasError': {
+                    message: t('snackbar.failedToUploadMovie', {folder: fileLocation}),
+                    type: 'error'
+                },
+                'hasNoResults': {
+                    message: t('snackbar.noNewMovieFound', {folder: fileLocation}),
+                    type: 'info'
+                },
+                'hasFails': {
+                    message: t('snackbar.uploadedMoviesAndFailedToUploadMovies', {succeeded: successCount, failed: failCount, folder: fileLocation}),
+                    type: 'warning'
+                },
+                'hasInvalid': {
+                    message: t('snackbar.uploadedMoviesWithInvalidTitle', {succeeded: successCount, invalid: invalidTitleCount, folder: fileLocation}),
+                    type: 'warning'
+                },
+                'hasSuccess': {
+                    message: t('snackbar.uploadedMovies', {succeeded: successCount, folder: fileLocation}),
+                    type: 'success'
+                },
+            };
+
+            let snackbar = snackbarMessages.hasError;
             if (alreadyExistCount === resultCount) {
-                type = 'info';
-                info = t('snackbar.noNewMovieFound', {folder: fileLocation});
-            } else if (successCount > 0 && failCount > 0) {
-                type = 'warn';
-                info = t('snackbar.uploadedMoviesAndFailedToUploadMovies', {succeeded: successCount, failed: failCount, folder: fileLocation});
+                snackbar = snackbarMessages.hasNoResults;
             } else if (successCount > 0) {
-                type = 'success';
-                info = t('snackbar.uploadedMovies', {succeeded: successCount, folder: fileLocation});
+                if (failCount > 0) {
+                    snackbar = snackbarMessages.hasFails;
+                } else if (invalidTitleCount > 0) {
+                    snackbar = snackbarMessages.hasInvalid;
+                } else {
+                    snackbar = snackbarMessages.hasSuccess;
+                }
             }
 
-            onSetSnackbar({message: info, type: type});
+            onSetSnackbar(snackbar);
             resetForm();
         }
     }, [saveResults])
