@@ -65,7 +65,6 @@ public class MovieServiceImpl implements MovieService {
         return save(newMovie, isValidTitle);
     }
 
-    // FIXME not correct check, should show warning, not in logs only
     private boolean isValidMovieByTitle(MovieFileTo movieFile, Movie newMovie) {
         boolean hasInconsistentTitle = !movieFile.getName().equalsIgnoreCase(newMovie.getTitle());
         if (hasInconsistentTitle) {
