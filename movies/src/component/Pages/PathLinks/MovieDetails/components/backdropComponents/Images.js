@@ -33,7 +33,7 @@ const images = () => {
         </React.Fragment>
     );
     if (isObjectExist(tmdbMovieDetails)) {
-        const {title, releaseDate, images: {backdrops}, poster_path} = tmdbMovieDetails;
+        const {title, release_date, images: {backdrops}, poster_path} = tmdbMovieDetails;
         const backdropsData = isArraysExist(backdrops)
             ? backdrops
             : [{
@@ -53,7 +53,7 @@ const images = () => {
                     height={height}
                     width='100%'
                     src={path}
-                    alt={`${fullTitle(title, releaseDate)}`}
+                    alt={`${fullTitle(title, release_date)}`}
                 />
             );
         });
