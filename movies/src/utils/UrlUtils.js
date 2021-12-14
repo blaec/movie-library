@@ -25,7 +25,7 @@ export const isSearchable = (pathname) => {
     return searchable.filter(url => pathname.startsWith(url)).length === 1;
 };
 
-let baseMovieApi = "/movies/";
+let baseMovieApi = "/api/v1/movies/";
 export const movieApi = {
     get: {
         getAllMovies: `${baseMovieApi}gallery`,

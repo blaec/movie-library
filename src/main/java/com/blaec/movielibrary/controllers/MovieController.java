@@ -35,7 +35,7 @@ public class MovieController {
     private final MovieDataBaseApi tmdbApi;
     private List<String> locations;
 
-    static final String URL = "/movies";
+    static final String URL = "/api/v1/movies";
 
     @PostConstruct
     public void init () {

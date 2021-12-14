@@ -19,7 +19,7 @@ public class ConfigController {
     private final TmdbApiConfig tmdbApiConfig;
     private final OmdbApiConfig omdbApiConfig;
 
-    static final String URL = "/configs";
+    static final String URL = "/api/v1/configs";
 
     @GetMapping()
     public Configs getConfigs() {
