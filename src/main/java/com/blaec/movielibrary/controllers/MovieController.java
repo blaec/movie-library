@@ -29,13 +29,13 @@ import java.util.stream.Collectors;
 @RequestMapping(MovieController.URL)
 @CrossOrigin(origins = "*")
 @RestController
-public class MovieController {
+public class MovieController extends AbstractController{
     private final UploadConfigs uploadConfigs;
     private final MovieService movieService;
     private final MovieDataBaseApi tmdbApi;
     private List<String> locations;
 
-    static final String URL = "/movies";
+    static final String URL = API_VERSION + "/movies";
 
     @PostConstruct
     public void init () {

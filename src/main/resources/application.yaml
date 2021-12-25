@@ -10,6 +10,9 @@ spring:
 #        use_sql_comments: true
 #        format_sql: true
 
+server:
+  port: 8081
+
 upload:
   cartoons: cartoons location
   movies: movies location
