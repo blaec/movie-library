@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(ConfigController.URL)
 @CrossOrigin(origins = "*")
 @RestController
-public class ConfigController {
+public class ConfigController extends AbstractController {
     private final TmdbApiConfig tmdbApiConfig;
     private final OmdbApiConfig omdbApiConfig;
 
-    static final String URL = "/api/v1/configs";
+    static final String URL = API_VERSION + "/configs";
 
     @GetMapping()
     public Configs getConfigs() {
