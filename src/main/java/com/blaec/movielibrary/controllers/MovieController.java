@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,7 +83,17 @@ public class MovieController extends AbstractController{
             responses.add(movieService.saveToCollection(tmdbMovie, movieFile).build());
         }
 
+        logMissingFiles();
         return responses;
+    }
+
+    private void logMissingFiles() {
+        for (Movie movie : getAllMovies()) {
+            String path = String.format("%s\\%s", movie.getLocation(), movie.getFileName());
+            if (!(new File(path)).exists()) {
+                log.warn("Not found on disk: {}", path);
+            }
+        }
     }
 
     private List<MovieFileTo> getMoviesFromFolder(String folder) {
