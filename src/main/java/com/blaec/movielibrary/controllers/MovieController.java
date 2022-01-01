@@ -84,9 +84,7 @@ public class MovieController extends AbstractController{
             responses.add(tryToSave(movieFile, tmdbMovie));
         }
 
-        if (!TestUtils.isJUnitTest()) {
-            logMissingFiles();
-        }
+        logMissingFiles();
         return responses;
     }
 
@@ -102,6 +100,8 @@ public class MovieController extends AbstractController{
     }
 
     private void logMissingFiles() {
+        if (TestUtils.isJUnitTest()) return;
+
         for (Movie movie : getAllMovies()) {
             String path = String.format("%s\\%s", movie.getLocation(), movie.getFileName());
             if (!(new File(path)).exists()) {
