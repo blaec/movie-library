@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.util.function.Predicate;
 
 @Slf4j
@@ -39,23 +40,26 @@ public abstract class AbstractMovieController extends AbstractController{
         );
     }
 
-    protected Response.Builder trySaveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile) {
-        try {
-            return movieService.saveToCollection(tmdbMovie, movieFile);
-        } catch (Exception e) {
-            return Response.Builder.create()
-                    .setTitle(movieFile.getName())
-                    .setFailMessage("rollback after database failure");
-        }
+    protected Response.Builder trySaveToWishlist(Optional<MovieTmdbTo> tmdbMovie) {
+        Callable<Response.Builder> save = () -> movieService.saveToWishlist(tmdbMovie);
+        return trySave(save, getTitle(tmdbMovie));
     }
 
-    protected Response.Builder tryToSaveToWishList(Optional<MovieTmdbTo> tmdbMovie) {
+    protected Response.Builder trySaveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile) {
+        Callable<Response.Builder> save = () -> movieService.saveToCollection(tmdbMovie, movieFile);
+        return trySave(save, getTitle(tmdbMovie));
+    }
+
+    private String getTitle(Optional<MovieTmdbTo> tmdbMovie) {
+        return tmdbMovie.isPresent()
+                ? tmdbMovie.get().getTitle()
+                : "";
+    }
+
+    private Response.Builder trySave(Callable<Response.Builder> save, String title) {
         try {
-            return movieService.saveToWishlist(tmdbMovie);
+            return save.call();
         } catch (Exception e) {
-            String title = tmdbMovie.isPresent()
-                    ? tmdbMovie.get().getTitle()
-                    : "";
             return Response.Builder.create()
                     .setTitle(title)
                     .setFailMessage("rollback after database failure");

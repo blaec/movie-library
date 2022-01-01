@@ -101,7 +101,7 @@ public class MovieController extends AbstractMovieController{
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         log.info("uploading wish movie | {}", wishMovie);
         Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(wishMovie);
-        return movieService.saveToWishlist(tmdbMovie).build();
+        return trySaveToWishlist(tmdbMovie).build();
     }
 
     @PutMapping("/update-movie-posters")
