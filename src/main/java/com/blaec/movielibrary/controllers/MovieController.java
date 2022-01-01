@@ -80,11 +80,22 @@ public class MovieController extends AbstractController{
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
         for (MovieFileTo movieFile : newMovies) {
             Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieByNameAndYear(movieFile);
-            responses.add(movieService.saveToCollection(tmdbMovie, movieFile).build());
+            responses.add(tryToSave(movieFile, tmdbMovie));
         }
 
         logMissingFiles();
         return responses;
+    }
+
+    private Response tryToSave(MovieFileTo movieFile, Optional<MovieTmdbTo> tmdbMovie) {
+        try {
+            return movieService.saveToCollection(tmdbMovie, movieFile).build();
+        } catch (Exception e) {
+            return Response.Builder.create()
+                    .setTitle(movieFile.getName())
+                    .setFailMessage("rollback after database failure")
+                    .build();
+        }
     }
 
     private void logMissingFiles() {

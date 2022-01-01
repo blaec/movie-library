@@ -68,6 +68,11 @@ public class Response {
             return this;
         }
 
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
         public Builder setIsValidTitle(boolean isValidTitle) {
             this.isValidTitle = isValidTitle;
             return this;
