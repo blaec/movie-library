@@ -49,6 +49,19 @@ public abstract class AbstractMovieController extends AbstractController{
         }
     }
 
+    protected Response.Builder tryToSaveToWishList(Optional<MovieTmdbTo> tmdbMovie) {
+        try {
+            return movieService.saveToWishlist(tmdbMovie);
+        } catch (Exception e) {
+            String title = tmdbMovie.isPresent()
+                    ? tmdbMovie.get().getTitle()
+                    : "";
+            return Response.Builder.create()
+                    .setTitle(title)
+                    .setFailMessage("rollback after database failure");
+        }
+    }
+
     protected List<MovieFileTo> getMoviesFromFolder(String folder) {
         return FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
     }
