@@ -1,53 +1,28 @@
 package com.blaec.movielibrary.controllers;
 
-import com.blaec.movielibrary.api.MovieDataBaseApi;
-import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.model.Movie;
 import com.blaec.movielibrary.model.json.SingleFileUpload;
 import com.blaec.movielibrary.model.json.TmdbResult;
 import com.blaec.movielibrary.model.object.Response;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
-import com.blaec.movielibrary.services.MovieService;
-import com.blaec.movielibrary.utils.FilesUtils;
 import com.blaec.movielibrary.utils.MovieUtils;
-import com.google.common.collect.ImmutableList;
-import lombok.AllArgsConstructor;
+import com.blaec.movielibrary.utils.TestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
-@AllArgsConstructor
 @RequestMapping(MovieController.URL)
 @CrossOrigin(origins = "*")
 @RestController
-public class MovieController extends AbstractController{
-    private final UploadConfigs uploadConfigs;
-    private final MovieService movieService;
-    private final MovieDataBaseApi tmdbApi;
-    private List<String> locations;
-
+public class MovieController extends AbstractMovieController{
     static final String URL = API_VERSION + "/movies";
-
-    @PostConstruct
-    public void init () {
-        locations = ImmutableList.of(
-                uploadConfigs.getCartoons(),
-                uploadConfigs.getMovies(),
-                uploadConfigs.getSerialMovies(),
-                uploadConfigs.getMusic(),
-                uploadConfigs.getVideos()
-        );
-    }
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
@@ -80,7 +55,7 @@ public class MovieController extends AbstractController{
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
         for (MovieFileTo movieFile : newMovies) {
             Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieByNameAndYear(movieFile);
-            responses.add(movieService.saveToCollection(tmdbMovie, movieFile).build());
+            responses.add(trySaveToCollection(tmdbMovie, movieFile).build());
         }
 
         logMissingFiles();
@@ -88,34 +63,14 @@ public class MovieController extends AbstractController{
     }
 
     private void logMissingFiles() {
+        if (TestUtils.isJUnitTest()) return;
+
         for (Movie movie : getAllMovies()) {
             String path = String.format("%s\\%s", movie.getLocation(), movie.getFileName());
             if (!(new File(path)).exists()) {
                 log.warn("Not found on disk: {}", path);
             }
         }
-    }
-
-    private List<MovieFileTo> getMoviesFromFolder(String folder) {
-        return FilesUtils.getMoviesFromFolder(MovieUtils.getLocation(folder, uploadConfigs));
-    }
-
-    private boolean isNewMovie(Iterable<Movie> dbMovies, MovieFileTo movieFile) {
-        return MovieUtils.isMovieSaved(movieFile.getFileName(), dbMovies).isEmpty();
-    }
-
-    private List<Response> countExistingMovies(List<MovieFileTo> folderMovies, List<MovieFileTo> newMovies) {
-        List<Response> responses = new ArrayList<>();
-        for (MovieFileTo movieFile : folderMovies) {
-            if (!newMovies.contains(movieFile)) {
-                Response existingMovie = Response.Builder.create()
-                        .setFailMessage("Already exist")
-                        .build();
-                responses.add(existingMovie);
-            }
-        }
-
-        return responses;
     }
 
     @PostMapping("/upload/file")
@@ -136,21 +91,17 @@ public class MovieController extends AbstractController{
         } else {
             MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
             Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());
-            responseBuilder = movieService.saveToCollection(tmdbMovie, movieFile);
+            responseBuilder = trySaveToCollection(tmdbMovie, movieFile);
         }
 
         return responseBuilder.build();
-    }
-
-    private Predicate<MovieFileTo> isFileNameMatchRequested(SingleFileUpload uploadMovie) {
-        return movieFile -> movieFile.getFileName().equals(uploadMovie.getFileName());
     }
 
     @PostMapping("/upload/wish")
     public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
         log.info("uploading wish movie | {}", wishMovie);
         Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(wishMovie);
-        return movieService.saveToWishlist(tmdbMovie).build();
+        return trySaveToWishlist(tmdbMovie).build();
     }
 
     @PutMapping("/update-movie-posters")

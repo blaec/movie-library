@@ -87,11 +87,15 @@ const fileLoader = () => {
             const alreadyExistCount = saveResults.filter(result => result.message === 'Already exist').length
             const successCount = saveResults.filter(result => result.success).length;
             const invalidTitleCount = saveResults.filter(result => !result.validTitle).length;
-            const failCount = saveResults.filter(result => !result.success).length - alreadyExistCount;
+            const funcFail = result => !result.success;
+            const failCount = saveResults.filter(funcFail).length - alreadyExistCount;
+            const fails = saveResults.filter(funcFail).filter(result => result.message !== 'Already exist');
+            const failMessages = fails.map(m => m.message).join(",");
+            const failTitles = fails.map(m => m.title).join(",");
 
             const snackbarMessages = {
                 'hasError': {
-                    message: t('snackbar.failedToUploadMovie', {folder: fileLocation}),
+                    message: t('snackbar.failedToUploadMovie', {title: failTitles, folder: fileLocation, message: failMessages}),
                     type: 'error'
                 },
                 'hasNoResults': {
