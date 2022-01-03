@@ -41,13 +41,13 @@ public abstract class AbstractMovieController extends AbstractController{
     }
 
     protected Response.Builder trySaveToWishlist(Optional<MovieTmdbTo> tmdbMovie) {
-        Callable<Response.Builder> save = () -> movieService.saveToWishlist(tmdbMovie);
-        return trySave(save, getTitle(tmdbMovie));
+        Callable<Response.Builder> onSave = () -> movieService.saveToWishlist(tmdbMovie);
+        return trySave(onSave, getTitle(tmdbMovie));
     }
 
     protected Response.Builder trySaveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile) {
-        Callable<Response.Builder> save = () -> movieService.saveToCollection(tmdbMovie, movieFile);
-        return trySave(save, getTitle(tmdbMovie));
+        Callable<Response.Builder> onSave = () -> movieService.saveToCollection(tmdbMovie, movieFile);
+        return trySave(onSave, getTitle(tmdbMovie));
     }
 
     private String getTitle(Optional<MovieTmdbTo> tmdbMovie) {
@@ -56,9 +56,9 @@ public abstract class AbstractMovieController extends AbstractController{
                 : "";
     }
 
-    private Response.Builder trySave(Callable<Response.Builder> save, String title) {
+    private Response.Builder trySave(Callable<Response.Builder> onSave, String title) {
         try {
-            return save.call();
+            return onSave.call();
         } catch (Exception e) {
             return Response.Builder.create()
                     .setTitle(title)
