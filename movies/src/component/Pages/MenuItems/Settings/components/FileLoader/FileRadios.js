@@ -27,7 +27,13 @@ const fileRadios = (props) => {
 
     const movies = useSelector(state => state.collection.movies);
 
-    let movieLocations = [];
+    let movieLocations = [
+        createData('cartoons', 'L | Cartoons', [], '\\l_cartoons'),
+        createData('movies', 'N | Movies', [], '\\n_movies'),
+        createData('serialMovies', 'M | Serial Movies', [], '\\m_serial_movies'),
+        createData('music', 'D | New Movies', [], '\\d_music'),
+        createData('videos', 'C | Videos', [], '\\c_videos'),
+    ];
     if (isArrayExist(movies)) {
         movieLocations = [
             createData('cartoons', 'L | Cartoons', movies, '\\l_cartoons'),
