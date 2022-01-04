@@ -18,7 +18,7 @@ const createData = (key, label, data, loc) => {
     let count = moviesByLocation.length;
     let sizeVal = moviesByLocation.reduce(((sum, movie) => sum + movie.size), 0);
     let size = nf.format(sizeVal.toFixed(0));
-    return { key, label, count, size };
+    return { key, label, count, size, loc };
 }
 
 const fileRadios = (props) => {
@@ -35,13 +35,7 @@ const fileRadios = (props) => {
         createData('videos', 'C | Videos', [], '\\c_videos'),
     ];
     if (isArrayExist(movies)) {
-        movieLocations = [
-            createData('cartoons', 'L | Cartoons', movies, '\\l_cartoons'),
-            createData('movies', 'N | Movies', movies, '\\n_movies'),
-            createData('serialMovies', 'M | Serial Movies', movies, '\\m_serial_movies'),
-            createData('music', 'D | New Movies', movies, '\\d_music'),
-            createData('videos', 'C | Videos', movies, '\\c_videos'),
-        ];
+        movieLocations = movieLocations.map(m => createData(m.key, m.label, movies, m.loc));
     }
 
     const radios = movieLocations.map(location => {
