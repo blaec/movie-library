@@ -7,7 +7,7 @@ import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
 import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
-import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
+import {isArraysExist, isObjectExist} from "../../../../../utils/Utils";
 import {MovieTab} from "../../../../../utils/Constants";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
@@ -33,12 +33,14 @@ const info = () => {
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
     const cast = useSelector(state => state.details.cast);
+    const movies = useSelector(state => state.collection.movies);
 
     const handleChange = (event, newValue) => {
         setTabSelected(newValue);
     };
 
-    const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails)) && isArrayExist(cast);
+    const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails))
+        && isArraysExist(cast, movies);
     let info = (
         <Box>
             <MyTextSkeleton width='40%'/>
@@ -52,7 +54,10 @@ const info = () => {
     if (hasDetails) {
         info = (
             <React.Fragment>
-                <InfoGeneral details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
+                <InfoGeneral
+                    movies={movies}
+                    details={{...tmdbMovieDetails, ...omdbMovieDetails}}
+                />
                 <div className={`${root} ${tabsBackground}`}>
                     <Paper square className={tabsBackground}>
                         <Tabs

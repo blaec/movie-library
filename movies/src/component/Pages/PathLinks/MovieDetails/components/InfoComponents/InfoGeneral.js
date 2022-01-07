@@ -1,5 +1,4 @@
 import React from 'react';
-import {useSelector} from "react-redux";
 import {useParams} from "react-router";
 import {useTranslation} from "react-i18next";
 import {fullYear, getMovieByTmdbId, isArrayExist, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
@@ -31,73 +30,69 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const infoGeneral = (props) => {
-    const {details: {Rated, imdbRating, imdbVotes, release_date, runtime, title, genres} = {details: {}},} = props;
+    const {movies, details: {Rated, imdbRating, imdbVotes, release_date, runtime, title, genres} = {details: {}},} = props;
     const {movieTmdbId} = useParams();
     const {root, titleFont, metaFont, locationFont, fileNameFont, genreFont} = useStyles();
     const {t} = useTranslation('common');
 
-    const movies = useSelector(state => state.collection.movies);
 
-    let generalInfo = null;
-    if (isArrayExist(movies)) {
-        let {resolution, size, location, fileName} = getMovieByTmdbId(movies, movieTmdbId);
-        let metadata = {
-            rated: isSafe(Rated),
-            release_date: isSafe(fullYear(release_date)),
-            runtime: runtime !== 0
-                ? playTime(runtime, t)
-                : null,
-            rating: isSafe(imdbRating, `${imdbRating} <${imdbVotes}>`),
-            resolution: resolution || null,
-            fileSize: size
-                ? `${size}Gb`
-                : null
-        };
+    let {resolution, size, location, fileName} = getMovieByTmdbId(movies, movieTmdbId);
+    let metadata = {
+        rated: isSafe(Rated),
+        release_date: isSafe(fullYear(release_date)),
+        runtime: runtime !== 0
+            ? playTime(runtime, t)
+            : null,
+        rating: isSafe(imdbRating, `${imdbRating} <${imdbVotes}>`),
+        resolution: resolution || null,
+        fileSize: size
+            ? `${size}Gb`
+            : null
+    };
 
-        generalInfo = (
-            <div className={root}>
-                <Typography component="div">
-                    <Box
-                        className={locationFont}
-                        fontSize="caption.fontSize"
-                    >
-                        {location}
-                    </Box>
-                    <Box
-                        className={fileNameFont}
-                        fontSize="caption.fontSize"
-                    >
-                        {fileName}
-                    </Box>
-                    <Divider/>
-                    <Box
-                        className={metaFont}
-                        fontSize="subtitle2.fontSize"
-                        textAlign="center"
-                        paddingTop={1}
-                    >
-                        {Object.values(metadata)
-                            .filter(val => val !== null)
-                            .join(` | `)}
-                    </Box>
-                    <Box
-                        className={titleFont}
-                        fontSize="h4.fontSize"
-                        textAlign="center"
-                    >
-                        {title}
-                    </Box>
-                    <Box
-                        className={genreFont}
-                        fontSize="subtitle1.fontSize"
-                        textAlign="center"
-                    >
-                        {joinNames(genres)}
-                    </Box>
-                </Typography>
-            </div>
-        );
-    }
+    const generalInfo = (
+        <div className={root}>
+            <Typography component="div">
+                <Box
+                    className={locationFont}
+                    fontSize="caption.fontSize"
+                >
+                    {location}
+                </Box>
+                <Box
+                    className={fileNameFont}
+                    fontSize="caption.fontSize"
+                >
+                    {fileName}
+                </Box>
+                <Divider/>
+                <Box
+                    className={metaFont}
+                    fontSize="subtitle2.fontSize"
+                    textAlign="center"
+                    paddingTop={1}
+                >
+                    {Object.values(metadata)
+                        .filter(val => val !== null)
+                        .join(` | `)}
+                </Box>
+                <Box
+                    className={titleFont}
+                    fontSize="h4.fontSize"
+                    textAlign="center"
+                >
+                    {title}
+                </Box>
+                <Box
+                    className={genreFont}
+                    fontSize="subtitle1.fontSize"
+                    textAlign="center"
+                >
+                    {joinNames(genres)}
+                </Box>
+            </Typography>
+        </div>
+    );
 
     return (
         <React.Fragment>
