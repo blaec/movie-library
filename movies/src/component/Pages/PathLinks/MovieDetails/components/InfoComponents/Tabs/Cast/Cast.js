@@ -14,7 +14,7 @@ const cast = (props) => {
     let filteredCast = details.map(actor => <Actor key={actor.id} {...actor}/>);
     let filteredCastWithDivider = filteredCast.length === 0
         ? <MyResponse message={t('text.noCastIsAvailableAtThisStage')}/>
-        : filteredCast.reduce((prev, curr, index) => [prev, <Divider key={index}/>, curr]);
+        : filteredCast.reduce((prev, curr) => [prev, <Divider key={Date.now()}/>, curr]);
     return (
         <List>
             {filteredCastWithDivider}

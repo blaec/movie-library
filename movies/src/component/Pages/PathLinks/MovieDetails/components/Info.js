@@ -41,7 +41,6 @@ const info = () => {
 
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails))
         && isArrayExist(movies);
-    console.log(cast);
     let info = (
         <Box>
             <MyTextSkeleton width='40%'/>
