@@ -77,6 +77,7 @@
     "movieLocation": "Movie location",
     "movieSwitch": "Show collection movies",
     "noMovieWithActor": "No movie found in collection with this actor",
+    "noCastIsAvailableAtThisStage": "No cast is available at this stage",
     "originalLanguage": "Original Language: ",
     "originalTitle": "Original title: ",
     "preview": "Preview",

@@ -7,7 +7,7 @@ import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
 import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
-import {isArraysExist, isObjectExist} from "../../../../../utils/Utils";
+import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
 import {MovieTab} from "../../../../../utils/Constants";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
@@ -40,7 +40,8 @@ const info = () => {
     };
 
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails))
-        && isArraysExist(cast, movies);
+        && isArrayExist(movies);
+    console.log(cast);
     let info = (
         <Box>
             <MyTextSkeleton width='40%'/>
