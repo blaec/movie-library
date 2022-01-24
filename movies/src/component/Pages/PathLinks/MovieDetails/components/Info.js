@@ -7,7 +7,7 @@ import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
 import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
-import {isArraysExist, isObjectExist} from "../../../../../utils/Utils";
+import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
 import {MovieTab} from "../../../../../utils/Constants";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
@@ -32,7 +32,7 @@ const info = () => {
 
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
-    const cast = useSelector(state => state.details.cast);
+    const {cast, hasCast} = useSelector(state => state.details.cast);
     const movies = useSelector(state => state.collection.movies);
 
     const handleChange = (event, newValue) => {
@@ -40,7 +40,7 @@ const info = () => {
     };
 
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails))
-        && isArraysExist(cast, movies);
+        && isArrayExist(movies) && hasCast;
     let info = (
         <Box>
             <MyTextSkeleton width='40%'/>
