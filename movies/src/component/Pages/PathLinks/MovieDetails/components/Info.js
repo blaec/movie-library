@@ -32,7 +32,7 @@ const info = () => {
 
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
-    const cast = useSelector(state => state.details.cast);
+    const {cast, hasCast} = useSelector(state => state.details.cast);
     const movies = useSelector(state => state.collection.movies);
 
     const handleChange = (event, newValue) => {
@@ -40,7 +40,7 @@ const info = () => {
     };
 
     const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails))
-        && isArrayExist(movies);
+        && isArrayExist(movies) && hasCast;
     let info = (
         <Box>
             <MyTextSkeleton width='40%'/>
