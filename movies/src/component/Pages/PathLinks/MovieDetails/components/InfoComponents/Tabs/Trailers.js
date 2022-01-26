@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 
-import {isArraysExist, isStringsExist} from "../../../../../../../utils/Utils";
+import {isArraysExist, isStringExist} from "../../../../../../../utils/Utils";
 import {fetchTrailers} from "../../../../../../../store/state/details/details-actions";
 
 import {Paper} from "@material-ui/core";
@@ -20,12 +20,12 @@ const trailers = () => {
     const {movieTmdbId} = useParams();
     const {root} = useStyles();
 
-    const tmdbApi = useSelector(state => state.api.tmdb);
+    const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const trailers = useSelector(state => state.details.trailers);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (isStringsExist(movieTmdbId, tmdbApi)) {
+        if (hasTmdbApi && isStringExist(movieTmdbId)) {
             dispatch(fetchTrailers(movieTmdbId, tmdbApi));
         }
     }, [movieTmdbId, tmdbApi]);

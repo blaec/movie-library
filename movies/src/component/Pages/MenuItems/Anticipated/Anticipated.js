@@ -1,16 +1,14 @@
 import {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-
-import {isStringExist} from "../../../../utils/Utils";
 import {fetchAnticipated} from "../../../../store/state/collection/collection-actions";
 import useGallery from "../../../../hooks/use-gallery";
 
 const anticipated = () => {
-    const tmdbApi = useSelector(state => state.api.tmdb);
+    const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (isStringExist(tmdbApi)) {
+        if (hasTmdbApi) {
             dispatch(fetchAnticipated(tmdbApi));
         }
     }, [tmdbApi]);

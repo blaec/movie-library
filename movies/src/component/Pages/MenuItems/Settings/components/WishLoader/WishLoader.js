@@ -22,7 +22,7 @@ import {Loader} from "../../../../../../utils/Constants";
 let isInitial = true;
 
 const wishLoader = () => {
-    const tmdbApi = useSelector(state => state.api.tmdb);
+    const {tmdbApi} = useSelector(state => state.api.tmdb);
     const wishMovies = useSelector(state => state.settings.wishMovies);
     const saveResult = useSelector(state => state.settings.result);
     const loader = useSelector(state => state.settings.loader);
@@ -42,6 +42,7 @@ const wishLoader = () => {
     const handleChangeSelectedWishMovie = (current) => {
         setSelectedWishMovie(wishMovies[current]);
     };
+
     const handleSaveWishMovie = () => {
         setIsLoading(true);
         dispatch(saveWishMovie(selectedWishMovie));

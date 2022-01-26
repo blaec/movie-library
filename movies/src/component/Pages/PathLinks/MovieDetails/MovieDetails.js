@@ -5,11 +5,7 @@ import {useHistory, useParams} from "react-router";
 import {isStringExist, isStringsExist} from "../../../../utils/Utils";
 import BackdropImage from "./components/BackdropImage";
 import Info from "./components/Info";
-import {
-    fetchCast,
-    fetchMovieOmdbDetails,
-    fetchMovieTmdbDetails
-} from "../../../../store/state/details/details-actions";
+import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../../store/state/details/details-actions";
 import {fetchPostersByLanguage} from "../../../../store/state/collection/collection-actions";
 import {Language} from "../../../../utils/Constants";
 
@@ -32,7 +28,7 @@ const movieDetails = () => {
     const history = useHistory();
     const {root} = useStyles();
 
-    const tmdbApi = useSelector(state => state.api.tmdb);
+    const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const omdbApi = useSelector(state => state.api.omdb);
     const imdbId = useSelector(state => state.details.imdbId);
     const dispatch = useDispatch();
@@ -46,7 +42,7 @@ const movieDetails = () => {
     }, [window.scrollY]);
 
     useEffect(() => {
-        if (isStringsExist(movieTmdbId, tmdbApi)) {
+        if (hasTmdbApi && isStringExist(movieTmdbId)) {
             dispatch(fetchMovieTmdbDetails(movieTmdbId, tmdbApi));
         }
     }, [movieTmdbId, tmdbApi]);

@@ -10,7 +10,7 @@ import MyFormLabel from "../../../../UI/MyFormLabel";
 import {reactLinks} from "../../../../utils/UrlUtils";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {fetchGenres} from "../../../../store/state/filter/filter-actions";
-import {isArrayExist, isStringExist} from "../../../../utils/Utils";
+import {isArrayExist} from "../../../../utils/Utils";
 import {collectionActions} from "../../../../store/state/collection/collection-slice";
 
 import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
@@ -19,7 +19,7 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 
 const filter = () => {
     const theme = useTheme();
-    const tmdbApi = useSelector(state => state.api.tmdb);
+    const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const genres = useSelector(state => state.filter.genres);
     const dispatch = useDispatch();
     const {t} = useTranslation('common');
@@ -28,7 +28,7 @@ const filter = () => {
     const [genreIds, setGenreIds] = useState([]);
 
     useEffect(() => {
-        if (isStringExist(tmdbApi)) {
+        if (hasTmdbApi) {
             dispatch(fetchGenres(tmdbApi));
             dispatch(collectionActions.resetFilteredMovies());
         }

@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    tmdb: '',
+    tmdb: {tmdbApi: '', hasTmdbApi: false},
     omdb: '',
 };
 
@@ -11,7 +11,7 @@ const apiSlice = createSlice({
     reducers: {
         initConfig(state, action) {
             const {tmdbApiKey, omdbApiKey} = action.payload;
-            state.tmdb = tmdbApiKey;
+            state.tmdb = {tmdbApi: tmdbApiKey, hasTmdbApi: true};
             state.omdb = omdbApiKey;
         },
     }
