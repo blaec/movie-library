@@ -11,7 +11,6 @@ import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/settings/settings-actions";
-import {isArrayExist} from "../../../../../../utils/Utils";
 
 import {
     Card,
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const fileLoader = () => {
     const {divider} = useStyles();
     const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
-    const saveResults = useSelector(state => state.settings.results);
+    const {saveResults, hasSaveResults} = useSelector(state => state.settings.results);
     const loader = useSelector(state => state.settings.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
@@ -81,7 +80,7 @@ const fileLoader = () => {
     }, [saveResult])
 
     useEffect(() => {
-        if (isArrayExist(saveResults) && loader === Loader.folderScan) {
+        if (hasSaveResults && loader === Loader.folderScan) {
             setIsLoading(false);
             const resultCount = saveResults.length;
             const alreadyExistCount = saveResults.filter(result => result.message === 'Already exist').length

@@ -1,12 +1,12 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {isObjectExist} from "../../../utils/Utils";
+import {isArrayExist, isObjectExist} from "../../../utils/Utils";
 
 
 const initialState = {
     wishMovies: {wishMovies: [], hasWishMovies: false},
     result: {saveResult: {}, hasSaveResult: false},
-    results: [],
+    results: {saveResults: [], hasSaveResults: false},
     loader: 0,
 };
 
@@ -22,7 +22,8 @@ const settingsSlice = createSlice({
             state.result = {saveResult: payload, hasSaveResult: isObjectExist(payload)};
         },
         setResults(state, action) {
-            state.results = action.payload;
+            const {payload} = action;
+            state.results = {saveResults: payload, hasSaveResults: isArrayExist(payload)};
         },
         setLoader(state, action) {
             state.loader = action.payload;
