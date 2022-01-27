@@ -29,7 +29,7 @@ const movieDetails = () => {
     const {root} = useStyles();
 
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
-    const omdbApi = useSelector(state => state.api.omdb);
+    const {omdbApi, hasOmdbApi} = useSelector(state => state.api.omdb);
     const imdbId = useSelector(state => state.details.imdbId);
     const dispatch = useDispatch();
 
@@ -48,10 +48,10 @@ const movieDetails = () => {
     }, [movieTmdbId, tmdbApi]);
 
     useEffect(() => {
-        if (isStringExist(imdbId)) {
+        if (hasOmdbApi && isStringExist(imdbId)) {
             dispatch(fetchMovieOmdbDetails(imdbId, omdbApi));
         }
-    }, [imdbId])
+    }, [imdbId, omdbApi])
 
     useEffect(() => {
         if (isStringsExist(movieTmdbId, tmdbApi)) {

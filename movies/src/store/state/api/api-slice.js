@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     tmdb: {tmdbApi: '', hasTmdbApi: false},
-    omdb: '',
+    omdb: {omdbApi: '', hasOmdbApi: false},
 };
 
 const apiSlice = createSlice({
@@ -12,7 +12,7 @@ const apiSlice = createSlice({
         initConfig(state, action) {
             const {tmdbApiKey, omdbApiKey} = action.payload;
             state.tmdb = {tmdbApi: tmdbApiKey, hasTmdbApi: true};
-            state.omdb = omdbApiKey;
+            state.omdb = {omdbApi: omdbApiKey, hasOmdbApi: true};
         },
     }
 });
