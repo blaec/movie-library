@@ -20,7 +20,7 @@ import HighlightOffTwoToneIcon from '@material-ui/icons/HighlightOffTwoTone';
 const filter = () => {
     const theme = useTheme();
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
-    const genres = useSelector(state => state.filter.genres);
+    const {genres, hasGenres} = useSelector(state => state.filter.genres);
     const dispatch = useDispatch();
     const {t} = useTranslation('common');
 
@@ -54,7 +54,7 @@ const filter = () => {
     };
 
     let genreFilter = <MyRectSkeleton height={238}/>;
-    if (isArrayExist(genres)) {
+    if (hasGenres) {
         const genreNames = genres.flatMap(genre => genre.name);
         genreFilter =
             <Card variant="elevation">
