@@ -6,7 +6,6 @@ const initialState = {
         type: 'success',
         uniqueId: 0,
     },
-    isLoading: false
 };
 
 const feedbackSlice = createSlice({
@@ -19,9 +18,6 @@ const feedbackSlice = createSlice({
             state.snackbar.message = message;
             state.snackbar.uniqueId = new Date().getTime();
         },
-        setIsLoading(state, action) {
-            state.isLoading = action.payload;
-        }
     }
 });
 
