@@ -1,8 +1,11 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+import {isObjectExist} from "../../../utils/Utils";
+
+
 const initialState = {
     wishMovies: {wishMovies: [], hasWishMovies: false},
-    result: {},
+    result: {saveResult: {}, hasSaveResult: false},
     results: [],
     loader: 0,
 };
@@ -15,7 +18,8 @@ const settingsSlice = createSlice({
             state.wishMovies = {wishMovies: action.payload, hasWishMovies: true};
         },
         setResult(state, action) {
-            state.result = action.payload;
+            const {payload} = action;
+            state.result = {saveResult: payload, hasSaveResult: isObjectExist(payload)};
         },
         setResults(state, action) {
             state.results = action.payload;

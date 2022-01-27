@@ -37,7 +37,7 @@ const backdropImage = props => {
     const [isInCollection, setIsInCollection] = useState(false);
     const {t} = useTranslation('common');
 
-    const saveResult = useSelector(state => state.settings.result);
+    const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
     const posterUpdateResult = useSelector(state => state.collection.results);
     const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
     const movies = useSelector(state => state.collection.movies);
@@ -78,7 +78,7 @@ const backdropImage = props => {
     };
 
     useEffect(() => {
-        if (isObjectExist(saveResult)) {
+        if (hasSaveResult) {
             const {message, success} = saveResult;
             if (isDeleting) {
                 const type = success ? 'success' : 'error';

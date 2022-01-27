@@ -10,7 +10,6 @@ import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import WishPreviews from "./WishPreviews";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
-import {isObjectExist} from "../../../../../../utils/Utils";
 import {fetchWishMovies, saveWishMovie} from "../../../../../../store/state/settings/settings-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
@@ -24,7 +23,7 @@ let isInitial = true;
 const wishLoader = () => {
     const {tmdbApi} = useSelector(state => state.api.tmdb);
     const {wishMovies, hasWishMovies} = useSelector(state => state.settings.wishMovies);
-    const saveResult = useSelector(state => state.settings.result);
+    const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
     const loader = useSelector(state => state.settings.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
@@ -76,7 +75,7 @@ const wishLoader = () => {
     }, [wishMovies])
 
     useEffect(() => {
-        if (selectedWishMovie && isObjectExist(saveResult)) {
+        if (selectedWishMovie && hasSaveResult) {
             setIsLoading(false);
             const {title, message, success} = saveResult;
             if (success) {
