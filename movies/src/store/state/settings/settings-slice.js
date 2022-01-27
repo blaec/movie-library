@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    wishMovies: [],
+    wishMovies: {wishMovies: [], hasWishMovies: false},
     result: {},
     results: [],
     loader: 0,
@@ -12,7 +12,7 @@ const settingsSlice = createSlice({
     initialState,
     reducers: {
         setWishMovies(state, action) {
-            state.wishMovies = action.payload;
+            state.wishMovies = {wishMovies: action.payload, hasWishMovies: true};
         },
         setResult(state, action) {
             state.result = action.payload;
