@@ -4,7 +4,7 @@ import {isObjectExist} from "../../../utils/Utils";
 const initialState = {
     cast: {cast: [], hasCast: false},
     movieTmdbDetails: {tmdbMovieDetails: {}, hasTmdbMovieDetails: false},
-    movieOmdbDetails: {},
+    movieOmdbDetails: {omdbMovieDetails: {}, hasOmdbMovieDetails: false},
     actorDetails: {},
     actorImages: {},
     imdbId: '',
@@ -23,7 +23,8 @@ const detailsSlice = createSlice({
             state.movieTmdbDetails = {tmdbMovieDetails: payload, hasTmdbMovieDetails: isObjectExist(payload)};
         },
         setMovieOmdbDetails(state, action) {
-            state.movieOmdbDetails = action.payload;
+            const {payload} = action;
+            state.movieOmdbDetails = {omdbMovieDetails: payload, hasOmdbMovieDetails: isObjectExist(payload)};
         },
         setActorDetails(state, action) {
             state.actorDetails = action.payload;

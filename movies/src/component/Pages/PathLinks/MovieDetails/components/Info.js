@@ -7,7 +7,7 @@ import Cast from "./InfoComponents/Tabs/Cast/Cast";
 import MovieFacts from "./InfoComponents/Tabs/Facts/MovieFacts";
 import Trailers from "./InfoComponents/Tabs/Trailers";
 import InfoGeneral from "./InfoComponents/InfoGeneral";
-import {isArrayExist, isObjectExist} from "../../../../../utils/Utils";
+import {isArrayExist} from "../../../../../utils/Utils";
 import {MovieTab} from "../../../../../utils/Constants";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
@@ -31,7 +31,7 @@ const info = () => {
     const {t} = useTranslation('common');
 
     const {tmdbMovieDetails, hasTmdbMovieDetails} = useSelector(state => state.details.movieTmdbDetails);
-    const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
+    const {omdbMovieDetails, hasOmdbMovieDetails} = useSelector(state => state.details.movieOmdbDetails);
     const {cast, hasCast} = useSelector(state => state.details.cast);
     const movies = useSelector(state => state.collection.movies);
 
@@ -39,7 +39,7 @@ const info = () => {
         setTabSelected(newValue);
     };
 
-    const hasDetails = (hasTmdbMovieDetails || isObjectExist(omdbMovieDetails))
+    const hasDetails = (hasTmdbMovieDetails || hasOmdbMovieDetails)
         && isArrayExist(movies) && hasCast;
     let info = (
         <Box>
