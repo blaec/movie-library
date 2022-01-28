@@ -1,7 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-import {isObjectExist} from "../../../utils/Utils";
-
 
 const initialState = {
     cast: {cast: [], hasCast: false},
@@ -9,7 +7,7 @@ const initialState = {
     movieOmdbDetails: {omdbMovieDetails: {}, hasOmdbMovieDetails: false},
     actorDetails: {actorDetails: {}, hasActorDetails: false},
     actorImages: {actorImages: {}, hasActorImages: false},
-    imdbId: '',
+    imdbId: {imdbId: '', hasImdbId: false},
     trailers: [],
 };
 
@@ -21,32 +19,28 @@ const detailsSlice = createSlice({
             state.cast = {cast: action.payload, hasCast: true};
         },
         setMovieTmdbDetails(state, action) {
-            const {payload} = action;
-            state.movieTmdbDetails = {tmdbMovieDetails: payload, hasTmdbMovieDetails: isObjectExist(payload)};
+            state.movieTmdbDetails = {tmdbMovieDetails: action.payload, hasTmdbMovieDetails: true};
         },
         setMovieOmdbDetails(state, action) {
-            const {payload} = action;
-            state.movieOmdbDetails = {omdbMovieDetails: payload, hasOmdbMovieDetails: isObjectExist(payload)};
+            state.movieOmdbDetails = {omdbMovieDetails: action.payload, hasOmdbMovieDetails: true};
         },
         setActorDetails(state, action) {
-            const {payload} = action;
-            state.actorDetails = {actorDetails: payload, hasActorDetails: isObjectExist(payload)};
+            state.actorDetails = {actorDetails: action.payload, hasActorDetails: true};
         },
         setActorImages(state, action) {
-            const {payload} = action;
-            state.actorImages = {actorImages: payload, hasActorImages: isObjectExist(payload)};
+            state.actorImages = {actorImages: action.payload, hasActorImages: true};
         },
         setImdbId(state, action) {
-            state.imdbId = action.payload;
+            state.imdbId = {imdbId: action.payload, hasImdbId: true};
         },
         resetAll(state, action) {
-            state.cast = {cast: [], hasCast: false};
-            state.movieTmdbDetails = {};
-            state.movieOmdbDetails = {};
-            state.actorDetails = {};
-            state.actorImages = {};
-            state.imdbId = '';
-            state.trailers = [];
+            state.cast = initialState.cast;
+            state.movieTmdbDetails = initialState.movieTmdbDetails;
+            state.movieOmdbDetails = initialState.movieOmdbDetails;
+            state.actorDetails = initialState.actorDetails;
+            state.actorImages = initialState.actorImages;
+            state.imdbId = initialState.imdbId;
+            state.trailers = initialState.trailers;
         },
         setTrailers(state, action) {
             state.trailers = action.payload;
