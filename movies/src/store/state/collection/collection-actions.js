@@ -44,8 +44,7 @@ export const fetchFilteredCollection = (genreIds) => {
         axios.post(movieApi.get.getAllByGenres, genreIds.split(","))
             .then(response => {
                 const {data} = response;
-                const result = {data: data, hasResult: true};
-                dispatch(collectionActions.setFilteredMovies(result));
+                dispatch(collectionActions.setFilteredMovies(data));
             })
             .catch(error => {
                 console.log(error);

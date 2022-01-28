@@ -1,4 +1,4 @@
-import React, {useEffect, Suspense} from 'react';
+import React, {Suspense, useEffect} from 'react';
 import {useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
@@ -15,14 +15,14 @@ const filteredCollection = () => {
     const {genreIds} = params;
     const {t} = useTranslation('common');
 
-    const {data: filteredMovies, hasResult} = useSelector(state => state.collection.filteredMovies);
+    const {filteredMovies, loadedFilteredMovies} = useSelector(state => state.collection.filteredMovies);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchFilteredCollection(genreIds));
     }, [genreIds]);
 
-    let hasMovies = hasResult && isArrayExist(filteredMovies);
+    let hasMovies = loadedFilteredMovies && isArrayExist(filteredMovies);
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
@@ -30,11 +30,11 @@ const filteredCollection = () => {
                 type: 'info'
             }));
         }
-    }, [hasMovies]);
+    }, [filteredMovies]);
 
     return (
         <Suspense fallback={<MyLoader/>}>
-            {hasResult && !hasMovies && <MyResponse message={t('snackbar.noGenreMatch')}/>}
+            {loadedFilteredMovies && !isArrayExist(filteredMovies) && <MyResponse message={t('snackbar.noGenreMatch')}/>}
             {hasMovies &&  <Gallery movies={filteredMovies}/>}
         </Suspense>
     );
