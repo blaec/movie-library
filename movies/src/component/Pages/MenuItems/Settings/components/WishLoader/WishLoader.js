@@ -83,7 +83,7 @@ const wishLoader = () => {
             } else {
                 onSetSnackbar({message: t('snackbar.failedToAddToWishlist', {title: title, message: message}), type: 'error'});
             }
-            dispatch(settingsActions.setResult({}));
+            dispatch(settingsActions.resetResult());
         }
     }, [saveResult])
 

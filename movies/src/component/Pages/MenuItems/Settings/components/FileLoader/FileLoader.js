@@ -138,8 +138,8 @@ const fileLoader = () => {
         tmdbIdRef.current.value = '';
         fileNameRef.current.value = '';
         setIsSingleMovieUpload(false);
-        dispatch(settingsActions.setResult({}));
-        dispatch(settingsActions.setResults([]));
+        dispatch(settingsActions.resetResult());
+        dispatch(settingsActions.resetResults());
     };
 
     const handleChooseLocation = (event) => {

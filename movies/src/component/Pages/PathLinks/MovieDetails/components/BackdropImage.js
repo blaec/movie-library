@@ -83,7 +83,7 @@ const backdropImage = props => {
             if (isDeleting) {
                 const type = success ? 'success' : 'error';
                 onSetSnackbar({message, type});
-                dispatch(settingsActions.setResult({}));
+                dispatch(settingsActions.resetResult());
                 onClose();
             } else {
                 const {title} = tmdbMovieDetails;
@@ -92,7 +92,7 @@ const backdropImage = props => {
                 } else {
                     onSetSnackbar({message: `${t('snackbar.failedToAddToWishlist', {title: title, message: message})}`, type: 'error'});
                 }
-                dispatch(settingsActions.setResult({}));
+                dispatch(settingsActions.resetResult());
             }
         }
     }, [saveResult]);
