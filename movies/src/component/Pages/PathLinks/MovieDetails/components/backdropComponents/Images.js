@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 
-import {drawerWidth, fullTitle, isArraysExist, isObjectExist} from "../../../../../../utils/Utils";
+import {drawerWidth, fullTitle, isArraysExist} from "../../../../../../utils/Utils";
 import {getImageUrl} from "../../../../../../utils/UrlUtils";
 import MyRectSkeleton from "../../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../../UI/Skeleton/MyTextSkeleton";
@@ -20,7 +20,7 @@ const aspect_ratio = 16 / 9;
 
 const images = () => {
     const {root} = useStyles();
-    const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
+    const {tmdbMovieDetails, hasTmdbMovieDetails} = useSelector(state => state.details.movieTmdbDetails);
     const marginBorders = (window.innerHeight < window.innerWidth)
         ? window.innerWidth > 1000 ? .5 : .8
         : 1;
@@ -32,7 +32,7 @@ const images = () => {
             <MyTextSkeleton width='40%' center/>
         </React.Fragment>
     );
-    if (isObjectExist(tmdbMovieDetails)) {
+    if (hasTmdbMovieDetails) {
         const {title, release_date, images: {backdrops}, poster_path} = tmdbMovieDetails;
         const backdropsData = isArraysExist(backdrops)
             ? backdrops

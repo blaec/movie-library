@@ -30,7 +30,7 @@ const info = () => {
     const [tabSelected, setTabSelected] = useState(0);
     const {t} = useTranslation('common');
 
-    const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
+    const {tmdbMovieDetails, hasTmdbMovieDetails} = useSelector(state => state.details.movieTmdbDetails);
     const omdbMovieDetails = useSelector(state => state.details.movieOmdbDetails);
     const {cast, hasCast} = useSelector(state => state.details.cast);
     const movies = useSelector(state => state.collection.movies);
@@ -39,7 +39,7 @@ const info = () => {
         setTabSelected(newValue);
     };
 
-    const hasDetails = (isObjectExist(tmdbMovieDetails) || isObjectExist(omdbMovieDetails))
+    const hasDetails = (hasTmdbMovieDetails || isObjectExist(omdbMovieDetails))
         && isArrayExist(movies) && hasCast;
     let info = (
         <Box>
