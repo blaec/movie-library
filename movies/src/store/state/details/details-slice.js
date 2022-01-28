@@ -8,7 +8,7 @@ const initialState = {
     movieTmdbDetails: {tmdbMovieDetails: {}, hasTmdbMovieDetails: false},
     movieOmdbDetails: {omdbMovieDetails: {}, hasOmdbMovieDetails: false},
     actorDetails: {actorDetails: {}, hasActorDetails: false},
-    actorImages: {},
+    actorImages: {actorImages: {}, hasActorImages: false},
     imdbId: '',
     trailers: [],
 };
@@ -33,7 +33,8 @@ const detailsSlice = createSlice({
             state.actorDetails = {actorDetails: payload, hasActorDetails: isObjectExist(payload)};
         },
         setActorImages(state, action) {
-            state.actorImages = action.payload;
+            const {payload} = action;
+            state.actorImages = {actorImages: payload, hasActorImages: isObjectExist(payload)};
         },
         setImdbId(state, action) {
             state.imdbId = action.payload;
