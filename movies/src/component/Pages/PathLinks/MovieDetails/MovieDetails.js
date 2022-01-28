@@ -30,7 +30,7 @@ const movieDetails = () => {
 
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const {omdbApi, hasOmdbApi} = useSelector(state => state.api.omdb);
-    const {imdbId, hasImdbId} = useSelector(state => state.details.imdbId);
+    const {imdbId, isImdbIdLoaded} = useSelector(state => state.details.imdbId);
     const dispatch = useDispatch();
 
     const handleBack = () => {
@@ -48,7 +48,7 @@ const movieDetails = () => {
     }, [movieTmdbId, tmdbApi]);
 
     useEffect(() => {
-        if (hasOmdbApi && hasImdbId) {
+        if (hasOmdbApi && isImdbIdLoaded) {
             dispatch(fetchMovieOmdbDetails(imdbId, omdbApi));
         }
     }, [imdbId, omdbApi])

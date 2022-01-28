@@ -39,7 +39,7 @@ const backdropImage = props => {
 
     const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
     const posterUpdateResult = useSelector(state => state.collection.results);
-    const {tmdbMovieDetails, hasTmdbMovieDetails} = useSelector(state => state.details.movieTmdbDetails);
+    const {tmdbMovieDetails, isTmdbMovieDetailsLoaded} = useSelector(state => state.details.movieTmdbDetails);
     const movies = useSelector(state => state.collection.movies);
     const wishlist = useSelector(state => state.collection.wishlist);
     const dispatch = useDispatch();
@@ -105,7 +105,7 @@ const backdropImage = props => {
         }
     }, [posterUpdateResult]);
 
-    let hasMovieDetails = isArraysExist(movies, wishlist) && hasTmdbMovieDetails;
+    let hasMovieDetails = isArraysExist(movies, wishlist) && isTmdbMovieDetailsLoaded;
     useEffect(() => {
         if (hasMovieDetails) {
             const {id} = tmdbMovieDetails;

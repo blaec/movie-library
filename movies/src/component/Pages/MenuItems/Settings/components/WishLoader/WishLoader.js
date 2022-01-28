@@ -22,7 +22,7 @@ let isInitial = true;
 
 const wishLoader = () => {
     const {tmdbApi} = useSelector(state => state.api.tmdb);
-    const {wishMovies, hasWishMovies} = useSelector(state => state.settings.wishMovies);
+    const {wishMovies, isWishMoviesLoaded} = useSelector(state => state.settings.wishMovies);
     const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
     const loader = useSelector(state => state.settings.loader);
     const dispatch = useDispatch();
@@ -61,11 +61,11 @@ const wishLoader = () => {
             isInitial = false;
         } else {
             setIsLoading(false);
-            if (hasWishMovies) {
+            if (isWishMoviesLoaded) {
                 setSelectedWishMovie(wishMovies[0]);
             }
             if (loader === Loader.wishMovie) {
-                if (hasWishMovies) {
+                if (isWishMoviesLoaded) {
                     onSetSnackbar({message: t('snackbar.foundMovies', {count: wishMovies.length}), type: 'info'});
                 } else {
                     onSetSnackbar({message: t('snackbar.noResult'), type: 'warning'});
@@ -110,7 +110,7 @@ const wishLoader = () => {
                     />
                     <MySubmitButton
                         icon={<AddCircleTwoToneIcon/>}
-                        disabled={!hasWishMovies}
+                        disabled={!isWishMoviesLoaded}
                         caption={t('button.add')}
                         onSubmit={handleSaveWishMovie}
                     />

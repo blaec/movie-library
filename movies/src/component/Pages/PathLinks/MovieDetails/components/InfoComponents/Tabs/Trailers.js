@@ -21,7 +21,7 @@ const trailers = () => {
     const {root} = useStyles();
 
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
-    const {trailers, hasTrailers} = useSelector(state => state.details.trailers);
+    const {trailers, isTrailersLoaded} = useSelector(state => state.details.trailers);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const trailers = () => {
     }, [movieTmdbId, tmdbApi]);
 
     let trailerVideos = null;
-    if (hasTrailers) {
+    if (isTrailersLoaded) {
         trailerVideos = trailers.map((trailer, index) => {
             const {key, name} = trailer;
             return (

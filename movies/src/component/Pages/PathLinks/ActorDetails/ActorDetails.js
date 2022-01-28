@@ -45,7 +45,7 @@ const actorDetails = () => {
 
     const movies = useSelector(state => state.collection.movies);
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
-    const {actorDetails, hasActorDetails} = useSelector(state => state.details.actorDetails);
+    const {actorDetails, isActorDetailsLoaded} = useSelector(state => state.details.actorDetails);
     const dispatch = useDispatch();
 
     const handleBack = () => {
@@ -80,7 +80,7 @@ const actorDetails = () => {
     let movieList = [];
     let moviesInCollection = [];
     let actorImage = null;
-    let hasData = hasActorDetails && isObjectExist(movies);
+    let hasData = isActorDetailsLoaded && isObjectExist(movies);
     if (hasData) {
         const {credits: {cast}, biography} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);

@@ -15,14 +15,14 @@ const filteredCollection = () => {
     const {genreIds} = params;
     const {t} = useTranslation('common');
 
-    const {filteredMovies, loadedFilteredMovies} = useSelector(state => state.collection.filteredMovies);
+    const {filteredMovies, isFilteredMoviesLoaded} = useSelector(state => state.collection.filteredMovies);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchFilteredCollection(genreIds));
     }, [genreIds]);
 
-    let hasMovies = loadedFilteredMovies && isArrayExist(filteredMovies);
+    let hasMovies = isFilteredMoviesLoaded && isArrayExist(filteredMovies);
     useEffect(() => {
         if (hasMovies) {
             dispatch(feedbackActions.setSnackbar({
@@ -34,7 +34,7 @@ const filteredCollection = () => {
 
     return (
         <Suspense fallback={<MyLoader/>}>
-            {loadedFilteredMovies && !isArrayExist(filteredMovies) && <MyResponse message={t('snackbar.noGenreMatch')}/>}
+            {isFilteredMoviesLoaded && !isArrayExist(filteredMovies) && <MyResponse message={t('snackbar.noGenreMatch')}/>}
             {hasMovies &&  <Gallery movies={filteredMovies}/>}
         </Suspense>
     );

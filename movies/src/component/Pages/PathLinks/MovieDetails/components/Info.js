@@ -30,17 +30,17 @@ const info = () => {
     const [tabSelected, setTabSelected] = useState(0);
     const {t} = useTranslation('common');
 
-    const {tmdbMovieDetails, hasTmdbMovieDetails} = useSelector(state => state.details.movieTmdbDetails);
-    const {omdbMovieDetails, hasOmdbMovieDetails} = useSelector(state => state.details.movieOmdbDetails);
-    const {cast, hasCast} = useSelector(state => state.details.cast);
+    const {tmdbMovieDetails, isTmdbMovieDetailsLoaded} = useSelector(state => state.details.movieTmdbDetails);
+    const {omdbMovieDetails, isOmdbMovieDetailsLoaded} = useSelector(state => state.details.movieOmdbDetails);
+    const {cast, isCastLoaded} = useSelector(state => state.details.cast);
     const movies = useSelector(state => state.collection.movies);
 
     const handleChange = (event, newValue) => {
         setTabSelected(newValue);
     };
 
-    const hasDetails = (hasTmdbMovieDetails || hasOmdbMovieDetails)
-        && isArrayExist(movies) && hasCast;
+    const hasDetails = (isTmdbMovieDetailsLoaded || isOmdbMovieDetailsLoaded)
+        && isArrayExist(movies) && isCastLoaded;
     let info = (
         <Box>
             <MyTextSkeleton width='40%'/>

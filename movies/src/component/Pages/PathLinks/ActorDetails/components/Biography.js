@@ -25,7 +25,7 @@ const biography = (props) => {
 
     const [isEllipsis, setIsEllipsis] = useState(customBox);
 
-    const {actorImages, hasActorImages} = useSelector(state => state.details.actorImages);
+    const {actorImages, isActorImagesLoaded} = useSelector(state => state.details.actorImages);
 
     const handleViewBiography = () => {
         setIsEllipsis(isEllipsis === null ? customBox : null);
@@ -33,7 +33,7 @@ const biography = (props) => {
 
 
     let actorGallery = null;
-    if (hasActorImages) {
+    if (isActorImagesLoaded) {
         actorGallery = actorImages.map((image, index) => {
             const {file_path} = image;
             return (

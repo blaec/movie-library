@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 
 const initialState = {
-    wishMovies: {wishMovies: [], hasWishMovies: false},
+    wishMovies: {wishMovies: [], isWishMoviesLoaded: false},
     result: {saveResult: {}, hasSaveResult: false},
     results: {saveResults: [], hasSaveResults: false},
     loader: 0,
@@ -13,7 +13,7 @@ const settingsSlice = createSlice({
     initialState,
     reducers: {
         setWishMovies(state, action) {
-            state.wishMovies = {wishMovies: action.payload, hasWishMovies: true};
+            state.wishMovies = {wishMovies: action.payload, isWishMoviesLoaded: true};
         },
         setResult(state, action) {
             state.result = {saveResult: action.payload, hasSaveResult: true};
