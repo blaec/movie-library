@@ -8,7 +8,7 @@ const initialState = {
     actorDetails: {actorDetails: {}, hasActorDetails: false},
     actorImages: {actorImages: {}, hasActorImages: false},
     imdbId: {imdbId: '', hasImdbId: false},
-    trailers: [],
+    trailers: {trailers: [], hasTrailers: false},
 };
 
 const detailsSlice = createSlice({
@@ -33,6 +33,9 @@ const detailsSlice = createSlice({
         setImdbId(state, action) {
             state.imdbId = {imdbId: action.payload, hasImdbId: true};
         },
+        setTrailers(state, action) {
+            state.trailers = {trailers: action.payload, hasTrailers: true};
+        },
         resetAll(state, action) {
             state.cast = initialState.cast;
             state.movieTmdbDetails = initialState.movieTmdbDetails;
@@ -41,9 +44,6 @@ const detailsSlice = createSlice({
             state.actorImages = initialState.actorImages;
             state.imdbId = initialState.imdbId;
             state.trailers = initialState.trailers;
-        },
-        setTrailers(state, action) {
-            state.trailers = action.payload;
         },
     }
 });

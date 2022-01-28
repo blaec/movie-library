@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 
-import {isArraysExist, isStringExist} from "../../../../../../../utils/Utils";
+import {isStringExist} from "../../../../../../../utils/Utils";
 import {fetchTrailers} from "../../../../../../../store/state/details/details-actions";
 
 import {Paper} from "@material-ui/core";
@@ -21,7 +21,7 @@ const trailers = () => {
     const {root} = useStyles();
 
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
-    const trailers = useSelector(state => state.details.trailers);
+    const {trailers, hasTrailers} = useSelector(state => state.details.trailers);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,7 +31,7 @@ const trailers = () => {
     }, [movieTmdbId, tmdbApi]);
 
     let trailerVideos = null;
-    if (isArraysExist(trailers)) {
+    if (hasTrailers) {
         trailerVideos = trailers.map((trailer, index) => {
             const {key, name} = trailer;
             return (
