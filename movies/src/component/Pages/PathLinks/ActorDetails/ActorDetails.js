@@ -8,7 +8,7 @@ import ActorFacts from "./components/ActorFacts";
 import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
-import {isArrayExist, isMovieInCollection, isObjectsExist} from "../../../../utils/Utils";
+import {isArrayExist, isMovieInCollection, isObjectExist} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 import MovieStatusSwitch from "./components/MovieStatusSwitch";
@@ -45,7 +45,7 @@ const actorDetails = () => {
 
     const movies = useSelector(state => state.collection.movies);
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
-    const actorDetails = useSelector(state => state.details.actorDetails);
+    const {actorDetails, hasActorDetails} = useSelector(state => state.details.actorDetails);
     const dispatch = useDispatch();
 
     const handleBack = () => {
@@ -71,13 +71,16 @@ const actorDetails = () => {
         }
     }, [tmdbApi, actorId]);
 
-    let hasData = isObjectsExist(actorDetails, movies);
-    let allMovies = <MyRectSkeleton
-                        className={movieItems}
-                        height={320}
-                    />;
+    let allMovies = (
+        <MyRectSkeleton
+            className={movieItems}
+            height={320}
+        />
+    );
     let movieList = [];
     let moviesInCollection = [];
+    let actorImage = null;
+    let hasData = hasActorDetails && isObjectExist(movies);
     if (hasData) {
         const {credits: {cast}, biography} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
@@ -147,10 +150,7 @@ const actorDetails = () => {
                 </MyTabPanel>
             </div>
         );
-    }
-
-    return (
-        <div className={root}>
+        actorImage = (
             <ActorImage
                 actorDetails={actorDetails}
                 movies={movies}
@@ -158,6 +158,12 @@ const actorDetails = () => {
                 moviesInCollection={moviesInCollection}
                 onClose={handleBack}
             />
+        );
+    }
+
+    return (
+        <div className={root}>
+            {actorImage}
             {allMovies}
         </div>
     );

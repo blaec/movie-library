@@ -1,11 +1,13 @@
 import {createSlice} from '@reduxjs/toolkit';
+
 import {isObjectExist} from "../../../utils/Utils";
+
 
 const initialState = {
     cast: {cast: [], hasCast: false},
     movieTmdbDetails: {tmdbMovieDetails: {}, hasTmdbMovieDetails: false},
     movieOmdbDetails: {omdbMovieDetails: {}, hasOmdbMovieDetails: false},
-    actorDetails: {},
+    actorDetails: {actorDetails: {}, hasActorDetails: false},
     actorImages: {},
     imdbId: '',
     trailers: [],
@@ -27,7 +29,8 @@ const detailsSlice = createSlice({
             state.movieOmdbDetails = {omdbMovieDetails: payload, hasOmdbMovieDetails: isObjectExist(payload)};
         },
         setActorDetails(state, action) {
-            state.actorDetails = action.payload;
+            const {payload} = action;
+            state.actorDetails = {actorDetails: payload, hasActorDetails: isObjectExist(payload)};
         },
         setActorImages(state, action) {
             state.actorImages = action.payload;
