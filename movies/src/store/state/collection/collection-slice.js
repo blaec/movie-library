@@ -1,15 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    movies: [],
-    newMovies: [],
-    wishlist: [],
+    movies: [], // todo useGallery
+    newMovies: [], // todo useGallery
+    wishlist: [], // todo useGallery
     filteredMovies: {filteredMovies: [], isFilteredMoviesLoaded: false},
-    nowPlaying: [],
-    anticipated: [],
+    nowPlaying: [], // todo useGallery
+    anticipated: [], // todo useGallery
     library: [],
-    postersEn: [],
-    postersRu: [],
+    postersEn: {postersEn: [], isPostersEnLoaded: false},
+    postersRu: {postersRu: [], isPostersRuLoaded: false},
     results: [],
 };
 
@@ -42,10 +42,10 @@ const collectionSlice = createSlice({
             state.library = action.payload;
         },
         setPostersEn(state, action) {
-            state.postersEn = action.payload;
+            state.postersEn = {postersEn: action.payload, isPostersEnLoaded: true};
         },
         setPostersRu(state, action) {
-            state.postersRu = action.payload;
+            state.postersRu = {postersRu: action.payload, isPostersRuLoaded: true};
         },
         setResults(state, action) {
             state.results = action.payload;
