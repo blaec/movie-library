@@ -8,7 +8,7 @@ import ActorFacts from "./components/ActorFacts";
 import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
-import {isArrayExist, isMovieInCollection, isObjectExist} from "../../../../utils/Utils";
+import {isArrayExist, isMovieInCollection} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 import MovieStatusSwitch from "./components/MovieStatusSwitch";
@@ -43,7 +43,10 @@ const actorDetails = () => {
     const [tabSelected, setTabSelected] = useState(0);
     const [isCollectionMovie, setIsCollectionMovie] = useState(false);
 
-    const movies = useSelector(state => state.collection.movies);
+    const {
+        collectionItems: movies,
+        isCollectionItemsLoaded: isMoviesLoaded
+    } = useSelector(state => state.collection.movies);
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const {actorDetails, isActorDetailsLoaded} = useSelector(state => state.details.actorDetails);
     const dispatch = useDispatch();
@@ -80,8 +83,8 @@ const actorDetails = () => {
     let movieList = [];
     let moviesInCollection = [];
     let actorImage = null;
-    let hasData = isActorDetailsLoaded && isObjectExist(movies);
-    if (hasData) {
+    let isDataLoaded = isActorDetailsLoaded && isMoviesLoaded;
+    if (isDataLoaded) {
         const {credits: {cast}, biography} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
         movieList = cast.filter(movie => {

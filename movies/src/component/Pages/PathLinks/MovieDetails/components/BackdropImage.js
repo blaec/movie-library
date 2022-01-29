@@ -9,7 +9,7 @@ import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import MyPosterIcon from "../../../../../UI/Buttons/Icons/MyPosterIcon";
 import DeleteDialog from "./DeleteDialog";
 import PosterUpdateDialog from "./PosterUpdateDialog";
-import {getMovieByTmdbId, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
+import {getMovieByTmdbId, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
@@ -40,8 +40,14 @@ const backdropImage = props => {
     const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
     const {posterResults, isPosterResultsLoaded} = useSelector(state => state.collection.posterResults);
     const {tmdbMovieDetails, isTmdbMovieDetailsLoaded} = useSelector(state => state.details.movieTmdbDetails);
-    const movies = useSelector(state => state.collection.movies);
-    const wishlist = useSelector(state => state.collection.wishlist);
+    const {
+        collectionItems: movies,
+        isCollectionItemsLoaded: isMoviesLoaded
+    } = useSelector(state => state.collection.movies);
+    const {
+        collectionItems: wishlist,
+        isCollectionItemsLoaded: isWishlistLoaded
+    } = useSelector(state => state.collection.wishlist);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -105,9 +111,9 @@ const backdropImage = props => {
         }
     }, [posterResults]);
 
-    let hasMovieDetails = isArraysExist(movies, wishlist) && isTmdbMovieDetailsLoaded;
+    let idDataLoaded = isMoviesLoaded && isWishlistLoaded && isTmdbMovieDetailsLoaded;
     useEffect(() => {
-        if (hasMovieDetails) {
+        if (idDataLoaded) {
             const {id} = tmdbMovieDetails;
             setIsInCollection(isMovieInCollection(movies.concat(wishlist), id));
         }
@@ -131,7 +137,7 @@ const backdropImage = props => {
                 <MyArrowBack onClose={onClose}/>
                 <MyControlIcon
                     isInCollection={isInCollection}
-                    canDisplay={hasMovieDetails}
+                    canDisplay={idDataLoaded}
                     onAddToWatch={handleAddToWatchMovie}
                     onDelete={handleDeletedMovie}
                 />

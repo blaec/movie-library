@@ -1,7 +1,5 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-
-import {isArrayExist} from "../../../../../../utils/Utils";
 import RadioLabel from "./RadioLabel";
 
 import {FormControlLabel, makeStyles, Radio, RadioGroup} from "@material-ui/core";
@@ -25,7 +23,10 @@ const fileRadios = (props) => {
     const {fileLocation, onChooseLocation} = props;
     const {root} = useStyles();
 
-    const movies = useSelector(state => state.collection.movies);
+    const {
+        collectionItems: movies,
+        isCollectionItemsLoaded: isMoviesLoaded
+    } = useSelector(state => state.collection.movies);
 
     let movieLocations = [
         createData('cartoons', 'L | Cartoons', [], '\\l_cartoons'),
@@ -34,7 +35,7 @@ const fileRadios = (props) => {
         createData('music', 'D | New Movies', [], '\\d_music'),
         createData('videos', 'C | Videos', [], '\\c_videos'),
     ];
-    if (isArrayExist(movies)) {
+    if (isMoviesLoaded) {
         movieLocations = movieLocations.map(m => createData(m.key, m.label, movies, m.loc));
     }
 
