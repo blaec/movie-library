@@ -10,7 +10,6 @@ import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import WishPreviews from "./WishPreviews";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
-import {isArrayExist, isObjectExist} from "../../../../../../utils/Utils";
 import {fetchWishMovies, saveWishMovie} from "../../../../../../store/state/settings/settings-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
@@ -22,9 +21,9 @@ import {Loader} from "../../../../../../utils/Constants";
 let isInitial = true;
 
 const wishLoader = () => {
-    const tmdbApi = useSelector(state => state.api.tmdb);
-    const wishMovies = useSelector(state => state.settings.wishMovies);
-    const saveResult = useSelector(state => state.settings.result);
+    const {tmdbApi} = useSelector(state => state.api.tmdb);
+    const {wishMovies, isWishMoviesLoaded} = useSelector(state => state.settings.wishMovies);
+    const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
     const loader = useSelector(state => state.settings.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
@@ -37,11 +36,10 @@ const wishLoader = () => {
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
 
-    let hasResults = isArrayExist(wishMovies);
-
     const handleChangeSelectedWishMovie = (current) => {
         setSelectedWishMovie(wishMovies[current]);
     };
+
     const handleSaveWishMovie = () => {
         setIsLoading(true);
         dispatch(saveWishMovie(selectedWishMovie));
@@ -63,21 +61,21 @@ const wishLoader = () => {
             isInitial = false;
         } else {
             setIsLoading(false);
-            if (hasResults) {
+            if (isWishMoviesLoaded) {
                 setSelectedWishMovie(wishMovies[0]);
             }
             if (loader === Loader.wishMovie) {
-                if (hasResults) {
+                if (isWishMoviesLoaded) {
                     onSetSnackbar({message: t('snackbar.foundMovies', {count: wishMovies.length}), type: 'info'});
                 } else {
                     onSetSnackbar({message: t('snackbar.noResult'), type: 'warning'});
                 }
             }
         }
-    }, [hasResults, wishMovies])
+    }, [wishMovies])
 
     useEffect(() => {
-        if (selectedWishMovie && isObjectExist(saveResult)) {
+        if (selectedWishMovie && hasSaveResult) {
             setIsLoading(false);
             const {title, message, success} = saveResult;
             if (success) {
@@ -85,7 +83,7 @@ const wishLoader = () => {
             } else {
                 onSetSnackbar({message: t('snackbar.failedToAddToWishlist', {title: title, message: message}), type: 'error'});
             }
-            dispatch(settingsActions.setResult({}));
+            dispatch(settingsActions.resetResult());
         }
     }, [saveResult])
 
@@ -112,7 +110,7 @@ const wishLoader = () => {
                     />
                     <MySubmitButton
                         icon={<AddCircleTwoToneIcon/>}
-                        disabled={!hasResults}
+                        disabled={!isWishMoviesLoaded}
                         caption={t('button.add')}
                         onSubmit={handleSaveWishMovie}
                     />

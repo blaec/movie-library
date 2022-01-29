@@ -1,7 +1,5 @@
 import React from 'react';
 import {useSelector} from "react-redux";
-
-import {isArrayExist} from "../../../../../../utils/Utils";
 import RadioLabel from "./RadioLabel";
 
 import {FormControlLabel, makeStyles, Radio, RadioGroup} from "@material-ui/core";
@@ -18,24 +16,27 @@ const createData = (key, label, data, loc) => {
     let count = moviesByLocation.length;
     let sizeVal = moviesByLocation.reduce(((sum, movie) => sum + movie.size), 0);
     let size = nf.format(sizeVal.toFixed(0));
-    return { key, label, count, size };
+    return { key, label, count, size, loc };
 }
 
 const fileRadios = (props) => {
     const {fileLocation, onChooseLocation} = props;
     const {root} = useStyles();
 
-    const movies = useSelector(state => state.collection.movies);
+    const {
+        collectionItems: movies,
+        isCollectionItemsLoaded: isMoviesLoaded
+    } = useSelector(state => state.collection.movies);
 
-    let movieLocations = [];
-    if (isArrayExist(movies)) {
-        movieLocations = [
-            createData('cartoons', 'L | Cartoons', movies, '\\l_cartoons'),
-            createData('movies', 'N | Movies', movies, '\\n_movies'),
-            createData('serialMovies', 'M | Serial Movies', movies, '\\m_serial_movies'),
-            createData('music', 'D | New Movies', movies, '\\d_music'),
-            createData('videos', 'C | Videos', movies, '\\c_videos'),
-        ];
+    let movieLocations = [
+        createData('cartoons', 'L | Cartoons', [], '\\l_cartoons'),
+        createData('movies', 'N | Movies', [], '\\n_movies'),
+        createData('serialMovies', 'M | Serial Movies', [], '\\m_serial_movies'),
+        createData('music', 'D | New Movies', [], '\\d_music'),
+        createData('videos', 'C | Videos', [], '\\c_videos'),
+    ];
+    if (isMoviesLoaded) {
+        movieLocations = movieLocations.map(m => createData(m.key, m.label, movies, m.loc));
     }
 
     const radios = movieLocations.map(location => {

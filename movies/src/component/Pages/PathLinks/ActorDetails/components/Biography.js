@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {useSelector} from "react-redux";
-
-import {isArraysExist} from "../../../../../utils/Utils";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
 
 import {Box, makeStyles, Paper} from "@material-ui/core";
@@ -27,7 +25,7 @@ const biography = (props) => {
 
     const [isEllipsis, setIsEllipsis] = useState(customBox);
 
-    const actorImages = useSelector(state => state.details.actorImages);
+    const {actorImages, isActorImagesLoaded} = useSelector(state => state.details.actorImages);
 
     const handleViewBiography = () => {
         setIsEllipsis(isEllipsis === null ? customBox : null);
@@ -35,7 +33,7 @@ const biography = (props) => {
 
 
     let actorGallery = null;
-    if (isArraysExist(actorImages)) {
+    if (isActorImagesLoaded) {
         actorGallery = actorImages.map((image, index) => {
             const {file_path} = image;
             return (
