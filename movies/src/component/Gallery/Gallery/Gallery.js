@@ -58,7 +58,7 @@ const gallery = (props) => {
     const {pathname} = useLocation();
     const {t} = useTranslation('common');
 
-    const search = useSelector(state => state.filter.search);
+    const {search} = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);

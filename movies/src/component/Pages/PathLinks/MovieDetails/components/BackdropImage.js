@@ -9,7 +9,7 @@ import MyControlIcon from "../../../../../UI/Buttons/Icons/MyControlIcon";
 import MyPosterIcon from "../../../../../UI/Buttons/Icons/MyPosterIcon";
 import DeleteDialog from "./DeleteDialog";
 import PosterUpdateDialog from "./PosterUpdateDialog";
-import {getMovieByTmdbId, isArraysExist, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
+import {getMovieByTmdbId, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
 import {settingsActions} from "../../../../../store/state/settings/settings-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
@@ -37,11 +37,17 @@ const backdropImage = props => {
     const [isInCollection, setIsInCollection] = useState(false);
     const {t} = useTranslation('common');
 
-    const saveResult = useSelector(state => state.settings.result);
-    const posterUpdateResult = useSelector(state => state.collection.results);
-    const tmdbMovieDetails = useSelector(state => state.details.movieTmdbDetails);
-    const movies = useSelector(state => state.collection.movies);
-    const wishlist = useSelector(state => state.collection.wishlist);
+    const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
+    const {posterResults, isPosterResultsLoaded} = useSelector(state => state.collection.posterResults);
+    const {tmdbMovieDetails, isTmdbMovieDetailsLoaded} = useSelector(state => state.details.movieTmdbDetails);
+    const {
+        collectionItems: movies,
+        isCollectionItemsLoaded: isMoviesLoaded
+    } = useSelector(state => state.collection.movies);
+    const {
+        collectionItems: wishlist,
+        isCollectionItemsLoaded: isWishlistLoaded
+    } = useSelector(state => state.collection.wishlist);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
@@ -78,12 +84,12 @@ const backdropImage = props => {
     };
 
     useEffect(() => {
-        if (isObjectExist(saveResult)) {
+        if (hasSaveResult) {
             const {message, success} = saveResult;
             if (isDeleting) {
                 const type = success ? 'success' : 'error';
                 onSetSnackbar({message, type});
-                dispatch(settingsActions.setResult({}));
+                dispatch(settingsActions.resetResult());
                 onClose();
             } else {
                 const {title} = tmdbMovieDetails;
@@ -92,22 +98,22 @@ const backdropImage = props => {
                 } else {
                     onSetSnackbar({message: `${t('snackbar.failedToAddToWishlist', {title: title, message: message})}`, type: 'error'});
                 }
-                dispatch(settingsActions.setResult({}));
+                dispatch(settingsActions.resetResult());
             }
         }
     }, [saveResult]);
 
     useEffect(() => {
-        if (isObjectExist(posterUpdateResult)) {
-            const {message, success} = posterUpdateResult;
+        if (isPosterResultsLoaded) {
+            const {message, success} = posterResults;
             const type = success ? 'success' : 'error';
             onSetSnackbar({message, type});
         }
-    }, [posterUpdateResult]);
+    }, [posterResults]);
 
-    let hasMovieDetails = isArraysExist(movies, wishlist) && isObjectExist(tmdbMovieDetails);
+    let idDataLoaded = isMoviesLoaded && isWishlistLoaded && isTmdbMovieDetailsLoaded;
     useEffect(() => {
-        if (hasMovieDetails) {
+        if (idDataLoaded) {
             const {id} = tmdbMovieDetails;
             setIsInCollection(isMovieInCollection(movies.concat(wishlist), id));
         }
@@ -131,7 +137,7 @@ const backdropImage = props => {
                 <MyArrowBack onClose={onClose}/>
                 <MyControlIcon
                     isInCollection={isInCollection}
-                    canDisplay={hasMovieDetails}
+                    canDisplay={idDataLoaded}
                     onAddToWatch={handleAddToWatchMovie}
                     onDelete={handleDeletedMovie}
                 />

@@ -1,16 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    movies: [],
-    newMovies: [],
-    wishlist: [],
-    filteredMovies: {data: [], hasResult: false},
-    nowPlaying: [],
-    anticipated: [],
+    movies: {collectionItems: [], isCollectionItemsLoaded: false},
+    newMovies: {collectionItems: [], isCollectionItemsLoaded: false},
+    wishlist: {collectionItems: [], isCollectionItemsLoaded: false},
+    nowPlaying: {collectionItems: [], isCollectionItemsLoaded: false},
+    anticipated: {collectionItems: [], isCollectionItemsLoaded: false},
+    filteredMovies: {filteredMovies: [], isFilteredMoviesLoaded: false},
     library: [],
-    postersEn: [],
-    postersRu: [],
-    results: [],
+    postersEn: {postersEn: [], isPostersEnLoaded: false},
+    postersRu: {postersRu: [], isPostersRuLoaded: false},
+    posterResults: {posterResults: [], isPosterResultsLoaded: false},
 };
 
 const collectionSlice = createSlice({
@@ -18,37 +18,40 @@ const collectionSlice = createSlice({
     initialState,
     reducers: {
         setMoviesCollection(state, action) {
-            state.movies = action.payload;
+            state.movies = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setNewMoviesCollection(state, action) {
-            state.newMovies = action.payload;
+            state.newMovies = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setWishlistCollection(state, action) {
-            state.wishlist = action.payload;
-        },
-        setFilteredMovies(state, action) {
-            state.filteredMovies = action.payload;
-        },
-        resetFilteredMovies(state) {
-            state.filteredMovies = {data: [], hasResult: false};
+            state.wishlist = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setNowPlaying(state, action) {
-            state.nowPlaying = action.payload;
+            state.nowPlaying = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setAnticipated(state, action) {
-            state.anticipated = action.payload;
+            state.anticipated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
+        },
+        setFilteredMovies(state, action) {
+            state.filteredMovies = {filteredMovies: action.payload, isFilteredMoviesLoaded: true};
+        },
+        resetFilteredMovies(state) {
+            state.filteredMovies = initialState.filteredMovies;
         },
         setLibrary(state, action) {
             state.library = action.payload;
         },
         setPostersEn(state, action) {
-            state.postersEn = action.payload;
+            state.postersEn = {postersEn: action.payload, isPostersEnLoaded: true};
         },
         setPostersRu(state, action) {
-            state.postersRu = action.payload;
+            state.postersRu = {postersRu: action.payload, isPostersRuLoaded: true};
         },
-        setResults(state, action) {
-            state.results = action.payload;
+        setPosterResults(state, action) {
+            state.posterResults = {posterResults: action.payload, isPosterResultsLoaded: true};
+        },
+        resetPosterResults(state, action) {
+            state.posterResults = initialState.posterResults;
         },
     }
 });

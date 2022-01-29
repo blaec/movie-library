@@ -1,13 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+
 const initialState = {
-    cast: {cast: [], hasCast: false},
-    movieTmdbDetails: {},
-    movieOmdbDetails: {},
-    actorDetails: {},
-    actorImages: {},
-    imdbId: '',
-    trailers: [],
+    cast: {cast: [], isCastLoaded: false},
+    movieTmdbDetails: {tmdbMovieDetails: {}, isTmdbMovieDetailsLoaded: false},
+    movieOmdbDetails: {omdbMovieDetails: {}, isOmdbMovieDetailsLoaded: false},
+    actorDetails: {actorDetails: {}, isActorDetailsLoaded: false},
+    actorImages: {actorImages: {}, isActorImagesLoaded: false},
+    imdbId: {imdbId: '', isImdbIdLoaded: false},
+    trailers: {trailers: [], isTrailersLoaded: false},
 };
 
 const detailsSlice = createSlice({
@@ -15,34 +16,34 @@ const detailsSlice = createSlice({
     initialState,
     reducers: {
         setCast(state, action) {
-            state.cast = {cast: action.payload, hasCast: true};
+            state.cast = {cast: action.payload, isCastLoaded: true};
         },
         setMovieTmdbDetails(state, action) {
-            state.movieTmdbDetails = action.payload;
+            state.movieTmdbDetails = {tmdbMovieDetails: action.payload, isTmdbMovieDetailsLoaded: true};
         },
         setMovieOmdbDetails(state, action) {
-            state.movieOmdbDetails = action.payload;
+            state.movieOmdbDetails = {omdbMovieDetails: action.payload, isOmdbMovieDetailsLoaded: true};
         },
         setActorDetails(state, action) {
-            state.actorDetails = action.payload;
+            state.actorDetails = {actorDetails: action.payload, isActorDetailsLoaded: true};
         },
         setActorImages(state, action) {
-            state.actorImages = action.payload;
+            state.actorImages = {actorImages: action.payload, isActorImagesLoaded: true};
         },
         setImdbId(state, action) {
-            state.imdbId = action.payload;
-        },
-        resetAll(state, action) {
-            state.cast = {cast: [], hasCast: false};
-            state.movieTmdbDetails = {};
-            state.movieOmdbDetails = {};
-            state.actorDetails = {};
-            state.actorImages = {};
-            state.imdbId = '';
-            state.trailers = [];
+            state.imdbId = {imdbId: action.payload, isImdbIdLoaded: true};
         },
         setTrailers(state, action) {
-            state.trailers = action.payload;
+            state.trailers = {trailers: action.payload, isTrailersLoaded: true};
+        },
+        resetAll(state, action) {
+            state.cast = initialState.cast;
+            state.movieTmdbDetails = initialState.movieTmdbDetails;
+            state.movieOmdbDetails = initialState.movieOmdbDetails;
+            state.actorDetails = initialState.actorDetails;
+            state.actorImages = initialState.actorImages;
+            state.imdbId = initialState.imdbId;
+            state.trailers = initialState.trailers;
         },
     }
 });

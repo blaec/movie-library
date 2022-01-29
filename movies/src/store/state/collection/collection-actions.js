@@ -44,8 +44,7 @@ export const fetchFilteredCollection = (genreIds) => {
         axios.post(movieApi.get.getAllByGenres, genreIds.split(","))
             .then(response => {
                 const {data} = response;
-                const result = {data: data, hasResult: true};
-                dispatch(collectionActions.setFilteredMovies(result));
+                dispatch(collectionActions.setFilteredMovies(data));
             })
             .catch(error => {
                 console.log(error);
@@ -161,7 +160,7 @@ export const updateMoviePosters = (movie) => {
         axios.put(movieApi.put.updatePosters, movie)
             .then(response => {
                 const {data} = response;
-                dispatch(collectionActions.setResults(data));
+                dispatch(collectionActions.setPosterResults(data));
                 dispatch(fetchMovies());
                 dispatch(fetchWishlist());
             })

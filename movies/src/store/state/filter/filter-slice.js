@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-    search: '',
-    genres: [],
+    search: {search: '', hasSearch: false},
+    genres: {genres: [], isGenresLoaded: false},
 };
 
 const filterSlice = createSlice({
@@ -10,10 +10,11 @@ const filterSlice = createSlice({
     initialState,
     reducers: {
         changeSearch(state, action) {
-            state.search = action.payload.toLowerCase();
+            const {payload} = action;
+            state.search = {search: payload.toLowerCase(), hasSearch: payload.length > 0};
         },
         setGenres(state, action) {
-            state.genres = action.payload;
+            state.genres = {genres: action.payload, isGenresLoaded: true};
         },
     }
 });

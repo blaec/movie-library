@@ -43,8 +43,8 @@ const posterUpdateDialog = (props) => {
     const [disableUpdate, setDisableUpdate] = useState(true);
     const {t} = useTranslation('common');
 
-    const postersEn = useSelector(state => state.collection.postersEn);
-    const postersRu = useSelector(state => state.collection.postersRu);
+    const {postersEn, isPostersEnLoaded} = useSelector(state => state.collection.postersEn);
+    const {postersRu, isPostersRuLoaded} = useSelector(state => state.collection.postersRu);
     const dispatch = useDispatch();
 
     const handlePosterEnSelect = (posterUrl) => {
@@ -94,10 +94,15 @@ const posterUpdateDialog = (props) => {
                 );
             });
         }
+
         return posterGallery;
     }
-    const posterEnGallery = createPosterGallery(postersEn, posterEnSelected, handlePosterEnSelect);
-    const posterRuGallery = createPosterGallery(postersRu, posterRuSelected, handlePosterRuSelect);
+    const posterEnGallery = isPostersEnLoaded
+        ? createPosterGallery(postersEn, posterEnSelected, handlePosterEnSelect)
+        : null;
+    const posterRuGallery = isPostersRuLoaded
+        ? createPosterGallery(postersRu, posterRuSelected, handlePosterRuSelect)
+        : null;
 
     let dialogContent = (
         <React.Fragment>

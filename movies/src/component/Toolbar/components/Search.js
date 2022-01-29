@@ -64,7 +64,7 @@ const search = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const {t} = useTranslation('common');
 
-    const search = useSelector(state => state.filter.search);
+    const {hasSearch} = useSelector(state => state.filter.search);
     const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));
 
@@ -78,7 +78,7 @@ const search = () => {
 
 
     let endAdornment = () => '';
-    if (search) {
+    if (hasSearch) {
         endAdornment = () =>
             <InputAdornment position="end">
                 <IconButton onClick={() => setSearchTerm('')}>

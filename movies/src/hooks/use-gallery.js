@@ -6,26 +6,29 @@ import MyLoader from "../UI/Spinners/MyLoader";
 import Gallery from "../component/Gallery/Gallery/Gallery";
 import {feedbackActions} from "../store/state/feedback/feedback-slice";
 import {useTranslation} from "react-i18next";
+import MyResponse from "../UI/MyResponse";
 
 const useGallery = (movies) => {
-    const collection = useSelector(state => state.collection[movies]);
+    const {collectionItems, isCollectionItemsLoaded} = useSelector(state => state.collection[movies]);
     const dispatch = useDispatch();
     const {t} = useTranslation('common');
 
-    const hasMovies = isArrayExist(collection);
     useEffect(() => {
-        if (hasMovies) {
+        if (isCollectionItemsLoaded) {
             dispatch(feedbackActions.setSnackbar({
-                message: `${t('snackbar.foundMovies', {count: collection.length})}`,
+                message: `${t('snackbar.foundMovies', {count: collectionItems.length})}`,
                 type: 'info'
             }));
         }
-    }, [hasMovies]);
+    }, [collectionItems]);
 
+    const isLoadedEmptyData = isCollectionItemsLoaded && !isArrayExist(collectionItems);
+    const isLoadedCompleteData = isCollectionItemsLoaded && isArrayExist(collectionItems);
     return (
         <React.Fragment>
-            {!hasMovies && <MyLoader/>}
-            {hasMovies && <Gallery movies={collection}/>}
+            {!isCollectionItemsLoaded && <MyLoader/>}
+            {isLoadedEmptyData && <MyResponse message={t('snackbar.noResult')}/>}
+            {isLoadedCompleteData && <Gallery movies={collectionItems}/>}
         </React.Fragment>
     );
 };
