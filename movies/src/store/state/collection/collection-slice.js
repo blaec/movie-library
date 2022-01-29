@@ -10,7 +10,7 @@ const initialState = {
     library: [],
     postersEn: {postersEn: [], isPostersEnLoaded: false},
     postersRu: {postersRu: [], isPostersRuLoaded: false},
-    results: [],
+    posterResults: {posterResults: [], isPosterResultsLoaded: false},
 };
 
 const collectionSlice = createSlice({
@@ -47,8 +47,11 @@ const collectionSlice = createSlice({
         setPostersRu(state, action) {
             state.postersRu = {postersRu: action.payload, isPostersRuLoaded: true};
         },
-        setResults(state, action) {
-            state.results = action.payload;
+        setPosterResults(state, action) {
+            state.posterResults = {posterResults: action.payload, isPosterResultsLoaded: true};
+        },
+        resetPosterResults(state, action) {
+            state.posterResults = initialState.posterResults;
         },
     }
 });

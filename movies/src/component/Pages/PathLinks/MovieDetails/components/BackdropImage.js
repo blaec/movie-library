@@ -38,7 +38,7 @@ const backdropImage = props => {
     const {t} = useTranslation('common');
 
     const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
-    const posterUpdateResult = useSelector(state => state.collection.results);
+    const {posterResults, isPosterResultsLoaded} = useSelector(state => state.collection.posterResults);
     const {tmdbMovieDetails, isTmdbMovieDetailsLoaded} = useSelector(state => state.details.movieTmdbDetails);
     const movies = useSelector(state => state.collection.movies);
     const wishlist = useSelector(state => state.collection.wishlist);
@@ -98,12 +98,12 @@ const backdropImage = props => {
     }, [saveResult]);
 
     useEffect(() => {
-        if (isObjectExist(posterUpdateResult)) {
-            const {message, success} = posterUpdateResult;
+        if (isPosterResultsLoaded) {
+            const {message, success} = posterResults;
             const type = success ? 'success' : 'error';
             onSetSnackbar({message, type});
         }
-    }, [posterUpdateResult]);
+    }, [posterResults]);
 
     let hasMovieDetails = isArraysExist(movies, wishlist) && isTmdbMovieDetailsLoaded;
     useEffect(() => {

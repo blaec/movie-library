@@ -160,7 +160,7 @@ export const updateMoviePosters = (movie) => {
         axios.put(movieApi.put.updatePosters, movie)
             .then(response => {
                 const {data} = response;
-                dispatch(collectionActions.setResults(data));
+                dispatch(collectionActions.setPosterResults(data));
                 dispatch(fetchMovies());
                 dispatch(fetchWishlist());
             })
