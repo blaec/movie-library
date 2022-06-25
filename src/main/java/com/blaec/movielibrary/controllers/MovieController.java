@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @RequestMapping(MovieController.URL)
@@ -66,12 +67,10 @@ public class MovieController extends AbstractMovieController{
     private void logMissingFiles() {
         if (TestUtils.isJUnitTest()) return;
 
-        for (Movie movie : getAllMovies()) {
-            String path = String.format("%s\\%s", movie.getLocation(), movie.getFileName());
-            if (!(new File(path)).exists()) {
-                log.warn("Not found on disk: {}", path);
-            }
-        }
+        StreamSupport.stream(getAllMovies().spliterator(), true)
+                .map(movie -> String.format("%s\\%s", movie.getLocation(), movie.getFileName()))
+                .filter(path -> !(new File(path)).exists())
+                .forEach(path -> log.warn("Not found on disk: {}", path));
     }
 
     @PostMapping("/upload/file")
