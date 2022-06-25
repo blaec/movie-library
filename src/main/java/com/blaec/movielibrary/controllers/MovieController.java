@@ -53,10 +53,11 @@ public class MovieController extends AbstractMovieController{
                 .collect(Collectors.toList());
 
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
-        for (MovieFileTo movieFile : newMovies) {
-            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieByNameAndYear(movieFile);
-            responses.add(trySaveToCollection(tmdbMovie, movieFile).build());
-        }
+        newMovies.parallelStream()
+                .forEach(movieFile -> {
+                    Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieByNameAndYear(movieFile);
+                    responses.add(trySaveToCollection(tmdbMovie, movieFile).build());
+                });
 
         logMissingFiles();
         return responses;
