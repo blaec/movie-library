@@ -6,15 +6,15 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
-import java.io.FileFilter;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @UtilityClass
@@ -29,34 +29,33 @@ public class FilesUtils {
     private static final BigDecimal ONE_GB_BD = BigDecimal.valueOf(ONE_GB);
     private static final BigDecimal ONE_TB_BD = BigDecimal.valueOf(ONE_TB);
 
-    private static final FileFilter filter = pathname -> pathname.isDirectory()
-                                                      || pathname.getName().endsWith("mkv")
-                                                      || pathname.getName().endsWith("avi");
+    private static final String[] movieExtensions = {"mkv", "avi"};
 
-
-    private static Set<File> movies;
 
     public static List<MovieFileTo> getMoviesFromFolder(String dirPath) {
-        movies = new TreeSet<>();
-        getRecursivelyFilesFromFolder(dirPath);
-        return movies.stream()
+        return getFiles(dirPath).stream()
                 .map(convertToOptionalMovieFileTo())
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
     }
 
-    private static void getRecursivelyFilesFromFolder(String dirPath) {
-        File[] files = (new File(dirPath)).listFiles(filter);
-        if (files != null) {
-            for (File file : files) {
-                if (file.isFile()) {
-                    movies.add(file);
-                } else if (file.isDirectory()) {
-                    getRecursivelyFilesFromFolder(file.getAbsolutePath());
-                }
-            }
+    private static Set<File> getFiles(String dirPath) {
+        try (Stream<Path> entries = Files.walk(Path.of(dirPath)))
+        {
+            return entries
+                    .filter(Files::isRegularFile)
+                    .map(Path::toFile)
+                    .filter(f -> hasExtension(f.getName(), movieExtensions))
+                    .collect(Collectors.toSet());
+        } catch (IOException e) {
+            log.error("Failed getting files from " + dirPath, e);
+            return Collections.emptySet();
         }
+    }
+
+    private static boolean hasExtension(String s, String... ext) {
+        return Arrays.stream(ext).anyMatch(s::endsWith);
     }
 
     private static Function<File, Optional<MovieFileTo>> convertToOptionalMovieFileTo() {
