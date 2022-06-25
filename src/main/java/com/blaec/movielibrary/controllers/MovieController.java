@@ -15,6 +15,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -70,13 +71,11 @@ public class MovieController extends AbstractMovieController{
         StreamSupport.stream(getAllMovies().spliterator(), true)
                 .map(movie -> String.format("%s\\%s", movie.getLocation(), movie.getFileName()))
                 .filter(path -> !(new File(path)).exists())
-                .forEach(path -> log.warn("Not found on disk: {}", path));
+                .forEach(path -> log.warn("Saved to db, but not found on disk: {}", path));
     }
 
     @PostMapping("/upload/file")
     public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
-        Response.Builder responseBuilder = Response.Builder.create();
-
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
                 .filter(isFileNameMatchRequested(uploadMovie))
                 .collect(Collectors.toList());
@@ -84,17 +83,26 @@ public class MovieController extends AbstractMovieController{
         //  falls with validation
         //  add new property to Response - isValid
 
-        if (moviesWithRequestedFileName.size() != 1) {
+        Supplier<Response> onSuccess = () -> {
+            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());
+            return moviesWithRequestedFileName.stream()
+                    .map(m -> trySaveToCollection(tmdbMovie, m))
+                    .findFirst()
+                    .orElse(Response.Builder.create())
+                    .build();
+        };
+        Supplier<Response> onFail = () -> {
             String message = "Not found at all or more than one movie found";
             log.warn("{} '{}'", message, uploadMovie);
-            responseBuilder.setFailMessage(message);
-        } else {
-            MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
-            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());
-            responseBuilder = trySaveToCollection(tmdbMovie, movieFile);
-        }
+            return Response.Builder.create()
+                    .setFailMessage(message)
+                    .build();
+        };
+        Supplier<Response> response = moviesWithRequestedFileName.size() == 1
+                ? onSuccess
+                : onFail;
 
-        return responseBuilder.build();
+        return response.get();
     }
 
     @PostMapping("/upload/wish")
