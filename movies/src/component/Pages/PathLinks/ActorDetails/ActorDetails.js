@@ -90,8 +90,7 @@ const actorDetails = () => {
         movieList = cast.filter(movie => {
             // skip 'Documentary' movies and movies without genres
             const {genre_ids} = movie;
-            return !genre_ids.includes(99)
-                && isArrayExist(genre_ids);
+            return isArrayExist(genre_ids) && !genre_ids.includes(99);
         })
             .sort((a, b) => {
                 const getDate = (movie) => {
