@@ -45,6 +45,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public boolean isMovieExist(String tmdbId) {
+        return movieRepository.getByTmdbId(tmdbId).isPresent();
+    }
+
+    @Override
     public Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie) {
         return tmdbMovie
                 .map(movieTmdbTo -> save(Movie.createWithWishlistType(movieTmdbTo)))

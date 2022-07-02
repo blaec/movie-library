@@ -76,6 +76,14 @@ public class MovieController extends AbstractMovieController{
 
     @PostMapping("/upload/file")
     public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
+        if (movieService.isMovieExist(uploadMovie.getTmdbId())) {
+            return Response.Builder
+                    .create()
+                    .setExist("This movie already exists")
+                    .setTitle(uploadMovie.getFileName())
+                    .build();
+        }
+
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
                 .filter(isFileNameMatchRequested(uploadMovie))
                 .collect(Collectors.toList());
