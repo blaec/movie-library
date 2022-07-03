@@ -63,6 +63,12 @@ public class Response {
             return this;
         }
 
+        public Builder setExist(String message) {
+            this.isSuccess = false;
+            this.message = message;
+            return this;
+        }
+
         public Builder setMessage(String message) {
             this.message = message;
             return this;
