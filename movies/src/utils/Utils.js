@@ -69,7 +69,7 @@ export const isStringsExist = (...strings) => {
 };
 
 export const isArrayExist = (array) => {
-    return array.length > 0;
+    return array && array.length > 0;
 };
 
 export const isArraysExist = (...arrays) => {
