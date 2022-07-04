@@ -1,4 +1,5 @@
 import {drawer, mobile} from "./Constants";
+import {useTranslation} from "react-i18next";
 
 /**
  * Extract year from date (like release date), date could be undefined or null
@@ -24,7 +25,9 @@ export const fullTitle = (title, releaseDate) => {
     return `${title}${(year.length > 0 ? ` (${year})` : '')}`
 };
 
-export const playTime = (totalMinutes, t) => {
+export const playTime = (totalMinutes) => {
+    const {t} = useTranslation('common');
+
     let hour = Math.floor(totalMinutes / 60);
     let minute = `0${totalMinutes % 60}`.slice(-2);
 

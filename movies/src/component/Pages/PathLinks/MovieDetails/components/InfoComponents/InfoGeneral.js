@@ -1,6 +1,5 @@
 import React from 'react';
 import {useParams} from "react-router";
-import {useTranslation} from "react-i18next";
 import {fullYear, getMovieByTmdbId, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
@@ -33,15 +32,13 @@ const infoGeneral = (props) => {
     const {movies, details: {Rated, imdbRating, imdbVotes, release_date, runtime, title, genres} = {details: {}},} = props;
     const {movieTmdbId} = useParams();
     const {root, titleFont, metaFont, locationFont, fileNameFont, genreFont} = useStyles();
-    const {t} = useTranslation('common');
-
 
     let {resolution, size, location, fileName} = getMovieByTmdbId(movies, movieTmdbId);
     let metadata = {
         rated: isSafe(Rated),
         release_date: isSafe(fullYear(release_date)),
         runtime: runtime !== 0
-            ? playTime(runtime, t)
+            ? playTime(runtime)
             : null,
         rating: isSafe(imdbRating, `${imdbRating} <${imdbVotes}>`),
         resolution: resolution || null,
