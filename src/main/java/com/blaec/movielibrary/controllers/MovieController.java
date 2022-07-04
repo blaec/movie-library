@@ -15,7 +15,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @RequestMapping(MovieController.URL)
@@ -53,10 +55,11 @@ public class MovieController extends AbstractMovieController{
                 .collect(Collectors.toList());
 
         List<Response> responses = countExistingMovies(folderMovies, newMovies);
-        for (MovieFileTo movieFile : newMovies) {
-            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieByNameAndYear(movieFile);
-            responses.add(trySaveToCollection(tmdbMovie, movieFile).build());
-        }
+        newMovies.parallelStream()
+                .forEach(movieFile -> {
+                    Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieByNameAndYear(movieFile);
+                    responses.add(trySaveToCollection(tmdbMovie, movieFile).build());
+                });
 
         logMissingFiles();
         return responses;
@@ -65,36 +68,46 @@ public class MovieController extends AbstractMovieController{
     private void logMissingFiles() {
         if (TestUtils.isJUnitTest()) return;
 
-        for (Movie movie : getAllMovies()) {
-            String path = String.format("%s\\%s", movie.getLocation(), movie.getFileName());
-            if (!(new File(path)).exists()) {
-                log.warn("Not found on disk: {}", path);
-            }
-        }
+        StreamSupport.stream(getAllMovies().spliterator(), true)
+                .map(movie -> String.format("%s\\%s", movie.getLocation(), movie.getFileName()))
+                .filter(path -> !(new File(path)).exists())
+                .forEach(path -> log.warn("Saved to db, but not found on disk: {}", path));
     }
 
     @PostMapping("/upload/file")
     public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
-        Response.Builder responseBuilder = Response.Builder.create();
+        if (movieService.isMovieExist(uploadMovie.getTmdbId())) {
+            return Response.Builder
+                    .create()
+                    .setExist("This movie already exists")
+                    .setTitle(uploadMovie.getFileName())
+                    .build();
+        }
 
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
                 .filter(isFileNameMatchRequested(uploadMovie))
                 .collect(Collectors.toList());
-        // TODO missing check that movie with this file name already saved to db
-        //  falls with validation
-        //  add new property to Response - isValid
 
-        if (moviesWithRequestedFileName.size() != 1) {
+        Supplier<Response> onSuccess = () -> {
+            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());
+            return moviesWithRequestedFileName.stream()
+                    .map(m -> trySaveToCollection(tmdbMovie, m))
+                    .findFirst()
+                    .orElse(Response.Builder.create())
+                    .build();
+        };
+        Supplier<Response> onFail = () -> {
             String message = "Not found at all or more than one movie found";
             log.warn("{} '{}'", message, uploadMovie);
-            responseBuilder.setFailMessage(message);
-        } else {
-            MovieFileTo movieFile = moviesWithRequestedFileName.get(0);
-            Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());
-            responseBuilder = trySaveToCollection(tmdbMovie, movieFile);
-        }
+            return Response.Builder.create()
+                    .setFailMessage(message)
+                    .build();
+        };
+        Supplier<Response> response = moviesWithRequestedFileName.size() == 1
+                ? onSuccess
+                : onFail;
 
-        return responseBuilder.build();
+        return response.get();
     }
 
     @PostMapping("/upload/wish")
