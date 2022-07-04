@@ -1,7 +1,7 @@
 import React from 'react';
 import {useParams} from "react-router";
 import {useTranslation} from "react-i18next";
-import {fullYear, getMovieByTmdbId, isArrayExist, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
+import {fullYear, getMovieByTmdbId, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 
