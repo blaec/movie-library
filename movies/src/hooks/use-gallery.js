@@ -8,6 +8,7 @@ import {feedbackActions} from "../store/state/feedback/feedback-slice";
 import {useTranslation} from "react-i18next";
 import MyResponse from "../UI/MyResponse";
 
+
 const useGallery = (movies) => {
     const [isNotified, setIsNotified] = useState(false);
     const {collectionItems, isCollectionItemsLoaded} = useSelector(state => state.collection[movies]);
