@@ -8,7 +8,6 @@ import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
-import javassist.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -57,7 +56,7 @@ public class TmdbApiImpl implements MovieDataBaseApi {
 
     /**
      * Create request api url from movie file object (name and year)
-     * sample url: https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019&language=en-US
+     * @see <a href="https://api.themoviedb.org/3/search/movie?api_key=33ca5cbc&query=Aladdin&primary_release_year=2019&language=en-US">sample url</a>
      */
     private Optional<URI> getUrlByNameAndYear(MovieFileTo movieFileTo, String language) {
         URI uri = null;
@@ -86,7 +85,7 @@ public class TmdbApiImpl implements MovieDataBaseApi {
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(uri);
             movieJson = gson.fromJson(stringHttpResponse.body(), TmdbResult.class);
-        } catch (IOException | InterruptedException | NotFoundException e) {
+        } catch (IOException | InterruptedException | IllegalStateException e) {
             log.error("Failed to get tmdb movie data from url {}", uri, e);
         }
 
@@ -95,9 +94,9 @@ public class TmdbApiImpl implements MovieDataBaseApi {
 
     /**
      * Sends the given request using this client
-     * http://zetcode.com/java/getpostrequest/
+     * @see <a href="http://zetcode.com/java/getpostrequest/">Sample url</a>
      */
-    private HttpResponse<String> sendRequest(URI uri) throws IOException, InterruptedException, NotFoundException {
+    private HttpResponse<String> sendRequest(URI uri) throws IOException, InterruptedException, IllegalStateException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
@@ -107,7 +106,7 @@ public class TmdbApiImpl implements MovieDataBaseApi {
         final int statusCode = response.statusCode();
         if (statusCode != HttpStatus.SC_OK) {
             String msg = String.format("Response returned with code: %d", statusCode);
-            throw new NotFoundException(msg);
+            throw new IllegalStateException(msg);
         }
         return response;
     }
@@ -142,7 +141,7 @@ public class TmdbApiImpl implements MovieDataBaseApi {
 
     /**
      * Create request api url from tmdb id
-     * sample url: https://api.themoviedb.org/3/movie/9487?api_key=33ca5cbc&language=en-US
+     * @see <a href="https://api.themoviedb.org/3/movie/9487?api_key=33ca5cbc&language=en-US">sample url</a>
      */
     private Optional<URI> getUrlById(String id, String language) {
         URI uri = null;
@@ -165,7 +164,7 @@ public class TmdbApiImpl implements MovieDataBaseApi {
         try {
             HttpResponse<String> stringHttpResponse = sendRequest(uri);
             movieJson = gson.fromJson(stringHttpResponse.body(), TmdbResult.TmdbMovie.class);
-        } catch (IOException | InterruptedException | NotFoundException e) {
+        } catch (IOException | InterruptedException | IllegalStateException e) {
             log.error("Failed to get imdb movie data from url {}", uri, e);
             movieJson = null;
         }
