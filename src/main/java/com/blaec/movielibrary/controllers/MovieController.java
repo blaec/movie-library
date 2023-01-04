@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,7 +22,6 @@ import java.util.stream.StreamSupport;
 
 @Slf4j
 @RequestMapping(MovieController.URL)
-@CrossOrigin(origins = "*")
 @RestController
 public class MovieController extends AbstractMovieController{
     static final String URL = API_VERSION + "/movies";
@@ -41,8 +41,11 @@ public class MovieController extends AbstractMovieController{
         return MovieUtils.sortByReleaseYear(movieService.getAllByTypeWishlist());
     }
 
-    @PostMapping("/filter")
-    public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
+    @GetMapping("/filter")
+    public Iterable<Movie> getAllByGenres(@RequestParam("genre-ids") String ids) {
+        Set<Integer> genreIds = Arrays.stream(ids.split(","))
+                .map(Integer::valueOf)
+                .collect(Collectors.toSet());
         return MovieUtils.sortByLocationAndFilename(movieService.getAllByGenres(genreIds), locations);
     }
 
@@ -86,7 +89,7 @@ public class MovieController extends AbstractMovieController{
 
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
                 .filter(isFileNameMatchRequested(uploadMovie))
-                .collect(Collectors.toList());
+                .toList();
 
         Supplier<Response> onSuccess = () -> {
             Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());

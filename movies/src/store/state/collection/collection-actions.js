@@ -41,7 +41,7 @@ export const fetchWishlist = () => {
 
 export const fetchFilteredCollection = (genreIds) => {
     return async (dispatch) => {
-        axios.post(movieApi.get.getAllByGenres, genreIds.split(","))
+        axios.get(`${movieApi.get.getAllByGenres}?genre-ids=${genreIds.split(",")}`)
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setFilteredMovies(data));
