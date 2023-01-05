@@ -88,15 +88,15 @@ export const fetchTopRated = (tmdbApi, page) => {
     }
 };
 
-export const fetchNowPlaying = (tmdbApi) => {
+export const fetchNowPlaying = (tmdbApi, page) => {
     return async (dispatch) => {
-        fetchByPage(dispatch, getNowPlayingUrl(tmdbApi), "setNowPlaying", "Failed getting now playing movies");
+        fetchByPage(dispatch, getNowPlayingUrl(tmdbApi, page), "setNowPlaying", "Failed getting now playing movies");
     }
 };
 
-export const fetchAnticipated = (tmdbApi) => {
+export const fetchAnticipated = (tmdbApi, page) => {
     return async (dispatch) => {
-        fetchByPage(dispatch, getAnticipatedUrl(tmdbApi), "setAnticipated", "Failed getting anticipated movies");
+        fetchByPage(dispatch, getAnticipatedUrl(tmdbApi, page), "setAnticipated", "Failed getting anticipated movies");
     }
 };
 

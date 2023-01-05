@@ -32,10 +32,10 @@ const collectionSlice = createSlice({
             state.topRated = {collectionItems: [...state.topRated.collectionItems, ...action.payload], isCollectionItemsLoaded: true};
         },
         setNowPlaying(state, action) {
-            state.nowPlaying = {collectionItems: action.payload, isCollectionItemsLoaded: true};
+            state.nowPlaying = {collectionItems: [...state.nowPlaying.collectionItems, ...action.payload], isCollectionItemsLoaded: true};
         },
         setAnticipated(state, action) {
-            state.anticipated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
+            state.anticipated = {collectionItems: [...state.anticipated.collectionItems, ...action.payload], isCollectionItemsLoaded: true};
         },
         setFilteredMovies(state, action) {
             state.filteredMovies = {filteredMovies: action.payload, isFilteredMoviesLoaded: true};
@@ -57,6 +57,12 @@ const collectionSlice = createSlice({
         },
         resetTopRated(state, action) {
             state.topRated = initialState.topRated;
+        },
+        resetNowPlaying(state, action) {
+            state.topRated = initialState.nowPlaying;
+        },
+        resetAnticipated(state, action) {
+            state.topRated = initialState.anticipated;
         },
         resetPosterResults(state, action) {
             state.posterResults = initialState.posterResults;
