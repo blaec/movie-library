@@ -58,6 +58,11 @@ const mainItemsData = [
 ];
 const infoItemsData = [
     {
+        text: "menu.topRated",
+        link: reactLinks.topRated,
+        icon: <PlayCircleFilledWhiteTwoToneIcon/>
+    },
+    {
         text: "menu.nowPlaying",
         link: reactLinks.nowPlaying,
         icon: <PlayCircleFilledWhiteTwoToneIcon/>

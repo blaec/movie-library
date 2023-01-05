@@ -4,6 +4,7 @@ const initialState = {
     movies: {collectionItems: [], isCollectionItemsLoaded: false},
     newMovies: {collectionItems: [], isCollectionItemsLoaded: false},
     wishlist: {collectionItems: [], isCollectionItemsLoaded: false},
+    topRated: {collectionItems: [], isCollectionItemsLoaded: false},
     nowPlaying: {collectionItems: [], isCollectionItemsLoaded: false},
     anticipated: {collectionItems: [], isCollectionItemsLoaded: false},
     filteredMovies: {filteredMovies: [], isFilteredMoviesLoaded: false},
@@ -25,6 +26,9 @@ const collectionSlice = createSlice({
         },
         setWishlistCollection(state, action) {
             state.wishlist = {collectionItems: action.payload, isCollectionItemsLoaded: true};
+        },
+        setTopRated(state, action) {
+            state.topRated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setNowPlaying(state, action) {
             state.nowPlaying = {collectionItems: action.payload, isCollectionItemsLoaded: true};

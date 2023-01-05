@@ -1,5 +1,12 @@
 import axios from "../../../axios-movies";
-import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi, getMoviePostersUrl} from "../../../utils/UrlUtils";
+import {
+    getDeleteUrl,
+    getNowPlayingUrl,
+    getAnticipatedUrl,
+    movieApi,
+    getMoviePostersUrl,
+    getTopRatedUrl
+} from "../../../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
 import {settingsActions} from "../settings/settings-slice";
@@ -73,6 +80,12 @@ export const deleteMovie = (tmdbId) => {
                 }));
             });
     };
+};
+
+export const fetchTopRated = (tmdbApi) => {
+    return async (dispatch) => {
+        fetchByPage(dispatch, getTopRatedUrl(tmdbApi), "setTopRated", "Failed getting top rated movies");
+    }
 };
 
 export const fetchNowPlaying = (tmdbApi) => {
