@@ -82,9 +82,9 @@ export const deleteMovie = (tmdbId) => {
     };
 };
 
-export const fetchTopRated = (tmdbApi) => {
+export const fetchTopRated = (tmdbApi, page) => {
     return async (dispatch) => {
-        fetchByPage(dispatch, getTopRatedUrl(tmdbApi), "setTopRated", "Failed getting top rated movies");
+        fetchByPage(dispatch, getTopRatedUrl(tmdbApi, page), "setTopRated", "Failed getting top rated movies");
     }
 };
 

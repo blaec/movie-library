@@ -28,7 +28,8 @@ const collectionSlice = createSlice({
             state.wishlist = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setTopRated(state, action) {
-            state.topRated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
+            console.log(state.topRated.collectionItems);
+            state.topRated = {collectionItems: [...state.topRated.collectionItems, ...action.payload], isCollectionItemsLoaded: true};
         },
         setNowPlaying(state, action) {
             state.nowPlaying = {collectionItems: action.payload, isCollectionItemsLoaded: true};
@@ -53,6 +54,9 @@ const collectionSlice = createSlice({
         },
         setPosterResults(state, action) {
             state.posterResults = {posterResults: action.payload, isPosterResultsLoaded: true};
+        },
+        resetTopRated(state, action) {
+            state.topRated = initialState.topRated;
         },
         resetPosterResults(state, action) {
             state.posterResults = initialState.posterResults;
