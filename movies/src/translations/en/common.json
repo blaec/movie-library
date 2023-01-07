@@ -25,9 +25,9 @@
     "filter": "Filter",
     "library": "Library",
     "newMovies": "New Movies",
-    "topRated": "Top Rated",
     "nowPlaying": "Now Playing",
     "settings": "Settings",
+    "topRated": "Top Rated",
     "wishlist": "Wishlist"
   },
   "snackbar": {
@@ -81,6 +81,7 @@
     "noCastIsAvailableAtThisStage": "No cast is available at this stage",
     "originalLanguage": "Original Language: ",
     "originalTitle": "Original title: ",
+    "pageSlider": "Limit of Uploaded Pages in Info Section (1 page - 20 movies)",
     "preview": "Preview",
     "productionCompanies": "Production Companies: ",
     "productionCountries": "Production Countries: ",

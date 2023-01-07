@@ -59,10 +59,10 @@ const collectionSlice = createSlice({
             state.topRated = initialState.topRated;
         },
         resetNowPlaying(state, action) {
-            state.topRated = initialState.nowPlaying;
+            state.nowPlaying = initialState.nowPlaying;
         },
         resetAnticipated(state, action) {
-            state.topRated = initialState.anticipated;
+            state.anticipated = initialState.anticipated;
         },
         resetPosterResults(state, action) {
             state.posterResults = initialState.posterResults;

@@ -25,9 +25,9 @@
     "filter": "Фильтр",
     "library": "Библиотека",
     "newMovies": "Новинки",
-    "topRated": "Популярные",
     "nowPlaying": "В прокате",
     "settings": "Установки",
+    "topRated": "Популярные",
     "wishlist": "Пожелания"
   },
   "snackbar": {
@@ -81,6 +81,7 @@
     "noCastIsAvailableAtThisStage": "На данном этапе список актеров неизвестен",
     "originalLanguage": "Язык оригинала: ",
     "originalTitle": "Оригинальное наименование: ",
+    "pageSlider": "Количество подгружаемых страниц в секции Инфо (1 страница - 20 фильмов)",
     "preview": "Просмотр",
     "productionCompanies": "Производство: ",
     "productionCountries": "Страны: ",
