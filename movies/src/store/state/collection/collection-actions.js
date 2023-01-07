@@ -82,21 +82,21 @@ export const deleteMovie = (tmdbId) => {
     };
 };
 
-export const fetchTopRated = (tmdbApi, page) => {
+export const fetchTopRated = (tmdbApi) => {
     return async (dispatch) => {
-        fetchByPage(dispatch, getTopRatedUrl(tmdbApi, page), "setTopRated", "Failed getting top rated movies");
+        fetchByPage(dispatch, getTopRatedUrl(tmdbApi), "setTopRated", "Failed getting top rated movies");
     }
 };
 
-export const fetchNowPlaying = (tmdbApi, page) => {
+export const fetchNowPlaying = (tmdbApi) => {
     return async (dispatch) => {
-        fetchByPage(dispatch, getNowPlayingUrl(tmdbApi, page), "setNowPlaying", "Failed getting now playing movies");
+        fetchByPage(dispatch, getNowPlayingUrl(tmdbApi), "setNowPlaying", "Failed getting now playing movies");
     }
 };
 
-export const fetchAnticipated = (tmdbApi, page) => {
+export const fetchAnticipated = (tmdbApi) => {
     return async (dispatch) => {
-        fetchByPage(dispatch, getAnticipatedUrl(tmdbApi, page), "setAnticipated", "Failed getting anticipated movies");
+        fetchByPage(dispatch, getAnticipatedUrl(tmdbApi), "setAnticipated", "Failed getting anticipated movies");
     }
 };
 

@@ -7,7 +7,6 @@ const keys = Object.freeze(
         currentLocation: 'current-location',
         previousLocation: 'previous-location',
         language: 'language',
-        infoPage: 'info-page',
     }
 );
 
@@ -56,9 +55,4 @@ export const previousLocation = {
 export const language = {
     set: globalFunctions(keys.language).set,
     get: globalFunctions(keys.language).get,
-};
-
-export const infoPage = {
-    set: globalFunctions(keys.infoPage).set,
-    get: globalFunctions(keys.infoPage).get,
 };

@@ -29,13 +29,13 @@ const collectionSlice = createSlice({
         },
         setTopRated(state, action) {
             console.log(state.topRated.collectionItems);
-            state.topRated = {collectionItems: [...state.topRated.collectionItems, ...action.payload], isCollectionItemsLoaded: true};
+            state.topRated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setNowPlaying(state, action) {
-            state.nowPlaying = {collectionItems: [...state.nowPlaying.collectionItems, ...action.payload], isCollectionItemsLoaded: true};
+            state.nowPlaying = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setAnticipated(state, action) {
-            state.anticipated = {collectionItems: [...state.anticipated.collectionItems, ...action.payload], isCollectionItemsLoaded: true};
+            state.anticipated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setFilteredMovies(state, action) {
             state.filteredMovies = {filteredMovies: action.payload, isFilteredMoviesLoaded: true};
@@ -54,15 +54,6 @@ const collectionSlice = createSlice({
         },
         setPosterResults(state, action) {
             state.posterResults = {posterResults: action.payload, isPosterResultsLoaded: true};
-        },
-        resetTopRated(state, action) {
-            state.topRated = initialState.topRated;
-        },
-        resetNowPlaying(state, action) {
-            state.nowPlaying = initialState.nowPlaying;
-        },
-        resetAnticipated(state, action) {
-            state.anticipated = initialState.anticipated;
         },
         resetPosterResults(state, action) {
             state.posterResults = initialState.posterResults;
