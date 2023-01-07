@@ -7,12 +7,12 @@ import MyGrid from "../../../../UI/Buttons/MyGrid";
 import MyFullWidthGrid from "../../../../UI/Buttons/MyFullWidthGrid";
 
 const settings = () => {
-    let langs = [<LanguagePicker key={1}/>]
+    let fullWidthBlocks = [<LanguagePicker key={1}/>]
     let loaders = [<WishLoader key={1}/>, <FileLoader key={2}/>]
     return (
         <React.Fragment>
             <MyFullWidthGrid>
-                {langs}
+                {fullWidthBlocks}
             </MyFullWidthGrid>
             <MyGrid>
                 {loaders}

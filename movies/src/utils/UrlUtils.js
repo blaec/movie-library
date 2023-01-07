@@ -14,6 +14,7 @@ export const reactLinks = {
     movieDetails: "/movies/:movieTmdbId",
     actorDetailsEndpoint: "/actors/",
     actorDetails: "/actors/:actorId",
+    topRated: "/info/top-rated",
     nowPlaying: "/info/now-playing",
     anticipated: "/info/anticipated",
     library: "/stats/library",
@@ -91,6 +92,19 @@ export const getMovieDetailsUrl = (id, tmdbApi) => {
     const params = {...backdropParams, ...{api_key: tmdbApi}};
 
     return `${url_endpoints.tmdb.movies.getDetails}${id}?${getParamsFrom(params)}`;
+};
+
+/**
+ * https://api.themoviedb.org/3/movie/top_rated
+ *
+ * @param tmdbApi tmdb api key
+ * @param showPage number of page to show
+ * @returns {`https://api.themoviedb.org/3/movie/top_rated?api_key=<<tmdbApi>>&language=en-US&page=<<showPage>>`}
+ */
+export const getTopRatedUrl = (tmdbApi, showPage = 1) => {
+    const params = {...api_lang_params(), ...{api_key: tmdbApi, page: showPage}};
+
+    return `${url_endpoints.tmdb.movies.getTopRated}?${getParamsFrom(params)}`;
 };
 
 /**
@@ -264,6 +278,7 @@ const url_endpoints = {
         },
         movies: {
             getDetails: 'https://api.themoviedb.org/3/movie/',
+            getTopRated: 'https://api.themoviedb.org/3/movie/top_rated',
             getNowPlaying: 'https://api.themoviedb.org/3/movie/now_playing',
             anticipated: 'https://api.themoviedb.org/3/discover/movie',
         },

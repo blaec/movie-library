@@ -17,15 +17,23 @@ const myListItem = (props) => {
     const {active} = useStyles();
 
     const isSelected = stripString(path).includes(stripString(caption));
+    const activeColor = isSelected
+        ? active
+        : null;
 
     return (
         <ListItem
             button
             selected={isSelected}
-            component={NavLink} to={link} activeClassName={active}
+            component={NavLink} to={link}
         >
-            <ListItemIcon>{icon}</ListItemIcon>
-            <ListItemText primary={caption}/>
+            <ListItemIcon className={activeColor}>
+                {icon}
+            </ListItemIcon>
+            <ListItemText
+                primary={caption}
+                className={activeColor}
+            />
         </ListItem>
     );
 };

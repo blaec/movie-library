@@ -14,6 +14,7 @@ import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFille
 import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
 import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
 import SettingsIcon from '@material-ui/icons/Settings';
+import TrendingUpTwoToneIcon from '@material-ui/icons/TrendingUpTwoTone';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
     const {t} = useTranslation('common');
@@ -57,6 +58,11 @@ const mainItemsData = [
     },
 ];
 const infoItemsData = [
+    {
+        text: "menu.topRated",
+        link: reactLinks.topRated,
+        icon: <TrendingUpTwoToneIcon/>
+    },
     {
         text: "menu.nowPlaying",
         link: reactLinks.nowPlaying,
