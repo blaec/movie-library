@@ -3,10 +3,11 @@ spring:
     url: url to db
     username: username
     password: password
-#  jpa:
-#    properties:
-#      hibernate:
-#        show_sql: true
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: update    # allow to create tables
+#      ddl-auto: create-drop    # allow to recreate tables WARNING - all tables will be dropped
 #        use_sql_comments: true
 #        format_sql: true
 

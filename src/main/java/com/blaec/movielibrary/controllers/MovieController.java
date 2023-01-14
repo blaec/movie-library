@@ -12,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -28,7 +25,9 @@ public class MovieController extends AbstractMovieController{
 
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
-        return movieService.getAll();
+        return StreamSupport.stream(movieService.getAll().spliterator(), false)
+                .map(Movie::breakLink)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/gallery")
@@ -47,6 +46,14 @@ public class MovieController extends AbstractMovieController{
                 .map(Integer::valueOf)
                 .collect(Collectors.toSet());
         return MovieUtils.sortByLocationAndFilename(movieService.getAllByGenres(genreIds), locations);
+    }
+
+    @GetMapping("/filter-genres-out")
+    public Iterable<Movie> getAllExceptGenres(@RequestParam("genre-ids") String ids) {
+        Set<Integer> genreIds = Arrays.stream(ids.split(","))
+                .map(Integer::valueOf)
+                .collect(Collectors.toSet());
+        return MovieUtils.sortByLocationAndFilename(movieService.getAllExceptGenres(genreIds), locations);
     }
 
     @PostMapping("/upload/{folder}")

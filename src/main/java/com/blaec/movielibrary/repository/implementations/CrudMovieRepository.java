@@ -18,6 +18,11 @@ public interface CrudMovieRepository extends CrudRepository<Movie, Integer> {
     @Query("SELECT DISTINCT m FROM Movie m JOIN m.genres g WHERE g.genreId IN (:genres) AND m.type='movie'")
     Iterable<Movie> findAllByGenreId(Set<Integer> genres);
 
+
+    @Query(value = "SELECT m.* FROM movies m WHERE NOT EXISTS (SELECT 1 FROM genres g WHERE g.genre_id IN (:genres) AND m.id = g.movie_id) AND m.type='movie';",
+            nativeQuery = true)
+    Iterable<Movie> findAllExceptGenreId(Set<Integer> genres);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM Movie m WHERE m.id=:id")
