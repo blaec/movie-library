@@ -9,6 +9,8 @@ export const reactLinks = {
     filter: "/filter",
     filterByGenreEndpoint: "/movies/by-genre/",
     filterByGenre: "/movies/by-genre/:genreIds",
+    filterOutByGenreEndpoint: "/movies/except-genres/",
+    filterOutByGenre: "/movies/except-genres/:genreIds",
     settings: "/settings",
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
@@ -32,6 +34,7 @@ export const movieApi = {
         getAllMovies: `${baseMovieApi}gallery`,
         getAllWishMovies: `${baseMovieApi}wishlist`,
         getAllByGenres: `${baseMovieApi}filter`,
+        getAllExceptGenres: `${baseMovieApi}filter-genres-out`,
         getAll: `${baseMovieApi}library`,
     },
     post: {

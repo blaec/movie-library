@@ -32,6 +32,7 @@ const app = () => {
         collection,
         newMovies,
         filterByGenre,
+        filterOutByGenre,
         wishlist,
         filter,
         settings,
@@ -86,6 +87,7 @@ const app = () => {
                     }}/>
                     <Route path={actorDetails} exact component={props => <ActorDetails {...props}/>}/>
                     <Route path={filterByGenre} exact component={props => <FilteredCollection {...props}/>}/>
+                    <Route path={filterOutByGenre} exact component={props => <FilteredCollection {...props}/>}/>
 
                     <Redirect to={home}/>
                     {/*<Redirect to='*'>*/}
