@@ -23,8 +23,24 @@ export const reactLinks = {
 };
 
 export const isSearchable = (pathname) => {
-    const {collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated} = reactLinks;
-    const searchable = [collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated];
+    const {
+        collection,
+        wishlist,
+        filterByGenreEndpoint,
+        filterOutByGenreEndpoint,
+        newMovies,
+        nowPlaying,
+        anticipated
+    } = reactLinks;
+    const searchable = [
+        collection,
+        wishlist,
+        filterByGenreEndpoint,
+        filterOutByGenreEndpoint,
+        newMovies,
+        nowPlaying,
+        anticipated
+    ];
     return searchable.filter(url => pathname.startsWith(url)).length === 1;
 };
 

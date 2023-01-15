@@ -8,6 +8,10 @@ import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {fetchGenres} from "../../../../store/state/filter/filter-actions";
 import {collectionActions} from "../../../../store/state/collection/collection-slice";
 import FilterSelect from "./components/FilterSelect";
+import MyFullWidthGrid from "../../../../UI/Buttons/MyFullWidthGrid";
+
+import {Card, CardActions, Typography} from "@material-ui/core";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 
 
 const filter = () => {
@@ -44,16 +48,34 @@ const filter = () => {
 
 
     return (
-        <MyGrid>
-            {[
-                <React.Fragment key={1}>
-                    {genreFilter}
-                </React.Fragment>,
-                <React.Fragment key={2}>
-                    {genreFilterOut}
-                </React.Fragment>
-            ]}
-        </MyGrid>
+        <>
+            <MyFullWidthGrid>
+                {[
+                    <Card variant="elevation">
+                        <CardActions>
+                            <ErrorOutlineIcon color='error'/>
+                            <Typography
+                                display='inline'
+                                variant='caption'
+                                color='textSecondary'
+                            >
+                                {t('helperText.genreMismatch')}
+                            </Typography>
+                        </CardActions>
+                    </Card>
+                ]}
+            </MyFullWidthGrid>
+            <MyGrid>
+                {[
+                    <React.Fragment key={1}>
+                        {genreFilter}
+                    </React.Fragment>,
+                    <React.Fragment key={2}>
+                        {genreFilterOut}
+                    </React.Fragment>
+                ]}
+            </MyGrid>
+        </>
     );
 };
 
