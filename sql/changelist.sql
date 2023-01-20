@@ -40,3 +40,6 @@ UPDATE movies
    SET `location` = REPLACE(`location`, 'l_movies', 'n_movies')
  WHERE `location` LIKE '%l_movies%';
 -- changes m_serial_movies to m_serian_movies
+
+-- 2023-01-20
+-- Only 2 tables remains: movies + genres, when movies w/o changes and genres: id, genre_id [specified in tmdb], movie_id [from movie table]
