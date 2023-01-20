@@ -142,13 +142,9 @@ public class Movie {
         genre.setMovie(this);
     }
 
-    public void removeGenres() {
+    public Movie removeGenres() {
         genres.forEach(genre -> genre.setMovie(null));
         genres = new HashSet<>();
-    }
-
-    public Movie breakLink() {
-        genres.forEach(genre -> genre.setMovie(null));
 
         return this;
     }
