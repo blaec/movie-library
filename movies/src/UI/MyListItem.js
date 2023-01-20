@@ -16,7 +16,7 @@ const myListItem = (props) => {
     const {path, caption, link, icon} = props;
     const {active} = useStyles();
 
-    const isSelected = stripString(path).includes(stripString(caption));
+    const isSelected = stripString(path).includes(stripString(link));
     const activeColor = isSelected
         ? active
         : null;

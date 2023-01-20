@@ -11,6 +11,7 @@ public interface MovieRepository {
     Optional<Movie> getByTmdbId(String tmdbId);
     Iterable<Movie> getAllByType(Type type);
     Iterable<Movie> getAllByGenreId(Set<Integer> genres);
+    Iterable<Movie> getAllExceptGenreId(Set<Integer> genres);
     Optional<Movie> save(Movie movie);
-    boolean delete(int id);
+    void delete(Movie movie);
 }

@@ -59,11 +59,6 @@ const mainItemsData = [
 ];
 const infoItemsData = [
     {
-        text: "menu.topRated",
-        link: reactLinks.topRated,
-        icon: <TrendingUpTwoToneIcon/>
-    },
-    {
         text: "menu.nowPlaying",
         link: reactLinks.nowPlaying,
         icon: <PlayCircleFilledWhiteTwoToneIcon/>
@@ -72,6 +67,11 @@ const infoItemsData = [
         text: "menu.anticipated",
         link: reactLinks.anticipated,
         icon: <HourglassFullTwoToneIcon/>
+    },
+    {
+        text: "menu.topRated",
+        link: reactLinks.topRated,
+        icon: <TrendingUpTwoToneIcon/>
     },
 ];
 const settingsItemsData = [

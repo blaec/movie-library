@@ -37,12 +37,18 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
+    public Iterable<Movie> getAllExceptGenreId(Set<Integer> genres) {
+        return crudMovieRepository.findAllExceptGenreId(genres);
+    }
+
+    @Override
     public Optional<Movie> save(Movie movie) {
         return Optional.of(crudMovieRepository.save(movie));
     }
 
     @Override
-    public boolean delete(int id) {
-        return crudMovieRepository.delete(id) != 0;
+    public void delete(Movie movie) {
+        movie.removeGenres();
+        crudMovieRepository.delete(movie);
     }
 }

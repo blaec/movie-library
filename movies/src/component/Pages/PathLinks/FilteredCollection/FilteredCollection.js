@@ -1,5 +1,5 @@
 import React, {Suspense, useEffect} from 'react';
-import {useParams} from "react-router";
+import {useLocation, useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 
@@ -9,9 +9,12 @@ import MyLoader from "../../../../UI/Spinners/MyLoader";
 import {fetchFilteredCollection} from "../../../../store/state/collection/collection-actions";
 import {isArrayExist} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/state/feedback/feedback-slice";
+import {movieApi, reactLinks} from "../../../../utils/UrlUtils";
+
 
 const filteredCollection = () => {
     const params = useParams();
+    const {pathname} = useLocation();
     const {genreIds} = params;
     const {t} = useTranslation('common');
 
@@ -19,7 +22,10 @@ const filteredCollection = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchFilteredCollection(genreIds));
+        let url = pathname.includes(reactLinks.filterByGenreEndpoint)
+            ? movieApi.get.getAllByGenres
+            : movieApi.get.getAllExceptGenres;
+        dispatch(fetchFilteredCollection(url, genreIds));
     }, [genreIds]);
 
     let hasMovies = isFilteredMoviesLoaded && isArrayExist(filteredMovies);
@@ -31,6 +37,7 @@ const filteredCollection = () => {
             }));
         }
     }, [filteredMovies]);
+
 
     return (
         <Suspense fallback={<MyLoader/>}>

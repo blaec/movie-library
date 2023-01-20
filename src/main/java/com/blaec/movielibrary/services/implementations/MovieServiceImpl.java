@@ -45,6 +45,11 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Iterable<Movie> getAllExceptGenres(Set<Integer> genres) {
+        return movieRepository.getAllExceptGenreId(genres);
+    }
+
+    @Override
     public boolean isMovieExist(String tmdbId) {
         return movieRepository.getByTmdbId(tmdbId).isPresent();
     }
@@ -144,19 +149,16 @@ public class MovieServiceImpl implements MovieService {
         return responseBuilder;
     }
 
-    private Response.Builder deleteMovieByTmdbId(String tmdbId) throws IllegalStateException, IllegalArgumentException {
+    private Response.Builder deleteMovieByTmdbId(String tmdbId) throws IllegalArgumentException {
         Response.Builder responseBuilder = Response.Builder.create();
 
         Movie movie = movieRepository.getByTmdbId(tmdbId)
                 .orElseThrow(IllegalArgumentException::new);
-        int id = movie.getId();
-        if (movieRepository.delete(id)) {
-            String message = String.format("deleted | %s with id %d", movie, id);
-            log.info(message);
-            responseBuilder.setMovie(movie).setMessage(message);
-        } else {
-            throw new IllegalStateException();
-        }
+        movieRepository.delete(movie);
+
+        String message = String.format("deleted | %s with id %d", movie, movie.getId());
+        log.info(message);
+        responseBuilder.setMovie(movie).setMessage(message);
 
         return responseBuilder;
     }

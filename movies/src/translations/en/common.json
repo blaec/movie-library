@@ -17,7 +17,8 @@
     "enterReleaseYear": "Enter movie release year",
     "noDescriptionAvailable": "No description available",
     "typeTmdbId": "Type exact tmdb id",
-    "updatePosterExplanation": "Select one of shaded posters for any language (english and/or russian) and press Update button."
+    "updatePosterExplanation": "Select one of shaded posters for any language (english and/or russian) and press Update button.",
+    "genreMismatch": "Filter results could be incorrect, since movie genres may be changed after its saving."
   },
   "menu": {
     "anticipated": "Anticipated",
@@ -68,7 +69,8 @@
     "directedBy": "Directed By: ",
     "englishTitle": "English title: ",
     "exactFileName": "Exact file name",
-    "genres": "Genres",
+    "genres": "Filter by genre (incl.)",
+    "excludeGenres": "Filter by genre (excl.)",
     "homepage": "Homepage: ",
     "hr": "hr",
     "hrs": "hrs",

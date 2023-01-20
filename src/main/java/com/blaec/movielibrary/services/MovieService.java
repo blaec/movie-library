@@ -14,6 +14,7 @@ public interface MovieService {
     Iterable<Movie> getAllByTypeMovie();
     Iterable<Movie> getAllByTypeWishlist();
     Iterable<Movie> getAllByGenres(Set<Integer> genres);
+    Iterable<Movie> getAllExceptGenres(Set<Integer> genres);
     boolean isMovieExist(String tmdbId);
     @Transactional Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie);
     @Transactional Response.Builder saveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile);

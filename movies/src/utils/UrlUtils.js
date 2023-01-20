@@ -9,6 +9,8 @@ export const reactLinks = {
     filter: "/filter",
     filterByGenreEndpoint: "/movies/by-genre/",
     filterByGenre: "/movies/by-genre/:genreIds",
+    filterOutByGenreEndpoint: "/movies/except-genres/",
+    filterOutByGenre: "/movies/except-genres/:genreIds",
     settings: "/settings",
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
@@ -21,8 +23,24 @@ export const reactLinks = {
 };
 
 export const isSearchable = (pathname) => {
-    const {collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated} = reactLinks;
-    const searchable = [collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated];
+    const {
+        collection,
+        wishlist,
+        filterByGenreEndpoint,
+        filterOutByGenreEndpoint,
+        newMovies,
+        nowPlaying,
+        anticipated
+    } = reactLinks;
+    const searchable = [
+        collection,
+        wishlist,
+        filterByGenreEndpoint,
+        filterOutByGenreEndpoint,
+        newMovies,
+        nowPlaying,
+        anticipated
+    ];
     return searchable.filter(url => pathname.startsWith(url)).length === 1;
 };
 
@@ -32,6 +50,7 @@ export const movieApi = {
         getAllMovies: `${baseMovieApi}gallery`,
         getAllWishMovies: `${baseMovieApi}wishlist`,
         getAllByGenres: `${baseMovieApi}filter`,
+        getAllExceptGenres: `${baseMovieApi}filter-genres-out`,
         getAll: `${baseMovieApi}library`,
     },
     post: {
