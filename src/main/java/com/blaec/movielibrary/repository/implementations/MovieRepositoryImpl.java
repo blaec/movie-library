@@ -32,13 +32,18 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Iterable<Movie> getAllByGenreId(Set<Integer> genres) {
-        return crudMovieRepository.findAllByGenreId(genres);
+    public Iterable<Movie> getAllWithGenreIds(Set<Integer> genres) {
+        return crudMovieRepository.findAllWithGenres(genres);
     }
 
     @Override
-    public Iterable<Movie> getAllExceptGenreId(Set<Integer> genres) {
-        return crudMovieRepository.findAllExceptGenreId(genres);
+    public Iterable<Movie> getAllWithoutGenreIds(Set<Integer> genres) {
+        return crudMovieRepository.findAllWithoutGenres(genres);
+    }
+
+    @Override
+    public Iterable<Movie> getAllFilteringByGenres(Set<Integer> includeGenres, Set<Integer> excludeGenres) {
+        return crudMovieRepository.findAllFilteringByGenres(includeGenres, excludeGenres);
     }
 
     @Override

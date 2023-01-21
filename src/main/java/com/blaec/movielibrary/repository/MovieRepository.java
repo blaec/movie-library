@@ -10,8 +10,9 @@ public interface MovieRepository {
     Iterable<Movie> getAll();
     Optional<Movie> getByTmdbId(String tmdbId);
     Iterable<Movie> getAllByType(Type type);
-    Iterable<Movie> getAllByGenreId(Set<Integer> genres);
-    Iterable<Movie> getAllExceptGenreId(Set<Integer> genres);
+    Iterable<Movie> getAllWithGenreIds(Set<Integer> genres);
+    Iterable<Movie> getAllWithoutGenreIds(Set<Integer> genres);
+    Iterable<Movie> getAllFilteringByGenres(Set<Integer> includeGenres, Set<Integer> excludeGenres);
     Optional<Movie> save(Movie movie);
     void delete(Movie movie);
 }

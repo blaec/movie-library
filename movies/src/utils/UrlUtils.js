@@ -49,8 +49,8 @@ export const movieApi = {
     get: {
         getAllMovies: `${baseMovieApi}gallery`,
         getAllWishMovies: `${baseMovieApi}wishlist`,
-        getAllByGenres: `${baseMovieApi}filter`,
-        getAllExceptGenres: `${baseMovieApi}filter-genres-out`,
+        getAllByGenres: `${baseMovieApi}filter-include-genres`,
+        getAllExceptGenres: `${baseMovieApi}filter-exclude-genres`,
         getAll: `${baseMovieApi}library`,
     },
     post: {
