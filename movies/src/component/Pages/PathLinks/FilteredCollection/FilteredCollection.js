@@ -6,8 +6,11 @@ import {useTranslation} from "react-i18next";
 import MyResponse from "../../../../UI/MyResponse";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {fetchFilteredCollection} from "../../../../store/state/collection/collection-actions";
-import {isArrayExist} from "../../../../utils/Utils";
+import {
+    fetchDualFilteredCollection,
+    fetchFilteredCollection
+} from "../../../../store/state/collection/collection-actions";
+import {isArrayExist, isStringExist} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/state/feedback/feedback-slice";
 import {movieApi, reactLinks} from "../../../../utils/UrlUtils";
 
@@ -15,17 +18,21 @@ import {movieApi, reactLinks} from "../../../../utils/UrlUtils";
 const filteredCollection = () => {
     const params = useParams();
     const {pathname} = useLocation();
-    const {genreIds} = params;
+    const {genreIds, inclGenreIds, exclGenreIds} = params;
     const {t} = useTranslation('common');
 
     const {filteredMovies, isFilteredMoviesLoaded} = useSelector(state => state.collection.filteredMovies);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        let url = pathname.includes(reactLinks.filterByGenreEndpoint)
-            ? movieApi.get.getAllByGenres
-            : movieApi.get.getAllExceptGenres;
-        dispatch(fetchFilteredCollection(url, genreIds));
+        if (isStringExist(genreIds)) {
+            let url = pathname.includes(reactLinks.filterByGenreEndpoint)
+                ? movieApi.get.getAllByGenresIncluding
+                : movieApi.get.getAllByGenresExcluding;
+            dispatch(fetchFilteredCollection(url, genreIds));
+        } else {
+            dispatch(fetchDualFilteredCollection(movieApi.get.getAllByGenresDualFilter, inclGenreIds, exclGenreIds))
+        }
     }, [genreIds]);
 
     let hasMovies = isFilteredMoviesLoaded && isArrayExist(filteredMovies);

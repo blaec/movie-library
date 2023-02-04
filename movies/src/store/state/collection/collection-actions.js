@@ -63,6 +63,23 @@ export const fetchFilteredCollection = (url, genreIds) => {
     };
 };
 
+export const fetchDualFilteredCollection = (url, inclGenreIds, exclGenreIds) => {
+    return async (dispatch) => {
+        axios.get(`${url}?include-genre-ids=${inclGenreIds.split(",")}&exclude-genre-ids=${exclGenreIds.split(",")}`)
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setFilteredMovies(data));
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to load filtered movie list`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
 export const deleteMovie = (tmdbId) => {
     return async (dispatch) => {
         axios.delete(getDeleteUrl(tmdbId))

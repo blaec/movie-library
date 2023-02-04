@@ -13,7 +13,7 @@ import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@ma
 
 
 const FilterSelect = (props) => {
-    const {genres, url, caption} = props;
+    const {genres, url, caption, onSelectGenres} = props;
     const theme = useTheme();
     const {t} = useTranslation('common');
 
@@ -32,11 +32,13 @@ const FilterSelect = (props) => {
         }
         setGenreSelection(value);
         setGenreIds(ids);
+        onSelectGenres(ids);
     };
 
     const handleClear = () => {
         setGenreSelection([]);
         setGenreIds([]);
+        onSelectGenres([]);
     };
     const genreNames = genres.flatMap(genre => genre.name);
 
