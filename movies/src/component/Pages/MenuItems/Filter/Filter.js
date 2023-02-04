@@ -5,7 +5,6 @@ import {NavLink} from "react-router-dom";
 
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 import {reactLinks} from "../../../../utils/UrlUtils";
-import MyGrid from "../../../../UI/Buttons/MyGrid";
 import {fetchGenres} from "../../../../store/state/filter/filter-actions";
 import {collectionActions} from "../../../../store/state/collection/collection-slice";
 import FilterSelect from "./components/FilterSelect";
@@ -13,10 +12,11 @@ import MyFullWidthGrid from "../../../../UI/Buttons/MyFullWidthGrid";
 import MyButtonGrid from "../../../../UI/Buttons/MyButtonGrid";
 import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import {isArraysExist} from "../../../../utils/Utils";
+import MyInnerGrid from "../../../../UI/Buttons/MyInnerGrid";
 
-import {Card, CardActions, Typography} from "@material-ui/core";
+import {Card, CardActions, CardContent, Typography} from "@material-ui/core";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
+import FindInPageTwoToneIcon from '@material-ui/icons/FindInPageTwoTone';
 
 
 const filter = () => {
@@ -83,25 +83,27 @@ const filter = () => {
                     </Card>
                 ]}
             </MyFullWidthGrid>
-            <MyGrid>
-                {[
-                    <React.Fragment key={1}>
-                        {genreFilter}
-                    </React.Fragment>,
-                    <React.Fragment key={2}>
-                        {genreFilterOut}
-                    </React.Fragment>
-                ]}
-            </MyGrid>
             <MyFullWidthGrid>
                 {[
                     <Card variant="elevation">
+                        <CardContent>
+                            <MyInnerGrid>
+                                {[
+                                    <React.Fragment key={1}>
+                                        {genreFilter}
+                                    </React.Fragment>,
+                                    <React.Fragment key={2}>
+                                        {genreFilterOut}
+                                    </React.Fragment>
+                                ]}
+                            </MyInnerGrid>
+                        </CardContent>
                         <CardActions>
                             <MyButtonGrid>
                                 <MySubmitButton
                                     disabled={!isArraysExist(inclGenreIds, exclGenreIds)}
-                                    icon={<SearchTwoToneIcon/>}
-                                    caption={t('button.filter')}
+                                    icon={<FindInPageTwoToneIcon/>}
+                                    caption={t('button.dualFilter')}
                                     type="success"
                                     fill="filled"
                                     component={NavLink}
