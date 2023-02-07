@@ -10,7 +10,7 @@ export const fetchConfigs = () => {
                 dispatch(apiActions.initConfig(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 }

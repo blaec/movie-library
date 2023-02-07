@@ -20,7 +20,7 @@ export const fetchMovies = () => {
                 dispatch(collectionActions.setMoviesCollection(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load movies`,
                     type: 'error'
@@ -37,7 +37,7 @@ export const fetchWishlist = () => {
                 dispatch(collectionActions.setWishlistCollection(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load wishlist`,
                     type: 'error'
@@ -54,7 +54,7 @@ export const fetchFilteredCollection = (url, genreIds) => {
                 dispatch(collectionActions.setFilteredMovies(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load filtered movie list`,
                     type: 'error'
@@ -71,7 +71,7 @@ export const fetchDualFilteredCollection = (url, inclGenreIds, exclGenreIds) => 
                 dispatch(collectionActions.setFilteredMovies(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load filtered movie list`,
                     type: 'error'
@@ -90,7 +90,7 @@ export const deleteMovie = (tmdbId) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to deleted movie with tmdbId '${tmdbId}'`,
                     type: 'error'
@@ -134,7 +134,7 @@ const fetchByPage = (dispatch, url, fetchType, errMessage) => {
             dispatch(collectionActions[fetchType](movies));
         })
         .catch(error => {
-            console.log(error);
+            console.error(error);
             dispatch(feedbackActions.setSnackbar({
                 message: `${error} | ${errMessage}`,
                 type: 'error'
@@ -150,7 +150,7 @@ export const fetchLibrary = () => {
                 dispatch(collectionActions.setLibrary(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load entire library`,
                     type: 'error'
@@ -176,7 +176,7 @@ export const fetchPostersByLanguage = (id, tmdbApi, language) => {
                 }
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load posters to movie ${id}`,
                     type: 'error'
@@ -195,7 +195,7 @@ export const updateMoviePosters = (movie) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to update posters to movie with id #${movie.id}`,
                     type: 'error'

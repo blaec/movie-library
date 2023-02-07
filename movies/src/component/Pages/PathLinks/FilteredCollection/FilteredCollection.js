@@ -10,7 +10,7 @@ import {
     fetchDualFilteredCollection,
     fetchFilteredCollection
 } from "../../../../store/state/collection/collection-actions";
-import {isArrayExist, isStringExist} from "../../../../utils/Utils";
+import {isArrayExist, isStringExist, isStringsExist} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/state/feedback/feedback-slice";
 import {movieApi, reactLinks} from "../../../../utils/UrlUtils";
 
@@ -30,8 +30,10 @@ const filteredCollection = () => {
                 ? movieApi.get.getAllByGenresIncluding
                 : movieApi.get.getAllByGenresExcluding;
             dispatch(fetchFilteredCollection(url, genreIds));
-        } else {
+        } else if (isStringsExist(inclGenreIds, exclGenreIds)) {
             dispatch(fetchDualFilteredCollection(movieApi.get.getAllByGenresDualFilter, inclGenreIds, exclGenreIds))
+        } else {
+            console.error("Filter conditions do not match")
         }
     }, [genreIds]);
 

@@ -69,7 +69,7 @@ const filter = () => {
         <>
             <MyFullWidthGrid>
                 {[
-                    <Card variant="elevation">
+                    <Card key={1} variant="elevation">
                         <CardActions>
                             <ErrorOutlineIcon color='error'/>
                             <Typography
@@ -85,7 +85,7 @@ const filter = () => {
             </MyFullWidthGrid>
             <MyFullWidthGrid>
                 {[
-                    <Card variant="elevation">
+                    <Card key={1} variant="elevation">
                         <CardContent>
                             <MyInnerGrid>
                                 {[
