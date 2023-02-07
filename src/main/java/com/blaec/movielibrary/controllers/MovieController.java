@@ -40,20 +40,31 @@ public class MovieController extends AbstractMovieController{
         return MovieUtils.sortByReleaseYear(movieService.getAllByTypeWishlist());
     }
 
-    @GetMapping("/filter")
-    public Iterable<Movie> getAllByGenres(@RequestParam("genre-ids") String ids) {
-        Set<Integer> genreIds = Arrays.stream(ids.split(","))
-                .map(Integer::valueOf)
-                .collect(Collectors.toSet());
-        return MovieUtils.sortByLocationAndFilename(movieService.getAllByGenres(genreIds), locations);
+    @GetMapping("/filter-include-genres")
+    public Iterable<Movie> getAllWithGenreIds(@RequestParam("genre-ids") String ids) {
+        Set<Integer> genres = MovieUtils.parseGenres(ids);
+        Iterable<Movie> filteredMovies = movieService.getAllWithGenreIds(genres);
+
+        return MovieUtils.sortByLocationAndFilename(filteredMovies, locations);
     }
 
-    @GetMapping("/filter-genres-out")
-    public Iterable<Movie> getAllExceptGenres(@RequestParam("genre-ids") String ids) {
-        Set<Integer> genreIds = Arrays.stream(ids.split(","))
-                .map(Integer::valueOf)
-                .collect(Collectors.toSet());
-        return MovieUtils.sortByLocationAndFilename(movieService.getAllExceptGenres(genreIds), locations);
+    @GetMapping("/filter-exclude-genres")
+    public Iterable<Movie> getAllWithoutGenreIds(@RequestParam("genre-ids") String ids) {
+        Set<Integer> genres = MovieUtils.parseGenres(ids);
+        Iterable<Movie> filteredMovies = movieService.getAllWithoutGenreIds(genres);
+
+        return MovieUtils.sortByLocationAndFilename(filteredMovies, locations);
+    }
+
+    @GetMapping("/dual-filter-by-genres")
+    public Iterable<Movie> getAllFilteringByGenres(
+            @RequestParam("include-genre-ids") String withGenres,
+            @RequestParam("exclude-genre-ids") String withoutGenres) {
+        Set<Integer> includeGenres = MovieUtils.parseGenres(withGenres);
+        Set<Integer> excludeGenres = MovieUtils.parseGenres(withoutGenres);
+        Iterable<Movie> filteredMovies = movieService.getAllFilteringByGenres(includeGenres, excludeGenres);
+
+        return MovieUtils.sortByLocationAndFilename(filteredMovies, locations);
     }
 
     @PostMapping("/upload/{folder}")

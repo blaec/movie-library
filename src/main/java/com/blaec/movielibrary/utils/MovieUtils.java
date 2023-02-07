@@ -7,9 +7,7 @@ import com.blaec.movielibrary.model.Movie;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -71,5 +69,17 @@ public class MovieUtils {
             log.error("No location found by folder {}", folder, e);
         }
         return location;
+    }
+
+    /**
+     * Convert comma-delimited string into set
+     *
+     * @param ids comma-delimited string of genre ids
+     * @return set of unique genres
+     */
+    public static Set<Integer> parseGenres(String ids) {
+        return Arrays.stream(ids.split(","))
+                .map(Integer::valueOf)
+                .collect(Collectors.toSet());
     }
 }

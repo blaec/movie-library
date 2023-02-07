@@ -11,6 +11,8 @@ export const reactLinks = {
     filterByGenre: "/movies/by-genre/:genreIds",
     filterOutByGenreEndpoint: "/movies/except-genres/",
     filterOutByGenre: "/movies/except-genres/:genreIds",
+    filterDualByGenreEndpoint: "/movies/dual-filter/",
+    filterDualByGenre: "/movies/dual-filter/including-genres/:inclGenreIds/excluding-genres/:exclGenreIds",
     settings: "/settings",
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
@@ -28,6 +30,7 @@ export const isSearchable = (pathname) => {
         wishlist,
         filterByGenreEndpoint,
         filterOutByGenreEndpoint,
+        filterDualByGenreEndpoint,
         newMovies,
         nowPlaying,
         anticipated
@@ -37,6 +40,7 @@ export const isSearchable = (pathname) => {
         wishlist,
         filterByGenreEndpoint,
         filterOutByGenreEndpoint,
+        filterDualByGenreEndpoint,
         newMovies,
         nowPlaying,
         anticipated
@@ -49,8 +53,9 @@ export const movieApi = {
     get: {
         getAllMovies: `${baseMovieApi}gallery`,
         getAllWishMovies: `${baseMovieApi}wishlist`,
-        getAllByGenres: `${baseMovieApi}filter`,
-        getAllExceptGenres: `${baseMovieApi}filter-genres-out`,
+        getAllByGenresIncluding: `${baseMovieApi}filter-include-genres`,
+        getAllByGenresExcluding: `${baseMovieApi}filter-exclude-genres`,
+        getAllByGenresDualFilter: `${baseMovieApi}dual-filter-by-genres`,
         getAll: `${baseMovieApi}library`,
     },
     post: {

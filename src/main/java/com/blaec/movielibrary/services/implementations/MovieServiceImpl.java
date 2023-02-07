@@ -40,13 +40,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Iterable<Movie> getAllByGenres(Set<Integer> genres) {
-        return movieRepository.getAllByGenreId(genres);
+    public Iterable<Movie> getAllWithGenreIds(Set<Integer> genres) {
+        return movieRepository.getAllWithGenreIds(genres);
     }
 
     @Override
-    public Iterable<Movie> getAllExceptGenres(Set<Integer> genres) {
-        return movieRepository.getAllExceptGenreId(genres);
+    public Iterable<Movie> getAllWithoutGenreIds(Set<Integer> genres) {
+        return movieRepository.getAllWithoutGenreIds(genres);
+    }
+
+    @Override
+    public Iterable<Movie> getAllFilteringByGenres(Set<Integer> includeGenres, Set<Integer> excludeGenres) {
+        return movieRepository.getAllFilteringByGenres(includeGenres, excludeGenres);
     }
 
     @Override
