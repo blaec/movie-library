@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from "react-router";
+import {useDispatch} from "react-redux";
+
 import {fullYear, getMovieByTmdbId, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
+import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
 
@@ -33,7 +36,9 @@ const infoGeneral = (props) => {
     const {movieTmdbId} = useParams();
     const {root, titleFont, metaFont, locationFont, fileNameFont, genreFont} = useStyles();
 
-    let {resolution, size, location, fileName} = getMovieByTmdbId(movies, movieTmdbId);
+    const dispatch = useDispatch();
+
+    let {resolution, size, location, fileName, genres : dbGenres} = getMovieByTmdbId(movies, movieTmdbId);
     let metadata = {
         rated: isSafe(Rated),
         release_date: isSafe(fullYear(release_date)),
@@ -46,6 +51,18 @@ const infoGeneral = (props) => {
             ? `${size}Gb`
             : null
     };
+    const dbGenresIds = dbGenres ? dbGenres.map(genre => genre.genreId).sort().join(",") : "";
+    const apiGenreIds = genres.map(genre => genre.id).sort().join(",");
+    const hasGenreMismatch = dbGenres && dbGenresIds !== apiGenreIds;
+    useEffect(() => {
+        if (hasGenreMismatch) {
+            dispatch(feedbackActions.setSnackbar({
+                message: `Detected genre mismatch db: ${dbGenresIds} vs api: ${apiGenreIds}`,
+                type: 'warning'
+            }));
+        }
+    }, [hasGenreMismatch])
+
 
     const generalInfo = (
         <div className={root}>

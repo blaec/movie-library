@@ -26,7 +26,7 @@ public class MovieController extends AbstractMovieController{
     @GetMapping("/library")
     public Iterable<Movie> getAll() {
         return StreamSupport.stream(movieService.getAll().spliterator(), false)
-                .map(Movie::removeGenres)
+                .map(Movie::breakMovieLink)
                 .collect(Collectors.toList());
     }
 

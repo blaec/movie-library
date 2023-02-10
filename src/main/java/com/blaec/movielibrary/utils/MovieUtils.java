@@ -25,7 +25,7 @@ public class MovieUtils {
     public static Iterable<Movie> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator.comparing(movie -> movie.getLocationWithCleanFileName(locations)))
-                .map(Movie::removeGenres)
+                .map(Movie::breakMovieLink)
                 .collect(Collectors.toList());
     }
 
@@ -38,7 +38,7 @@ public class MovieUtils {
     public static Iterable<Movie> sortByReleaseYear(Iterable<Movie> movies) {
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator.comparing(Movie::getReleaseDate))
-                .map(Movie::removeGenres)
+                .map(Movie::breakMovieLink)
                 .collect(Collectors.toList());
     }
 
