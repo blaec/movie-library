@@ -203,3 +203,22 @@ export const updateMoviePosters = (movie) => {
             });
     };
 };
+
+export const updateMovieGenres = (movie) => {
+    return async (dispatch) => {
+        axios.put(movieApi.put.updateGenres, movie)
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setGenreResults(data));
+                dispatch(fetchMovies());
+                dispatch(fetchWishlist());
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to update genres to movie with id #${movie.id}`,
+                    type: 'error'
+                }));
+            });
+    };
+};

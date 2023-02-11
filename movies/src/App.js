@@ -84,6 +84,7 @@ const app = () => {
                     <Route path={movieDetails} exact component={props => {
                         dispatch(detailsActions.resetAll());
                         dispatch(collectionActions.resetPosterResults());
+                        dispatch(collectionActions.resetGenreResults());
                         return <MovieDetails {...props}/>
                     }}/>
                     <Route path={actorDetails} exact component={props => <ActorDetails {...props}/>}/>

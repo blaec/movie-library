@@ -64,7 +64,8 @@ export const movieApi = {
         scanFolder: `${baseMovieApi}upload/`,
     },
     put: {
-        updatePosters: `${baseMovieApi}update-movie-posters`
+        updatePosters: `${baseMovieApi}update-movie-posters`,
+        updateGenres: `${baseMovieApi}update-movie-genres`
     },
     delete: {
         delete: `${baseMovieApi}delete/`,
@@ -273,6 +274,9 @@ export const getImageUrl = (path, posterSize = posterSizes.original) => {
         ? `${posterSize}`
         : `${posterSizes.original}`;
 
+    if (path === null) {
+        debugger;
+    }
     return `${(url_endpoints.tmdb.gettingStarted.images)}${size}${path}`;
 };
 

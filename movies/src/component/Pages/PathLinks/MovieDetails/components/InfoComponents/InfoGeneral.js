@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import {useParams} from "react-router";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
-import {fullYear, getMovieByTmdbId, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
+import {fullYear, getMovieByTmdbId, isObjectExist, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 
 import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
+import {updateMovieGenres} from "../../../../../../store/state/collection/collection-actions";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,8 +38,11 @@ const infoGeneral = (props) => {
     const {root, titleFont, metaFont, locationFont, fileNameFont, genreFont} = useStyles();
 
     const dispatch = useDispatch();
+    const {genreResults, isGenreResultsLoaded} = useSelector(state => state.collection.genreResults);
+    const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
 
-    let {resolution, size, location, fileName, genres : dbGenres} = getMovieByTmdbId(movies, movieTmdbId);
+    let selectedMovie = getMovieByTmdbId(movies, movieTmdbId);
+    let {resolution, size, location, fileName, genres : dbGenres} = selectedMovie;
     let metadata = {
         rated: isSafe(Rated),
         release_date: isSafe(fullYear(release_date)),
@@ -55,14 +59,23 @@ const infoGeneral = (props) => {
     const apiGenreIds = genres.map(genre => genre.id).sort().join(",");
     const hasGenreMismatch = dbGenres && dbGenresIds !== apiGenreIds;
     useEffect(() => {
-        if (hasGenreMismatch) {
-            dispatch(feedbackActions.setSnackbar({
-                message: `Detected genre mismatch db: ${dbGenresIds} vs api: ${apiGenreIds}`,
-                type: 'warning'
-            }));
+        let canUpdateGenres = hasGenreMismatch && isObjectExist(selectedMovie);
+        if (canUpdateGenres) {
+            const updatedMovie = {
+                ...selectedMovie,
+                genres: genres.map(genre => ({...genre, genreId: genre.id, id: null}))
+            }
+            dispatch(updateMovieGenres(updatedMovie));
         }
     }, [hasGenreMismatch])
 
+    useEffect(() => {
+        if (isGenreResultsLoaded) {
+            const {message, success} = genreResults;
+            const type = success ? 'success' : 'error';
+            onSetSnackbar({message, type});
+        }
+    }, [genreResults]);
 
     const generalInfo = (
         <div className={root}>

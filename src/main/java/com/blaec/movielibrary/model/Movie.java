@@ -118,7 +118,7 @@ public class Movie {
     public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
         Movie movie = fromTmdb(tmdbMovie);
         movie.type = Type.wish_list;
-        movie.genres.forEach(movie::updateGenre);
+        movie.linkGenreToMovie();
 
         return movie;
     }
@@ -132,9 +132,13 @@ public class Movie {
         movie.location = movieFileTo.getLocation();
         movie.description = movieFileTo.getDescription();
         movie.frameRate = movieFileTo.getFrameRate();
-        movie.genres.forEach(movie::updateGenre);
+        movie.linkGenreToMovie();
 
         return movie;
+    }
+
+    public void linkGenreToMovie() {
+        this.genres.forEach(this::updateGenre);
     }
 
     public void updateGenre(Genre genre) {

@@ -12,6 +12,7 @@ const initialState = {
     postersEn: {postersEn: [], isPostersEnLoaded: false},
     postersRu: {postersRu: [], isPostersRuLoaded: false},
     posterResults: {posterResults: [], isPosterResultsLoaded: false},
+    genreResults: {genreResults: [], isGenreResultsLoaded: false},
 };
 
 const collectionSlice = createSlice({
@@ -57,6 +58,12 @@ const collectionSlice = createSlice({
         },
         resetPosterResults(state, action) {
             state.posterResults = initialState.posterResults;
+        },
+        setGenreResults(state, action) {
+            state.genreResults = {genreResults: action.payload, isGenreResultsLoaded: true};
+        },
+        resetGenreResults(state, action) {
+            state.genreResults = initialState.genreResults;
         },
     }
 });

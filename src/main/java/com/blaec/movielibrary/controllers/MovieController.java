@@ -144,6 +144,12 @@ public class MovieController extends AbstractMovieController{
         return movieService.updatePoster(movie).build();
     }
 
+    @PutMapping("/update-movie-genres")
+    public Response updateGenres(@RequestBody Movie movie) {
+        log.debug(String.format("Updating genres to movie %s", movie));
+        return movieService.updateGenres(movie).build();
+    }
+
     @DeleteMapping("/delete/{tmdbId}")
     public Response delete(@PathVariable String tmdbId) {
         return movieService.delete(tmdbId).build();
