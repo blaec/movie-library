@@ -4,6 +4,7 @@ import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
+import com.blaec.movielibrary.model.to.MovieTo;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,10 +23,10 @@ public class MovieUtils {
      * @param locations list of movie locations
      * @return sorted movies list
      */
-    public static Iterable<Movie> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
+    public static Iterable<MovieTo> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator.comparing(movie -> movie.extractLocationFreeFilePath(locations)))
-                .map(Movie::breakMovieLink)
+                .map(MovieTo::from)
                 .collect(Collectors.toList());
     }
 
@@ -35,10 +36,10 @@ public class MovieUtils {
      * @param movies list of movies to sort
      * @return sorted list
      */
-    public static Iterable<Movie> sortByReleaseYear(Iterable<Movie> movies) {
+    public static Iterable<MovieTo> sortByReleaseYear(Iterable<Movie> movies) {
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator.comparing(Movie::getReleaseDate))
-                .map(Movie::breakMovieLink)
+                .map(MovieTo::from)
                 .collect(Collectors.toList());
     }
 

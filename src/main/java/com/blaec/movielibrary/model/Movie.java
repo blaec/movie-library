@@ -146,12 +146,6 @@ public class Movie {
         genre.setMovie(this);
     }
 
-    public Movie breakMovieLink() {
-        genres.forEach(genre -> genre.setMovie(null));
-
-        return this;
-    }
-
     public String extractLocationFreeFilePath(List<String> locations) {
         List<String> replacingElements = new ImmutableList.Builder<String>()
                 .addAll(locations)
