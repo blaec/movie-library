@@ -274,9 +274,6 @@ export const getImageUrl = (path, posterSize = posterSizes.original) => {
         ? `${posterSize}`
         : `${posterSizes.original}`;
 
-    if (path === null) {
-        debugger;
-    }
     return `${(url_endpoints.tmdb.gettingStarted.images)}${size}${path}`;
 };
 

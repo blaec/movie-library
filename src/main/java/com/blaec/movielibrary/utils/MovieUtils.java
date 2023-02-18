@@ -24,7 +24,7 @@ public class MovieUtils {
      */
     public static Iterable<Movie> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
-                .sorted(Comparator.comparing(movie -> movie.getLocationWithCleanFileName(locations)))
+                .sorted(Comparator.comparing(movie -> movie.extractLocationFreeFilePath(locations)))
                 .map(Movie::breakMovieLink)
                 .collect(Collectors.toList());
     }

@@ -5,6 +5,7 @@ import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
 import com.blaec.movielibrary.utils.TestUtils;
+import com.google.common.collect.ImmutableList;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -89,6 +89,28 @@ public class Movie {
             orphanRemoval = true)
     @NonNull private Set<Genre> genres;
 
+    public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
+        Movie movie = fromTmdb(tmdbMovie);
+        movie.type = Type.wish_list;
+        movie.linkGenreToMovie();
+
+        return movie;
+    }
+
+    public static Movie createWithMovieType(MovieTmdbTo tmdbMovie, MovieFileTo movieFileTo) {
+        Movie movie = fromTmdb(tmdbMovie);
+        movie.type = Type.movie;
+        movie.resolution = movieFileTo.getResolution();
+        movie.fileName = movieFileTo.getFileName();
+        movie.size = movieFileTo.getSize();
+        movie.location = movieFileTo.getLocation();
+        movie.description = movieFileTo.getDescription();
+        movie.frameRate = movieFileTo.getFrameRate();
+        movie.linkGenreToMovie();
+
+        return movie;
+    }
+
     private static Movie fromTmdb(MovieTmdbTo tmdbMovie) {
         Movie movie = new Movie();
         movie.tmdbId = tmdbMovie.getTmdbId();
@@ -115,33 +137,11 @@ public class Movie {
         );
     }
 
-    public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
-        Movie movie = fromTmdb(tmdbMovie);
-        movie.type = Type.wish_list;
-        movie.linkGenreToMovie();
-
-        return movie;
-    }
-
-    public static Movie createWithMovieType(MovieTmdbTo tmdbMovie, MovieFileTo movieFileTo) {
-        Movie movie = fromTmdb(tmdbMovie);
-        movie.type = Type.movie;
-        movie.resolution = movieFileTo.getResolution();
-        movie.fileName = movieFileTo.getFileName();
-        movie.size = movieFileTo.getSize();
-        movie.location = movieFileTo.getLocation();
-        movie.description = movieFileTo.getDescription();
-        movie.frameRate = movieFileTo.getFrameRate();
-        movie.linkGenreToMovie();
-
-        return movie;
-    }
-
     public void linkGenreToMovie() {
         this.genres.forEach(this::updateGenre);
     }
 
-    public void updateGenre(Genre genre) {
+    private void updateGenre(Genre genre) {
         genres.add(genre);
         genre.setMovie(this);
     }
@@ -152,35 +152,29 @@ public class Movie {
         return this;
     }
 
-    public void removeGenres() {
-        genres.forEach(genre -> genre.setMovie(null));
-        genres = new HashSet<>();
+    public String extractLocationFreeFilePath(List<String> locations) {
+        List<String> replacingElements = new ImmutableList.Builder<String>()
+                .addAll(locations)
+                .add("\\\\")
+                .build();
+        String fullLocation = location.contains("actor -")
+                ? ""
+                : location.replaceAll(String.join("|", replacingElements), "");
+
+        return String.format("%s%s", fullLocation, extractArticleFreeFileName());
     }
 
+    private String extractArticleFreeFileName() {
+        return Objects.requireNonNullElse(fileName, "")
+                .replaceAll("The |A ", "");
+    }
+
+    // Test method only
     public void updatePosters(String posterPath, String posterPathRu) {
         if (TestUtils.isJUnitTest()) {
             this.posterPath = posterPath;
             this.posterPathRu = posterPathRu;
         }
-    }
-
-    public String getLocationWithCleanFileName(List<String> locations) {
-        String fullLocation = location;
-        if (fullLocation.contains("actor -")) {
-            fullLocation = "";
-        } else {
-            for (String location : locations) {
-                fullLocation = fullLocation.replaceAll(location, "");
-            }
-            fullLocation = fullLocation.replaceAll("\\\\", "");
-        }
-
-        return String.format("%s%s", fullLocation, getCleanFileName());
-    }
-
-    private String getCleanFileName() {
-        return Objects.requireNonNullElse(fileName, "")
-                .replaceAll("The |A ", "");
     }
 
     @Override
