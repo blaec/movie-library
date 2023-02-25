@@ -62,4 +62,8 @@ public class MovieTo {
                 genres
         );
     }
+
+    @Override public String toString() {
+        return String.format("#%s %s (%s) %.1fGb", tmdbId, title, releaseDate, size);
+    }
 }

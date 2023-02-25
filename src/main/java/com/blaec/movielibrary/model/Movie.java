@@ -193,8 +193,7 @@ public class Movie {
         }
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return String.format("#%s %s (%s) %.1fGb", tmdbId, title, releaseDate, size);
     }
 }
