@@ -53,7 +53,6 @@ public class MovieRepositoryImpl implements MovieRepository {
 
     @Override
     public void delete(Movie movie) {
-        movie.removeGenres();
         crudMovieRepository.delete(movie);
     }
 }

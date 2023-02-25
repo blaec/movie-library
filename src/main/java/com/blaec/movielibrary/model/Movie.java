@@ -4,11 +4,10 @@ import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
+import com.blaec.movielibrary.model.to.MovieTo;
 import com.blaec.movielibrary.utils.TestUtils;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.google.common.collect.ImmutableList;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
@@ -16,7 +15,6 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -26,6 +24,7 @@ import java.util.Set;
 @Getter
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "movies")
 // extends AbstractPersistable<Integer> - no need in id, hashCode, equals, etc...
 public class Movie {
@@ -89,6 +88,51 @@ public class Movie {
             orphanRemoval = true)
     @NonNull private Set<Genre> genres;
 
+    public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
+        Movie movie = fromTmdb(tmdbMovie);
+        movie.type = Type.wish_list;
+        movie.linkGenreToMovie();
+
+        return movie;
+    }
+
+    public static Movie createWithMovieType(MovieTmdbTo tmdbMovie, MovieFileTo movieFileTo) {
+        Movie movie = fromTmdb(tmdbMovie);
+        movie.type = Type.movie;
+        movie.resolution = movieFileTo.getResolution();
+        movie.fileName = movieFileTo.getFileName();
+        movie.size = movieFileTo.getSize();
+        movie.location = movieFileTo.getLocation();
+        movie.description = movieFileTo.getDescription();
+        movie.frameRate = movieFileTo.getFrameRate();
+        movie.linkGenreToMovie();
+
+        return movie;
+    }
+
+    public static Movie from(MovieTo movieTo) {
+        Movie movie = new Movie(
+                movieTo.getId(),
+                movieTo.getTmdbId(),
+                movieTo.getTitle(),
+                movieTo.getReleaseDate(),
+                movieTo.getPosterPath(),
+                movieTo.getPosterPathRu(),
+                movieTo.getType(),
+                movieTo.getResolution(),
+                movieTo.getFileName(),
+                movieTo.getSize(),
+                movieTo.getLocation(),
+                movieTo.getDescription(),
+                movieTo.getFrameRate(),
+                movieTo.getCreationDate(),
+                movieTo.getGenres()
+        );
+        movie.linkGenreToMovie();
+
+        return movie;
+    }
+
     private static Movie fromTmdb(MovieTmdbTo tmdbMovie) {
         Movie movie = new Movie();
         movie.tmdbId = tmdbMovie.getTmdbId();
@@ -115,40 +159,33 @@ public class Movie {
         );
     }
 
-    public static Movie createWithWishlistType(MovieTmdbTo tmdbMovie) {
-        Movie movie = fromTmdb(tmdbMovie);
-        movie.type = Type.wish_list;
-        movie.genres.forEach(movie::updateGenre);
-
-        return movie;
+    private void linkGenreToMovie() {
+        this.genres.forEach(this::updateGenre);
     }
 
-    public static Movie createWithMovieType(MovieTmdbTo tmdbMovie, MovieFileTo movieFileTo) {
-        Movie movie = fromTmdb(tmdbMovie);
-        movie.type = Type.movie;
-        movie.resolution = movieFileTo.getResolution();
-        movie.fileName = movieFileTo.getFileName();
-        movie.size = movieFileTo.getSize();
-        movie.location = movieFileTo.getLocation();
-        movie.description = movieFileTo.getDescription();
-        movie.frameRate = movieFileTo.getFrameRate();
-        movie.genres.forEach(movie::updateGenre);
-
-        return movie;
-    }
-
-    public void updateGenre(Genre genre) {
+    private void updateGenre(Genre genre) {
         genres.add(genre);
         genre.setMovie(this);
     }
 
-    public Movie removeGenres() {
-        genres.forEach(genre -> genre.setMovie(null));
-        genres = new HashSet<>();
+    public String extractLocationFreeFilePath(List<String> locations) {
+        List<String> replacingElements = new ImmutableList.Builder<String>()
+                .addAll(locations)
+                .add("\\\\")
+                .build();
+        String fullLocation = location.contains("actor -")
+                ? ""
+                : location.replaceAll(String.join("|", replacingElements), "");
 
-        return this;
+        return String.format("%s%s", fullLocation, extractArticleFreeFileName());
     }
 
+    private String extractArticleFreeFileName() {
+        return Objects.requireNonNullElse(fileName, "")
+                .replaceAll("The |A ", "");
+    }
+
+    // Test method only
     public void updatePosters(String posterPath, String posterPathRu) {
         if (TestUtils.isJUnitTest()) {
             this.posterPath = posterPath;
@@ -156,27 +193,7 @@ public class Movie {
         }
     }
 
-    public String getLocationWithCleanFileName(List<String> locations) {
-        String fullLocation = location;
-        if (fullLocation.contains("actor -")) {
-            fullLocation = "";
-        } else {
-            for (String location : locations) {
-                fullLocation = fullLocation.replaceAll(location, "");
-            }
-            fullLocation = fullLocation.replaceAll("\\\\", "");
-        }
-
-        return String.format("%s%s", fullLocation, getCleanFileName());
-    }
-
-    private String getCleanFileName() {
-        return Objects.requireNonNullElse(fileName, "")
-                .replaceAll("The |A ", "");
-    }
-
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return String.format("#%s %s (%s) %.1fGb", tmdbId, title, releaseDate, size);
     }
 }

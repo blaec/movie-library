@@ -6,6 +6,7 @@ import com.blaec.movielibrary.model.json.TmdbResult;
 import com.blaec.movielibrary.model.object.Response;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
+import com.blaec.movielibrary.model.to.MovieTo;
 import com.blaec.movielibrary.utils.MovieUtils;
 import com.blaec.movielibrary.utils.TestUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,24 +25,24 @@ public class MovieController extends AbstractMovieController{
     static final String URL = API_VERSION + "/movies";
 
     @GetMapping("/library")
-    public Iterable<Movie> getAll() {
+    public Iterable<MovieTo> getAll() {
         return StreamSupport.stream(movieService.getAll().spliterator(), false)
-                .map(Movie::removeGenres)
+                .map(MovieTo::from)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/gallery")
-    public Iterable<Movie> getAllMovies() {
+    public Iterable<MovieTo> getAllMovies() {
         return MovieUtils.sortByLocationAndFilename(movieService.getAllByTypeMovie(), locations);
     }
 
     @GetMapping("/wishlist")
-    public Iterable<Movie> getAllWishMovies() {
+    public Iterable<MovieTo> getAllWishMovies() {
         return MovieUtils.sortByReleaseYear(movieService.getAllByTypeWishlist());
     }
 
     @GetMapping("/filter-include-genres")
-    public Iterable<Movie> getAllWithGenreIds(@RequestParam("genre-ids") String ids) {
+    public Iterable<MovieTo> getAllWithGenreIds(@RequestParam("genre-ids") String ids) {
         Set<Integer> genres = MovieUtils.parseGenres(ids);
         Iterable<Movie> filteredMovies = movieService.getAllWithGenreIds(genres);
 
@@ -49,7 +50,7 @@ public class MovieController extends AbstractMovieController{
     }
 
     @GetMapping("/filter-exclude-genres")
-    public Iterable<Movie> getAllWithoutGenreIds(@RequestParam("genre-ids") String ids) {
+    public Iterable<MovieTo> getAllWithoutGenreIds(@RequestParam("genre-ids") String ids) {
         Set<Integer> genres = MovieUtils.parseGenres(ids);
         Iterable<Movie> filteredMovies = movieService.getAllWithoutGenreIds(genres);
 
@@ -57,7 +58,7 @@ public class MovieController extends AbstractMovieController{
     }
 
     @GetMapping("/dual-filter-by-genres")
-    public Iterable<Movie> getAllFilteringByGenres(
+    public Iterable<MovieTo> getAllFilteringByGenres(
             @RequestParam("include-genre-ids") String withGenres,
             @RequestParam("exclude-genre-ids") String withoutGenres) {
         Set<Integer> includeGenres = MovieUtils.parseGenres(withGenres);
@@ -139,9 +140,15 @@ public class MovieController extends AbstractMovieController{
     }
 
     @PutMapping("/update-movie-posters")
-    public Response updatePoster(@RequestBody Movie movie) {
-        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movie, movie.getPosterPath(), movie.getPosterPathRu()));
-        return movieService.updatePoster(movie).build();
+    public Response updatePoster(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movieTo, movieTo.getPosterPath(), movieTo.getPosterPathRu()));
+        return movieService.updatePoster(Movie.from(movieTo)).build();
+    }
+
+    @PutMapping("/update-movie-genres")
+    public Response updateGenres(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating genres to movie %s", movieTo));
+        return movieService.updateGenres(Movie.from(movieTo)).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

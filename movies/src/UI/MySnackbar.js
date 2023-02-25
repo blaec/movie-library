@@ -5,6 +5,8 @@ import {isStringExist} from "../utils/Utils";
 
 import {useSnackbar} from "notistack";
 
+// https://notistack.com/
+// Type: default | error | success | warning | info
 const mySnackbar = () => {
     const {message, type, uniqueId} = useSelector(state => state.feedback.snackbar);
     const {enqueueSnackbar} = useSnackbar();

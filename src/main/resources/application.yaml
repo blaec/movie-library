@@ -4,7 +4,7 @@ spring:
     username: username
     password: password
   jpa:
-    show_sql: true
+#    show_sql: true
     hibernate:
       ddl-auto: update    # allow to create tables
 #      ddl-auto: create-drop    # allow to recreate tables WARNING - all tables will be dropped

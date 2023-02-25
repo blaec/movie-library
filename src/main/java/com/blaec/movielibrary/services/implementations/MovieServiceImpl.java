@@ -137,6 +137,24 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Response.Builder updateGenres(Movie movie) {
+        Response.Builder responseBuilder = Response.Builder.create();
+        try {
+            Movie updatedMovie = movieRepository.save(movie)
+                    .orElseThrow(IllegalArgumentException::new);
+            log.info("updated genres | {}", updatedMovie);
+            responseBuilder
+                    .setMovie(updatedMovie)
+                    .setMessage("Genres successfully updated");
+        } catch (Exception e) {
+            String message = String.format("Failed to update movie genres | %s", movie);
+            log.error(message, e);
+            responseBuilder.setMovie(movie).setFailMessage(e.getMessage());
+        }
+        return responseBuilder;
+    }
+
+    @Override
     public Response.Builder delete(String tmdbId) {
         Response.Builder responseBuilder;
         try {
