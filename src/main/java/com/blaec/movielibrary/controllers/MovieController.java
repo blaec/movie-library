@@ -140,15 +140,15 @@ public class MovieController extends AbstractMovieController{
     }
 
     @PutMapping("/update-movie-posters")
-    public Response updatePoster(@RequestBody Movie movie) {
-        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movie, movie.getPosterPath(), movie.getPosterPathRu()));
-        return movieService.updatePoster(movie).build();
+    public Response updatePoster(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movieTo, movieTo.getPosterPath(), movieTo.getPosterPathRu()));
+        return movieService.updatePoster(Movie.from(movieTo)).build();
     }
 
     @PutMapping("/update-movie-genres")
-    public Response updateGenres(@RequestBody Movie movie) {
-        log.debug(String.format("Updating genres to movie %s", movie));
-        return movieService.updateGenres(movie).build();
+    public Response updateGenres(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating genres to movie %s", movieTo));
+        return movieService.updateGenres(Movie.from(movieTo)).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

@@ -118,7 +118,6 @@ public class MovieServiceImpl implements MovieService {
     public Response.Builder updatePoster(Movie movie) {
         Response.Builder responseBuilder = Response.Builder.create();
         try {
-            movie.linkGenreToMovie();
             Movie updatedMovie = movieRepository.save(movie)
                     .orElseThrow(IllegalArgumentException::new);
             log.info("updated poster | {}", updatedMovie);
@@ -141,7 +140,6 @@ public class MovieServiceImpl implements MovieService {
     public Response.Builder updateGenres(Movie movie) {
         Response.Builder responseBuilder = Response.Builder.create();
         try {
-            movie.linkGenreToMovie();
             Movie updatedMovie = movieRepository.save(movie)
                     .orElseThrow(IllegalArgumentException::new);
             log.info("updated genres | {}", updatedMovie);

@@ -4,12 +4,10 @@ import com.blaec.movielibrary.enums.Resolution;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
+import com.blaec.movielibrary.model.to.MovieTo;
 import com.blaec.movielibrary.utils.TestUtils;
 import com.google.common.collect.ImmutableList;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.NonNull;
@@ -26,6 +24,7 @@ import java.util.Set;
 @Getter
 @Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Table(name = "movies")
 // extends AbstractPersistable<Integer> - no need in id, hashCode, equals, etc...
 public class Movie {
@@ -111,6 +110,29 @@ public class Movie {
         return movie;
     }
 
+    public static Movie from(MovieTo movieTo) {
+        Movie movie = new Movie(
+                movieTo.getId(),
+                movieTo.getTmdbId(),
+                movieTo.getTitle(),
+                movieTo.getReleaseDate(),
+                movieTo.getPosterPath(),
+                movieTo.getPosterPathRu(),
+                movieTo.getType(),
+                movieTo.getResolution(),
+                movieTo.getFileName(),
+                movieTo.getSize(),
+                movieTo.getLocation(),
+                movieTo.getDescription(),
+                movieTo.getFrameRate(),
+                movieTo.getCreationDate(),
+                movieTo.getGenres()
+        );
+        movie.linkGenreToMovie();
+
+        return movie;
+    }
+
     private static Movie fromTmdb(MovieTmdbTo tmdbMovie) {
         Movie movie = new Movie();
         movie.tmdbId = tmdbMovie.getTmdbId();
@@ -137,7 +159,7 @@ public class Movie {
         );
     }
 
-    public void linkGenreToMovie() {
+    private void linkGenreToMovie() {
         this.genres.forEach(this::updateGenre);
     }
 
