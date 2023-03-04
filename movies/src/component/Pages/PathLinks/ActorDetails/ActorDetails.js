@@ -85,9 +85,9 @@ const actorDetails = () => {
     let actorImage = null;
     let isDataLoaded = isActorDetailsLoaded && isMoviesLoaded;
     if (isDataLoaded) {
-        const {credits: {cast}, biography} = actorDetails;
+        const {credits: {crew}, biography} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
-        movieList = cast.filter(movie => {
+        movieList = crew.filter(movie => {
             // skip 'Documentary' movies and movies without genres
             const {genre_ids} = movie;
             return isArrayExist(genre_ids) && !genre_ids.includes(99);

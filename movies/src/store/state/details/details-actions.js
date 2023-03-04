@@ -13,8 +13,9 @@ export const fetchCast = (movieId, tmdbApi) => {
     return async (dispatch) => {
         axios.get(getMovieCreditsUrl(movieId, tmdbApi))
             .then(response => {
-                const {data: {cast}} = response;
+                const {data: {cast, crew}} = response;
                 dispatch(detailsActions.setCast(cast));
+                dispatch(detailsActions.setCrew(crew));
             })
             .catch(error => {
                 console.error(error);

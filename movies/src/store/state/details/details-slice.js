@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
     cast: {cast: [], isCastLoaded: false},
+    crew: {crew: [], isCrewLoaded: false},
     movieTmdbDetails: {tmdbMovieDetails: {}, isTmdbMovieDetailsLoaded: false},
     movieOmdbDetails: {omdbMovieDetails: {}, isOmdbMovieDetailsLoaded: false},
     actorDetails: {actorDetails: {}, isActorDetailsLoaded: false},
@@ -17,6 +18,9 @@ const detailsSlice = createSlice({
     reducers: {
         setCast(state, action) {
             state.cast = {cast: action.payload, isCastLoaded: true};
+        },
+        setCrew(state, action) {
+            state.crew = {crew: action.payload, isCrewLoaded: true};
         },
         setMovieTmdbDetails(state, action) {
             state.movieTmdbDetails = {tmdbMovieDetails: action.payload, isTmdbMovieDetailsLoaded: true};
@@ -38,6 +42,7 @@ const detailsSlice = createSlice({
         },
         resetAll(state, action) {
             state.cast = initialState.cast;
+            state.crew = initialState.crew;
             state.movieTmdbDetails = initialState.movieTmdbDetails;
             state.movieOmdbDetails = initialState.movieOmdbDetails;
             state.actorDetails = initialState.actorDetails;

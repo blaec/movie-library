@@ -61,6 +61,7 @@ export const MovieTab = Object.freeze(
         description: 1,
         trailers: 2,
         facts: 3,
+        crew: 4,
     }
 );
 

@@ -13,6 +13,7 @@ import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
 
 import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
+import Crew from "./InfoComponents/Tabs/Crew/Crew";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,7 @@ const info = () => {
     const {tmdbMovieDetails, isTmdbMovieDetailsLoaded} = useSelector(state => state.details.movieTmdbDetails);
     const {omdbMovieDetails, isOmdbMovieDetailsLoaded} = useSelector(state => state.details.movieOmdbDetails);
     const {cast, isCastLoaded} = useSelector(state => state.details.cast);
+    const {crew, isCrewLoaded} = useSelector(state => state.details.crew);
     const {
         collectionItems: movies,
         isCollectionItemsLoaded: isMoviesLoaded
@@ -52,7 +54,7 @@ const info = () => {
         </Box>
     );
     const isDataLoaded = (isTmdbMovieDetailsLoaded || isOmdbMovieDetailsLoaded)
-        && isMoviesLoaded && isCastLoaded;
+        && isMoviesLoaded && isCastLoaded & isCrewLoaded;
     if (isDataLoaded) {
         info = (
             <React.Fragment>
@@ -73,6 +75,7 @@ const info = () => {
                             <Tab label={t('tab.description')}/>
                             <Tab label={t('tab.trailers')}/>
                             <Tab label={t('tab.facts')}/>
+                            <Tab label={t('tab.cast')}/>
                         </Tabs>
                     </Paper>
                     <MyTabPanel
@@ -99,6 +102,13 @@ const info = () => {
                         index={MovieTab.facts}
                     >
                         <MovieFacts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
+                    </MyTabPanel>
+                    <MyTabPanel
+                        value={tabSelected}
+                        index={MovieTab.crew}
+                        padding={0}
+                    >
+                        <Crew details={crew}/>
                     </MyTabPanel>
                 </div>
             </React.Fragment>
