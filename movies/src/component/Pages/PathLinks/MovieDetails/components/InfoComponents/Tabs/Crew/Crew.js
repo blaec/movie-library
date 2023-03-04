@@ -11,12 +11,7 @@ const crew = (props) => {
     const {details} = props;
     const {t} = useTranslation('common');
 
-    console.log(details);
-
-    // const grouped = groupBy(details, detail => detail.id);
-    // console.log(grouped);
-
-    let filteredCast = details.map(actor => <Person key={actor.credit_id} {...actor}/>);
+    let filteredCast = groupBy(details).map(actor => <Person key={actor.credit_id} {...actor}/>);
     let filteredCastWithDivider = filteredCast.length === 0
         ? <MyResponse message={t('text.noCastIsAvailableAtThisStage')}/>
         : filteredCast.reduce((prev, curr, index) => [prev, <Divider key={`${index}.${curr.key}`} val={`${index}.${curr.key}`}/>, curr]);

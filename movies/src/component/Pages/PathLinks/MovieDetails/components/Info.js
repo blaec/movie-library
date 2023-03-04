@@ -54,7 +54,7 @@ const info = () => {
         </Box>
     );
     const isDataLoaded = (isTmdbMovieDetailsLoaded || isOmdbMovieDetailsLoaded)
-        && isMoviesLoaded && isCastLoaded & isCrewLoaded;
+        && isMoviesLoaded && isCastLoaded && isCrewLoaded;
     if (isDataLoaded) {
         info = (
             <React.Fragment>
@@ -75,7 +75,7 @@ const info = () => {
                             <Tab label={t('tab.description')}/>
                             <Tab label={t('tab.trailers')}/>
                             <Tab label={t('tab.facts')}/>
-                            <Tab label={t('tab.cast')}/>
+                            <Tab label={t('tab.crew')}/>
                         </Tabs>
                     </Paper>
                     <MyTabPanel
