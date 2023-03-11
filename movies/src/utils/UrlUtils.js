@@ -17,7 +17,7 @@ export const reactLinks = {
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
     actorDetailsEndpoint: "/actor/",
-    actorDetails: "/actor/:actorId/member/:type",
+    actorDetails: "/actor/:actorId/type/:type",
     topRated: "/info/top-rated",
     nowPlaying: "/info/now-playing",
     anticipated: "/info/anticipated",

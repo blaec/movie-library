@@ -23,7 +23,7 @@ const actor = (props) => {
         <ListItem
             button
             component={NavLink}
-            to={`${reactLinks.actorDetailsEndpoint}${id}/member/cast`}
+            to={`${reactLinks.actorDetailsEndpoint}${id}/type/cast`}
         >
             <ListItemAvatar>
                 <Avatar
