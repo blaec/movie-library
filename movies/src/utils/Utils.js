@@ -114,3 +114,27 @@ export const drawerWidth = (innerWidth) => {
         ? drawer.width
         : 0;
 };
+
+export const groupBy = (list) => {
+    let previous;
+    let result = [];
+    list.forEach((item) => {
+        if (previous) {
+            if (item.id === previous.id) {
+                previous = {
+                    ...previous,
+                    job: `${previous.job} | ${item.job}`,
+                    department: `${previous.department} | ${item.department}`,
+                }
+            } else {
+                result.push(previous);
+                previous = item;
+            }
+        } else {
+            previous = item;
+        }
+    });
+    result.push(previous);
+
+    return result;
+};

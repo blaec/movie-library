@@ -61,6 +61,7 @@ export const MovieTab = Object.freeze(
         description: 1,
         trailers: 2,
         facts: 3,
+        crew: 4,
     }
 );
 
@@ -87,5 +88,12 @@ export const ReleaseType = Object.freeze(
         4: 'Digital',
         5: 'Physical',
         6: 'TV',
+    }
+);
+
+export const PersonJobType = Object.freeze(
+    {
+        cast: "cast",
+        crew: "crew",
     }
 );
