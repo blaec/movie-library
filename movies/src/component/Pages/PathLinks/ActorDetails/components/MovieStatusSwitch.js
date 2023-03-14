@@ -8,12 +8,14 @@ import Switch from "@material-ui/core/Switch";
 import {FormGroup, Grid, makeStyles, Typography, withStyles} from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+const CREW = 'crew';
+const CAST = 'cast';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         paddingLeft: theme.spacing(5),
     },
-    _switch: {
+    antSwitch: {
         paddingTop: theme.spacing(1),
         paddingLeft: theme.spacing(5)
     }
@@ -53,16 +55,19 @@ const AntSwitch = withStyles((theme) => ({
     checked: {},
 }))(Switch);
 
+const isCrew = (text) => text === CREW;
+
+const nextType = (type) => isCrew(type) ? CAST : CREW
+
 
 const movieStatusSwitch = (props) => {
     const {onSwitchChange} = props;
     const history = useHistory();
     const params = useParams();
     const {actorId, type} = params;
-    const {root, _switch} = useStyles();
+    const {root, antSwitch} = useStyles();
     const [isCollectionMovie, setIsCollectionMovie] = useState(false);
     const {t} = useTranslation('common');
-    const [state, setState] = React.useState(type === 'crew');
 
     const handleCollectionMovieToggle = () => {
         setIsCollectionMovie(!isCollectionMovie);
@@ -77,9 +82,7 @@ const movieStatusSwitch = (props) => {
     );
 
     const handleChange = () => {
-        setState(!state);
-        const newType = state ? 'cast' : 'crew';
-        history.push(`${reactLinks.actorDetailsEndpoint}${actorId}/type/${newType}`)
+        history.push(`${reactLinks.actorDetailsEndpoint}${actorId}/type/${nextType(type)}`)
     };
 
 
@@ -92,7 +95,7 @@ const movieStatusSwitch = (props) => {
             />
             <Typography
                 component="div"
-                className={_switch}
+                className={antSwitch}
             >
                 <Grid
                     container
@@ -102,7 +105,7 @@ const movieStatusSwitch = (props) => {
                     <Grid item>{t('tab.cast')}</Grid>
                     <Grid item>
                         <AntSwitch
-                            checked={state}
+                            checked={isCrew(type)}
                             onChange={handleChange}
                         />
                     </Grid>
