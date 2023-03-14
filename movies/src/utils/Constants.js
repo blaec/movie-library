@@ -90,3 +90,10 @@ export const ReleaseType = Object.freeze(
         6: 'TV',
     }
 );
+
+export const PersonJobType = Object.freeze(
+    {
+        cast: "cast",
+        crew: "crew",
+    }
+);

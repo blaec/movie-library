@@ -2,6 +2,7 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 
 import {getImageUrl, reactLinks} from "../../../../../../../../utils/UrlUtils";
+import {PersonJobType} from "../../../../../../../../utils/Constants";
 
 import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@material-ui/core";
 
@@ -23,7 +24,7 @@ const actor = (props) => {
         <ListItem
             button
             component={NavLink}
-            to={`${reactLinks.actorDetailsEndpoint}${id}/type/cast`}
+            to={`${reactLinks.actorDetailsEndpoint}${id}/type/${PersonJobType.cast}`}
         >
             <ListItemAvatar>
                 <Avatar

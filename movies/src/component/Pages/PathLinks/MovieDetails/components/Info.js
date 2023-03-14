@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useSelector} from "react-redux";
+import {useTranslation} from "react-i18next";
 
 import MyTabPanel from "../../../../../UI/MyTabPanel";
 import Description from "./InfoComponents/Tabs/Description";
@@ -10,10 +11,9 @@ import InfoGeneral from "./InfoComponents/InfoGeneral";
 import {MovieTab} from "../../../../../utils/Constants";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
+import Crew from "./InfoComponents/Tabs/Crew/Crew";
 
 import {Box, makeStyles, Paper, Tab, Tabs} from "@material-ui/core";
-import {useTranslation} from "react-i18next";
-import Crew from "./InfoComponents/Tabs/Crew/Crew";
 
 
 const useStyles = makeStyles((theme) => ({

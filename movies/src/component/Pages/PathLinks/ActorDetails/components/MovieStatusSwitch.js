@@ -3,13 +3,11 @@ import {useTranslation} from "react-i18next";
 import {useHistory, useParams} from "react-router";
 
 import {reactLinks} from "../../../../../utils/UrlUtils";
+import {PersonJobType} from "../../../../../utils/Constants";
 
 import Switch from "@material-ui/core/Switch";
 import {FormGroup, Grid, makeStyles, Typography, withStyles} from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
-const CREW = 'crew';
-const CAST = 'cast';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,9 +53,11 @@ const AntSwitch = withStyles((theme) => ({
     checked: {},
 }))(Switch);
 
-const isCrew = (text) => text === CREW;
+const isCrew = (text) => text === PersonJobType.crew;
 
-const nextType = (type) => isCrew(type) ? CAST : CREW
+const nextType = (type) => isCrew(type)
+    ? PersonJobType.cast
+    : PersonJobType.crew
 
 
 const movieStatusSwitch = (props) => {
