@@ -8,7 +8,7 @@ import ActorFacts from "./components/ActorFacts";
 import Biography from "./components/Biography";
 import ActorImage from "./components/ActorImage";
 import ActorMovie from "./components/ActorMovie";
-import {isArrayExist, isMovieInCollection} from "../../../../utils/Utils";
+import {groupBy, isArrayExist, isMovieInCollection} from "../../../../utils/Utils";
 import {fetchActorDetails, fetchActorImages} from "../../../../store/state/details/details-actions";
 import MyRectSkeleton from "../../../../UI/Skeleton/MyRectSkeleton";
 import MovieStatusSwitch from "./components/MovieStatusSwitch";
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 const actorDetails = () => {
     const params = useParams();
     const history = useHistory();
-    const {actorId} = params;
+    const {actorId, type} = params;
     const {root, movieItems} = useStyles();
     const {t} = useTranslation('common');
 
@@ -85,14 +85,13 @@ const actorDetails = () => {
     let actorImage = null;
     let isDataLoaded = isActorDetailsLoaded && isMoviesLoaded;
     if (isDataLoaded) {
-        const {credits: {cast}, biography} = actorDetails;
+        const {credits, biography} = actorDetails;
         const farFuture = new Date((new Date()).getFullYear() + 10, 1, 1);
-        movieList = cast.filter(movie => {
-            // skip 'Documentary' movies and movies without genres
-            const {genre_ids} = movie;
-            return isArrayExist(genre_ids) && !genre_ids.includes(99);
-        })
-            .sort((a, b) => {
+        movieList = credits[type].filter(movie => {
+                // skip 'Documentary' movies and movies without genres
+                const {genre_ids} = movie;
+                return isArrayExist(genre_ids) && !genre_ids.includes(99);
+            }).sort((a, b) => {
                 const getDate = (movie) => {
                     const {release_date} = movie;
                     return (release_date === undefined || release_date === "")
@@ -105,10 +104,10 @@ const actorDetails = () => {
 
         const moviesToDisplay = isCollectionMovie ? moviesInCollection : movieList;
         let actorMovies = moviesToDisplay.length > 0
-            ? moviesToDisplay.map((movie, index) =>
+            ? groupBy(moviesToDisplay).map((movie, index) =>
                 <ActorMovie key={`${index}${movie.id}`}
                             {...movie}
-                            exist={moviesInCollection.includes(movie)}/>
+                            exist={moviesInCollection.filter(m => m.id === movie.id).length > 0}/>
             )
             : <MyResponse message={t('text.noMovieWithActor')}/>;
         allMovies = (

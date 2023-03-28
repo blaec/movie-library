@@ -6,44 +6,66 @@ import com.blaec.movielibrary.model.json.TmdbResult;
 import com.blaec.movielibrary.model.object.Response;
 import com.blaec.movielibrary.model.to.MovieFileTo;
 import com.blaec.movielibrary.model.to.MovieTmdbTo;
+import com.blaec.movielibrary.model.to.MovieTo;
 import com.blaec.movielibrary.utils.MovieUtils;
 import com.blaec.movielibrary.utils.TestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Slf4j
 @RequestMapping(MovieController.URL)
-@CrossOrigin(origins = "*")
 @RestController
 public class MovieController extends AbstractMovieController{
     static final String URL = API_VERSION + "/movies";
 
     @GetMapping("/library")
-    public Iterable<Movie> getAll() {
-        return movieService.getAll();
+    public Iterable<MovieTo> getAll() {
+        return StreamSupport.stream(movieService.getAll().spliterator(), false)
+                .map(MovieTo::from)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/gallery")
-    public Iterable<Movie> getAllMovies() {
+    public Iterable<MovieTo> getAllMovies() {
         return MovieUtils.sortByLocationAndFilename(movieService.getAllByTypeMovie(), locations);
     }
 
     @GetMapping("/wishlist")
-    public Iterable<Movie> getAllWishMovies() {
+    public Iterable<MovieTo> getAllWishMovies() {
         return MovieUtils.sortByReleaseYear(movieService.getAllByTypeWishlist());
     }
 
-    @PostMapping("/filter")
-    public Iterable<Movie> getAllByGenres(@RequestBody Set<Integer> genreIds) {
-        return MovieUtils.sortByLocationAndFilename(movieService.getAllByGenres(genreIds), locations);
+    @GetMapping("/filter-include-genres")
+    public Iterable<MovieTo> getAllWithGenreIds(@RequestParam("genre-ids") String ids) {
+        Set<Integer> genres = MovieUtils.parseGenres(ids);
+        Iterable<Movie> filteredMovies = movieService.getAllWithGenreIds(genres);
+
+        return MovieUtils.sortByLocationAndFilename(filteredMovies, locations);
+    }
+
+    @GetMapping("/filter-exclude-genres")
+    public Iterable<MovieTo> getAllWithoutGenreIds(@RequestParam("genre-ids") String ids) {
+        Set<Integer> genres = MovieUtils.parseGenres(ids);
+        Iterable<Movie> filteredMovies = movieService.getAllWithoutGenreIds(genres);
+
+        return MovieUtils.sortByLocationAndFilename(filteredMovies, locations);
+    }
+
+    @GetMapping("/dual-filter-by-genres")
+    public Iterable<MovieTo> getAllFilteringByGenres(
+            @RequestParam("include-genre-ids") String withGenres,
+            @RequestParam("exclude-genre-ids") String withoutGenres) {
+        Set<Integer> includeGenres = MovieUtils.parseGenres(withGenres);
+        Set<Integer> excludeGenres = MovieUtils.parseGenres(withoutGenres);
+        Iterable<Movie> filteredMovies = movieService.getAllFilteringByGenres(includeGenres, excludeGenres);
+
+        return MovieUtils.sortByLocationAndFilename(filteredMovies, locations);
     }
 
     @PostMapping("/upload/{folder}")
@@ -86,7 +108,7 @@ public class MovieController extends AbstractMovieController{
 
         List<MovieFileTo> moviesWithRequestedFileName = getMoviesFromFolder(uploadMovie.getLocation()).stream()
                 .filter(isFileNameMatchRequested(uploadMovie))
-                .collect(Collectors.toList());
+                .toList();
 
         Supplier<Response> onSuccess = () -> {
             Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(uploadMovie.getTmdbId());
@@ -118,9 +140,15 @@ public class MovieController extends AbstractMovieController{
     }
 
     @PutMapping("/update-movie-posters")
-    public Response updatePoster(@RequestBody Movie movie) {
-        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movie, movie.getPosterPath(), movie.getPosterPathRu()));
-        return movieService.updatePoster(movie).build();
+    public Response updatePoster(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movieTo, movieTo.getPosterPath(), movieTo.getPosterPathRu()));
+        return movieService.updatePoster(Movie.from(movieTo)).build();
+    }
+
+    @PutMapping("/update-movie-genres")
+    public Response updateGenres(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating genres to movie %s", movieTo));
+        return movieService.updateGenres(Movie.from(movieTo)).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")

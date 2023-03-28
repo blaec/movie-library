@@ -16,15 +16,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const actor = (props) => {
-    const {id, name, profile_path, character} = props;
+const person = (props) => {
+    const {id, name, profile_path, job} = props;
     const {large, actor} = useStyles();
 
     return (
         <ListItem
             button
             component={NavLink}
-            to={`${reactLinks.actorDetailsEndpoint}${id}/type/${PersonJobType.cast}`}
+            to={`${reactLinks.actorDetailsEndpoint}${id}/type/${PersonJobType.crew}`}
         >
             <ListItemAvatar>
                 <Avatar
@@ -37,10 +37,10 @@ const actor = (props) => {
             <ListItemText
                 className={actor}
                 primary={name}
-                secondary={` — as ${character}`}
+                secondary={` — as ${job}`}
             />
         </ListItem>
     );
 }
 
-export default actor;
+export default person;

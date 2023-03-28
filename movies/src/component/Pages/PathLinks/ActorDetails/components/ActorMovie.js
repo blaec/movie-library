@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const actorMovie = (props) => {
-    const {id, title, release_date, poster_path, character, exist} = props;
+    const {id, title, release_date, poster_path, character, job, exist} = props;
     const {actor, image, imageSize, movieExist, titleFont} = useStyles();
 
     // TODO image size hardcoded
@@ -36,6 +36,8 @@ const actorMovie = (props) => {
     let characterText = null;
     if (isStringExist(character)) {
         characterText = ` — as ${character}`;
+    } else if (isStringExist(job)) {
+        characterText = ` — as ${job}`;
     }
     return (
         <ListItem

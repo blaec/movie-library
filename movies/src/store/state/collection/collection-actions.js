@@ -1,5 +1,12 @@
 import axios from "../../../axios-movies";
-import {getDeleteUrl, getNowPlayingUrl, getAnticipatedUrl, movieApi, getMoviePostersUrl} from "../../../utils/UrlUtils";
+import {
+    getDeleteUrl,
+    getNowPlayingUrl,
+    getAnticipatedUrl,
+    movieApi,
+    getMoviePostersUrl,
+    getTopRatedUrl
+} from "../../../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
 import {settingsActions} from "../settings/settings-slice";
@@ -13,7 +20,7 @@ export const fetchMovies = () => {
                 dispatch(collectionActions.setMoviesCollection(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load movies`,
                     type: 'error'
@@ -30,7 +37,7 @@ export const fetchWishlist = () => {
                 dispatch(collectionActions.setWishlistCollection(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load wishlist`,
                     type: 'error'
@@ -39,15 +46,32 @@ export const fetchWishlist = () => {
     };
 };
 
-export const fetchFilteredCollection = (genreIds) => {
+export const fetchFilteredCollection = (url, genreIds) => {
     return async (dispatch) => {
-        axios.post(movieApi.get.getAllByGenres, genreIds.split(","))
+        axios.get(`${url}?genre-ids=${genreIds.split(",")}`)
             .then(response => {
                 const {data} = response;
                 dispatch(collectionActions.setFilteredMovies(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to load filtered movie list`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const fetchDualFilteredCollection = (url, inclGenreIds, exclGenreIds) => {
+    return async (dispatch) => {
+        axios.get(`${url}?include-genre-ids=${inclGenreIds.split(",")}&exclude-genre-ids=${exclGenreIds.split(",")}`)
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setFilteredMovies(data));
+            })
+            .catch(error => {
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load filtered movie list`,
                     type: 'error'
@@ -66,13 +90,19 @@ export const deleteMovie = (tmdbId) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to deleted movie with tmdbId '${tmdbId}'`,
                     type: 'error'
                 }));
             });
     };
+};
+
+export const fetchTopRated = (tmdbApi) => {
+    return async (dispatch) => {
+        fetchByPage(dispatch, getTopRatedUrl(tmdbApi), "setTopRated", "Failed getting top rated movies");
+    }
 };
 
 export const fetchNowPlaying = (tmdbApi) => {
@@ -104,7 +134,7 @@ const fetchByPage = (dispatch, url, fetchType, errMessage) => {
             dispatch(collectionActions[fetchType](movies));
         })
         .catch(error => {
-            console.log(error);
+            console.error(error);
             dispatch(feedbackActions.setSnackbar({
                 message: `${error} | ${errMessage}`,
                 type: 'error'
@@ -120,7 +150,7 @@ export const fetchLibrary = () => {
                 dispatch(collectionActions.setLibrary(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load entire library`,
                     type: 'error'
@@ -146,7 +176,7 @@ export const fetchPostersByLanguage = (id, tmdbApi, language) => {
                 }
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to load posters to movie ${id}`,
                     type: 'error'
@@ -165,9 +195,28 @@ export const updateMoviePosters = (movie) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 dispatch(feedbackActions.setSnackbar({
                     message: `${error} | Failed to update posters to movie with id #${movie.id}`,
+                    type: 'error'
+                }));
+            });
+    };
+};
+
+export const updateMovieGenres = (movie) => {
+    return async (dispatch) => {
+        axios.put(movieApi.put.updateGenres, movie)
+            .then(response => {
+                const {data} = response;
+                dispatch(collectionActions.setGenreResults(data));
+                dispatch(fetchMovies());
+                dispatch(fetchWishlist());
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch(feedbackActions.setSnackbar({
+                    message: `${error} | Failed to update genres to movie with id #${movie.id}`,
                     type: 'error'
                 }));
             });

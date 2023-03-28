@@ -9,19 +9,42 @@ export const reactLinks = {
     filter: "/filter",
     filterByGenreEndpoint: "/movies/by-genre/",
     filterByGenre: "/movies/by-genre/:genreIds",
+    filterOutByGenreEndpoint: "/movies/except-genres/",
+    filterOutByGenre: "/movies/except-genres/:genreIds",
+    filterDualByGenreEndpoint: "/movies/dual-filter/",
+    filterDualByGenre: "/movies/dual-filter/including-genres/:inclGenreIds/excluding-genres/:exclGenreIds",
     settings: "/settings",
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
-    actorDetailsEndpoint: "/actors/",
-    actorDetails: "/actors/:actorId",
+    actorDetailsEndpoint: "/actor/",
+    actorDetails: "/actor/:actorId/type/:type",
+    topRated: "/info/top-rated",
     nowPlaying: "/info/now-playing",
     anticipated: "/info/anticipated",
     library: "/stats/library",
 };
 
 export const isSearchable = (pathname) => {
-    const {collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated} = reactLinks;
-    const searchable = [collection, wishlist, filterByGenreEndpoint, newMovies, nowPlaying, anticipated];
+    const {
+        collection,
+        wishlist,
+        filterByGenreEndpoint,
+        filterOutByGenreEndpoint,
+        filterDualByGenreEndpoint,
+        newMovies,
+        nowPlaying,
+        anticipated
+    } = reactLinks;
+    const searchable = [
+        collection,
+        wishlist,
+        filterByGenreEndpoint,
+        filterOutByGenreEndpoint,
+        filterDualByGenreEndpoint,
+        newMovies,
+        nowPlaying,
+        anticipated
+    ];
     return searchable.filter(url => pathname.startsWith(url)).length === 1;
 };
 
@@ -30,7 +53,9 @@ export const movieApi = {
     get: {
         getAllMovies: `${baseMovieApi}gallery`,
         getAllWishMovies: `${baseMovieApi}wishlist`,
-        getAllByGenres: `${baseMovieApi}filter`,
+        getAllByGenresIncluding: `${baseMovieApi}filter-include-genres`,
+        getAllByGenresExcluding: `${baseMovieApi}filter-exclude-genres`,
+        getAllByGenresDualFilter: `${baseMovieApi}dual-filter-by-genres`,
         getAll: `${baseMovieApi}library`,
     },
     post: {
@@ -39,7 +64,8 @@ export const movieApi = {
         scanFolder: `${baseMovieApi}upload/`,
     },
     put: {
-        updatePosters: `${baseMovieApi}update-movie-posters`
+        updatePosters: `${baseMovieApi}update-movie-posters`,
+        updateGenres: `${baseMovieApi}update-movie-genres`
     },
     delete: {
         delete: `${baseMovieApi}delete/`,
@@ -91,6 +117,19 @@ export const getMovieDetailsUrl = (id, tmdbApi) => {
     const params = {...backdropParams, ...{api_key: tmdbApi}};
 
     return `${url_endpoints.tmdb.movies.getDetails}${id}?${getParamsFrom(params)}`;
+};
+
+/**
+ * https://api.themoviedb.org/3/movie/top_rated
+ *
+ * @param tmdbApi tmdb api key
+ * @param showPage number of page to show
+ * @returns {`https://api.themoviedb.org/3/movie/top_rated?api_key=<<tmdbApi>>&language=en-US&page=<<showPage>>`}
+ */
+export const getTopRatedUrl = (tmdbApi, showPage = 1) => {
+    const params = {...api_lang_params(), ...{api_key: tmdbApi, page: showPage}};
+
+    return `${url_endpoints.tmdb.movies.getTopRated}?${getParamsFrom(params)}`;
 };
 
 /**
@@ -264,6 +303,7 @@ const url_endpoints = {
         },
         movies: {
             getDetails: 'https://api.themoviedb.org/3/movie/',
+            getTopRated: 'https://api.themoviedb.org/3/movie/top_rated',
             getNowPlaying: 'https://api.themoviedb.org/3/movie/now_playing',
             anticipated: 'https://api.themoviedb.org/3/discover/movie',
         },

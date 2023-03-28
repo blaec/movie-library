@@ -13,11 +13,12 @@ export const fetchCast = (movieId, tmdbApi) => {
     return async (dispatch) => {
         axios.get(getMovieCreditsUrl(movieId, tmdbApi))
             .then(response => {
-                const {data: {cast}} = response;
+                const {data: {cast, crew}} = response;
                 dispatch(detailsActions.setCast(cast));
+                dispatch(detailsActions.setCrew(crew));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 };
@@ -33,7 +34,7 @@ export const fetchMovieTmdbDetails = (movieId, tmdbApi) => {
                 dispatch(detailsActions.setImdbId(imdb_id));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 };
@@ -46,7 +47,7 @@ export const fetchMovieOmdbDetails = (imdbId, omdbApi) => {
                 dispatch(detailsActions.setMovieOmdbDetails(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 };
@@ -59,7 +60,7 @@ export const fetchActorDetails = (actorId, tmdbApi) => {
                 dispatch(detailsActions.setActorDetails(data));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 };
@@ -72,7 +73,7 @@ export const fetchTrailers = (tmdbId, tmdbApi) => {
                 dispatch(detailsActions.setTrailers(results));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 };
@@ -85,7 +86,7 @@ export const fetchActorImages = (actorId, tmdbApi) => {
                 dispatch(detailsActions.setActorImages(profiles));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 };

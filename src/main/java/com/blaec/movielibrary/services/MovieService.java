@@ -13,10 +13,14 @@ public interface MovieService {
     Iterable<Movie> getAll();
     Iterable<Movie> getAllByTypeMovie();
     Iterable<Movie> getAllByTypeWishlist();
-    Iterable<Movie> getAllByGenres(Set<Integer> genres);
+    Iterable<Movie> getAllWithGenreIds(Set<Integer> genres);
+    Iterable<Movie> getAllWithoutGenreIds(Set<Integer> genres);
+
+    Iterable<Movie> getAllFilteringByGenres(Set<Integer> includeGenres, Set<Integer> excludeGenres);
     boolean isMovieExist(String tmdbId);
     @Transactional Response.Builder saveToWishlist(Optional<MovieTmdbTo> tmdbMovie);
     @Transactional Response.Builder saveToCollection(Optional<MovieTmdbTo> tmdbMovie, MovieFileTo movieFile);
     @Transactional Response.Builder updatePoster(Movie movie);
+    @Transactional Response.Builder updateGenres(Movie movie);
     @Transactional Response.Builder delete(String tmdbId);
 }

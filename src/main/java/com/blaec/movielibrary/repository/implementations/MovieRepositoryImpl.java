@@ -32,8 +32,18 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public Iterable<Movie> getAllByGenreId(Set<Integer> genres) {
-        return crudMovieRepository.findAllByGenreId(genres);
+    public Iterable<Movie> getAllWithGenreIds(Set<Integer> genres) {
+        return crudMovieRepository.findAllWithGenres(genres);
+    }
+
+    @Override
+    public Iterable<Movie> getAllWithoutGenreIds(Set<Integer> genres) {
+        return crudMovieRepository.findAllWithoutGenres(genres);
+    }
+
+    @Override
+    public Iterable<Movie> getAllFilteringByGenres(Set<Integer> includeGenres, Set<Integer> excludeGenres) {
+        return crudMovieRepository.findAllFilteringByGenres(includeGenres, excludeGenres);
     }
 
     @Override
@@ -42,7 +52,7 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public boolean delete(int id) {
-        return crudMovieRepository.delete(id) != 0;
+    public void delete(Movie movie) {
+        crudMovieRepository.delete(movie);
     }
 }

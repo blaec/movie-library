@@ -1,4 +1,5 @@
 import {drawer, mobile} from "./Constants";
+import {useTranslation} from "react-i18next";
 
 /**
  * Extract year from date (like release date), date could be undefined or null
@@ -24,7 +25,9 @@ export const fullTitle = (title, releaseDate) => {
     return `${title}${(year.length > 0 ? ` (${year})` : '')}`
 };
 
-export const playTime = (totalMinutes, t) => {
+export const playTime = (totalMinutes) => {
+    const {t} = useTranslation('common');
+
     let hour = Math.floor(totalMinutes / 60);
     let minute = `0${totalMinutes % 60}`.slice(-2);
 
@@ -51,7 +54,7 @@ export const joinNames = (array) => {
 };
 
 export const isObjectExist = (object) => {
-    return Object.keys(object).length !== 0 || object.constructor !== Object;
+    return object && (Object.keys(object).length !== 0 || object.constructor !== Object);
 };
 
 export const isObjectsExist = (...objects) => {
@@ -69,7 +72,7 @@ export const isStringsExist = (...strings) => {
 };
 
 export const isArrayExist = (array) => {
-    return array.length > 0;
+    return array && array.length > 0;
 };
 
 export const isArraysExist = (...arrays) => {
@@ -110,4 +113,28 @@ export const drawerWidth = (innerWidth) => {
     return innerWidth > mobile.windowWidth
         ? drawer.width
         : 0;
+};
+
+export const groupBy = (list) => {
+    let previous;
+    let result = [];
+    list.forEach((item) => {
+        if (previous) {
+            if (item.id === previous.id) {
+                previous = {
+                    ...previous,
+                    job: `${previous.job} | ${item.job}`,
+                    department: `${previous.department} | ${item.department}`,
+                }
+            } else {
+                result.push(previous);
+                previous = item;
+            }
+        } else {
+            previous = item;
+        }
+    });
+    result.push(previous);
+
+    return result;
 };

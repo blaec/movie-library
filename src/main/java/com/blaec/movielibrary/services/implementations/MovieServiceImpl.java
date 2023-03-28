@@ -40,8 +40,18 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Iterable<Movie> getAllByGenres(Set<Integer> genres) {
-        return movieRepository.getAllByGenreId(genres);
+    public Iterable<Movie> getAllWithGenreIds(Set<Integer> genres) {
+        return movieRepository.getAllWithGenreIds(genres);
+    }
+
+    @Override
+    public Iterable<Movie> getAllWithoutGenreIds(Set<Integer> genres) {
+        return movieRepository.getAllWithoutGenreIds(genres);
+    }
+
+    @Override
+    public Iterable<Movie> getAllFilteringByGenres(Set<Integer> includeGenres, Set<Integer> excludeGenres) {
+        return movieRepository.getAllFilteringByGenres(includeGenres, excludeGenres);
     }
 
     @Override
@@ -127,6 +137,24 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public Response.Builder updateGenres(Movie movie) {
+        Response.Builder responseBuilder = Response.Builder.create();
+        try {
+            Movie updatedMovie = movieRepository.save(movie)
+                    .orElseThrow(IllegalArgumentException::new);
+            log.info("updated genres | {}", updatedMovie);
+            responseBuilder
+                    .setMovie(updatedMovie)
+                    .setMessage("Genres successfully updated");
+        } catch (Exception e) {
+            String message = String.format("Failed to update movie genres | %s", movie);
+            log.error(message, e);
+            responseBuilder.setMovie(movie).setFailMessage(e.getMessage());
+        }
+        return responseBuilder;
+    }
+
+    @Override
     public Response.Builder delete(String tmdbId) {
         Response.Builder responseBuilder;
         try {
@@ -144,19 +172,16 @@ public class MovieServiceImpl implements MovieService {
         return responseBuilder;
     }
 
-    private Response.Builder deleteMovieByTmdbId(String tmdbId) throws IllegalStateException, IllegalArgumentException {
+    private Response.Builder deleteMovieByTmdbId(String tmdbId) throws IllegalArgumentException {
         Response.Builder responseBuilder = Response.Builder.create();
 
         Movie movie = movieRepository.getByTmdbId(tmdbId)
                 .orElseThrow(IllegalArgumentException::new);
-        int id = movie.getId();
-        if (movieRepository.delete(id)) {
-            String message = String.format("deleted | %s with id %d", movie, id);
-            log.info(message);
-            responseBuilder.setMovie(movie).setMessage(message);
-        } else {
-            throw new IllegalStateException();
-        }
+        movieRepository.delete(movie);
+
+        String message = String.format("deleted | %s with id %d", movie, movie.getId());
+        log.info(message);
+        responseBuilder.setMovie(movie).setMessage(message);
 
         return responseBuilder;
     }

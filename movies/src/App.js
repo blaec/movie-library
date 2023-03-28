@@ -20,6 +20,7 @@ const Settings = React.lazy(() => import('./component/Pages/MenuItems/Settings/S
 const MovieDetails = React.lazy(() => import('./component/Pages/PathLinks/MovieDetails/MovieDetails'));
 const ActorDetails = React.lazy(() => import('./component/Pages/PathLinks/ActorDetails/ActorDetails'));
 const FilteredCollection = React.lazy(() => import('./component/Pages/PathLinks/FilteredCollection/FilteredCollection'));
+const TopRated = React.lazy(() => import('./component/Pages/MenuItems/TopRated/TopRated'));
 const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
 const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
 const Library = React.lazy(() => import('./component/Pages/MenuItems/Library/Library'));
@@ -31,11 +32,14 @@ const app = () => {
         collection,
         newMovies,
         filterByGenre,
+        filterOutByGenre,
+        filterDualByGenre,
         wishlist,
         filter,
         settings,
         movieDetails,
         actorDetails,
+        topRated,
         nowPlaying,
         anticipated,
         library,
@@ -71,6 +75,7 @@ const app = () => {
                     <Route path={wishlist} exact component={Wishlist}/>
                     <Route path={filter} exact component={Filter}/>
                     <Route path={settings} exact component={Settings}/>
+                    <Route path={topRated} exact component={TopRated}/>
                     <Route path={nowPlaying} exact component={NowPlaying}/>
                     <Route path={anticipated} exact component={Anticipated}/>
                     <Route path={library} exact component={Library}/>
@@ -79,10 +84,13 @@ const app = () => {
                     <Route path={movieDetails} exact component={props => {
                         dispatch(detailsActions.resetAll());
                         dispatch(collectionActions.resetPosterResults());
+                        dispatch(collectionActions.resetGenreResults());
                         return <MovieDetails {...props}/>
                     }}/>
                     <Route path={actorDetails} exact component={props => <ActorDetails {...props}/>}/>
                     <Route path={filterByGenre} exact component={props => <FilteredCollection {...props}/>}/>
+                    <Route path={filterOutByGenre} exact component={props => <FilteredCollection {...props}/>}/>
+                    <Route path={filterDualByGenre} exact component={props => <FilteredCollection {...props}/>}/>
 
                     <Redirect to={home}/>
                     {/*<Redirect to='*'>*/}

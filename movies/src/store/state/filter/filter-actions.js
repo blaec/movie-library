@@ -10,7 +10,7 @@ export const fetchGenres = (tmdbApi) => {
                 dispatch(filterActions.setGenres(genres));
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
             });
     };
 };

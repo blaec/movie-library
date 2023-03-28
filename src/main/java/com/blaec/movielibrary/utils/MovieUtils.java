@@ -4,12 +4,11 @@ import com.blaec.movielibrary.configs.UploadConfigs;
 import com.blaec.movielibrary.enums.ScanFolders;
 import com.blaec.movielibrary.enums.Type;
 import com.blaec.movielibrary.model.Movie;
+import com.blaec.movielibrary.model.to.MovieTo;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -24,9 +23,10 @@ public class MovieUtils {
      * @param locations list of movie locations
      * @return sorted movies list
      */
-    public static Iterable<Movie> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
+    public static Iterable<MovieTo> sortByLocationAndFilename(Iterable<Movie> movies, List<String> locations) {
         return StreamSupport.stream(movies.spliterator(), false)
-                .sorted(Comparator.comparing(movie -> movie.getLocationWithCleanFileName(locations)))
+                .sorted(Comparator.comparing(movie -> movie.extractLocationFreeFilePath(locations)))
+                .map(MovieTo::from)
                 .collect(Collectors.toList());
     }
 
@@ -36,9 +36,10 @@ public class MovieUtils {
      * @param movies list of movies to sort
      * @return sorted list
      */
-    public static Iterable<Movie> sortByReleaseYear(Iterable<Movie> movies) {
+    public static Iterable<MovieTo> sortByReleaseYear(Iterable<Movie> movies) {
         return StreamSupport.stream(movies.spliterator(), false)
                 .sorted(Comparator.comparing(Movie::getReleaseDate))
+                .map(MovieTo::from)
                 .collect(Collectors.toList());
     }
 
@@ -69,5 +70,17 @@ public class MovieUtils {
             log.error("No location found by folder {}", folder, e);
         }
         return location;
+    }
+
+    /**
+     * Convert comma-delimited string into set
+     *
+     * @param ids comma-delimited string of genre ids
+     * @return set of unique genres
+     */
+    public static Set<Integer> parseGenres(String ids) {
+        return Arrays.stream(ids.split(","))
+                .map(Integer::valueOf)
+                .collect(Collectors.toSet());
     }
 }

@@ -1,25 +1,40 @@
 import React, {Suspense, useEffect} from 'react';
-import {useParams} from "react-router";
+import {useLocation, useParams} from "react-router";
 import {useDispatch, useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
 
 import MyResponse from "../../../../UI/MyResponse";
 import Gallery from "../../../Gallery/Gallery/Gallery";
 import MyLoader from "../../../../UI/Spinners/MyLoader";
-import {fetchFilteredCollection} from "../../../../store/state/collection/collection-actions";
-import {isArrayExist} from "../../../../utils/Utils";
+import {
+    fetchDualFilteredCollection,
+    fetchFilteredCollection
+} from "../../../../store/state/collection/collection-actions";
+import {isArrayExist, isStringExist, isStringsExist} from "../../../../utils/Utils";
 import {feedbackActions} from "../../../../store/state/feedback/feedback-slice";
+import {movieApi, reactLinks} from "../../../../utils/UrlUtils";
+
 
 const filteredCollection = () => {
     const params = useParams();
-    const {genreIds} = params;
+    const {pathname} = useLocation();
+    const {genreIds, inclGenreIds, exclGenreIds} = params;
     const {t} = useTranslation('common');
 
     const {filteredMovies, isFilteredMoviesLoaded} = useSelector(state => state.collection.filteredMovies);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchFilteredCollection(genreIds));
+        if (isStringExist(genreIds)) {
+            let url = pathname.includes(reactLinks.filterByGenreEndpoint)
+                ? movieApi.get.getAllByGenresIncluding
+                : movieApi.get.getAllByGenresExcluding;
+            dispatch(fetchFilteredCollection(url, genreIds));
+        } else if (isStringsExist(inclGenreIds, exclGenreIds)) {
+            dispatch(fetchDualFilteredCollection(movieApi.get.getAllByGenresDualFilter, inclGenreIds, exclGenreIds))
+        } else {
+            console.error("Filter conditions do not match")
+        }
     }, [genreIds]);
 
     let hasMovies = isFilteredMoviesLoaded && isArrayExist(filteredMovies);
@@ -31,6 +46,7 @@ const filteredCollection = () => {
             }));
         }
     }, [filteredMovies]);
+
 
     return (
         <Suspense fallback={<MyLoader/>}>
