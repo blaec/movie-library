@@ -33,7 +33,8 @@ export const isSearchable = (pathname) => {
         filterDualByGenreEndpoint,
         newMovies,
         nowPlaying,
-        anticipated
+        anticipated,
+        topRated
     } = reactLinks;
     const searchable = [
         collection,
@@ -43,7 +44,8 @@ export const isSearchable = (pathname) => {
         filterDualByGenreEndpoint,
         newMovies,
         nowPlaying,
-        anticipated
+        anticipated,
+        topRated
     ];
     return searchable.filter(url => pathname.startsWith(url)).length === 1;
 };
