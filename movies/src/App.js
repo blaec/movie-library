@@ -12,6 +12,8 @@ import {useLocation} from "react-router";
 import {currentLocation, language, previousLocation} from "./store/localStorage/actions";
 import {useTranslation} from "react-i18next";
 import {collectionActions} from "./store/state/collection/collection-slice";
+import {createMuiTheme} from "@mui/material";
+import {ThemeProvider} from "@mui/styles";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
 const Wishlist = React.lazy(() => import('./component/Pages/MenuItems/Wishlist/Wishlist'));
@@ -24,6 +26,8 @@ const TopRated = React.lazy(() => import('./component/Pages/MenuItems/TopRated/T
 const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlaying/NowPlaying'));
 const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
 const Library = React.lazy(() => import('./component/Pages/MenuItems/Library/Library'));
+
+const theme = createMuiTheme();
 
 const app = () => {
     const {pathname} = useLocation();
@@ -102,9 +106,9 @@ const app = () => {
     );
 
     return (
-        <React.Fragment>
+        <ThemeProvider  theme={theme}>
             {layout}
-        </React.Fragment>
+        </ThemeProvider>
     );
 }
 
