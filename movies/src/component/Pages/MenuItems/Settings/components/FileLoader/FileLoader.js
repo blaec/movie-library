@@ -12,6 +12,7 @@ import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/settings/settings-actions";
 
+import {makeStyles} from "@mui/styles";
 import {
     Card,
     CardActions,
@@ -19,7 +20,6 @@ import {
     Divider,
     FormControl,
     FormControlLabel,
-    makeStyles,
     Switch
 } from "@mui/material";
 import BackupTwoToneIcon from "@mui/icons-material/BackupTwoTone";

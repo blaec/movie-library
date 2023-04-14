@@ -2,7 +2,8 @@ import React from 'react';
 import {useSelector} from "react-redux";
 import RadioLabel from "./RadioLabel";
 
-import {FormControlLabel, makeStyles, Radio, RadioGroup} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import {FormControlLabel, Radio, RadioGroup} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {

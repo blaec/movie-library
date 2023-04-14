@@ -8,13 +8,13 @@ import {isArrayExist, isStringExist} from "../../../../../utils/Utils";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
 import {updateMoviePosters} from "../../../../../store/state/collection/collection-actions";
 
+import {makeStyles} from "@mui/styles";
 import {
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    makeStyles,
     Paper
 } from "@mui/material";
 

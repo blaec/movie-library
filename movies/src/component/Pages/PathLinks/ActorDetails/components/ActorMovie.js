@@ -4,7 +4,8 @@ import {NavLink} from "react-router-dom";
 import {getImageUrl, posterSizes, reactLinks} from "../../../../../utils/UrlUtils";
 import {isStringExist, fullYear} from "../../../../../utils/Utils";
 
-import {Box, ListItem, ListItemAvatar, ListItemText, makeStyles, Paper} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import {Box, ListItem, ListItemAvatar, ListItemText, Paper} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     actor: {

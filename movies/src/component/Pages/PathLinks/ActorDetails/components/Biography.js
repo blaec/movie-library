@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import {getImageUrl, posterSizes} from "../../../../../utils/UrlUtils";
 
-import {Box, makeStyles, Paper} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import {Box, Paper} from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({

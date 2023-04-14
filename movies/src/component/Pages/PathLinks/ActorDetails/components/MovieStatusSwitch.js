@@ -6,7 +6,8 @@ import {reactLinks} from "../../../../../utils/UrlUtils";
 import {PersonJobType} from "../../../../../utils/Constants";
 
 import Switch from "@mui/material/Switch";
-import {FormGroup, Grid, makeStyles, Typography, withStyles} from "@mui/material";
+import {makeStyles, withStyles} from "@mui/styles";
+import {FormGroup, Grid, Typography} from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 const useStyles = makeStyles((theme) => ({

@@ -13,7 +13,8 @@ import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../UI/Skeleton/MyTextSkeleton";
 import Crew from "./InfoComponents/Tabs/Crew/Crew";
 
-import {Box, makeStyles, Paper, Tab, Tabs} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import {Box, Paper, Tab, Tabs} from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({

@@ -4,7 +4,8 @@ import {NavLink} from "react-router-dom";
 import {getImageUrl, reactLinks} from "../../../../../../../../utils/UrlUtils";
 import {PersonJobType} from "../../../../../../../../utils/Constants";
 
-import {Avatar, ListItem, ListItemAvatar, ListItemText, makeStyles} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     large: {

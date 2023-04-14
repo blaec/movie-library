@@ -15,7 +15,8 @@ import MovieStatusSwitch from "./components/MovieStatusSwitch";
 import MyResponse from "../../../../UI/MyResponse";
 import {ActorTab} from "../../../../utils/Constants";
 
-import {List, makeStyles, Paper, Tab, Tabs} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import {List, Paper, Tab, Tabs} from "@mui/material";
 
 
 const useStyles = makeStyles((theme) => ({

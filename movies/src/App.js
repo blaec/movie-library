@@ -12,7 +12,7 @@ import {useLocation} from "react-router";
 import {currentLocation, language, previousLocation} from "./store/localStorage/actions";
 import {useTranslation} from "react-i18next";
 import {collectionActions} from "./store/state/collection/collection-slice";
-import {createMuiTheme} from "@mui/material";
+import {createTheme} from "@mui/material";
 import {ThemeProvider} from "@mui/styles";
 
 const NewMovies = React.lazy(() => import('./component/Pages/MenuItems/NewMovies/NewMovies'));
@@ -27,7 +27,7 @@ const NowPlaying = React.lazy(() => import('./component/Pages/MenuItems/NowPlayi
 const Anticipated = React.lazy(() => import('./component/Pages/MenuItems/Anticipated/Anticipated'));
 const Library = React.lazy(() => import('./component/Pages/MenuItems/Library/Library'));
 
-const theme = createMuiTheme();
+const theme = createTheme();
 
 const app = () => {
     const {pathname} = useLocation();
