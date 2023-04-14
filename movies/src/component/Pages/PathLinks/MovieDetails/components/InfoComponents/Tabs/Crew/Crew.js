@@ -2,7 +2,7 @@ import React from 'react';
 import {useTranslation} from "react-i18next";
 import MyResponse from "../../../../../../../../UI/MyResponse";
 
-import {Divider, List} from "@material-ui/core";
+import {Divider, List} from "@mui/material";
 import Person from "./Person";
 import {groupBy} from "../../../../../../../../utils/Utils";
 

@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {fullYear, getMovieByTmdbId, isObjectExist, isSafe, joinNames, playTime} from "../../../../../../utils/Utils";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 
-import {Box, Divider, makeStyles, Typography} from "@material-ui/core";
+import {Box, Divider, makeStyles, Typography} from "@mui/material";
 import {updateMovieGenres} from "../../../../../../store/state/collection/collection-actions";
 
 

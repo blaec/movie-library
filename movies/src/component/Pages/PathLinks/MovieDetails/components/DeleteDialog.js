@@ -3,7 +3,7 @@ import {useTranslation} from "react-i18next";
 
 import MyDialogButton from "../../../../../UI/Buttons/MyDialogButton";
 
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
 const deleteDialog = (props) => {
     const {open, onExit, onDelete} = props;

@@ -5,16 +5,16 @@ import {useTranslation} from "react-i18next";
 import MyListItem from "../../../UI/MyListItem";
 import {reactLinks} from "../../../utils/UrlUtils";
 
-import {Divider, List} from "@material-ui/core";
-import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
-import MovieCreationTwoToneIcon from '@material-ui/icons/MovieCreationTwoTone';
-import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
-import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
-import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
-import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
-import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
-import SettingsIcon from '@material-ui/icons/Settings';
-import TrendingUpTwoToneIcon from '@material-ui/icons/TrendingUpTwoTone';
+import {Divider, List} from "@mui/material";
+import MovieFilterTwoToneIcon from "@mui/icons-material/MovieFilterTwoTone";
+import MovieCreationTwoToneIcon from '@mui/icons-material/MovieCreationTwoTone';
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import PlayCircleFilledWhiteTwoToneIcon from '@mui/icons-material/PlayCircleFilledWhiteTwoTone';
+import HourglassFullTwoToneIcon from '@mui/icons-material/HourglassFullTwoTone';
+import StorageTwoToneIcon from '@mui/icons-material/StorageTwoTone';
+import SettingsIcon from '@mui/icons-material/Settings';
+import TrendingUpTwoToneIcon from '@mui/icons-material/TrendingUpTwoTone';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
     const {t} = useTranslation('common');

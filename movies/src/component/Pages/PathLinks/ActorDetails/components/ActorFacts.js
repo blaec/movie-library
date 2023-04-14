@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 import Fact from "../../../../../UI/Fact";
 import {isStringExist} from "../../../../../utils/Utils";
 
-import {Typography} from "@material-ui/core";
+import {Typography} from "@mui/material";
 
 const getActorAge = (birthday, deathday) => {
     const from = isStringExist(deathday)

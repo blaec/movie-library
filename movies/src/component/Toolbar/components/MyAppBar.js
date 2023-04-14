@@ -5,9 +5,9 @@ import Search from "./Search";
 import {drawer} from "../../../utils/Constants";
 import {isSearchable} from "../../../utils/UrlUtils";
 
-import {AppBar, IconButton, Toolbar} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import {makeStyles} from "@material-ui/core/styles";
+import {AppBar, IconButton, Toolbar} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: visible => {

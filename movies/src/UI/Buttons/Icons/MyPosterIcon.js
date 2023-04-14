@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ImageTwoToneIcon from '@material-ui/icons/ImageTwoTone';
+import ImageTwoToneIcon from '@mui/icons-material/ImageTwoTone';
 
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 
 
 const useStyles = makeStyles((theme) => ({

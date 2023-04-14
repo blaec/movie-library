@@ -5,7 +5,7 @@ import Releases from "./releases/Releases";
 import Fact from "../../../../../../../../UI/Fact";
 import {joinNames} from "../../../../../../../../utils/Utils";
 
-import {Typography} from "@material-ui/core";
+import {Typography} from "@mui/material";
 
 
 const movieFacts = (props) => {

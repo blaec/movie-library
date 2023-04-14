@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import {makeStyles} from "@material-ui/core/styles";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {

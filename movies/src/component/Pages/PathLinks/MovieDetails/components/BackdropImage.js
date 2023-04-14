@@ -16,7 +16,7 @@ import {deleteMovie} from "../../../../../store/state/collection/collection-acti
 import {saveWishMovie} from "../../../../../store/state/settings/settings-actions";
 
 import Carousel from "react-material-ui-carousel";
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 
 const FADE_TIMEOUT = 500;
 const INTERVAL = 3000;

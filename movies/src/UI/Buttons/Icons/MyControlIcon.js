@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {makeStyles} from "@material-ui/core/styles";
-import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
-import DeleteTwoToneIcon from "@material-ui/icons/DeleteTwoTone";
+import {makeStyles} from "@mui/styles";
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 
 const useStyles = makeStyles((theme) => ({
     root: isInCollection => {

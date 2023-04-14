@@ -4,8 +4,8 @@ import MySnackbar from "../UI/MySnackbar";
 import Toolbar from "../component/Toolbar/Toolbar";
 import {drawer, toolbarHeight} from "../utils/Constants";
 
-import {makeStyles} from "@material-ui/core/styles";
-import {Collapse, CssBaseline} from "@material-ui/core";
+import {makeStyles} from "@mui/styles";
+import {Collapse, CssBaseline} from "@mui/material";
 import {SnackbarProvider} from "notistack";
 
 const useStyles = makeStyles((theme) => ({

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {IconButton, InputAdornment, TextField} from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+import {IconButton, InputAdornment, TextField} from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const myTextField = (props) => {
     const {inputRef, isValid, text, disabled, label, helperText, required, onChangeTextField, onInputTouch} = props;

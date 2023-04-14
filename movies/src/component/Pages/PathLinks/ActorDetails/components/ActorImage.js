@@ -5,7 +5,7 @@ import {drawer} from "../../../../../utils/Constants";
 import {isMovieInCast} from "../../../../../utils/Utils";
 import MyRectSkeleton from "../../../../../UI/Skeleton/MyRectSkeleton";
 
-import {makeStyles, Typography} from "@material-ui/core";
+import {makeStyles, Typography} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     actor: {

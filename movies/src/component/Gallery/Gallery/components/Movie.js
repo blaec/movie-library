@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import {getImageUrl, posterSizes, reactLinks} from "../../../../utils/UrlUtils";
 import MyLazyImage from "../../../../UI/MyLazyImage";
 
-import {Paper} from "@material-ui/core";
+import {Paper} from "@mui/material";
 
 const movie = props => {
     const {poster, alt, tmdbId, onClick, root} = props;

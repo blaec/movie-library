@@ -5,8 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {isStringExist} from "../../../../../../../utils/Utils";
 import {fetchTrailers} from "../../../../../../../store/state/details/details-actions";
 
-import {Paper} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {Paper} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {

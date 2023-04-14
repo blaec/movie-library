@@ -14,9 +14,9 @@ import MySubmitButton from "../../../../UI/Buttons/MySubmitButton";
 import {isArraysExist} from "../../../../utils/Utils";
 import MyInnerGrid from "../../../../UI/Buttons/MyInnerGrid";
 
-import {Card, CardActions, CardContent, Typography} from "@material-ui/core";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import FindInPageTwoToneIcon from '@material-ui/icons/FindInPageTwoTone';
+import {Card, CardActions, CardContent, Typography} from "@mui/material";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
 
 
 const filter = () => {

@@ -7,9 +7,9 @@ import MyButtonGrid from "../../../../../UI/Buttons/MyButtonGrid";
 import MySubmitButton from "../../../../../UI/Buttons/MySubmitButton";
 import {isArrayExist} from "../../../../../utils/Utils";
 
-import HighlightOffTwoToneIcon from "@material-ui/icons/HighlightOffTwoTone";
-import SearchTwoToneIcon from "@material-ui/icons/SearchTwoTone";
-import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@material-ui/core";
+import HighlightOffTwoToneIcon from "@mui/icons-material/HighlightOffTwoTone";
+import SearchTwoToneIcon from "@mui/icons-material/SearchTwoTone";
+import {Card, CardActions, CardContent, FormControl, Select, useTheme} from "@mui/material";
 
 
 const FilterSelect = (props) => {

@@ -21,8 +21,8 @@ import {
     FormControlLabel,
     makeStyles,
     Switch
-} from "@material-ui/core";
-import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+} from "@mui/material";
+import BackupTwoToneIcon from "@mui/icons-material/BackupTwoTone";
 import {Loader} from "../../../../../../utils/Constants";
 import {settingsActions} from "../../../../../../store/state/settings/settings-slice";
 

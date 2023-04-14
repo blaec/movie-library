@@ -12,9 +12,9 @@ import WishPreviews from "./WishPreviews";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
 import {fetchWishMovies, saveWishMovie} from "../../../../../../store/state/settings/settings-actions";
 
-import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
-import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
-import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
+import {Card, CardActions, CardContent, FormControl} from "@mui/material";
+import AddCircleTwoToneIcon from "@mui/icons-material/AddCircleTwoTone";
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import {settingsActions} from "../../../../../../store/state/settings/settings-slice";
 import {Loader} from "../../../../../../utils/Constants";
 

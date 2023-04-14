@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Skeleton} from "@material-ui/lab";
+import {Skeleton} from "@mui/lab";
 
 const myRectSkeleton = (props) => {
     const {className, height} = props;

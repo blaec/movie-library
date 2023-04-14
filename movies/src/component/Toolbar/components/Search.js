@@ -7,10 +7,10 @@ import {filterActions} from "../../../store/state/filter/filter-slice";
 import {isSearchable} from "../../../utils/UrlUtils";
 import {delay} from "../../../utils/Constants";
 
-import {fade, IconButton, InputAdornment, InputBase} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import ClearIcon from "@material-ui/icons/Clear";
-import SearchIcon from "@material-ui/icons/Search";
+import {alpha, IconButton, InputAdornment, InputBase} from "@mui/material";
+import {makeStyles} from "@mui/styles";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 
 const useStyles = makeStyles((theme) => ({
     root: visible => {
@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
             display,
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
-            backgroundColor: fade(theme.palette.common.white, 0.15),
+            backgroundColor: alpha(theme.palette.common.white, 0.15),
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25),
+                backgroundColor: alpha(theme.palette.common.white, 0.25),
             },
             marginLeft: 0,
             width: '100%',

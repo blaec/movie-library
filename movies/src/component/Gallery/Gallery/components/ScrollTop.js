@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {useScrollTrigger, Zoom} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {useScrollTrigger, Zoom} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 
 
 const useStyles = makeStyles((theme) => ({

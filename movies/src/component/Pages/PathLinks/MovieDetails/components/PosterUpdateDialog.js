@@ -16,7 +16,7 @@ import {
     DialogTitle,
     makeStyles,
     Paper
-} from "@material-ui/core";
+} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     posters: {

@@ -9,7 +9,7 @@ import {fetchCast, fetchMovieOmdbDetails, fetchMovieTmdbDetails} from "../../../
 import {fetchPostersByLanguage} from "../../../../store/state/collection/collection-actions";
 import {Language} from "../../../../utils/Constants";
 
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
     root: {

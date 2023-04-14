@@ -5,9 +5,9 @@ import {useHistory, useParams} from "react-router";
 import {reactLinks} from "../../../../../utils/UrlUtils";
 import {PersonJobType} from "../../../../../utils/Constants";
 
-import Switch from "@material-ui/core/Switch";
-import {FormGroup, Grid, makeStyles, Typography, withStyles} from "@material-ui/core";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import {FormGroup, Grid, makeStyles, Typography, withStyles} from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const useStyles = makeStyles((theme) => ({
     root: {

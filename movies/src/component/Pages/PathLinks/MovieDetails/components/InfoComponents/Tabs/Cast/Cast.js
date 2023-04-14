@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 import Actor from "./Actor";
 import MyResponse from "../../../../../../../../UI/MyResponse";
 
-import {Divider, List} from "@material-ui/core";
+import {Divider, List} from "@mui/material";
 
 
 const cast = (props) => {

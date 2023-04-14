@@ -3,8 +3,8 @@ import {NavLink} from "react-router-dom";
 
 import {stripString} from "../utils/Utils";
 
-import {ListItem, ListItemIcon, ListItemText} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {ListItem, ListItemIcon, ListItemText} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
     active: {

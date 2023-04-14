@@ -4,8 +4,8 @@ import MovieMenu from "./MovieMenu";
 import {drawer} from "../../../utils/Constants";
 import Logo from "./Logo";
 
-import {Divider, Drawer, Hidden} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+import {Divider, Drawer, Hidden} from "@mui/material";
+import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
     drawerShrink: {

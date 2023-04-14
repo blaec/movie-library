@@ -5,7 +5,7 @@ import Fact from "../../../../../../../../../UI/Fact";
 import {isArrayExist} from "../../../../../../../../../utils/Utils";
 import Release from "./Release";
 
-import {makeStyles} from "@material-ui/core";
+import {makeStyles} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {

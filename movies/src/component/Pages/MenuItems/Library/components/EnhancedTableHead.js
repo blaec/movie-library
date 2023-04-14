@@ -1,8 +1,8 @@
 import React from "react";
 import {useTranslation} from "react-i18next";
 
-import TableHead from "@material-ui/core/TableHead";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TableHead from "@mui/material/TableHead";
+import TableSortLabel from "@mui/material/TableSortLabel";
 import {StyledTableCell, StyledTableRow} from "./StyledTableElements";
 
 const headCells = [

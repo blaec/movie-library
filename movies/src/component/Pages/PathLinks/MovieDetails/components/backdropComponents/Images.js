@@ -6,7 +6,7 @@ import {getImageUrl} from "../../../../../../utils/UrlUtils";
 import MyRectSkeleton from "../../../../../../UI/Skeleton/MyRectSkeleton";
 import MyTextSkeleton from "../../../../../../UI/Skeleton/MyTextSkeleton";
 
-import {makeStyles} from "@material-ui/core/styles";
+import {makeStyles} from "@mui/styles";
 
 
 const useStyles = makeStyles((theme) => ({
