@@ -5,56 +5,23 @@ import {forceCheck} from "react-lazyload";
 import {useTranslation} from "react-i18next";
 
 import Movie from "./components/Movie";
-import {drawerWidth, fullTitle, isArrayExist, isStringExist} from "../../../utils/Utils";
-import {grid, Language} from "../../../utils/Constants";
+import {fullTitle, isArrayExist, isStringExist} from "../../../utils/Utils";
+import {Language} from "../../../utils/Constants";
 import {language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import ScrollTop from "./components/ScrollTop";
 
-import {makeStyles} from "@mui/styles";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import {Fab} from "@mui/material";
+import {Box, Fab} from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    grid: screenWidth => {
-        const imagesSpaceWidthPerHeightRatio = (screenWidth - drawerWidth(window.innerWidth)) * 1.5;
-        return {
-            [theme.breakpoints.up(grid.g2.resolution)]: {
-                width: `calc(100% / ${grid.g2.moviesPerRow})`,
-                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g2.moviesPerRow})`,
-            },
-            [theme.breakpoints.up(grid.g3.resolution)]: {
-                width: `calc(100% / ${grid.g3.moviesPerRow})`,
-                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g3.moviesPerRow})`,
-            },
-            [theme.breakpoints.up(grid.g4.resolution)]: {
-                width: `calc(100% / ${grid.g4.moviesPerRow})`,
-                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g4.moviesPerRow})`,
-            },
-            [theme.breakpoints.up(grid.g5.resolution)]: {
-                width: `calc(100% / ${grid.g5.moviesPerRow})`,
-                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g5.moviesPerRow})`,
-            },
-            [theme.breakpoints.up(grid.g6.resolution)]: {
-                width: `calc(100% / ${grid.g6.moviesPerRow})`,
-                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g6.moviesPerRow})`,
-            },
-            [theme.breakpoints.up(grid.g7.resolution)]: {
-                width: `calc(100% / ${grid.g7.moviesPerRow})`,
-                height: `calc(${imagesSpaceWidthPerHeightRatio}px / ${grid.g7.moviesPerRow})`,
-            },
-        }
-    },
-}));
+const _display = {
+    display: 'flex',
+    flexWrap: 'wrap',
+};
 
 
 const gallery = (props) => {
     let {movies} = props;
-    const {root, grid} = useStyles(document.body.clientWidth);
     const {pathname} = useLocation();
     const {t} = useTranslation('common');
 
@@ -103,9 +70,10 @@ const gallery = (props) => {
         return () => clearTimeout(identifier);
     }, [search, movies]);
 
+
     return (
         <React.Fragment>
-            <div className={root}>
+            <Box sx={_display}>
                 {displayedMovieList.map(movie => {
                         const {id, tmdbId, posterPath, posterPathRu, title, releaseDate} = movie;
                         const poster = language.get() === Language.english
@@ -114,7 +82,6 @@ const gallery = (props) => {
                         return (
                             <Movie
                                 key={id}
-                                root={grid}
                                 tmdbId={tmdbId}
                                 poster={poster}
                                 alt={`${fullTitle(title, releaseDate)}`}
@@ -123,7 +90,7 @@ const gallery = (props) => {
                         )
                     }
                 )}
-            </div>
+            </Box>
             <ScrollTop {...props}>
                 <Fab size="small">
                     <KeyboardArrowUpIcon />

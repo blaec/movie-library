@@ -1,38 +1,36 @@
 import React from 'react';
 
-import {useScrollTrigger, Zoom} from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import {Box, createTheme, useScrollTrigger, Zoom} from "@mui/material";
 
+const theme = createTheme();
+const _position = {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+};
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        position: 'fixed',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-}));
 
 const scrollTop = (props) => {
     const {children} = props;
-    const {root} = useStyles();
 
     const trigger = useScrollTrigger({disableHysteresis: true});
 
-    const handleClick = (event) => {
+    const handleClick = () => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
     };
 
+
     return (
         <Zoom in={trigger}>
-            <div
-                className={root}
+            <Box
+                sx={_position}
                 onClick={handleClick}
             >
                 {children}
-            </div>
+            </Box>
         </Zoom>
     );
 }
