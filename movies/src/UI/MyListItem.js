@@ -3,38 +3,29 @@ import {NavLink} from "react-router-dom";
 
 import {stripString} from "../utils/Utils";
 
-import {ListItem, ListItemIcon, ListItemText} from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import {ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-    active: {
-        color: '#3f51b5',
-    },
-}));
 
 const myListItem = (props) => {
     const {path, caption, link, icon} = props;
-    const {active} = useStyles();
 
     const isSelected = stripString(path).includes(stripString(link));
-    const activeColor = isSelected
-        ? active
-        : null;
+    const activeColor = isSelected ? {color: 'primary.main'} : null;
 
     return (
-        <ListItem
-            button
+        <ListItemButton
             selected={isSelected}
-            component={NavLink} to={link}
+            component={NavLink}
+            to={link}
         >
-            <ListItemIcon className={activeColor}>
+            <ListItemIcon sx={activeColor}>
                 {icon}
             </ListItemIcon>
             <ListItemText
+                sx={activeColor}
                 primary={caption}
-                className={activeColor}
             />
-        </ListItem>
+        </ListItemButton>
     );
 };
 
