@@ -5,13 +5,14 @@ import {getImageUrl, reactLinks} from "../../../../../../../../utils/UrlUtils";
 import {PersonJobType} from "../../../../../../../../utils/Constants";
 
 import {makeStyles} from "@mui/styles";
-import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
+import {Avatar, createTheme, ListItem, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
-    large: {
-        width: theme.spacing(9),
-        height: theme.spacing(9),
-    },
+const theme = createTheme();
+const _large = {
+    width: theme.spacing(9),
+    height: theme.spacing(9),
+}
+const useStyles = makeStyles(() => ({
     actor: {
         paddingLeft: theme.spacing(2),
     }
@@ -19,20 +20,20 @@ const useStyles = makeStyles((theme) => ({
 
 const actor = (props) => {
     const {id, name, profile_path, character} = props;
-    const {large, actor} = useStyles();
+    const {actor} = useStyles();
 
     return (
-        <ListItem
-            button
+        <ListItemButton
+            // button
             component={NavLink}
             to={`${reactLinks.actorDetailsEndpoint}${id}/type/${PersonJobType.cast}`}
         >
             <ListItemAvatar>
                 <Avatar
+                    sx={_large}
                     variant="circular"
                     alt={name}
                     src={getImageUrl(profile_path)}
-                    className={large}
                 />
             </ListItemAvatar>
             <ListItemText
@@ -40,7 +41,7 @@ const actor = (props) => {
                 primary={name}
                 secondary={` — as ${character}`}
             />
-        </ListItem>
+        </ListItemButton>
     );
 }
 

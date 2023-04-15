@@ -5,7 +5,7 @@ import {getImageUrl, posterSizes, reactLinks} from "../../../../../utils/UrlUtil
 import {isStringExist, fullYear} from "../../../../../utils/Utils";
 
 import {makeStyles} from "@mui/styles";
-import {Box, ListItem, ListItemAvatar, ListItemText, Paper} from "@mui/material";
+import {Box, ListItem, ListItemAvatar, ListItemButton, ListItemText, Paper} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     actor: {
@@ -41,8 +41,7 @@ const actorMovie = (props) => {
         characterText = ` — as ${job}`;
     }
     return (
-        <ListItem
-            button
+        <ListItemButton
             component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${id}`}
             className={exist ? movieExist : null}
         >
@@ -84,7 +83,7 @@ const actorMovie = (props) => {
                     {characterText}
                 </Box>
             </ListItemText>
-        </ListItem>
+        </ListItemButton>
     );
 };
 

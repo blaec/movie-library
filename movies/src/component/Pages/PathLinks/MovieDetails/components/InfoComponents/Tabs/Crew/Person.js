@@ -5,7 +5,7 @@ import {getImageUrl, reactLinks} from "../../../../../../../../utils/UrlUtils";
 import {PersonJobType} from "../../../../../../../../utils/Constants";
 
 import {makeStyles} from "@mui/styles";
-import {Avatar, ListItem, ListItemAvatar, ListItemText} from "@mui/material";
+import {Avatar, ListItem, ListItemAvatar, ListItemButton, ListItemText} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -22,8 +22,7 @@ const person = (props) => {
     const {large, actor} = useStyles();
 
     return (
-        <ListItem
-            button
+        <ListItemButton
             component={NavLink}
             to={`${reactLinks.actorDetailsEndpoint}${id}/type/${PersonJobType.crew}`}
         >
@@ -40,7 +39,7 @@ const person = (props) => {
                 primary={name}
                 secondary={` — as ${job}`}
             />
-        </ListItem>
+        </ListItemButton>
     );
 }
 
