@@ -7,14 +7,6 @@ import {Box, Typography} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
-    logoMovie: {
-        fontWeight: 900,
-        fontFamily: ['Truculenta', "!important"],
-    },
-    logoLibrary: {
-        fontWeight: 300,
-        fontFamily: ['Truculenta', "!important"]
-    },
     logo: {
         [theme.breakpoints.up('sm')]: {
             height: toolbarHeight.mobile,
@@ -25,23 +17,31 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     }
 }));
+const _logoMovie = {
+    fontWeight: 900,
+    fontFamily: 'Truculenta',
+    color: 'primary.main',
+    display: 'inline',
+};
+const _logoLibrary = {
+    fontWeight: 300,
+    fontFamily: 'Truculenta',
+    color: 'red',
+    display: 'inline',
+};
 
 const logo = () => {
-    const {logoMovie, logoLibrary, logo} = useStyles();
+    const {logo} = useStyles();
     return (
         <Box className={logo}>
             <Typography
-                className={logoMovie}
-                display='inline'
-                color="primary"
+                sx={_logoMovie}
                 variant="h5"
             >
                 MOVIE
             </Typography>
             <Typography
-                className={logoLibrary}
-                display='inline'
-                color="secondary"
+                sx={_logoLibrary}
                 variant="h5"
             >
                 LIBRARY
