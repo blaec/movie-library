@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Skeleton} from "@mui/lab";
+import {Skeleton} from "@mui/material";
 import {makeStyles} from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
