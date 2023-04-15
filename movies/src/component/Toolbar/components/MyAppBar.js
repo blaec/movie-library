@@ -1,49 +1,41 @@
 import React from 'react';
-import {useLocation} from "react-router";
 
 import Search from "./Search";
 import {drawer} from "../../../utils/Constants";
-import {isSearchable} from "../../../utils/UrlUtils";
 
 import {AppBar, IconButton, Toolbar} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import {makeStyles} from "@mui/styles";
 
-const useStyles = makeStyles((theme) => ({
-    root: visible => {
-        const justifyContent = visible ? 'flex-end' : 'flex-start';
-        return {
-            display: 'flex',
-            justifyContent,
-        };
-    },
-    drawer: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawer.width}px)`,
-            marginLeft: drawer.width,
-        },
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
-    },
-}));
+const _iconButton = {
+    mr: 2,
+    display: {sm: 'none'}
+};
+const _appBar = {
+    width: {sm: `calc(100% - ${drawer.width}px)`},
+    ml: {sm: `${drawer.width}px`},
+    zIndex: (theme) => theme.zIndex.drawer + 1,
+};
+const _search = {
+    display: 'flex',
+    justifyContent:  {
+        sm: 'flex-start',
+        md: 'flex-end'
+    }
+};
+
 
 const myAppBar = (props) => {
     const {onDrawerToggle} = props;
-    const {pathname} = useLocation();
-    const {root, drawer, menuButton} = useStyles(isSearchable(pathname));
+
 
     return (
         <AppBar
             position="fixed"
-            className={drawer}
+            sx={_appBar}
         >
-            <Toolbar className={root}>
+            <Toolbar sx={_search}>
                 <IconButton
-                    className={menuButton}
+                    sx={_iconButton}
                     color="inherit"
                     edge="start"
                     onClick={onDrawerToggle}
