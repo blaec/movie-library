@@ -7,46 +7,42 @@ import {filterActions} from "../../../store/state/filter/filter-slice";
 import {isSearchable} from "../../../utils/UrlUtils";
 import {delay} from "../../../utils/Constants";
 
-import {alpha, IconButton, InputAdornment, InputBase} from "@mui/material";
-import {makeStyles} from "@mui/styles";
+import {alpha, IconButton, InputAdornment, InputBase, styled} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 
-const useStyles = makeStyles((theme) => ({
-    root: visible => {
-        const display = visible ? null : 'none';
-        return {
-            display,
-            position: 'relative',
-            borderRadius: theme.shape.borderRadius,
-            backgroundColor: alpha(theme.palette.common.white, 0.15),
-            '&:hover': {
-                backgroundColor: alpha(theme.palette.common.white, 0.25),
-            },
-            marginLeft: 0,
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                marginLeft: theme.spacing(1),
-                width: 'auto',
-            },
-        };
+
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(1),
+        width: 'auto',
     },
-    inputRoot: {
-        color: 'inherit',
-    },
-    inputInput: {
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
@@ -58,15 +54,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 const search = () => {
     const {pathname} = useLocation();
-    const {root, searchIcon, inputRoot, inputInput} = useStyles(isSearchable(pathname))
     const [searchTerm, setSearchTerm] = useState('');
     const {t} = useTranslation('common');
 
     const {hasSearch} = useSelector(state => state.filter.search);
-    const dispatch = useDispatch();
     const onSearchChange = (searchString) => dispatch(filterActions.changeSearch(searchString));
+
+    const dispatch = useDispatch();
+
+    let _hidden = isSearchable(pathname)
+        ? null
+        : {display:'none'};
 
     useEffect(() => {
         const identifier = setTimeout(() => {
@@ -87,22 +88,19 @@ const search = () => {
             </InputAdornment>;
     }
 
+
     return (
-        <div className={root}>
-            <div className={searchIcon}>
-                <SearchIcon/>
-            </div>
-            <InputBase
+        <Search sx={_hidden}>
+            <SearchIconWrapper>
+                <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
                 placeholder={t('text.search')}
                 onChange={event => setSearchTerm(event.target.value)}
-                classes={{
-                    root: inputRoot,
-                    input: inputInput,
-                }}
                 value={searchTerm}
                 endAdornment={endAdornment()}
             />
-        </div>
+        </Search>
     );
 };
 
