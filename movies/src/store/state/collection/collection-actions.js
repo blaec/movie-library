@@ -105,6 +105,12 @@ export const fetchTopRated = (tmdbApi) => {
     }
 };
 
+export const appendTopRated = (tmdbApi, page) => {
+    return async (dispatch) => {
+        fetchByPage(dispatch, getTopRatedUrl(tmdbApi, page), "appendTopRated", "Failed getting top rated movies");
+    }
+};
+
 export const fetchNowPlaying = (tmdbApi) => {
     return async (dispatch) => {
         fetchByPage(dispatch, getNowPlayingUrl(tmdbApi), "setNowPlaying", "Failed getting now playing movies");

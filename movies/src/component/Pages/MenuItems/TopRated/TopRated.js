@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {fetchTopRated} from "../../../../store/state/collection/collection-actions";
 import useGallery from "../../../../hooks/use-gallery";
+import {infiniteLoadPage} from "../../../../store/localStorage/actions";
 
 
 const topRated = () => {
@@ -11,6 +12,7 @@ const topRated = () => {
 
     useEffect(() => {
         if (hasTmdbApi) {
+            infiniteLoadPage.set(1);
             dispatch(fetchTopRated(tmdbApi));
         }
     }, [tmdbApi]);

@@ -29,8 +29,13 @@ const collectionSlice = createSlice({
             state.wishlist = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
         setTopRated(state, action) {
-            console.log(state.topRated.collectionItems);
             state.topRated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
+        },
+        appendTopRated(state, action) {
+            state.topRated = {
+                collectionItems: [...state.topRated.collectionItems, ...action.payload],
+                isCollectionItemsLoaded: true
+            };
         },
         setNowPlaying(state, action) {
             state.nowPlaying = {collectionItems: action.payload, isCollectionItemsLoaded: true};

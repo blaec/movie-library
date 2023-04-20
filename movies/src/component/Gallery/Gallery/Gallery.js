@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 import {forceCheck} from "react-lazyload";
@@ -7,13 +7,15 @@ import {useTranslation} from "react-i18next";
 import Movie from "./components/Movie";
 import {drawerWidth, fullTitle, isArrayExist, isStringExist} from "../../../utils/Utils";
 import {grid, Language} from "../../../utils/Constants";
-import {language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
+import {infiniteLoadPage, language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import ScrollTop from "./components/ScrollTop";
 
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {Fab} from "@material-ui/core";
+import {reactLinks} from "../../../utils/UrlUtils";
+import {appendTopRated} from "../../../store/state/collection/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,9 +61,27 @@ const gallery = (props) => {
     const {t} = useTranslation('common');
 
     const {search} = useSelector(state => state.filter.search);
+    const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
+
+    const observer = useRef();
+    const lastMovieElementRef = useCallback(node => {
+        if (observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+                if (hasTmdbApi && pathname.includes(reactLinks.topRated)) {
+                    let lastPage = infiniteLoadPage.get();
+                    console.log(lastPage);
+                    dispatch(appendTopRated(tmdbApi, lastPage + 1))
+                    infiniteLoadPage.set(lastPage + 1);
+                }
+                console.log(`get to the last one for ${pathname}`);
+            }
+        });
+        if (node) observer.current.observe(node);
+    }, []);
 
     const handleViewMovieDetails = () => {
         scrollPosition.set(window.scrollY);
@@ -106,21 +126,26 @@ const gallery = (props) => {
     return (
         <React.Fragment>
             <div className={root}>
-                {displayedMovieList.map(movie => {
+                {displayedMovieList.map((movie, index) => {
                         const {id, tmdbId, posterPath, posterPathRu, title, releaseDate} = movie;
                         const poster = language.get() === Language.english
                             ? posterPath
                             : isStringExist(posterPathRu) ? posterPathRu : posterPath;
+                        const elementRef = displayedMovieList.length === index + 1
+                            ? lastMovieElementRef
+                            : null;
+
                         return (
                             <Movie
                                 key={id}
+                                movieRef={elementRef}
                                 root={grid}
                                 tmdbId={tmdbId}
                                 poster={poster}
                                 alt={`${fullTitle(title, releaseDate)}`}
                                 onClick={handleViewMovieDetails}
                             />
-                        )
+                        );
                     }
                 )}
             </div>
