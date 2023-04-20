@@ -40,8 +40,20 @@ const collectionSlice = createSlice({
         setNowPlaying(state, action) {
             state.nowPlaying = {collectionItems: action.payload, isCollectionItemsLoaded: true};
         },
+        appendNowPlaying(state, action) {
+            state.nowPlaying = {
+                collectionItems: [...state.nowPlaying.collectionItems, ...action.payload],
+                isCollectionItemsLoaded: true
+            };
+        },
         setAnticipated(state, action) {
             state.anticipated = {collectionItems: action.payload, isCollectionItemsLoaded: true};
+        },
+        appendAnticipated(state, action) {
+            state.anticipated = {
+                collectionItems: [...state.anticipated.collectionItems, ...action.payload],
+                isCollectionItemsLoaded: true
+            };
         },
         setFilteredMovies(state, action) {
             state.filteredMovies = {filteredMovies: action.payload, isFilteredMoviesLoaded: true};

@@ -117,9 +117,21 @@ export const fetchNowPlaying = (tmdbApi) => {
     }
 };
 
+export const appendNowPlaying = (tmdbApi, page) => {
+    return async (dispatch) => {
+        fetchByPage(dispatch, getNowPlayingUrl(tmdbApi, page), "appendNowPlaying", "Failed getting now playing movies");
+    }
+};
+
 export const fetchAnticipated = (tmdbApi) => {
     return async (dispatch) => {
         fetchByPage(dispatch, getAnticipatedUrl(tmdbApi), "setAnticipated", "Failed getting anticipated movies");
+    }
+};
+
+export const appendAnticipated = (tmdbApi, page) => {
+    return async (dispatch) => {
+        fetchByPage(dispatch, getAnticipatedUrl(tmdbApi, page), "appendAnticipated", "Failed getting anticipated movies");
     }
 };
 

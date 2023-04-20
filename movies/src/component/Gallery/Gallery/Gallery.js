@@ -15,7 +15,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {Fab} from "@material-ui/core";
 import {reactLinks} from "../../../utils/UrlUtils";
-import {appendTopRated} from "../../../store/state/collection/collection-actions";
+import {appendAnticipated, appendNowPlaying, appendTopRated} from "../../../store/state/collection/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -70,14 +70,20 @@ const gallery = (props) => {
     const lastMovieElementRef = useCallback(node => {
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) {
-                if (hasTmdbApi && pathname.includes(reactLinks.topRated)) {
+            if (hasTmdbApi && entries[0].isIntersecting) {
+                if (pathname.includes(reactLinks.topRated)) {
                     let lastPage = infiniteLoadPage.get();
-                    console.log(lastPage);
                     dispatch(appendTopRated(tmdbApi, lastPage + 1))
                     infiniteLoadPage.set(lastPage + 1);
+                } else if(pathname.includes(reactLinks.nowPlaying)) {
+                    let lastPage = infiniteLoadPage.get();
+                    dispatch(appendNowPlaying(tmdbApi, lastPage + 1))
+                    infiniteLoadPage.set(lastPage + 1);
+                } else if(pathname.includes(reactLinks.anticipated)) {
+                    let lastPage = infiniteLoadPage.get();
+                    dispatch(appendAnticipated(tmdbApi, lastPage + 1))
+                    infiniteLoadPage.set(lastPage + 1);
                 }
-                console.log(`get to the last one for ${pathname}`);
             }
         });
         if (node) observer.current.observe(node);
