@@ -17,6 +17,7 @@ const topRated = () => {
         }
     }, [tmdbApi]);
 
+
     return useGallery("topRated");
 };
 

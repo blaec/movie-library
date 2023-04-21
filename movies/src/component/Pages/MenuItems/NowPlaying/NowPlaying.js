@@ -5,6 +5,7 @@ import {fetchNowPlaying} from "../../../../store/state/collection/collection-act
 import useGallery from "../../../../hooks/use-gallery";
 import {infiniteLoadPage} from "../../../../store/localStorage/actions";
 
+
 const nowPlaying = () => {
     const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const nowPlaying = () => {
             dispatch(fetchNowPlaying(tmdbApi));
         }
     }, [tmdbApi]);
+
 
     return useGallery("nowPlaying");
 };

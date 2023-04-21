@@ -10,12 +10,12 @@ import {grid, Language} from "../../../utils/Constants";
 import {infiniteLoadPage, language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import ScrollTop from "./components/ScrollTop";
+import {reactLinks} from "../../../utils/UrlUtils";
+import {appendAnticipated, appendNowPlaying, appendTopRated} from "../../../store/state/collection/collection-actions";
 
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {Fab} from "@material-ui/core";
-import {reactLinks} from "../../../utils/UrlUtils";
-import {appendAnticipated, appendNowPlaying, appendTopRated} from "../../../store/state/collection/collection-actions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -128,6 +128,7 @@ const gallery = (props) => {
 
         return () => clearTimeout(identifier);
     }, [search, movies]);
+
 
     return (
         <React.Fragment>

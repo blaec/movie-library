@@ -6,8 +6,10 @@ import MyLazyImage from "../../../../UI/MyLazyImage";
 
 import {Paper} from "@material-ui/core";
 
+
 const movie = props => {
     const {poster, alt, tmdbId, onClick, root, movieRef} = props;
+
 
     return (
         <Paper
