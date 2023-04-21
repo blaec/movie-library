@@ -6,13 +6,17 @@ import MyLazyImage from "../../../../UI/MyLazyImage";
 
 import {Paper} from "@material-ui/core";
 
+
 const movie = props => {
-    const {poster, alt, tmdbId, onClick, root} = props;
+    const {poster, alt, tmdbId, onClick, root, movieRef} = props;
+
 
     return (
         <Paper
             className={root}
-            component={NavLink} to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}
+            ref={movieRef}
+            component={NavLink}
+            to={`${reactLinks.movieDetailsEndpoint}${tmdbId}`}
         >
             <MyLazyImage
                 src={getImageUrl(poster, posterSizes.w500)}
