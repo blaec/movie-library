@@ -10,12 +10,14 @@ import {grid, Language} from "../../../utils/Constants";
 import {infiniteLoadPage, language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import ScrollTop from "./components/ScrollTop";
-import {reactLinks} from "../../../utils/UrlUtils";
+import {isInfiniteLoading, reactLinks} from "../../../utils/UrlUtils";
 import {appendAnticipated, appendNowPlaying, appendTopRated} from "../../../store/state/collection/collection-actions";
 
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {Fab} from "@material-ui/core";
+import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
+import MovieCreationTwoToneIcon from "@material-ui/icons/MovieCreationTwoTone";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -52,6 +54,12 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 }));
+const infiniteLoading =
+    {
+        [reactLinks.topRated]: (tmdbApi, lastPage) => appendTopRated(tmdbApi, lastPage + 1),
+        [reactLinks.nowPlaying]: (tmdbApi, lastPage) => appendNowPlaying(tmdbApi, lastPage + 1),
+        [reactLinks.anticipated]: (tmdbApi, lastPage) => appendAnticipated(tmdbApi, lastPage + 1),
+    };
 
 
 const gallery = (props) => {
@@ -66,28 +74,21 @@ const gallery = (props) => {
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
 
-    const observer = useRef();
-    const lastMovieElementRef = useCallback(node => {
-        if (observer.current) observer.current.disconnect();
-        observer.current = new IntersectionObserver(entries => {
-            if (hasTmdbApi && entries[0].isIntersecting) {
-                if (pathname.includes(reactLinks.topRated)) {
+    let lastMovieElementRef;
+    if (isInfiniteLoading(pathname)) {
+        const observer = useRef();
+        lastMovieElementRef = useCallback(node => {
+            if (observer.current) observer.current.disconnect();
+            observer.current = new IntersectionObserver(entries => {
+                if (hasTmdbApi && entries[0].isIntersecting) {
                     let lastPage = infiniteLoadPage.get();
-                    dispatch(appendTopRated(tmdbApi, lastPage + 1))
-                    infiniteLoadPage.set(lastPage + 1);
-                } else if(pathname.includes(reactLinks.nowPlaying)) {
-                    let lastPage = infiniteLoadPage.get();
-                    dispatch(appendNowPlaying(tmdbApi, lastPage + 1))
-                    infiniteLoadPage.set(lastPage + 1);
-                } else if(pathname.includes(reactLinks.anticipated)) {
-                    let lastPage = infiniteLoadPage.get();
-                    dispatch(appendAnticipated(tmdbApi, lastPage + 1))
+                    dispatch(infiniteLoading[pathname](tmdbApi, lastPage));
                     infiniteLoadPage.set(lastPage + 1);
                 }
-            }
-        });
-        if (node) observer.current.observe(node);
-    }, []);
+            });
+            if (node) observer.current.observe(node);
+        }, []);
+    }
 
     const handleViewMovieDetails = () => {
         scrollPosition.set(window.scrollY);
