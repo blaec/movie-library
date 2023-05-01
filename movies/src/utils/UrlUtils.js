@@ -33,7 +33,8 @@ export const isSearchable = (pathname) => {
         filterDualByGenreEndpoint,
         newMovies,
         nowPlaying,
-        anticipated
+        anticipated,
+        topRated
     } = reactLinks;
     const searchable = [
         collection,
@@ -43,9 +44,26 @@ export const isSearchable = (pathname) => {
         filterDualByGenreEndpoint,
         newMovies,
         nowPlaying,
-        anticipated
+        anticipated,
+        topRated
     ];
+
     return searchable.filter(url => pathname.startsWith(url)).length === 1;
+};
+
+export const isInfiniteLoading = (pathname) => {
+    const {
+        nowPlaying,
+        anticipated,
+        topRated
+    } = reactLinks;
+    const infiniteLoading = [
+        nowPlaying,
+        anticipated,
+        topRated
+    ];
+
+    return infiniteLoading.filter(url => pathname.startsWith(url)).length === 1;
 };
 
 let baseMovieApi = "/movies/";

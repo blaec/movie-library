@@ -7,6 +7,7 @@ const keys = Object.freeze(
         currentLocation: 'current-location',
         previousLocation: 'previous-location',
         language: 'language',
+        infiniteLoadPage: 'infinite-load-page',
     }
 );
 
@@ -55,4 +56,9 @@ export const previousLocation = {
 export const language = {
     set: globalFunctions(keys.language).set,
     get: globalFunctions(keys.language).get,
+};
+
+export const infiniteLoadPage = {
+    set: globalFunctions(keys.infiniteLoadPage).set,
+    get: globalFunctions(keys.infiniteLoadPage).getNumeric,
 };

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useLocation} from "react-router";
 import {forceCheck} from "react-lazyload";
@@ -7,13 +7,17 @@ import {useTranslation} from "react-i18next";
 import Movie from "./components/Movie";
 import {drawerWidth, fullTitle, isArrayExist, isStringExist} from "../../../utils/Utils";
 import {grid, Language} from "../../../utils/Constants";
-import {language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
+import {infiniteLoadPage, language, scrollLocation, scrollPosition} from "../../../store/localStorage/actions";
 import {feedbackActions} from "../../../store/state/feedback/feedback-slice";
 import ScrollTop from "./components/ScrollTop";
+import {isInfiniteLoading, reactLinks} from "../../../utils/UrlUtils";
+import {appendAnticipated, appendNowPlaying, appendTopRated} from "../../../store/state/collection/collection-actions";
 
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {Fab} from "@material-ui/core";
+import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
+import MovieCreationTwoToneIcon from "@material-ui/icons/MovieCreationTwoTone";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,6 +54,12 @@ const useStyles = makeStyles((theme) => ({
         }
     },
 }));
+const infiniteLoading =
+    {
+        [reactLinks.topRated]: (tmdbApi, lastPage) => appendTopRated(tmdbApi, lastPage + 1),
+        [reactLinks.nowPlaying]: (tmdbApi, lastPage) => appendNowPlaying(tmdbApi, lastPage + 1),
+        [reactLinks.anticipated]: (tmdbApi, lastPage) => appendAnticipated(tmdbApi, lastPage + 1),
+    };
 
 
 const gallery = (props) => {
@@ -59,9 +69,26 @@ const gallery = (props) => {
     const {t} = useTranslation('common');
 
     const {search} = useSelector(state => state.filter.search);
+    const {tmdbApi, hasTmdbApi} = useSelector(state => state.api.tmdb);
     const dispatch = useDispatch();
 
     const [displayedMovieList, setDisplayedMovieList] = useState([]);
+
+    let lastMovieElementRef;
+    if (isInfiniteLoading(pathname)) {
+        const observer = useRef();
+        lastMovieElementRef = useCallback(node => {
+            if (observer.current) observer.current.disconnect();
+            observer.current = new IntersectionObserver(entries => {
+                if (hasTmdbApi && entries[0].isIntersecting) {
+                    let lastPage = infiniteLoadPage.get();
+                    dispatch(infiniteLoading[pathname](tmdbApi, lastPage));
+                    infiniteLoadPage.set(lastPage + 1);
+                }
+            });
+            if (node) observer.current.observe(node);
+        }, []);
+    }
 
     const handleViewMovieDetails = () => {
         scrollPosition.set(window.scrollY);
@@ -103,24 +130,30 @@ const gallery = (props) => {
         return () => clearTimeout(identifier);
     }, [search, movies]);
 
+
     return (
         <React.Fragment>
             <div className={root}>
-                {displayedMovieList.map(movie => {
+                {displayedMovieList.map((movie, index) => {
                         const {id, tmdbId, posterPath, posterPathRu, title, releaseDate} = movie;
                         const poster = language.get() === Language.english
                             ? posterPath
                             : isStringExist(posterPathRu) ? posterPathRu : posterPath;
+                        const elementRef = displayedMovieList.length === index + 1
+                            ? lastMovieElementRef
+                            : null;
+
                         return (
                             <Movie
                                 key={id}
+                                movieRef={elementRef}
                                 root={grid}
                                 tmdbId={tmdbId}
                                 poster={poster}
                                 alt={`${fullTitle(title, releaseDate)}`}
                                 onClick={handleViewMovieDetails}
                             />
-                        )
+                        );
                     }
                 )}
             </div>
