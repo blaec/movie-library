@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
+import {useTranslation} from "react-i18next";
 
-import {FormControl, makeStyles, MenuItem, Select} from "@material-ui/core";
 import {language} from "../../../store/localStorage/actions";
 import {Language} from "../../../utils/Constants";
-import {useTranslation} from "react-i18next";
+
+import {FormControl, makeStyles, MenuItem, Select} from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -35,23 +37,10 @@ const useStyles = makeStyles((theme) => ({
 const LanguagePicker = () => {
     const classes = useStyles();
     const [lang, setLang] = useState(language.get() || 'en');
-    const [age, setAge] = React.useState(10);
-    const {t, i18n} = useTranslation('common');
+    const {i18n} = useTranslation('common');
 
     const handleChange = (event) => {
-        if (event.target.value === 10) {
-            handleSetEnglish();
-        } else if (event.target.value === 20) {
-            handleSetRussian();
-        }
-        setAge(event.target.value);
-    };
-    const handleSetEnglish = () => {
-        setNewLanguage(Language.english);
-    };
-
-    const handleSetRussian = () => {
-        setNewLanguage(Language.russian);
+        setNewLanguage(event.target.value)
     };
 
     const setNewLanguage = (lang) => {
@@ -59,14 +48,6 @@ const LanguagePicker = () => {
         language.set(lang);
         i18n.changeLanguage(lang);
     };
-
-    useEffect(() => {
-        if (lang === Language.english) {
-            setAge(10);
-        } else if (lang === Language.russian) {
-            setAge(20);
-        }
-    }, [lang]);
 
 
     return (
@@ -79,11 +60,11 @@ const LanguagePicker = () => {
                         root: classes.root,
                     },
                 }}
-                value={age}
+                value={lang}
                 onChange={handleChange}
             >
-                <MenuItem value={10}>EN</MenuItem>
-                <MenuItem value={20}>RU</MenuItem>
+                <MenuItem value={Language.english}>EN</MenuItem>
+                <MenuItem value={Language.russian}>RU</MenuItem>
             </Select>
         </FormControl>
     );
