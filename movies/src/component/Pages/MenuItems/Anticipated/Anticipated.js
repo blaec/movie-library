@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 
 import {fetchAnticipated} from "../../../../store/state/collection/collection-actions";
 import useGallery from "../../../../hooks/use-gallery";
-import {infiniteLoadPage} from "../../../../store/localStorage/actions";
+import {infiniteLoadPage, language} from "../../../../store/localStorage/actions";
 
 
 const anticipated = () => {
@@ -15,7 +15,7 @@ const anticipated = () => {
             infiniteLoadPage.set(1);
             dispatch(fetchAnticipated(tmdbApi));
         }
-    }, [tmdbApi]);
+    }, [tmdbApi, language.get()]);
 
 
     return useGallery("anticipated");
