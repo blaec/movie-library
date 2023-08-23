@@ -9,7 +9,6 @@ import com.blaec.movielibrary.repository.MovieRepository;
 import com.blaec.movielibrary.services.MovieService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -94,24 +93,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     private Response.Builder save(Movie newMovie, boolean isValidTitle) {
-        Response.Builder responseBuilder = Response.Builder.create().setIsValidTitle(isValidTitle);
-        try {
-            Movie savedMovie = movieRepository.save(newMovie)
-                    .orElseThrow(IllegalArgumentException::new);
-            log.info("saved | {}", savedMovie);
-            responseBuilder.setMovie(savedMovie).setMessage("Successfully saved");
-        } catch (IllegalArgumentException e) {
-            log.error("failed to save movie [{}]", newMovie, e);
-            responseBuilder.setMovie(newMovie).setFailMessage("database failure");
-        } catch (DataIntegrityViolationException e) {
-            log.error("this movie [{}] already exists", newMovie, e);
-            responseBuilder.setMovie(newMovie).setFailMessage("Already exist");     // TODO change to Duplicate entry, fix tests and react
-        } catch (Exception e) {
-            log.error(newMovie.toString(), e);
-            responseBuilder.setMovie(newMovie).setFailMessage(e.getMessage());
-        }
+        Movie savedMovie = movieRepository.save(newMovie)
+                .orElseThrow(IllegalArgumentException::new);
+        log.info("saved | {}", savedMovie);
 
-        return responseBuilder;
+        return Response.Builder.create()
+                .setIsValidTitle(isValidTitle)
+                .setMovie(savedMovie)
+                .setMessage("Successfully saved");
     }
 
     @Override
