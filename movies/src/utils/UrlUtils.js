@@ -13,7 +13,7 @@ export const reactLinks = {
     filterOutByGenre: "/movies/except-genres/:genreIds",
     filterDualByGenreEndpoint: "/movies/dual-filter/",
     filterDualByGenre: "/movies/dual-filter/including-genres/:inclGenreIds/excluding-genres/:exclGenreIds",
-    settings: "/settings",
+    addNew: "/add-new",
     movieDetailsEndpoint: "/movies/",
     movieDetails: "/movies/:movieTmdbId",
     actorDetailsEndpoint: "/actor/",

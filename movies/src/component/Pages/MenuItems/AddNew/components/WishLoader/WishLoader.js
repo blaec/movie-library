@@ -10,21 +10,21 @@ import WishTitleInput from "./WishTitleInput";
 import WishYearInput from "./WishYearInput";
 import WishPreviews from "./WishPreviews";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
-import {fetchWishMovies, saveWishMovie} from "../../../../../../store/state/settings/settings-actions";
+import {fetchWishMovies, saveWishMovie} from "../../../../../../store/state/addNew/addNew-actions";
 
 import {Card, CardActions, CardContent, FormControl} from "@material-ui/core";
 import AddCircleTwoToneIcon from "@material-ui/icons/AddCircleTwoTone";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
-import {settingsActions} from "../../../../../../store/state/settings/settings-slice";
+import {addNewActions} from "../../../../../../store/state/addNew/addNew-slice";
 import {Loader} from "../../../../../../utils/Constants";
 
 let isInitial = true;
 
 const wishLoader = () => {
     const {tmdbApi} = useSelector(state => state.api.tmdb);
-    const {wishMovies, isWishMoviesLoaded} = useSelector(state => state.settings.wishMovies);
-    const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
-    const loader = useSelector(state => state.settings.loader);
+    const {wishMovies, isWishMoviesLoaded} = useSelector(state => state.addNew.wishMovies);
+    const {saveResult, hasSaveResult} = useSelector(state => state.addNew.result);
+    const loader = useSelector(state => state.addNew.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
     const {t} = useTranslation('common');
@@ -83,7 +83,7 @@ const wishLoader = () => {
             } else {
                 onSetSnackbar({message: t('snackbar.failedToAddToWishlist', {title: title, message: message}), type: 'error'});
             }
-            dispatch(settingsActions.resetResult());
+            dispatch(addNewActions.resetResult());
         }
     }, [saveResult])
 

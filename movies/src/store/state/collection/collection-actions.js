@@ -9,7 +9,7 @@ import {
 } from "../../../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
-import {settingsActions} from "../settings/settings-slice";
+import {addNewActions} from "../addNew/addNew-slice";
 import {Language} from "../../../utils/Constants";
 
 export const fetchMovies = () => {
@@ -85,7 +85,7 @@ export const deleteMovie = (tmdbId) => {
         axios.delete(getDeleteUrl(tmdbId))
             .then(response => {
                 const {data} = response;
-                dispatch(settingsActions.setResult(data));
+                dispatch(addNewActions.setResult(data));
                 dispatch(fetchMovies());
                 dispatch(fetchWishlist());
             })

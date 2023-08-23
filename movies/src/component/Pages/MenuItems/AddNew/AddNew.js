@@ -4,7 +4,7 @@ import FileLoader from "./components/FileLoader/FileLoader";
 import WishLoader from "./components/WishLoader/WishLoader";
 import MyGrid from "../../../../UI/Buttons/MyGrid";
 
-const settings = () => {
+const addNew = () => {
     let loaders = [<WishLoader key={1}/>, <FileLoader key={2}/>]
     return (
         <React.Fragment>
@@ -15,4 +15,4 @@ const settings = () => {
     );
 };
 
-export default settings;
+export default addNew;
