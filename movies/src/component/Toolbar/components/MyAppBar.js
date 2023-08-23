@@ -1,21 +1,20 @@
 import React from 'react';
-import {useLocation} from "react-router";
 
 import Search from "./Search";
 import {drawer} from "../../../utils/Constants";
-import {isSearchable} from "../../../utils/UrlUtils";
 
 import {AppBar, IconButton, Toolbar} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import {makeStyles} from "@material-ui/core/styles";
+import LanguagePicker from "./LanguagePicker";
 
 const useStyles = makeStyles((theme) => ({
-    root: visible => {
-        const justifyContent = visible ? 'flex-end' : 'flex-start';
-        return {
-            display: 'flex',
-            justifyContent,
-        };
+    root: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        [theme.breakpoints.up('sm')]: {
+            justifyContent: 'flex-end'
+        },
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -33,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 const myAppBar = (props) => {
     const {onDrawerToggle} = props;
-    const {pathname} = useLocation();
-    const {root, drawer, menuButton} = useStyles(isSearchable(pathname));
+    const {root, drawer, menuButton} = useStyles();
+
 
     return (
         <AppBar
@@ -51,6 +50,7 @@ const myAppBar = (props) => {
                     <MenuIcon/>
                 </IconButton>
                 <Search/>
+                <LanguagePicker/>
             </Toolbar>
         </AppBar>
     );

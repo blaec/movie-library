@@ -8,8 +8,8 @@ const initialState = {
     loader: 0,
 };
 
-const settingsSlice = createSlice({
-    name: 'settings',
+const addNewSlice = createSlice({
+    name: 'addNew',
     initialState,
     reducers: {
         setWishMovies(state, action) {
@@ -33,5 +33,5 @@ const settingsSlice = createSlice({
     }
 });
 
-export const settingsActions = settingsSlice.actions;
-export default settingsSlice.reducer;
+export const addNewActions = addNewSlice.actions;
+export default addNewSlice.reducer;

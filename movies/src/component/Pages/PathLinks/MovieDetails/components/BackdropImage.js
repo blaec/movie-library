@@ -10,10 +10,10 @@ import MyPosterIcon from "../../../../../UI/Buttons/Icons/MyPosterIcon";
 import DeleteDialog from "./DeleteDialog";
 import PosterUpdateDialog from "./PosterUpdateDialog";
 import {getMovieByTmdbId, isMovieInCollection, isObjectExist} from "../../../../../utils/Utils";
-import {settingsActions} from "../../../../../store/state/settings/settings-slice";
+import {addNewActions} from "../../../../../store/state/addNew/addNew-slice";
 import {feedbackActions} from "../../../../../store/state/feedback/feedback-slice";
 import {deleteMovie} from "../../../../../store/state/collection/collection-actions";
-import {saveWishMovie} from "../../../../../store/state/settings/settings-actions";
+import {saveWishMovie} from "../../../../../store/state/addNew/addNew-actions";
 
 import Carousel from "react-material-ui-carousel";
 import {makeStyles} from "@material-ui/core/styles";
@@ -37,7 +37,7 @@ const backdropImage = props => {
     const [isInCollection, setIsInCollection] = useState(false);
     const {t} = useTranslation('common');
 
-    const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
+    const {saveResult, hasSaveResult} = useSelector(state => state.addNew.result);
     const {posterResults, isPosterResultsLoaded} = useSelector(state => state.collection.posterResults);
     const {tmdbMovieDetails, isTmdbMovieDetailsLoaded} = useSelector(state => state.details.movieTmdbDetails);
     const {
@@ -89,7 +89,7 @@ const backdropImage = props => {
             if (isDeleting) {
                 const type = success ? 'success' : 'error';
                 onSetSnackbar({message, type});
-                dispatch(settingsActions.resetResult());
+                dispatch(addNewActions.resetResult());
                 onClose();
             } else {
                 const {title} = tmdbMovieDetails;
@@ -98,7 +98,7 @@ const backdropImage = props => {
                 } else {
                     onSetSnackbar({message: `${t('snackbar.failedToAddToWishlist', {title: title, message: message})}`, type: 'error'});
                 }
-                dispatch(settingsActions.resetResult());
+                dispatch(addNewActions.resetResult());
             }
         }
     }, [saveResult]);
