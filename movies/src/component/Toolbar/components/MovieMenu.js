@@ -13,8 +13,8 @@ import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
 import PlayCircleFilledWhiteTwoToneIcon from '@material-ui/icons/PlayCircleFilledWhiteTwoTone';
 import HourglassFullTwoToneIcon from '@material-ui/icons/HourglassFullTwoTone';
 import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
-import SettingsIcon from '@material-ui/icons/Settings';
 import TrendingUpTwoToneIcon from '@material-ui/icons/TrendingUpTwoTone';
+import FiberNewIcon from '@material-ui/icons/FiberNew';
 
 const getMenuItemsBlock = (itemsData, pathname) => {
     const {t} = useTranslation('common');
@@ -81,9 +81,9 @@ const settingsItemsData = [
         icon: <StorageTwoToneIcon/>
     },
     {
-        text: "menu.settings",
-        link: reactLinks.settings,
-        icon: <SettingsIcon/>
+        text: "menu.addNew",
+        link: reactLinks.addNew,
+        icon: <FiberNewIcon/>
     },
 ];
 

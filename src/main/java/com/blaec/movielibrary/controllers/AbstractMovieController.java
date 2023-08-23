@@ -13,6 +13,7 @@ import com.blaec.movielibrary.utils.MovieUtils;
 import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -57,13 +58,21 @@ public abstract class AbstractMovieController extends AbstractController{
     }
 
     private Response.Builder trySave(Callable<Response.Builder> onSave, String title) {
+        Response.Builder responseBuilder = Response.Builder.create();
         try {
-            return onSave.call();
+            responseBuilder = onSave.call();
+        } catch (IllegalArgumentException e) {
+            log.error("failed to save movie [{}]", title, e);
+            responseBuilder.setTitle(title).setFailMessage("database failure");
+        } catch (DataIntegrityViolationException e) {
+            log.error("this movie [{}] already exists", title, e);
+            responseBuilder.setTitle(title).setFailMessage("Already exist");
         } catch (Exception e) {
-            return Response.Builder.create()
-                    .setTitle(title)
-                    .setFailMessage("rollback after database failure");
+            log.error("failed to save movie [{}]", title, e);
+            responseBuilder.setTitle(title).setFailMessage(e.getMessage());
         }
+
+        return responseBuilder;
     }
 
     protected List<MovieFileTo> getMoviesFromFolder(String folder) {

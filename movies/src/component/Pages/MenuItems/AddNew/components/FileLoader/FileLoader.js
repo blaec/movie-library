@@ -10,7 +10,7 @@ import FileTmdbIdInput from "./FileTmdbIdInput";
 import FileNameInput from "./FileNameInput";
 import FileRadios from "./FileRadios";
 import {feedbackActions} from "../../../../../../store/state/feedback/feedback-slice";
-import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/settings/settings-actions";
+import {saveSingleMovie, scanFolderAndSave} from "../../../../../../store/state/addNew/addNew-actions";
 
 import {
     Card,
@@ -24,7 +24,7 @@ import {
 } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import {Loader} from "../../../../../../utils/Constants";
-import {settingsActions} from "../../../../../../store/state/settings/settings-slice";
+import {addNewActions} from "../../../../../../store/state/addNew/addNew-slice";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 
 const fileLoader = () => {
     const {divider} = useStyles();
-    const {saveResult, hasSaveResult} = useSelector(state => state.settings.result);
-    const {saveResults, hasSaveResults} = useSelector(state => state.settings.results);
-    const loader = useSelector(state => state.settings.loader);
+    const {saveResult, hasSaveResult} = useSelector(state => state.addNew.result);
+    const {saveResults, hasSaveResults} = useSelector(state => state.addNew.results);
+    const loader = useSelector(state => state.addNew.loader);
     const dispatch = useDispatch();
     const onSetSnackbar = (snackbar) => dispatch(feedbackActions.setSnackbar(snackbar));
     const {t} = useTranslation('common');
@@ -138,8 +138,8 @@ const fileLoader = () => {
         tmdbIdRef.current.value = '';
         fileNameRef.current.value = '';
         setIsSingleMovieUpload(false);
-        dispatch(settingsActions.resetResult());
-        dispatch(settingsActions.resetResults());
+        dispatch(addNewActions.resetResult());
+        dispatch(addNewActions.resetResults());
     };
 
     const handleChooseLocation = (event) => {
