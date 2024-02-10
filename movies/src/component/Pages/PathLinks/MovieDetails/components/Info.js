@@ -74,8 +74,8 @@ const info = () => {
                             <Tab label={t('tab.cast')}/>
                             <Tab label={t('tab.description')}/>
                             <Tab label={t('tab.trailers')}/>
-                            <Tab label={t('tab.facts')}/>
                             <Tab label={t('tab.crew')}/>
+                            <Tab label={t('tab.facts')}/>
                         </Tabs>
                     </Paper>
                     <MyTabPanel
@@ -99,16 +99,16 @@ const info = () => {
                     </MyTabPanel>
                     <MyTabPanel
                         value={tabSelected}
-                        index={MovieTab.facts}
-                    >
-                        <MovieFacts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
-                    </MyTabPanel>
-                    <MyTabPanel
-                        value={tabSelected}
                         index={MovieTab.crew}
                         padding={0}
                     >
                         <Crew details={crew}/>
+                    </MyTabPanel>
+                    <MyTabPanel
+                        value={tabSelected}
+                        index={MovieTab.facts}
+                    >
+                        <MovieFacts details={{...tmdbMovieDetails, ...omdbMovieDetails}}/>
                     </MyTabPanel>
                 </div>
             </React.Fragment>
