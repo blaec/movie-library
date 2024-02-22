@@ -12,11 +12,8 @@ import com.blaec.movielibrary.utils.TestUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -72,9 +69,7 @@ public class MovieController extends AbstractMovieController{
     }
 
     @PostMapping("/upload/{folder}")
-    public Iterable<Response> uploadFromFolder(@PathVariable String folder, HttpServletRequest request) {
-        log.debug("About to upload movies from folder {} from ip {}", folder, getClientIp(request));
-
+    public Iterable<Response> uploadFromFolder(@PathVariable String folder) {
         List<MovieFileTo> folderMovies = getMoviesFromFolder(folder);
         Iterable<Movie> dbMovies = movieService.getAll();
         List<MovieFileTo> newMovies = folderMovies.stream()
@@ -102,9 +97,7 @@ public class MovieController extends AbstractMovieController{
     }
 
     @PostMapping("/upload/file")
-    public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie, HttpServletRequest request) {
-        log.debug("About to upload movie {} from ip {}", uploadMovie, getClientIp(request));
-
+    public Response uploadMovie(@RequestBody SingleFileUpload uploadMovie) {
         if (movieService.isMovieExist(uploadMovie.getTmdbId())) {
             return Response.Builder
                     .create()
@@ -140,32 +133,26 @@ public class MovieController extends AbstractMovieController{
     }
 
     @PostMapping("/upload/wish")
-    public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie, HttpServletRequest request) {
-        log.info("uploading wish movie | {} from ip {}", wishMovie, getClientIp(request));
+    public Response saveWishMovie(@RequestBody TmdbResult.TmdbMovie wishMovie) {
+        log.info("uploading wish movie | {}", wishMovie);
         Optional<MovieTmdbTo> tmdbMovie = tmdbApi.getMovieById(wishMovie);
         return trySaveToWishlist(tmdbMovie).build();
     }
 
     @PutMapping("/update-movie-posters")
-    public Response updatePoster(@RequestBody MovieTo movieTo, HttpServletRequest request) {
-        log.debug("Updating posters to movie {} with EN-poster {} and RU-poster {} from ip {}",
-                movieTo, movieTo.getPosterPath(), movieTo.getPosterPathRu(), getClientIp(request));
+    public Response updatePoster(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating posters to movie %s with EN-poster %s and RU-poster %s", movieTo, movieTo.getPosterPath(), movieTo.getPosterPathRu()));
         return movieService.updatePoster(Movie.from(movieTo)).build();
     }
 
     @PutMapping("/update-movie-genres")
-    public Response updateGenres(@RequestBody MovieTo movieTo, HttpServletRequest request) {
-        log.debug("Updating genres to movie {} from ip {}", movieTo, getClientIp(request));
+    public Response updateGenres(@RequestBody MovieTo movieTo) {
+        log.debug(String.format("Updating genres to movie %s", movieTo));
         return movieService.updateGenres(Movie.from(movieTo)).build();
     }
 
     @DeleteMapping("/delete/{tmdbId}")
-    public Response delete(@PathVariable String tmdbId, HttpServletRequest request) {
-        log.debug("About to delete movie {} from ip {}", tmdbId, getClientIp(request));
+    public Response delete(@PathVariable String tmdbId) {
         return movieService.delete(tmdbId).build();
-    }
-
-    private String getClientIp(HttpServletRequest request) {
-        return request.getRemoteAddr();
     }
 }
