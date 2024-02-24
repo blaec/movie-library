@@ -17,24 +17,24 @@ import java.util.List;
 @Component
 public class RequestInterceptor implements HandlerInterceptor {
     private AccessControl accessControl;
-    private final List<String> methodsToLog = ImmutableList.of("POST", "DELETE", "PUT");
+    private final List<String> writeMethods = ImmutableList.of("POST", "DELETE", "PUT");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        boolean isActionAllowed = true;
-        String httpMethod = request.getMethod();
         String ip = request.getRemoteAddr();
-        if (methodsToLog.contains(httpMethod)) {
-            isActionAllowed = isLocal(ip) || isExternal(ip);
+        boolean isIpAllowed = isLocal(ip) || isExternal(ip);
+        String httpMethod = request.getMethod();
+        boolean isWriteMethod = writeMethods.contains(httpMethod);
+        if (isWriteMethod) {
             log.debug("From ip {} received {} request to url: {} and action is {}",
-                    ip, httpMethod, request.getRequestURL(), isActionAllowed ? "allowed" : "denied");
-            if (!isActionAllowed) {
+                    ip, httpMethod, request.getRequestURL(), isIpAllowed ? "allowed" : "denied");
+            if (!isIpAllowed) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Action forbidden");
             }
         }
 
-        return isActionAllowed;
+        return isIpAllowed || !isWriteMethod;
     }
 
     private boolean isLocal(String ipAddress) {
