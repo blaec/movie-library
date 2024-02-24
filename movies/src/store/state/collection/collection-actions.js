@@ -90,9 +90,12 @@ export const deleteMovie = (tmdbId) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
+                const message = (error?.response?.status === 403)
+                    ? `${error.response.data} | You are not allowed to deleted movie with tmdbId '${tmdbId}', please, contact administrator to gain access.`
+                    : `${error} | Failed to deleted movie with tmdbId '${tmdbId}'`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to deleted movie with tmdbId '${tmdbId}'`,
+                    message: message,
                     type: 'error'
                 }));
             });
@@ -213,9 +216,12 @@ export const updateMoviePosters = (movie) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
+                const message = (error?.response?.status === 403)
+                    ? `${error.response.data} | You are not allowed to update posters to movie with id #${movie.id}, please, contact administrator to gain access.`
+                    : `${error} | Failed to update posters to movie with id #${movie.id}`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to update posters to movie with id #${movie.id}`,
+                    message: message,
                     type: 'error'
                 }));
             });

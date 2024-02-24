@@ -35,9 +35,12 @@ export const saveWishMovie = (wishMovie) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
+                const message = (error?.response?.status === 403)
+                    ? `${error.response.data} | You are not allowed to add movie '${wishMovie.title}' to wishlist, please, contact administrator to gain access.`
+                    : `${error} | Failed to add movie '${wishMovie.title}' to wishlist`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to add movie '${wishMovie.title}' to wishlist`,
+                    message: message,
                     type: 'error'
                 }));
             });
@@ -54,9 +57,12 @@ export const saveSingleMovie = (movie) => {
                 dispatch(fetchMovies());
             })
             .catch(error => {
+                const message = (error?.response?.status === 403)
+                    ? `${error.response.data} | You are not allowed to upload ${movie.fileName} from ${movie.fileLocation} folder, please, contact administrator to gain access.`
+                    : `${error} | Failed to upload ${movie.fileName} from ${movie.fileLocation} folder`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to upload ${movie.fileName} from ${movie.fileLocation} folder`,
+                    message: message,
                     type: 'error'
                 }));
             });
@@ -73,9 +79,12 @@ export const scanFolderAndSave = (path) => {
                 dispatch(fetchMovies());
             })
             .catch(error => {
+                const message = (error?.response?.status === 403)
+                    ? `${error.response.data} | You are not allowed to scan folder ${path} for movies, please, contact administrator to gain access.`
+                    : `${error} | Failed to scan folder ${path} for movies`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to scan folder ${path} for movies`,
+                    message: message,
                     type: 'error'
                 }));
             });
