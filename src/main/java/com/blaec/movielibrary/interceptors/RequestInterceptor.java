@@ -27,16 +27,17 @@ public class RequestInterceptor implements HandlerInterceptor {
         PermissionMonitor.enqueue(isIpAllowed);
         final String httpMethod = request.getMethod();
         final boolean isWriteMethod = writeMethods.contains(httpMethod);
+        boolean isActionAllowed = isIpAllowed || !isWriteMethod;
         if (!isIpAllowed || isWriteMethod) {
             log.debug("From ip {} received {} request to url: {} and action is {}",
-                    ip, httpMethod, request.getRequestURL(), isIpAllowed || !isWriteMethod ? "allowed" : "denied");
-            if (!isIpAllowed && isWriteMethod) {
+                    ip, httpMethod, request.getRequestURL(), isActionAllowed ? "allowed" : "denied");
+            if (!isActionAllowed) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Action forbidden");
             }
         }
 
-        return isIpAllowed || !isWriteMethod;
+        return isActionAllowed;
     }
 
     private boolean isLocal(String ipAddress) {
