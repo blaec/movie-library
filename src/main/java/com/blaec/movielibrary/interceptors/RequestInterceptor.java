@@ -1,6 +1,7 @@
 package com.blaec.movielibrary.interceptors;
 
 import com.blaec.movielibrary.configs.AccessControl;
+import com.blaec.movielibrary.utils.PermissionMonitor;
 import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,14 +22,15 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        String ip = request.getRemoteAddr();
-        boolean isIpAllowed = isLocal(ip) || isExternal(ip);
-        String httpMethod = request.getMethod();
-        boolean isWriteMethod = writeMethods.contains(httpMethod);
-        if (isWriteMethod) {
+        final String ip = request.getRemoteAddr();
+        final boolean isIpAllowed = isLocal(ip) || isExternal(ip);
+        PermissionMonitor.enqueue(isIpAllowed);
+        final String httpMethod = request.getMethod();
+        final boolean isWriteMethod = writeMethods.contains(httpMethod);
+        if (!isIpAllowed || isWriteMethod) {
             log.debug("From ip {} received {} request to url: {} and action is {}",
-                    ip, httpMethod, request.getRequestURL(), isIpAllowed ? "allowed" : "denied");
-            if (!isIpAllowed) {
+                    ip, httpMethod, request.getRequestURL(), isIpAllowed || !isWriteMethod ? "allowed" : "denied");
+            if (!isIpAllowed && isWriteMethod) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Action forbidden");
             }
