@@ -5,6 +5,7 @@ import {feedbackActions} from "../feedback/feedback-slice";
 import {fetchMovies, fetchWishlist} from "../collection/collection-actions";
 import * as UrlUtils from "../../../utils/UrlUtils";
 import {Loader} from "../../../utils/Constants";
+import {actionForbiddenMessage, errorMessage} from "../../../utils/StoreUtils";
 
 export const fetchWishMovies = (params) => {
     return async (dispatch) => {
@@ -18,7 +19,7 @@ export const fetchWishMovies = (params) => {
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to search the movies`,
+                    message: `${errorMessage(error, "to search the movies")}`,
                     type: 'error'
                 }));
             });
@@ -35,9 +36,13 @@ export const saveWishMovie = (wishMovie) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
+                const text = `to add movie '${wishMovie.title}' to wishlist`;
+                const message = (error?.response?.status === 403)
+                    ? `${actionForbiddenMessage(error.response.data, text)}`
+                    : `${errorMessage(error, text)}`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to add movie '${wishMovie.title}' to wishlist`,
+                    message: message,
                     type: 'error'
                 }));
             });
@@ -54,9 +59,13 @@ export const saveSingleMovie = (movie) => {
                 dispatch(fetchMovies());
             })
             .catch(error => {
+                const text = `to upload ${movie.fileName} from ${movie.fileLocation} folder`;
+                const message = (error?.response?.status === 403)
+                    ? `${actionForbiddenMessage(error.response.data, text)}`
+                    : `${errorMessage(error, text)}`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to upload ${movie.fileName} from ${movie.fileLocation} folder`,
+                    message: message,
                     type: 'error'
                 }));
             });
@@ -73,9 +82,13 @@ export const scanFolderAndSave = (path) => {
                 dispatch(fetchMovies());
             })
             .catch(error => {
+                const text = `to scan folder ${path} for movies`;
+                const message = (error?.response?.status === 403)
+                    ? `${actionForbiddenMessage(error.response.data, text)}`
+                    : `${errorMessage(error, text)}`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to scan folder ${path} for movies`,
+                    message: message,
                     type: 'error'
                 }));
             });
