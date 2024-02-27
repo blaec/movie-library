@@ -46,3 +46,10 @@ tmdbapi:
     apikey: apikeyValue
     language: languageValue
     languageRu: languageRuValue
+
+control:
+  localSubnet: "1.1.1."
+  externalIps:
+    - "22.22.22.22"
+    - "33.33.33.33"
+    - "44.44.44.44"

@@ -1,16 +1,17 @@
 import axios from "../../../axios-movies";
 import {
-    getDeleteUrl,
-    getNowPlayingUrl,
     getAnticipatedUrl,
-    movieApi,
+    getDeleteUrl,
     getMoviePostersUrl,
-    getTopRatedUrl
+    getNowPlayingUrl,
+    getTopRatedUrl,
+    movieApi
 } from "../../../utils/UrlUtils";
 import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
 import {addNewActions} from "../addNew/addNew-slice";
 import {Language} from "../../../utils/Constants";
+import {actionForbiddenMessage, errorMessage} from "../../../utils/StoreUtils";
 
 export const fetchMovies = () => {
     return async (dispatch) => {
@@ -22,7 +23,7 @@ export const fetchMovies = () => {
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to load movies`,
+                    message: `${errorMessage(error, "to load movies")}`,
                     type: 'error'
                 }));
             });
@@ -39,7 +40,7 @@ export const fetchWishlist = () => {
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to load wishlist`,
+                    message: `${errorMessage(error, "to load wishlist")}`,
                     type: 'error'
                 }));
             });
@@ -56,7 +57,7 @@ export const fetchFilteredCollection = (url, genreIds) => {
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to load filtered movie list`,
+                    message: `${errorMessage(error, "to load filtered movie list")}`,
                     type: 'error'
                 }));
             });
@@ -73,7 +74,7 @@ export const fetchDualFilteredCollection = (url, inclGenreIds, exclGenreIds) => 
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to load filtered movie list`,
+                    message: `${errorMessage(error, "to load filtered movie list")}`,
                     type: 'error'
                 }));
             });
@@ -90,9 +91,13 @@ export const deleteMovie = (tmdbId) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
+                const text = `to deleted movie with tmdbId '${tmdbId}'`;
+                const message = (error?.response?.status === 403)
+                    ? `${actionForbiddenMessage(error.response.data, text)}`
+                    : `${errorMessage(error, text)}`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to deleted movie with tmdbId '${tmdbId}'`,
+                    message: message,
                     type: 'error'
                 }));
             });
@@ -170,7 +175,7 @@ export const fetchLibrary = () => {
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to load entire library`,
+                    message: `${errorMessage(error, "to load entire library")}`,
                     type: 'error'
                 }));
             });
@@ -196,7 +201,7 @@ export const fetchPostersByLanguage = (id, tmdbApi, language) => {
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to load posters to movie ${id}`,
+                    message: `${errorMessage(error, `to load posters to movie ${id}`)}`,
                     type: 'error'
                 }));
             });
@@ -213,9 +218,13 @@ export const updateMoviePosters = (movie) => {
                 dispatch(fetchWishlist());
             })
             .catch(error => {
+                const text = `to update posters to movie with id #${movie.id}`;
+                const message = (error?.response?.status === 403)
+                    ? `${actionForbiddenMessage(error.response.data, text)}`
+                    : `${errorMessage(error, text)}`;
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to update posters to movie with id #${movie.id}`,
+                    message: message,
                     type: 'error'
                 }));
             });
@@ -234,7 +243,7 @@ export const updateMovieGenres = (movie) => {
             .catch(error => {
                 console.error(error);
                 dispatch(feedbackActions.setSnackbar({
-                    message: `${error} | Failed to update genres to movie with id #${movie.id}`,
+                    message: `${errorMessage(error, `to update genres to movie with id #${movie.id}`)}`,
                     type: 'error'
                 }));
             });
