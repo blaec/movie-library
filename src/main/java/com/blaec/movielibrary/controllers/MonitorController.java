@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MonitorController extends AbstractController {
     static final String URL = API_VERSION + "/monitor";
+    public static final String HAS_UNAUTHORIZED_ACCESS = "/has-unauthorized-access";
 
-    @GetMapping("/has-unauthorized-access")
+    @GetMapping(HAS_UNAUTHORIZED_ACCESS)
     public boolean getConfigs() {
         return PermissionMonitor.isAlert();
     }

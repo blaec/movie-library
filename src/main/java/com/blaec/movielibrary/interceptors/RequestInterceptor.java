@@ -1,6 +1,7 @@
 package com.blaec.movielibrary.interceptors;
 
 import com.blaec.movielibrary.configs.AccessControl;
+import com.blaec.movielibrary.controllers.MonitorController;
 import com.blaec.movielibrary.utils.PermissionMonitor;
 import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
@@ -23,14 +24,15 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         final String ip = request.getRemoteAddr();
-        final boolean isIpAllowed = isLocal(ip) || isExternal(ip);
+        StringBuffer url = request.getRequestURL();
+        final boolean isIpAllowed = isLocal(ip) || isExternal(ip) || isMonitor(url.toString());
         PermissionMonitor.enqueue(isIpAllowed);
         final String httpMethod = request.getMethod();
         final boolean isWriteMethod = writeMethods.contains(httpMethod);
         boolean isActionAllowed = isIpAllowed || !isWriteMethod;
         if (!isIpAllowed || isWriteMethod) {
             log.debug("From ip {} received {} request to url: {} and action is {}",
-                    ip, httpMethod, request.getRequestURL(), isActionAllowed ? "allowed" : "denied");
+                    ip, httpMethod, url, isActionAllowed ? "allowed" : "denied");
             if (!isActionAllowed) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Action forbidden");
@@ -46,5 +48,9 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     private boolean isExternal(String ipAddress) {
         return accessControl.getExternalIps().contains(ipAddress);
+    }
+
+    private boolean isMonitor(String url) {
+        return url.contains(MonitorController.HAS_UNAUTHORIZED_ACCESS);
     }
 }
