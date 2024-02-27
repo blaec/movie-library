@@ -11,7 +11,7 @@ import {collectionActions} from "./collection-slice";
 import {feedbackActions} from "../feedback/feedback-slice";
 import {addNewActions} from "../addNew/addNew-slice";
 import {Language} from "../../../utils/Constants";
-import {actionForbiddenMessage, errorMessage} from "../../../utils/StoreUtils";
+import {actionForbiddenMessage, errorMessage, isAccessForbidden} from "../../../utils/StoreUtils";
 
 export const fetchMovies = () => {
     return async (dispatch) => {
@@ -92,7 +92,7 @@ export const deleteMovie = (tmdbId) => {
             })
             .catch(error => {
                 const text = `to deleted movie with tmdbId '${tmdbId}'`;
-                const message = (error?.response?.status === 403)
+                const message = (isAccessForbidden(error))
                     ? `${actionForbiddenMessage(error.response.data, text)}`
                     : `${errorMessage(error, text)}`;
                 console.error(error);
@@ -219,7 +219,7 @@ export const updateMoviePosters = (movie) => {
             })
             .catch(error => {
                 const text = `to update posters to movie with id #${movie.id}`;
-                const message = (error?.response?.status === 403)
+                const message = (isAccessForbidden(error))
                     ? `${actionForbiddenMessage(error.response.data, text)}`
                     : `${errorMessage(error, text)}`;
                 console.error(error);

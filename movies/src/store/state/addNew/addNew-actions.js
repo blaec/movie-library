@@ -5,7 +5,7 @@ import {feedbackActions} from "../feedback/feedback-slice";
 import {fetchMovies, fetchWishlist} from "../collection/collection-actions";
 import * as UrlUtils from "../../../utils/UrlUtils";
 import {Loader} from "../../../utils/Constants";
-import {actionForbiddenMessage, errorMessage} from "../../../utils/StoreUtils";
+import {actionForbiddenMessage, errorMessage, isAccessForbidden} from "../../../utils/StoreUtils";
 
 export const fetchWishMovies = (params) => {
     return async (dispatch) => {
@@ -37,7 +37,7 @@ export const saveWishMovie = (wishMovie) => {
             })
             .catch(error => {
                 const text = `to add movie '${wishMovie.title}' to wishlist`;
-                const message = (error?.response?.status === 403)
+                const message = isAccessForbidden(error)
                     ? `${actionForbiddenMessage(error.response.data, text)}`
                     : `${errorMessage(error, text)}`;
                 console.error(error);
@@ -60,7 +60,7 @@ export const saveSingleMovie = (movie) => {
             })
             .catch(error => {
                 const text = `to upload ${movie.fileName} from ${movie.fileLocation} folder`;
-                const message = (error?.response?.status === 403)
+                const message = (isAccessForbidden(error))
                     ? `${actionForbiddenMessage(error.response.data, text)}`
                     : `${errorMessage(error, text)}`;
                 console.error(error);
@@ -83,7 +83,7 @@ export const scanFolderAndSave = (path) => {
             })
             .catch(error => {
                 const text = `to scan folder ${path} for movies`;
-                const message = (error?.response?.status === 403)
+                const message = (isAccessForbidden(error))
                     ? `${actionForbiddenMessage(error.response.data, text)}`
                     : `${errorMessage(error, text)}`;
                 console.error(error);
