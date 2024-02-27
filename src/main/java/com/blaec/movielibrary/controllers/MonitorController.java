@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(MonitorController.URL)
 @RestController
 public class MonitorController extends AbstractController {
-    static final String URL = API_VERSION + "/monitor";
-    public static final String HAS_UNAUTHORIZED_ACCESS = "/has-unauthorized-access";
+    public static final String URL = API_VERSION + "/monitor";
 
-    @GetMapping(HAS_UNAUTHORIZED_ACCESS)
+    @GetMapping("/has-unauthorized-access")
     public boolean getConfigs() {
         return PermissionMonitor.isAlert();
     }

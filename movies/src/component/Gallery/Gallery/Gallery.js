@@ -16,8 +16,6 @@ import {appendAnticipated, appendNowPlaying, appendTopRated} from "../../../stor
 import {makeStyles} from "@material-ui/core/styles";
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {Fab} from "@material-ui/core";
-import MovieFilterTwoToneIcon from "@material-ui/icons/MovieFilterTwoTone";
-import MovieCreationTwoToneIcon from "@material-ui/icons/MovieCreationTwoTone";
 
 const useStyles = makeStyles((theme) => ({
     root: {

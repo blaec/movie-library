@@ -51,6 +51,6 @@ public class RequestInterceptor implements HandlerInterceptor {
     }
 
     private boolean isMonitor(String url) {
-        return url.contains(MonitorController.HAS_UNAUTHORIZED_ACCESS);
+        return url.contains(MonitorController.URL);
     }
 }
