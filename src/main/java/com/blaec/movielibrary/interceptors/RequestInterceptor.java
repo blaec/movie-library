@@ -20,6 +20,7 @@ import java.util.List;
 public class RequestInterceptor implements HandlerInterceptor {
     private AccessControl accessControl;
     private final List<String> writeMethods = ImmutableList.of("POST", "DELETE", "PUT");
+    private final List<String> allowedUrls = ImmutableList.of(MonitorController.URL, "/favicon.ico", "/error");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -51,6 +52,6 @@ public class RequestInterceptor implements HandlerInterceptor {
     }
 
     private boolean isMonitor(String url) {
-        return url.contains(MonitorController.URL);
+        return allowedUrls.stream().allMatch(url::contains);
     }
 }
