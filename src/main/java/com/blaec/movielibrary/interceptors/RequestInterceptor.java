@@ -3,6 +3,7 @@ package com.blaec.movielibrary.interceptors;
 import com.blaec.movielibrary.configs.AccessControl;
 import com.blaec.movielibrary.controllers.MonitorController;
 import com.blaec.movielibrary.model.Request;
+import com.blaec.movielibrary.services.RequestService;
 import com.blaec.movielibrary.utils.PermissionMonitor;
 import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
@@ -20,12 +21,16 @@ import java.util.List;
 @Component
 public class RequestInterceptor implements HandlerInterceptor {
     private AccessControl accessControl;
+    private RequestService requestService;
     private final List<String> writeMethods = ImmutableList.of("POST", "DELETE", "PUT");
     private final List<String> allowedUrls = ImmutableList.of(MonitorController.URL, "/favicon.ico", "/error");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
         Request httpRequest = Request.from(request);
+        if (!requestService.save(httpRequest)) {
+            log.warn("failed to save request {}", request);
+        }
         final boolean isIpAllowed = isIpAllowed(httpRequest);
         PermissionMonitor.enqueue(isIpAllowed);
         final boolean isWriteMethod = writeMethods.contains(httpRequest.getMethod());
