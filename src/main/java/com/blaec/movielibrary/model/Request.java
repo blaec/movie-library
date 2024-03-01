@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Entity
@@ -43,11 +44,28 @@ public class Request {
     @Column(name="is_bot")
     private boolean bot;
 
+    private static final Pattern BOT_PATTERN = Pattern.compile("(?i).*\\b(bot|crawler|spider)\\b.*");
+
+
     public static Request from(HttpServletRequest req) {
         Request request = new Request();
         request.setIp(req.getRemoteAddr());
         request.setUrl(String.valueOf(req.getRequestURL()));
         request.setMethod(req.getMethod());
+        request.setBot(request.hasDetectedBot(req));
+
         return request;
+    }
+
+    private boolean hasDetectedBot(HttpServletRequest req) {
+        String userAgent = req.getHeader("User-Agent");
+
+        return userAgent != null
+                && BOT_PATTERN.matcher(userAgent).matches();
+    }
+
+    @Override
+    public String toString() {
+        return "From ip %s received %s request from bot %b to url: %s".formatted(ip, method, bot, url);
     }
 }

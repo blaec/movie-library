@@ -23,7 +23,7 @@ public class RequestInterceptor implements HandlerInterceptor {
     private AccessControl accessControl;
     private RequestService requestService;
     private final List<String> writeMethods = ImmutableList.of("POST", "DELETE", "PUT");
-    private final List<String> allowedUrls = ImmutableList.of(MonitorController.URL, "/favicon.ico", "/error");
+    private final List<String> allowedUrls = ImmutableList.of(MonitorController.URL);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -36,8 +36,8 @@ public class RequestInterceptor implements HandlerInterceptor {
         final boolean isWriteMethod = writeMethods.contains(httpRequest.getMethod());
         boolean isActionAllowed = isIpAllowed || !isWriteMethod;
         if (!isIpAllowed || isWriteMethod) {
-            log.debug("From ip {} received {} request to url: {} and action is {}",
-                    httpRequest.getId(), httpRequest.getMethod(), httpRequest.getUrl(), isActionAllowed ? "allowed" : "denied");
+            log.debug("{} and action is {}",
+                    httpRequest, isActionAllowed ? "allowed" : "denied");
             if (!isActionAllowed) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Action forbidden");
@@ -48,7 +48,8 @@ public class RequestInterceptor implements HandlerInterceptor {
     }
 
     private boolean isIpAllowed(Request httpRequest) {
-        return isLocal(httpRequest.getIp())
+        return httpRequest.isBot()
+                || isLocal(httpRequest.getIp())
                 || isExternal(httpRequest.getIp())
                 || isMonitor(httpRequest.getUrl());
     }
