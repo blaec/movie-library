@@ -43,3 +43,15 @@ UPDATE movies
 
 -- 2023-01-20
 -- Only 2 tables remains: movies + genres, when movies w/o changes and genres: id, genre_id [specified in tmdb], movie_id [from movie table]
+
+-- 2023-03-01
+CREATE TABLE requests
+(
+    id              INT auto_increment,
+    method          VARCHAR(10) 			    NOT NULL,
+    url             VARCHAR(300) 			    NOT NULL,
+    ip              VARCHAR(20) 			    NOT NULL,
+    request_date    DATETIME      			    NOT NULL,
+    is_bot          BOOLEAN 			        NOT NULL,
+    PRIMARY KEY     (id)
+);
