@@ -62,6 +62,6 @@ public class RequestInterceptor implements HandlerInterceptor {
     }
 
     private boolean isMonitor(String url) {
-        return allowedUrls.stream().allMatch(url::contains);
+        return allowedUrls.stream().anyMatch(url::contains);
     }
 }
