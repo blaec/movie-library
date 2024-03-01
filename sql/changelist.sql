@@ -51,7 +51,7 @@ CREATE TABLE requests
     method          VARCHAR(10) 			    NOT NULL,
     url             VARCHAR(300) 			    NOT NULL,
     ip              VARCHAR(20) 			    NOT NULL,
-    request_date    DATE     					NOT NULL,
+    request_date    DATETIME      			    NOT NULL,
     is_bot          BOOLEAN 			        NOT NULL,
     PRIMARY KEY     (id)
 );

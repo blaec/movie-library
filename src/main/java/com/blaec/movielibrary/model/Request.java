@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Entity
@@ -38,7 +38,7 @@ public class Request {
 
     @Column(name="request_date",
             columnDefinition = "DATE DEFAULT (CURRENT_DATE)")
-    @NonNull private LocalDate requestDate = LocalDate.now();
+    @NonNull private LocalDateTime requestDate = LocalDateTime.now();
 
     @Column(name="is_bot")
     private boolean bot;
