@@ -2,6 +2,7 @@ package com.blaec.movielibrary.interceptors;
 
 import com.blaec.movielibrary.configs.AccessControl;
 import com.blaec.movielibrary.controllers.MonitorController;
+import com.blaec.movielibrary.model.Request;
 import com.blaec.movielibrary.utils.PermissionMonitor;
 import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
@@ -24,16 +25,14 @@ public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        final String ip = request.getRemoteAddr();
-        StringBuffer url = request.getRequestURL();
-        final boolean isIpAllowed = isLocal(ip) || isExternal(ip) || isMonitor(url.toString());
+        Request httpRequest = Request.from(request);
+        final boolean isIpAllowed = isIpAllowed(httpRequest);
         PermissionMonitor.enqueue(isIpAllowed);
-        final String httpMethod = request.getMethod();
-        final boolean isWriteMethod = writeMethods.contains(httpMethod);
+        final boolean isWriteMethod = writeMethods.contains(httpRequest.getMethod());
         boolean isActionAllowed = isIpAllowed || !isWriteMethod;
         if (!isIpAllowed || isWriteMethod) {
             log.debug("From ip {} received {} request to url: {} and action is {}",
-                    ip, httpMethod, url, isActionAllowed ? "allowed" : "denied");
+                    httpRequest.getId(), httpRequest.getMethod(), httpRequest.getUrl(), isActionAllowed ? "allowed" : "denied");
             if (!isActionAllowed) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Action forbidden");
@@ -41,6 +40,12 @@ public class RequestInterceptor implements HandlerInterceptor {
         }
 
         return isActionAllowed;
+    }
+
+    private boolean isIpAllowed(Request httpRequest) {
+        return isLocal(httpRequest.getIp())
+                || isExternal(httpRequest.getIp())
+                || isMonitor(httpRequest.getUrl());
     }
 
     private boolean isLocal(String ipAddress) {
