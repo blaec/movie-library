@@ -1,5 +1,7 @@
 package com.blaec.movielibrary.model;
 
+import com.blaec.movielibrary.model.to.HttpRequestTo;
+import com.blaec.movielibrary.model.to.HttpRequestValidator;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
@@ -44,15 +46,19 @@ public class Request {
     @Column(name="is_bot")
     private boolean bot;
 
+    @Column(name="is_action_allowed")
+    private boolean actionAllowed;
+
     private static final Pattern BOT_PATTERN = Pattern.compile("(?i).*\\b(bot|crawler|spider)\\b.*");
 
 
-    public static Request from(HttpServletRequest req) {
+    public static Request of(HttpRequestTo to, HttpRequestValidator validator) {
         Request request = new Request();
-        request.setIp(req.getRemoteAddr());
-        request.setUrl(String.valueOf(req.getRequestURL()));
-        request.setMethod(req.getMethod());
-        request.setBot(request.hasDetectedBot(req));
+        request.setIp(to.getIp());
+        request.setUrl(to.getUrl());
+        request.setMethod(to.getMethod());
+        request.setBot(to.isBot());
+        request.setActionAllowed(validator.isActionAllowed());
 
         return request;
     }
