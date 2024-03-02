@@ -7,9 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.regex.Pattern;
 
 @Slf4j
 @Entity
@@ -49,9 +47,6 @@ public class Request {
     @Column(name="is_action_allowed")
     private boolean actionAllowed;
 
-    private static final Pattern BOT_PATTERN = Pattern.compile("(?i).*\\b(bot|crawler|spider)\\b.*");
-
-
     public static Request of(HttpRequestTo to, HttpRequestValidator validator) {
         Request request = new Request();
         request.setIp(to.getIp());
@@ -61,17 +56,5 @@ public class Request {
         request.setActionAllowed(validator.isActionAllowed());
 
         return request;
-    }
-
-    private boolean hasDetectedBot(HttpServletRequest req) {
-        String userAgent = req.getHeader("User-Agent");
-
-        return userAgent != null
-                && BOT_PATTERN.matcher(userAgent).matches();
-    }
-
-    @Override
-    public String toString() {
-        return "From ip %s received %s request from bot %b to url: %s".formatted(ip, method, bot, url);
     }
 }
