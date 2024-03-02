@@ -1,11 +1,11 @@
 package com.blaec.movielibrary.interceptors;
 
 import com.blaec.movielibrary.configs.AccessControl;
-import com.blaec.movielibrary.controllers.MonitorController;
 import com.blaec.movielibrary.model.Request;
+import com.blaec.movielibrary.model.to.HttpRequestTo;
+import com.blaec.movielibrary.model.to.HttpRequestValidator;
 import com.blaec.movielibrary.services.RequestService;
 import com.blaec.movielibrary.utils.PermissionMonitor;
-import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
@@ -22,47 +21,29 @@ import java.util.List;
 public class RequestInterceptor implements HandlerInterceptor {
     private AccessControl accessControl;
     private RequestService requestService;
-    private final List<String> writeMethods = ImmutableList.of("POST", "DELETE", "PUT");
-    private final List<String> allowedUrls = ImmutableList.of(MonitorController.URL);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        Request httpRequest = Request.from(request);
-        if (!requestService.save(httpRequest)) {
-            log.warn("failed to save request {}", request);
-        }
-        final boolean isIpAllowed = isIpAllowed(httpRequest);
+        HttpRequestTo httpRequestTo = HttpRequestTo.from(request);
+        HttpRequestValidator httpRequestValidator = HttpRequestValidator.of(httpRequestTo, accessControl);
+
+        final boolean isIpAllowed = httpRequestValidator.isIpAllowed();
         PermissionMonitor.enqueue(isIpAllowed);
-        final boolean isWriteMethod = writeMethods.contains(httpRequest.getMethod());
-        boolean isActionAllowed = isIpAllowed || !isWriteMethod;
-        if (!isIpAllowed || isWriteMethod) {
+        boolean isActionAllowed = httpRequestValidator.isActionAllowed();
+        if (!isIpAllowed || httpRequestValidator.isWriteMethod()) {
             log.debug("{} and action is {}",
-                    httpRequest, isActionAllowed ? "allowed" : "denied");
+                    httpRequestTo, isActionAllowed ? "allowed" : "denied");
             if (!isActionAllowed) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.getWriter().write("Action forbidden");
             }
         }
 
+        Request httpRequest = Request.of(httpRequestTo, httpRequestValidator);
+        if (!requestService.save(httpRequest)) {
+            log.warn("failed to save request {}", request);
+        }
+
         return isActionAllowed;
-    }
-
-    private boolean isIpAllowed(Request httpRequest) {
-        return httpRequest.isBot()
-                || isLocal(httpRequest.getIp())
-                || isExternal(httpRequest.getIp())
-                || isMonitor(httpRequest.getUrl());
-    }
-
-    private boolean isLocal(String ipAddress) {
-        return ipAddress.startsWith(accessControl.getLocalSubnet());
-    }
-
-    private boolean isExternal(String ipAddress) {
-        return accessControl.getExternalIps().contains(ipAddress);
-    }
-
-    private boolean isMonitor(String url) {
-        return allowedUrls.stream().anyMatch(url::contains);
     }
 }
