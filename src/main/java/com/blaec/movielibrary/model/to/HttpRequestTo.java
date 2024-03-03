@@ -30,10 +30,19 @@ public class HttpRequestTo {
 
     private boolean hasDetectedBot(HttpServletRequest req) {
         String userAgent = req.getHeader("User-Agent");
-        log.debug(userAgent);
+        String acceptLanguage = req.getHeader("Accept-Language");
+        String acceptEncoding = req.getHeader("Accept-Encoding");
+        String referrer = req.getHeader("Referer");
 
-        return userAgent != null
-                && BOT_PATTERN.matcher(userAgent).matches();
+        log.debug("User-Agent: {}", userAgent);
+        log.debug("Accept-Language: {}", acceptLanguage);
+        log.debug("Accept-Encoding: {}", acceptEncoding);
+        log.debug("Referrer: {}", referrer);
+
+        return (userAgent != null && BOT_PATTERN.matcher(userAgent).matches())
+                || (acceptLanguage != null && BOT_PATTERN.matcher(acceptLanguage).matches())
+                || (acceptEncoding != null && BOT_PATTERN.matcher(acceptEncoding).matches())
+                || (referrer != null && BOT_PATTERN.matcher(referrer).matches());
     }
 
     @Override
