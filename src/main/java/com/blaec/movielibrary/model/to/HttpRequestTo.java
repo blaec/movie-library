@@ -1,9 +1,12 @@
 package com.blaec.movielibrary.model.to;
 
+import com.blaec.movielibrary.controllers.MonitorController;
+import com.google.common.collect.ImmutableList;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Slf4j
@@ -17,6 +20,7 @@ public class HttpRequestTo {
     private String ip;
     private boolean bot;
     private static final Pattern BOT_PATTERN = Pattern.compile("(?i).*\\b(bot|crawler|spider)\\b.*");
+    private final List<String> allowedUrls = ImmutableList.of(MonitorController.URL);
 
     public static HttpRequestTo from(HttpServletRequest req) {
         HttpRequestTo request = new HttpRequestTo();
@@ -29,17 +33,21 @@ public class HttpRequestTo {
     }
 
     private boolean hasDetectedBot(HttpServletRequest req) {
+        boolean isMonitor = allowedUrls.stream().anyMatch(url::contains);
         String userAgent = req.getHeader("User-Agent");
         String acceptLanguage = req.getHeader("Accept-Language");
         String acceptEncoding = req.getHeader("Accept-Encoding");
         String referrer = req.getHeader("Referer");
 
-        log.debug("User-Agent: {}", userAgent);
-        log.debug("Accept-Language: {}", acceptLanguage);
-        log.debug("Accept-Encoding: {}", acceptEncoding);
-        log.debug("Referrer: {}", referrer);
+        if (!isMonitor) {
+            log.debug("User-Agent: {}", userAgent);
+            log.debug("Accept-Language: {}", acceptLanguage);
+            log.debug("Accept-Encoding: {}", acceptEncoding);
+            log.debug("Referrer: {}", referrer);
+        }
 
-        return (userAgent != null && BOT_PATTERN.matcher(userAgent).matches())
+        return isMonitor
+                || (userAgent != null && BOT_PATTERN.matcher(userAgent).matches())
                 || (acceptLanguage != null && BOT_PATTERN.matcher(acceptLanguage).matches())
                 || (acceptEncoding != null && BOT_PATTERN.matcher(acceptEncoding).matches())
                 || (referrer != null && BOT_PATTERN.matcher(referrer).matches());
